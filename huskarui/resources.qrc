@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/HuskarUI">
-        <file>shaders/husrate.frag</file>
-
         <file>resources/font/HuskarUI-Icons.ttf</file>
 
         <file>resources/images/hblinds.png</file>
