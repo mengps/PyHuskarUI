@@ -272,9 +272,9 @@ Rectangle {
 
                 Card {
                     icon.iconSource: HusIcon.GithubOutlined
-                    title.text: qsTr('HuskarUI Github')
-                    desc.text: qsTr('HuskarUI 是遵循「Ant Design」设计体系的一个 Qml UI 库，用于构建由「Qt Quick」驱动的用户界面。')
-                    link: 'https://github.com/mengps/HuskarUI'
+                    title.text: qsTr('PyHuskarUI Github')
+                    desc.text: qsTr('PyHuskarUI 是遵循「Ant Design」设计体系的一个 Qml UI 库，用于构建由「Qt Quick」驱动的用户界面。')
+                    link: 'https://github.com/mengps/PyHuskarUI'
                 }
             }
 
