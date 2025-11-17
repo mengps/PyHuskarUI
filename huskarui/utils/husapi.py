@@ -108,7 +108,7 @@ class HusApi(QObject):
 
     @Slot(QDateTime, result = int)
     def getWeekNumber(self, dateTime: QDateTime) -> int:
-        return dateTime.date().weekNumber()
+        return dateTime.date().weekNumber()[0]
 
     @Slot(str, str, result = QDateTime)
     def dateFromString(self, dateTime: str, format: str) -> QDateTime:
