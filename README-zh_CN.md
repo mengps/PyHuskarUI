@@ -93,6 +93,10 @@ uv build
   ```auto
   uv pip install .
   ```
+- 运行 Gallery
+```auto
+uv run ./gallery/main.py
+```
 
 ## 📦 上手
 

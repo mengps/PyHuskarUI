@@ -91,6 +91,10 @@ uv build
   ```auto
   uv pip install .
   ```
+- Run Gallery
+```auto
+uv run ./gallery/main.py
+```
 
 ## 📦 Get started 
 
