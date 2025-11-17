@@ -1,0 +1,15 @@
+{
+    "__style__": {
+        "colorButtonText": "@colorTextBase",
+        "colorButtonTextActive": "@colorPrimaryTextActive",
+        "colorButtonTextDisabled": "@colorPrimaryTextDisabled",
+        "colorButtonBg": "@colorBgBase",
+        "colorButtonBgHover": "$onBackground(@colorFillSecondary, @colorBgBase)",
+        "colorButtonBgActive": "$onBackground(@colorFill, @colorBgBase)",
+        "colorButtonBgDisabled": "$onBackground(@colorPrimaryContainerBgDisabled, @colorBgBase)",
+        "colorActionBg": "transparent",
+        "colorActionBgHover": "@colorFillSecondary",
+        "colorActionBgActive": "@colorFill",
+        "colorBorderActive": "@colorPrimaryBorderActive"
+    }
+}

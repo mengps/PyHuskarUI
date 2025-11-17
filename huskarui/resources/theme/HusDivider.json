@@ -1,0 +1,8 @@
+{
+    "__style__": {
+        "fontFamily": "@fontPrimaryFamily",
+        "fontSize": "@fontPrimarySize",
+        "colorText": "@colorTextBase",
+        "colorSplit": "@colorFillPrimary"
+    }
+}

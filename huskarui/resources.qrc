@@ -1,0 +1,54 @@
+<RCC>
+    <qresource prefix="/HuskarUI">
+        <file>shaders/husrate.frag</file>
+
+        <file>resources/font/HuskarUI-Icons.ttf</file>
+
+        <file>resources/images/hblinds.png</file>
+        <file>resources/images/heart.png</file>
+        <file>resources/images/smoke.png</file>
+        <file>resources/images/star.png</file>
+        <file>resources/images/stripes.png</file>
+        
+        <file>resources/theme/HusAutoComplete.json</file>
+        <file>resources/theme/HusBreadcrumb.json</file>
+        <file>resources/theme/HusButton.json</file>
+        <file>resources/theme/HusCaptionButton.json</file>
+        <file>resources/theme/HusCard.json</file>
+        <file>resources/theme/HusCarousel.json</file>
+        <file>resources/theme/HusCheckBox.json</file>
+        <file>resources/theme/HusCollapse.json</file>
+        <file>resources/theme/HusCopyableText.json</file>
+        <file>resources/theme/HusDateTimePicker.json</file>
+        <file>resources/theme/HusDivider.json</file>
+        <file>resources/theme/HusDrawer.json</file>
+        <file>resources/theme/HusEmpty.json</file>
+        <file>resources/theme/HusIconText.json</file>
+        <file>resources/theme/HusImage.json</file>
+        <file>resources/theme/HusInput.json</file>
+        <file>resources/theme/HusMenu.json</file>
+        <file>resources/theme/HusMessage.json</file>
+        <file>resources/theme/HusModal.json</file>
+        <file>resources/theme/HusMultiSelect.json</file>
+        <file>resources/theme/HusNotification.json</file>
+        <file>resources/theme/HusPagination.json</file>
+        <file>resources/theme/HusPopconfirm.json</file>
+        <file>resources/theme/HusPopover.json</file>
+        <file>resources/theme/HusPopup.json</file>
+        <file>resources/theme/HusProgress.json</file>
+        <file>resources/theme/HusRadio.json</file>
+        <file>resources/theme/HusRate.json</file>
+        <file>resources/theme/HusScrollBar.json</file>
+        <file>resources/theme/HusSelect.json</file>
+        <file>resources/theme/HusSlider.json</file>
+        <file>resources/theme/HusSwitch.json</file>
+        <file>resources/theme/HusTabView.json</file>
+        <file>resources/theme/HusTableView.json</file>
+        <file>resources/theme/HusTag.json</file>
+        <file>resources/theme/HusTextArea.json</file>
+        <file>resources/theme/HusTimeline.json</file>
+        <file>resources/theme/HusToolTip.json</file>
+        <file>resources/theme/HusTour.json</file>
+        <file>resources/theme/Index.json</file>
+    </qresource>
+</RCC>

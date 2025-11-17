@@ -1,0 +1,28 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+*.pypirc
+*.python-version
+
+# Qt rc/qsb
+*_rc.py
+*.qsb
+
+# Virtual environments
+.venv
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# uv
+uv.lock
+
+# github
+.github/

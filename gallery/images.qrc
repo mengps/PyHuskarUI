@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Gallery">
+        <file>images/huskarui_icon.ico</file>
+        <file>images/huskarui_icon.png</file>
+        <file>images/huskarui_icon.svg</file>
+    </qresource>
+</RCC>

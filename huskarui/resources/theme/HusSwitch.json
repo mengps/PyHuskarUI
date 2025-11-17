@@ -1,0 +1,16 @@
+{
+    "__style__": {
+        "fontFamily": "@fontPrimaryFamily",
+        "fontSize": "@fontPrimarySize",
+        "colorText": "@colorTextBase",
+        "colorHandle": "#ffffff",
+        "colorBgDisabled": "$alpha(@colorTextQuaternary, 0.15)",
+        "colorBgCheckedDisabled": "$alpha(@colorPrimary, 0.65)",
+        "colorBg": "@colorTextQuaternary",
+        "colorBgHover": "@colorTextTertiary",
+        "colorBgActive": "@colorTextQuaternary",
+        "colorBgChecked": "@colorPrimary",
+        "colorBgCheckedHover": "@colorPrimaryHover",
+        "colorBgCheckedActive": "@colorPrimary"
+    }
+}

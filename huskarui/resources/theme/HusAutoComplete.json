@@ -1,0 +1,16 @@
+{
+    "__init__": {
+        "__import__": ["HusInput"]
+    },
+    "__style__": {
+        "fontFamily": "@fontPrimaryFamily",
+        "fontSize": "@fontPrimarySize",
+        "colorItemText": "@colorTextBase",
+        "colorItemTextDisabled": "@colorPrimaryTextDisabled",
+        "colorItemBg": "@colorBgBase",
+        "colorItemBgHover": "$onBackground(@colorFillSecondary, @colorBgBase)",
+        "colorItemBgActive": "@colorPrimaryBase-1",
+        "colorItemBgDisabled": "@colorBgBase",
+        "radiusLabelBg": "@radiusPrimarySM"
+    }
+}

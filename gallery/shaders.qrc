@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/Gallery">
+        <file>shaders/effect1.vert.qsb</file>
+        <file>shaders/effect1.frag.qsb</file>
+        <file>shaders/effect2.vert.qsb</file>
+        <file>shaders/effect2.frag.qsb</file>
+    </qresource>
+</RCC>

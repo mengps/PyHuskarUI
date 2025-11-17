@@ -1,0 +1,29 @@
+{
+    "__style__": {
+        "fontFamily": "@fontPrimaryFamily",
+        "fontSize": "@fontPrimarySize",
+        "fontSizeIcon": "@fontPrimarySizeHeading5",
+        "fontSizeClearIcon": "@fontPrimarySize",
+        "colorIcon": "@colorTextBase",
+        "colorIconDisabled": "$onBackground(@colorTextQuaternary, @colorBgBase)",
+        "colorClearIcon": "$onBackground(@colorTextQuaternary, @colorBgBase)",
+        "colorClearIconHover": "$onBackground(@colorTextTertiary, @colorBgBase)",
+        "colorClearIconActive": "$onBackground(@colorTextPrimary, @colorBgBase)",
+        "colorClearIconDisabled": "$onBackground(@colorTextQuaternary, @colorBgBase)",
+        "colorText": "@colorTextBase",
+        "colorTextDisabled": "@colorPrimaryTextDisabled",
+        "colorPlaceholderText": "@colorTextQuaternary",
+        "colorPlaceholderTextDisabled": "@colorPrimaryTextDisabled",
+        "colorTextSelected": "@colorTextBase",
+        "colorSelection": "$alpha(@colorPrimary, 0.6)",
+        "colorBorder": "$onBackground(@colorTextQuaternary, @colorBgBase)",
+        "colorBorderHover": "@colorPrimary",
+        "colorBorderDisabled": "$onBackground(@colorFill, @colorBgBase)",
+        "colorBg": "@colorBgBase",
+        "colorBgDisabled": "$onBackground(@colorFillPrimary, @colorBgBase)",
+
+        "colorLabelBg": "$onBackground(@colorFillQuaternary, @colorBgBase)",
+        "colorLabelBgDisabled": "$onBackground(@colorFillPrimary, @colorBgBase)",
+        "radiusBg": "@radiusPrimary"
+    }
+}

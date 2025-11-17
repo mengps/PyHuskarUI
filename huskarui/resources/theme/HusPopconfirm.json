@@ -1,0 +1,5 @@
+{
+    "__init__": {
+        "__import__": ["HusPopover"]
+    }
+}
