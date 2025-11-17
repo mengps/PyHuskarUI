@@ -1045,14 +1045,14 @@ class HusTheme(QObject):
         """设置组件主题令牌"""
         # 在默认主题中查找
         for theme in self._d.default_theme.values():
-            if (component in theme):
+            if (component in theme.component_map):
                 theme.component_map[component].install_token_map[token] = value
                 self._d.reload_default_component_theme()
                 return
 
         # 在自定义主题中查找
         for theme in self._d.custom_theme.values():
-            if (component in theme):
+            if (component in theme.component_map):
                 theme.component_map[component].install_token_map[token] = value
                 self._d.reload_custom_component_theme()
                 return
