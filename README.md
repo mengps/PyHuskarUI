@@ -65,7 +65,7 @@ Anyone can discuss through issues, QQ groups, or WeChat groups, and ultimately m
 
 ## 🗂️ Precompiled package
 
-Precompiled packages and binary libraries for two platforms, `Windows / Linux`, have been created.
+Precompiled packages and binary libraries for two platforms, `Windows / MacOS / Linux`, have been created.
 
 Please visit [Release](https://github.com/mengps/PyHuskarUI/releases) to download.
 
@@ -78,9 +78,8 @@ git clone --recursive https://github.com/mengps/PyHuskarUI.git
 - Build
 ```auto
 uv sync
-uv run update_qrc.py
-uv run update_shader.py
-uv build
+uv run init
+uv build huskarui
 ```
 - Install
   - use pypi package
@@ -89,7 +88,7 @@ uv build
   ```
   - use source code
   ```auto
-  uv pip install .
+  uv pip install [-e] ./pyhuskarui
   ```
 - Run Gallery
 ```auto
@@ -98,16 +97,16 @@ uv run ./gallery/main.py
 
 ## 📦 Get started 
 
- - Create QtQuick application `QtVersion >= 6.7`
+ - Create QtQuick application `QtVersion >= 6.8`
  - Add the following code to your `main.py`
  ```python
- from huskarui.husapp import HusApp
+ from pyhuskarui.husapp import HusApp
 
  if __name__ == "__main__":
      ...
-     app = QGuiApplication(sys.argv);
-     engine = QQmlApplicationEngine();
-     HusApp.initialize(&engine);
+     app = QGuiApplication(sys.argv)
+     engine = QQmlApplicationEngine()
+     HusApp.initialize(engine)
      ...
  ```
 - Add the following code to your `.qml`

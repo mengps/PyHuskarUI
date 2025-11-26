@@ -161,7 +161,7 @@ Window {
         id: __captionBar
         z: 65535
         width: parent.width
-        height: 0
+        height: 30
         anchors.top: parent.top
         targetWindow: window
     }

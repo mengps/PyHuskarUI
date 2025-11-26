@@ -1,8 +1,9 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Templates as T
 import HuskarUI.Basic
 
-Item {
+T.SpinBox {
     id: control
 
     signal beforeActivated(index: int, var data)
@@ -18,11 +19,9 @@ Item {
     property bool alwaysShowHandler: false
     property bool useWheel: false
     property bool useKeyboard: true
-    property real value: 0
-    property real min: Number.MIN_SAFE_INTEGER
-    property real max: Number.MAX_SAFE_INTEGER
-    property real step: 1
-    property int precision: 0
+    property alias min: control.from
+    property alias max: control.to
+    property alias step: control.stepSize
     property string prefix: ''
     property string suffix: ''
     property var upIcon: HusIcon.UpOutlined || ''
@@ -37,8 +36,8 @@ Item {
     property int initAfterLabelIndex: 0
     property string currentBeforeLabel: ''
     property string currentAfterLabel: ''
-    property var formatter: value => value.toFixed(precision)
-    property var parser: text => Number(text)
+    property var formatter: (value, locale) => value.toLocaleString(locale, 'f', 0)
+    property var parser: (text, locale) => Number.fromLocaleString(locale, text)
     property int defaultHandlerWidth: 24
     property alias colorText: __input.colorText
     property HusRadius radiusBg: HusRadius { all: themeSource.radiusBg }
@@ -121,6 +120,7 @@ Item {
             }
             onClicked: {
                 control.increase();
+                control.valueModified();
             }
 
             Behavior on height { enabled: control.animationEnabled; NumberAnimation { duration: HusTheme.Primary.durationFast } }
@@ -150,27 +150,11 @@ Item {
             }
             onClicked: {
                 control.decrease();
+                control.valueModified();
             }
 
             Behavior on height { enabled: control.animationEnabled; NumberAnimation { duration: HusTheme.Primary.durationFast } }
         }
-    }
-
-    objectName: '__HusInputNumber__'
-    height: __row.implicitHeight
-    onValueChanged: __input.text = formatter(value);
-    onPrefixChanged: valueChanged();
-    onSuffixChanged: valueChanged();
-    onCurrentAfterLabelChanged: valueChanged();
-    onCurrentBeforeLabelChanged: valueChanged();
-    Component.onCompleted: valueChanged();
-
-    function increase() {
-        value = value + step > max ? max : value + step;
-    }
-
-    function decrease() {
-        value = value - step < min ? min : value - step;
     }
 
     function getFullText() {
@@ -218,55 +202,23 @@ Item {
         control.valueChanged();
     }
 
-    Component {
-        id: __selectComp
-
-        HusSelect {
-            id: __afterText
-            rightPadding: 4
-            animationEnabled: control.animationEnabled
-            colorBg: 'transparent'
-            colorBorder: 'transparent'
-            clearEnabled: false
-            model: isBefore ? control.beforeLabel : control.afterLabel
-            currentIndex: isBefore ? control.initBeforeLabelIndex : control.initAfterLabelIndex
-            onActivated:
-                (index) => {
-                    if (isBefore) {
-                        control.beforeActivated(index, valueAt(index));
-                    } else {
-                        control.afterActivated(index, valueAt(index));
-                    }
-                }
-            onCurrentTextChanged: {
-                if (isBefore)
-                    control.currentBeforeLabel = currentText;
-                else
-                    control.currentAfterLabel = currentText;
-            }
-        }
+    objectName: '__HusInputNumber__'
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            contentItem.implicitWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
+    editable: true
+    min: -2147483648
+    max: 2147483647
+    validator: IntValidator {
+        locale: control.locale.name
+        bottom: Math.min(control.from, control.to)
+        top: Math.max(control.from, control.to)
     }
-
-    Component {
-        id: __labelComp
-
-        HusText {
-            text: isBefore ? control.beforeLabel : control.afterLabel
-            color: __input.colorText
-            font: control.labelFont
-            Component.onCompleted: {
-                if (isBefore)
-                    control.currentBeforeLabel = control.beforeLabel;
-                else
-                    control.currentAfterLabel = control.afterLabel;
-            }
-        }
-    }
-
-    RowLayout {
+    valueFromText: parser
+    textFromValue: formatter
+    contentItem: RowLayout {
         id: __row
-        width: parent.width
-        height: parent.height
         spacing: 0
 
         Loader {
@@ -288,6 +240,7 @@ Item {
             rightPadding: (__suffixLoader.active ? __suffixLoader.implicitWidth : (rightClearIconPadding > 0 ? 5 : 10))
                           + (rightClearIconPadding > 0 ? 0 : __handlerLoader.implicitWidth)
                           + rightIconPadding + rightClearIconPadding
+            validator: control.validator
             background: HusRectangleInternal {
                 color: __input.colorBg
                 topLeftRadius: control.beforeLabel?.length === 0 ? control.radiusBg.topLeft : 0
@@ -322,25 +275,39 @@ Item {
                 TapHandler {
                     id: __tapHandler
                     enabled: (control.clearEnabled === 'active' || control.clearEnabled === true) && !control.readOnly
-                    onTapped: control.clear();
+                    onTapped: {
+                        control.clear();
+                        control.valueModified();
+                    }
                 }
             }
-            onTextChanged: {
-                let v = control.parser(text);
-                if (v >= control.min && v <= control.max) control.value = v;
-            }
+            text: control.displayText
+            onTextEdited: control.valueChanged();
             onEditingFinished: control.valueChanged();
 
-            Keys.onUpPressed: if (control.enabled && control.useKeyboard) control.increase();
-            Keys.onDownPressed: if (control.enabled && control.useKeyboard) control.decrease();
+            Keys.onUpPressed: {
+                if (control.enabled && control.useKeyboard) {
+                    control.increase();
+                    control.valueModified();
+                }
+            }
+            Keys.onDownPressed: {
+                if (control.enabled && control.useKeyboard) {
+                    control.decrease();
+                    control.valueModified();
+                }
+            }
 
             WheelHandler {
                 enabled: control.enabled && control.useWheel
                 onWheel: function(wheel) {
-                    if (wheel.angleDelta.y > 0)
+                    if (wheel.angleDelta.y > 0) {
                         control.increase();
-                    else
+                        control.valueModified();
+                    } else {
                         control.decrease();
+                        control.valueModified();
+                    }
                 }
             }
 
@@ -396,6 +363,58 @@ Item {
             Layout.fillHeight: true
             active: control.afterLabel?.length !== 0
             sourceComponent: control.afterDelegate
+        }
+    }
+    background: Item { }
+
+    onPrefixChanged: valueChanged();
+    onSuffixChanged: valueChanged();
+    onCurrentAfterLabelChanged: valueChanged();
+    onCurrentBeforeLabelChanged: valueChanged();
+    Component.onCompleted: valueChanged();
+
+    Component {
+        id: __selectComp
+
+        HusSelect {
+            id: __afterText
+            rightPadding: 4
+            animationEnabled: control.animationEnabled
+            colorBg: 'transparent'
+            colorBorder: 'transparent'
+            clearEnabled: false
+            model: isBefore ? control.beforeLabel : control.afterLabel
+            currentIndex: isBefore ? control.initBeforeLabelIndex : control.initAfterLabelIndex
+            onActivated:
+                (index) => {
+                    if (isBefore) {
+                        control.beforeActivated(index, valueAt(index));
+                    } else {
+                        control.afterActivated(index, valueAt(index));
+                    }
+                }
+            onCurrentTextChanged: {
+                if (isBefore)
+                    control.currentBeforeLabel = currentText;
+                else
+                    control.currentAfterLabel = currentText;
+            }
+        }
+    }
+
+    Component {
+        id: __labelComp
+
+        HusText {
+            text: isBefore ? control.beforeLabel : control.afterLabel
+            color: __input.colorText
+            font: control.labelFont
+            Component.onCompleted: {
+                if (isBefore)
+                    control.currentBeforeLabel = control.beforeLabel;
+                else
+                    control.currentAfterLabel = control.afterLabel;
+            }
         }
     }
 }

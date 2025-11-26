@@ -26,6 +26,7 @@
         <file>qml/Examples/DataDisplay/ExpToolTip.qml</file>
         <file>qml/Examples/DataDisplay/ExpTourFocus.qml</file>
         <file>qml/Examples/DataDisplay/ExpTourStep.qml</file>
+        <file>qml/Examples/DataDisplay/ExpQrCode.qml</file>
         <file>qml/Examples/DataEntry/ExpAutoComplete.qml</file>
         <file>qml/Examples/DataEntry/ExpCheckBox.qml</file>
         <file>qml/Examples/DataEntry/ExpDateTimePicker.qml</file>
@@ -51,6 +52,7 @@
         <file>qml/Examples/Feedback/ExpPopover.qml</file> 
         <file>qml/Examples/Feedback/ExpProgress.qml</file>
         <file>qml/Examples/Feedback/ExpWatermark.qml</file>
+        <file>qml/Examples/Feedback/ExpSpin.qml</file>
         <file>qml/Examples/General/ExpButton.qml</file>
         <file>qml/Examples/General/ExpButtonBlock.qml</file>
         <file>qml/Examples/General/ExpCaptionBar.qml</file>

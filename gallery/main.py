@@ -21,14 +21,11 @@ from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuick import QQuickWindow, QSGRendererInterface
 
-# 测试用
-sys.path.append(sys.path[0] + "/..")
-
 import qml_rc
 import images_rc
 import shaders_rc
 
-from huskarui.husapp import HusApp
+from pyhuskarui.husapp import HusApp
 
 from customtheme import *
 from themeswitchitem import *

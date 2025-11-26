@@ -261,8 +261,8 @@ QtObject {
                     key: 'HusTextArea',
                     label: qsTr('HusTextArea 文本域'),
                     source: './Examples/DataEntry/ExpTextArea.qml',
-                    addVersion: '0.4.8',
-                    desc: qsTr('用于替代 TextArea，提供多行文本输入。')
+                    addVersion: '0.5.0',
+                    desc: qsTr('新增 scrollToBeginning() / scrollToEnd()。')
                 }
             ]
         },
@@ -368,6 +368,13 @@ QtObject {
                     addVersion: '0.4.8.3',
                     desc: qsTr('显示一个表示空状态的图像和描述文本。')
                 },
+                {
+                    key: 'HusQrCode',
+                    label: qsTr('HusQrCode 二维码'),
+                    source: './Examples/DataDisplay/ExpQrCode.qml',
+                    addVersion: '0.5.0',
+                    desc: qsTr('能够将文本转换生成二维码的组件，支持自定义配色和 Logo 配置。')
+                },
             ]
         },
         {
@@ -465,6 +472,13 @@ QtObject {
                     source: './Examples/Feedback/ExpModal.qml',
                     addVersion: '0.4.7',
                     desc: qsTr('展示一个对话框，提供标题、内容区、操作区。')
+                },
+                {
+                    key: 'HusSpin',
+                    label: qsTr('HusSpin 加载中'),
+                    source: './Examples/Feedback/ExpSpin.qml',
+                    addVersion: '0.5.1',
+                    desc: qsTr('用于页面和区块的加载中状态。')
                 }
             ]
         },

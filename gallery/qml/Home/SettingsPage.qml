@@ -145,7 +145,7 @@ HusWindow {
                     height: itemLoader.height + 40
                     radius: 6
                     color: HusThemeFunctions.alpha(HusTheme.Primary.colorBgBase, 0.6)
-                    border.color: HusThemeFunctions.alpha(HusTheme.Primary.colorTextBase, 0.1)
+                    border.color: HusTheme.Primary.colorFillPrimary
 
                     Loader {
                         id: itemLoader
@@ -381,21 +381,7 @@ HusWindow {
                                 text: modelData.label
                                 ButtonGroup.group: themeGroup
                                 onClicked: {
-                                    if (modelData.value === HusTheme.System) {
-                                        HusTheme.darkMode = HusTheme.System;
-                                    } else if (modelData.value === HusTheme.Dark) {
-                                        if (HusTheme.isDark) {
-                                            HusTheme.darkMode = HusTheme.Dark;
-                                        } else {
-                                            galleryWindow.captionBar.themeCallback();
-                                        }
-                                    } else if (modelData.value === HusTheme.Light && HusTheme.isDark) {
-                                        if (HusTheme.isDark) {
-                                            galleryWindow.captionBar.themeCallback();
-                                        } else {
-                                            HusTheme.darkMode = HusTheme.Light;
-                                        }
-                                    }
+                                    HusTheme.darkMode = modelData.value;
                                 }
                                 Component.onCompleted: {
                                     checked = HusTheme.darkMode === modelData.value;

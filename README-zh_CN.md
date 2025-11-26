@@ -67,7 +67,7 @@ Qt Qml 的 Ant 设计组件库
 
 ## 🗂️ 预编译包
 
-预编译了两个平台的 `Windows / Linux` 程序包和二进制库包.
+预编译了两个平台的 `Windows / MacOS / Linux` 程序包和二进制库包.
 
 前往 [Release](https://github.com/mengps/PyHuskarUI/releases) 中下载.
 
@@ -80,18 +80,17 @@ git clone --recursive https://github.com/mengps/PyHuskarUI.git
 - 构建
 ```auto
 uv sync
-uv run update_qrc.py
-uv run update_shader.py
-uv build
+uv run init
+uv build pyhuskarui
 ```
 - 安装
-  - use pypi package
+  - 使用 pypi 包
   ```auto
   uv pip install pyhuskarui
   ```
-  - use source code
+  - 使用源代码
   ```auto
-  uv pip install .
+  uv pip install [-e] ./pyhuskarui
   ```
 - 运行 Gallery
 ```auto
@@ -103,13 +102,13 @@ uv run ./gallery/main.py
  - 创建 QtQuick 应用 `QtVersion >= 6.7`
  - 添加下面的代码到您的 `main.py` 中
  ```python
- from huskarui.husapp import HusApp
+ from pyhuskarui.husapp import HusApp
 
  if __name__ == "__main__":
      ...
-     app = QGuiApplication(sys.argv);
-     engine = QQmlApplicationEngine();
-     HusApp.initialize(&engine);
+     app = QGuiApplication(sys.argv)
+     engine = QQmlApplicationEngine()
+     HusApp.initialize(engine)
      ...
  ```
  - 添加下面的代码到您的 `.qml` 中

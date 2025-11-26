@@ -1,0 +1,42 @@
+[project]
+authors = [
+  {name = "MenPenS", email = "843261040@qq.com"},
+]
+dependencies = [
+  "pyside6>=6.8.3,!=6.9.*", #NOTE: 6.9.* has a bug
+]
+description = "Ant-d UI-Kit for PySide6 and Qml"
+dynamic = ["version"]
+keywords = ["Python", "PySide6", "Qml", "Antd", "UI-Kit"]
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+name = "pyhuskarui"
+readme = "README.md"
+requires-python = ">=3.9"
+
+[project.urls]
+Documentation = "https://github.com/mengps/PyHuskarUI/blob/master/README.md"
+Homepage = "https://github.com/mengps/PyHuskarUI"
+Issues = "https://github.com/mengps/PyHuskarUI/issues"
+Repository = "https://github.com/mengps/PyHuskarUI"
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools"]
+
+[tool.setuptools.packages.find]
+exclude = ["tests*", "*.tests*"]
+include = ["pyhuskarui*"]
+where = ["src"]
+
+[tool.setuptools.package-data]
+huskarui = [
+  "imports/**/*",
+  "resources/**/*",
+  "controls/**/*",
+  "themes/**/*",
+  "utils/**/*",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "pyhuskarui.__version__"}

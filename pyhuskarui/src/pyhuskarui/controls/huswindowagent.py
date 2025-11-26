@@ -14,7 +14,7 @@
 
 from PySide6.QtCore import QObject, Slot
 from PySide6.QtQuick import QQuickItem
-from PySide6.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1
