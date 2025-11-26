@@ -79,7 +79,7 @@ git clone --recursive https://github.com/mengps/PyHuskarUI.git
 ```auto
 uv sync
 uv run init
-uv build huskarui
+uv build pyhuskarui
 ```
 - Install
   - use pypi package
