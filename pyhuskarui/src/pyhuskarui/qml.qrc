@@ -59,6 +59,7 @@
         <file>qml/HuskarUI/Basic/HusTourStep.qml</file>
         <file>qml/HuskarUI/Basic/HusRectangleInternal.qml</file>
         <file>qml/HuskarUI/Basic/HusWindow.qml</file>
+        <file>qml/HuskarUI/Basic/HusEmpty.qml</file>
         <file>qml/HuskarUI/Basic/HusSpin.qml</file>
     </qresource>
 </RCC>

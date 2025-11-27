@@ -7,6 +7,8 @@
         <file>resources/images/smoke.png</file>
         <file>resources/images/star.png</file>
         <file>resources/images/stripes.png</file>
+        <file>resources/images/empty-default.svg</file>
+        <file>resources/images/empty-simple.svg</file>
         
         <file>resources/theme/HusAutoComplete.json</file>
         <file>resources/theme/HusBreadcrumb.json</file>
