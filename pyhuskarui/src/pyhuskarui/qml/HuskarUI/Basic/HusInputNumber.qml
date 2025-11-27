@@ -121,7 +121,7 @@ Item {
             iconSize: parseInt(control.themeSource.fontSize) - 4
             iconSource: control.upIcon
             hoverCursorShape: control.value >= control.max ? Qt.ForbiddenCursor : Qt.PointingHandCursor
-            background: HusRectangle {
+            background: HusRectangleInternal {
                 topRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.topRight : 0
                 color: 'transparent'
                 border.color: __handlerRoot.colorBorder
@@ -151,7 +151,7 @@ Item {
             iconSize: parseInt(control.themeSource.fontSize) - 4
             iconSource: control.downIcon
             hoverCursorShape: control.value <= control.min ? Qt.ForbiddenCursor : Qt.PointingHandCursor
-            background: HusRectangle {
+            background: HusRectangleInternal {
                 bottomRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.bottomRight : 0
                 color: 'transparent'
                 border.color: __handlerRoot.colorBorder
