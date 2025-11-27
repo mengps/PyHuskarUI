@@ -52,26 +52,37 @@ T.Control {
         height: width
         radius: width * 0.5
         color: control.colorIndicator
-        opacity: startOpacity
-
-        property real startOpacity: 0.2 + index * 0.8 / control.indicatorItemCount
-        property real initDuration: (1.0 - startOpacity) * 1200 / 0.8
 
         OpacityAnimator on opacity {
-            running: control.animationEnabled && control.spinning
-            from: __indicatorDelegate.startOpacity
-            to: 1.0
-            duration: __indicatorDelegate.initDuration
+            id: opacityAnimator
+            duration: 1200
             loops: 1
-            easing.type: Easing.InOutQuad
+            alwaysRunToEnd: true
             onFinished: {
                 reverse = !reverse;
-                duration = 1200;
                 from = reverse ? 1.0 : 0.2;
                 to = reverse ? 0.2 : 1.0;
                 restart();
             }
             property bool reverse: false
+        }
+
+        Timer {
+            interval: (index + 1) * 1200 / control.indicatorItemCount
+            onCanRunChanged: {
+                if (canRun) {
+                    restart();
+                } else {
+                    opacityAnimator.stop();
+                }
+            }
+            onTriggered: {
+                opacityAnimator.reverse = false;
+                opacityAnimator.from = 0.2;
+                opacityAnimator.to = 1.0;
+                opacityAnimator.restart();
+            }
+            property bool canRun: control.animationEnabled && control.spinning
         }
     }
     property Component tipDelegate: HusText {
