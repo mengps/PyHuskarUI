@@ -59,6 +59,14 @@ class HusApp(QObject):
         Initialize the HusApp class.
         """
         QFontDatabase.addApplicationFont(":/HuskarUI/resources/font/HuskarUI-Icons.ttf")
+        
+    @Slot(result = str)
+    @staticmethod
+    def libName() -> str:
+        """
+        Get the name of the HuskarUI library.
+        """
+        return pyhuskarui.__name__
 
     @Slot(result = str)
     @staticmethod

@@ -14,7 +14,7 @@ HusWindow {
     opacity: 0
     minimumWidth: 800
     minimumHeight: 600
-    title: qsTr('PyHuskarUI Gallery')
+    title: qsTr(`${HusApp.libName()} Gallery`)
     followThemeSwitch: true
     captionBar.visible: Qt.platform.os === 'windows' || Qt.platform.os === 'linux' || Qt.platform.os === 'osx'
     captionBar.height: captionBar.visible ? 30 : 0
@@ -74,14 +74,14 @@ HusWindow {
                 }
             }
             onClicked: {
-                Qt.openUrlExternally('https://deepwiki.com/mengps/PyHuskarUI');
+                Qt.openUrlExternally(`https://deepwiki.com/mengps/${HusApp.libName()}`);
             }
 
             HusToolTip {
                 visible: parent.hovered
                 showArrow: true
                 position: HusToolTip.Position_Bottom
-                text: qsTr('在线 Wiki (AI), 可进行 PyHuskarUI 相关的 AI 问答')
+                text: qsTr(`在线 Wiki (AI), 可进行 ${HusApp.libName()} 相关的 AI 问答`)
             }
         }
 
@@ -448,6 +448,29 @@ HusWindow {
             id: buttonsColumn
             width: galleryMenu.width
             anchors.bottom: parent.bottom
+
+            HusIconButton {
+                id: creatorButton
+                width: parent.width
+                height: 40
+                type: HusButton.Type_Text
+                radiusBg.all: 0
+                text: galleryMenu.compactMode !== HusMenu.Mode_Relaxed ? '' : qsTr('创建')
+                colorText: HusTheme.Primary.colorTextBase
+                iconSize: galleryMenu.defaultMenuIconSize
+                iconSource: HusIcon.PlusCircleOutlined
+                onClicked: {
+                    if (!creatorLoader.active)
+                        creatorLoader.active = true;
+                    creatorLoader.visible = !creatorLoader.visible;
+                }
+
+                HusToolTip {
+                    visible: parent.hovered
+                    showArrow: true
+                    text: qsTr('创建新项目')
+                }
+            }
 
             HusIconButton {
                 id: aboutButton
