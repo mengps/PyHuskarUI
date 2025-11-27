@@ -31,6 +31,7 @@ from .theme.husradiusgenerator import *
 from .theme.hussizegenerator import *
 from .theme.hussystemthemehelper import *
 from .controls.husiconfont import *
+from .controls.husqrcode import *
 from .controls.husrectangle import *
 from .controls.huswatermark import *
 from .controls.huswindowagent import *
