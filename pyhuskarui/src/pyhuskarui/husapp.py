@@ -1,5 +1,8 @@
+# PyHuskarUI
+#
 # Copyright (C) 2025 mengps (MenPenS)
-# SPDX-License-Identifier: Apache-2.0
+# https://github.com/mengps/PyHuskarUI
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -12,9 +15,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from PySide6.QtCore import QObject, QUrl, Slot
+from PySide6.QtCore import QObject, Slot
 from PySide6.QtGui import QFontDatabase
-from PySide6.QtQml import QQmlEngine, QmlElement, QmlSingleton, qmlRegisterType
+from PySide6.QtQml import QQmlEngine, QmlElement, QmlSingleton
 
 import pyhuskarui
 

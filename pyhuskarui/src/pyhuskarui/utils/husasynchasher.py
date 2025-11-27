@@ -1,5 +1,8 @@
+# PyHuskarUI
+#
 # Copyright (C) 2025 mengps (MenPenS)
-# SPDX-License-Identifier: Apache-2.0
+# https://github.com/mengps/PyHuskarUI
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -113,7 +116,6 @@ class HusAsyncHasher(QObject):
 
         # 其他私有变量
         self._reply = None
-        self._manager = None
         self._runnable = None
 
     def _cleanupRunnable(self):
@@ -193,32 +195,26 @@ class HusAsyncHasher(QObject):
                     self._reply.abort()
 
                 self.started.emit()
-
-                # 获取网络访问管理器
-                if not self._manager:
-                    engine = qmlEngine(self)
-                    if engine:
-                        self._manager = engine.networkAccessManager()
+                
+                if qmlEngine(self):
+                    manager = qmlEngine(self).networkAccessManager()
+                    if manager:
+                        self._reply = manager.get(QNetworkRequest(source))
+                        self._reply.finished.connect(self._on_network_reply_finished)
                     else:
                         print(
-                            "HusAsyncHasher without QmlEngine, we cannot get QNetworkAccessManager!"
-                        )
+                                "HusAsyncHasher without QmlEngine, we cannot get QNetworkAccessManager!"
+                            )
 
-                if self._manager:
-                    self._reply = self._manager.get(QNetworkRequest(source))
-                    self._reply.finished.connect(self._onNetworkReplyFinished)
-
-    def _onNetworkReplyFinished(self):
+    def _on_network_reply_finished(self):
         """网络请求完成"""
         if self._reply.error() == QNetworkReply.NoError:
             if self._asynchronous:
-                # 异步计算
                 self._runnable = AsyncRunnable(self._reply, self._algorithm)
                 self._runnable.finished.connect(self._setHashValue)
                 self._runnable.progress.connect(self.hashProgress)
                 QThreadPool.globalInstance().start(self._runnable)
             else:
-                # 同步计算
                 hash_obj = QCryptographicHash(self._algorithm)
                 hash_obj.addData(self._reply.readAll())
                 self._setHashValue(

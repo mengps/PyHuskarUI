@@ -1,5 +1,8 @@
+# PyHuskarUI
+#
 # Copyright (C) 2025 mengps (MenPenS)
-# SPDX-License-Identifier: Apache-2.0
+# https://github.com/mengps/PyHuskarUI
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -13,8 +16,6 @@
 # limitations under the License.
 
 from typing import List
-
-import inspect
 
 from PySide6.QtQml import QmlElement, QmlSingleton
 from PySide6.QtGui import QFontDatabase, QColor
@@ -34,11 +35,6 @@ class HusThemeFunctions(QObject):
 
     def __init__(self, parent = None):
         super().__init__(parent = parent)
-        
-    @Slot(result = QColor)
-    @staticmethod
-    def getColor() -> QColor:
-        return QColor("#FF0000")
 
     @Slot(int, bool, QColor, result = list)
     @Slot(QColor, bool, QColor, result = list)
