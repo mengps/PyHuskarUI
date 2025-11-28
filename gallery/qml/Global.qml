@@ -261,7 +261,14 @@ QtObject {
                     source: './Examples/DataEntry/ExpTextArea.qml',
                     addVersion: '0.5.0',
                     desc: qsTr('新增 scrollToBeginning() / scrollToEnd()。')
-                }
+                },
+                {
+                    key: 'HusInputInteger',
+                    label: qsTr('HusInputInteger 整数输入框'),
+                    source: './Examples/DataEntry/ExpInputInteger.qml',
+                    addVersion: '0.5.1',
+                    desc: qsTr('等同于 HusInputNumber，但只支持整数。')
+                },
             ]
         },
         {

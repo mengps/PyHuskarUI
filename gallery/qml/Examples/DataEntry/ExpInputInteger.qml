@@ -15,9 +15,9 @@ Flickable {
 
         Description {
             desc: qsTr(`
-# HusInputNumber 数字输入框 \n
-通过鼠标或键盘，输入范围内的数值。\n
-* **继承自 { Item }**\n
+# HusInputInteger 整数输入框 \n
+通过鼠标或键盘，输入范围内的整数。\n
+* **继承自 { SpinBox }**\n
 \n<br/>
 \n### 支持的代理：\n
 - **beforeDelegate: Component** 前置标签代理\n
@@ -37,12 +37,10 @@ showHandler | bool | true | 是否显示增减按钮
 alwaysShowHandler | bool | false | 是否始终显示增减按钮
 useWheel | bool | false | 是否使用鼠标滚轮控制
 useKeyboard | bool | true | 是否使用键盘控制
-value | real | 0 | 当前值
-min | real | Number.MIN_SAFE_INTEGER | 最小值
-max | real | Number.MAX_SAFE_INTEGER | 最大值
-step | real | 1 | 增减步长
-precision | int | 0 | 精度(保留小数位)
-validator | Validator | DoubleValidator | 输入验证器
+value | int | 0 | 当前值
+min | int | INT_MIN | 最小值
+max | int | INT_MAX | 最大值
+step | int | 1 | 增减步长
 prefix | string | '' | 前缀文本(图标)
 suffix | string | '' | 后缀文本(图标)
 upIcon | int丨string | HusIcon.UpOutlined | 增按钮图标
@@ -54,7 +52,6 @@ initBeforeLabelIndex | int | 0 | 初始前置列表索引
 initAfterLabelIndex | int | 0 | 初始后置列表索引
 currentBeforeLabel | sting | '' | 当前前置标签
 currentAfterLabel | sting | '' | 当前后置标签
-locale | Locale | - | 区域设置
 formatter | function | - | 格式化器(格式化数值为字符串)
 parser | function | - | 解析器(解析字符串为数值)
 defaultHandlerWidth | int | 24 | 默认增减按钮宽度
@@ -63,7 +60,6 @@ radiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角
 input | [HusInput](internal://HusInput) | - | 访问内部输入框
 \n<br/>
 \n### 支持的信号：\n
-- \`valueModified(index: int, var data)\` 当用户通过触摸、鼠标、滚轮或按键交互式修改旋转框值时，会发出此信号。\n
 - \`beforeActivated(index: int, var data)\` 当前置为列表时，点击选择项发出\n
   - \`index\` 选择项索引\n
   - \`data\` 选择项数据\n
@@ -72,8 +68,6 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
   - \`data\` 选择项数据\n
 \n<br/>
 \n### 支持的函数：\n
-- \`increase()\` 增加数值(步长由属性 \`step\` 给出) \n
-- \`decrease()\` 减少数值(步长由属性 \`step\` 给出) \n
 - \`getFullText(): string\` 获取完整输入文本 \n
 以下函数来自 \`TextInput\`，具体请查阅官方文档：\n
 - \`select(start: int, end: int)\` \n
@@ -117,13 +111,13 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                 Column {
                     spacing: 10
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 120
                         min: 0
                         max: 10
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 120
                         min: 0
                         max: 10
@@ -134,13 +128,13 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
             exampleDelegate: Column {
                 spacing: 10
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 120
                     min: 0
                     max: 10
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 120
                     min: 0
                     max: 10
@@ -165,14 +159,14 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                 Column {
                     spacing: 10
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 240
                         value: 100
                         beforeLabel: '+'
                         afterLabel: '$'
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 240
                         value: 100
                         beforeLabel: [
@@ -188,13 +182,13 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                         prefix: currentAfterLabel
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 240
                         value: 100
                         afterLabel: String.fromCharCode(HusIcon.SettingOutlined)
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         enabled: false
                         width: 240
                         value: 100
@@ -204,7 +198,7 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                         ]
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         enabled: false
                         width: 240
                         value: 100
@@ -221,14 +215,14 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
             exampleDelegate: Column {
                 spacing: 10
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 240
                     value: 100
                     beforeLabel: '+'
                     afterLabel: '$'
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 240
                     value: 100
                     beforeLabel: [
@@ -244,13 +238,13 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                     prefix: currentAfterLabel
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 240
                     value: 100
                     afterLabel: String.fromCharCode(HusIcon.SettingOutlined)
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     enabled: false
                     width: 240
                     value: 100
@@ -260,7 +254,7 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                     ]
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     enabled: false
                     width: 240
                     value: 100
@@ -271,46 +265,6 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                     afterLabel: String.fromCharCode(HusIcon.SettingOutlined)
                     prefix: '¥'
                     suffix: 'RMB'
-                }
-            }
-        }
-
-        CodeBox {
-            width: parent.width
-            async: false
-            descTitle: qsTr('高精度小数')
-            desc: qsTr(`
-通过 \`precision\` 属性设置精度(保留小数位)。\n
-通过 \`step\` 属性设置每次改变的步数，可以为小数。\n
-                       `)
-            code: `
-                import QtQuick
-                import HuskarUI.Basic
-
-                Row {
-                    width: parent.width
-                    spacing: 10
-
-                    HusInputNumber {
-                        width: 200
-                        value: 1
-                        min: 0
-                        max: 10
-                        step: 0.0000000001
-                        precision: 10
-                    }
-                }
-            `
-            exampleDelegate: Row {
-                spacing: 10
-
-                HusInputNumber {
-                    width: 200
-                    value: 1
-                    min: 0
-                    max: 10
-                    step: 0.0000000001
-                    precision: 10
                 }
             }
         }
@@ -331,14 +285,14 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                     width: parent.width
                     spacing: 10
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 200
                         value: 1000
                         formatter: (value) => '$ ' + String(value).replace(/(\\d)(?=(\\d{3})+(?!\\d))/g, '\$1,')
                         parser: (text) => text.replace(/\\$\\s?|(,*)/g, '')
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 200
                         value: 50
                         min: 0
@@ -351,14 +305,14 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
             exampleDelegate: Column {
                 spacing: 10
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 200
                     value: 1000
                     formatter: (value) => '$ ' + String(value).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
                     parser: (text) => text.replace(/\$\s?|(,*)/g, '')
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 200
                     value: 50
                     min: 0
@@ -384,25 +338,25 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                     width: parent.width
                     spacing: 10
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 200
                         prefix: '￥'
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 200
                         beforeLabel: String.fromCharCode(HusIcon.UserOutlined)
                         prefix: '￥'
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 200
                         beforeLabel: String.fromCharCode(HusIcon.UserOutlined)
                         prefix: '￥'
                         suffix: 'RMB'
                     }
 
-                    HusInputNumber {
+                    HusInputInteger {
                         enabled: false
                         width: 200
                         beforeLabel: String.fromCharCode(HusIcon.UserOutlined)
@@ -413,25 +367,25 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
             exampleDelegate: Column {
                 spacing: 10
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 200
                     prefix: '￥'
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 200
                     beforeLabel: String.fromCharCode(HusIcon.UserOutlined)
                     prefix: '￥'
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 200
                     beforeLabel: String.fromCharCode(HusIcon.UserOutlined)
                     prefix: '￥'
                     suffix: 'RMB'
                 }
 
-                HusInputNumber {
+                HusInputInteger {
                     enabled: false
                     width: 200
                     beforeLabel: String.fromCharCode(HusIcon.UserOutlined)
@@ -455,7 +409,7 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                     width: parent.width
                     spacing: 10
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 140
                         min: 0
                         max: 10
@@ -473,7 +427,7 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
             exampleDelegate: Row {
                 spacing: 10
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 140
                     min: 0
                     max: 10
@@ -504,7 +458,7 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
                     width: parent.width
                     spacing: 10
 
-                    HusInputNumber {
+                    HusInputInteger {
                         width: 140
                         min: 0
                         max: 10
@@ -522,7 +476,7 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
             exampleDelegate: Row {
                 spacing: 10
 
-                HusInputNumber {
+                HusInputInteger {
                     width: 140
                     min: 0
                     max: 10

@@ -417,7 +417,7 @@ Item {
             property string menuShortLabel: model.shortLabel || menuLabel
             property int menuIconSize: model.iconSize || control.defaultMenuIconSize
             property var menuIconSource: model.iconSource || 0
-            property int menuIconSpacing: model.iconSpacing || control.defaultMenuIconSpacing
+            property int menuIconSpacing: model.iconSpacing || defaultMenuIconSpacing
             property var menuChildren: model.menuChildren || []
             property int menuChildrenLength: menuChildren ? menuChildren.length : 0
             property var menuIconDelegate: model.hasOwnProperty('iconDelegate') ? model.iconDelegate : control.menuIconDelegate

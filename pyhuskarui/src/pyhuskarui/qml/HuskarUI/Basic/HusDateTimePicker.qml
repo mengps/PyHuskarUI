@@ -43,7 +43,7 @@ HusInput {
     property int visualDay: control.currentDay
     property int visualQuarter: control.currentQuarter
 
-    property Locale locale: Qt.locale()
+    property var locale: Qt.locale()
     property string format: 'yyyy-MM-dd hh:mm:ss'
 
     property HusRadius radiusItemBg: HusRadius { all: themeSource.radiusItemBg }
