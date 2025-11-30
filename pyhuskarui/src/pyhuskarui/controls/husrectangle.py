@@ -15,8 +15,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from typing import List, Tuple
+
 from PySide6.QtCore import QObject, Property, Qt, QPointF, QRectF, QSize, Signal
-from PySide6.QtGui import QColor, QPainter, QPen, QPainterPath
+from PySide6.QtGui import QColor, QPainter, QPen, QPainterPath, QLinearGradient
 from PySide6.QtQml import QmlElement, QJSValue
 from PySide6.QtQuick import QQuickPaintedItem
 
@@ -26,7 +28,7 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 @QmlElement
 class HusRadius(QObject):
-    
+
     allChanged = Signal()
     topLeftChanged = Signal()
     topRightChanged = Signal()
@@ -34,13 +36,13 @@ class HusRadius(QObject):
     bottomRightChanged = Signal()
 
     def __init__(self, parent = None):
-        QObject.__init__(self, parent)
+        super().__init__(parent = parent)
         self._all = 0.0
         self._topLeft = -1.0
         self._topRight = -1.0
         self._bottomLeft = -1.0
         self._bottomRight = -1.0
-         
+
     @Property(float, notify = allChanged)
     def all(self):
         return self._all
@@ -128,7 +130,7 @@ class HusRadius(QObject):
 
 @QmlElement
 class HusPen(QObject):
-    
+
     widthChanged = Signal()
     colorChanged = Signal()
     styleChanged = Signal()
@@ -182,7 +184,7 @@ class HusPen(QObject):
 
 @QmlElement
 class HusRectangle(QQuickPaintedItem):
-    
+
     colorChanged = Signal()
     radiusChanged = Signal()
     topLeftRadiusChanged = Signal()
@@ -191,7 +193,7 @@ class HusRectangle(QQuickPaintedItem):
     bottomRightRadiusChanged = Signal()
 
     def __init__(self, parent = None):
-        super().__init__(parent)
+        super().__init__(parent = parent)
         self._color = QColor(0xFFFFFF)
         self._radius = 0.0
         self._topLeftRadius = -1.0
@@ -220,7 +222,7 @@ class HusRectangle(QQuickPaintedItem):
     def setGradient(self, value: QJSValue):
         if self._gradient.equals(value):
             return
-        
+
         self._gradient = value
         self.update()
         # todo
@@ -236,14 +238,14 @@ class HusRectangle(QQuickPaintedItem):
         resetGradient,
     )
 
-    @Property(HusPen)
+    @Property(HusPen, constant = True)
     def border(self):
         if self._pen is None:
             self._pen = HusPen(self)
-            # QQml_setParent_noEvent(self._pen, self) #todo
             self._pen.colorChanged.connect(self.update)
             self._pen.widthChanged.connect(self.update)
             self._pen.styleChanged.connect(self.update)
+        return self._pen
 
     @Property(float, notify = radiusChanged)
     def radius(self):
@@ -346,10 +348,15 @@ class HusRectangle(QQuickPaintedItem):
         return implicit_aa
 
     def paint(self, painter: QPainter):
-        
+
         painter.save()
-        if any([self.antialiasing(), self._maybeSetImplicitAntialiasing()]):
+        if any([
+                self.antialiasing(),
+                self.smooth(),
+                self._maybeSetImplicitAntialiasing()
+        ]):
             painter.setRenderHint(QPainter.Antialiasing)
+
         rect = self.boundingRect()
         if self._pen and self._pen.isValid():
             if rect.width() > self._pen.width * 2:
@@ -363,12 +370,12 @@ class HusRectangle(QQuickPaintedItem):
                     self._pen.color,
                     self._pen.width,
                     Qt.PenStyle(self._pen.style),
-                    Qt.FlatCap,
-                    Qt.SvgMiterJoin,
+                    Qt.PenCapStyle.FlatCap,
+                    Qt.PenJoinStyle.SvgMiterJoin,
                 ))
         else:
             painter.setPen(Qt.transparent)
-            
+
         max_radius = self.height() * 0.5
         top_left_radius = min(self._topLeftRadius, max_radius)
         top_right_radius = min(self._topRightRadius, max_radius)
@@ -417,10 +424,34 @@ class HusRectangle(QQuickPaintedItem):
         )
 
         veritical = True
-        if self._gradient.isQObject():
-            ...
-            #todo
+        stops: List[Tuple[float, QColor]] = []
 
-            #gradient = qobject_cast(QQuickGradient, self._gradient.toQObject())
-            
+        if self._gradient.isQObject():
+            object = self._gradient.toQObject()
+            veritical = self._gradient.property(
+                "orientation").toInt() == Qt.Orientation.Vertical.value
+            children = object.children()
+            for child in children:
+                position = child.property("position")
+                color = child.property("color")
+                stops.append([position, color])
+
+        if stops:
+            gradientStart = rect.top() if veritical else rect.left()
+            gradientLength = rect.height() if veritical else rect.width()
+            secondaryLength = rect.width() if veritical else rect.height()
+            if veritical:
+                gradient = QLinearGradient(
+                    QPointF(gradientStart, 0),
+                    QPointF(gradientStart, gradientLength))
+            else:
+                gradient = QLinearGradient(
+                    QPointF(0, secondaryLength),
+                    QPointF(gradientLength, secondaryLength))
+            gradient.setStops(stops)
+            painter.setBrush(gradient)
+        else:
+            painter.setBrush(self._color)
+
+        painter.drawPath(path)
         painter.restore()
