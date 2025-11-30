@@ -165,22 +165,22 @@ class HusTheme(QObject):
     def __init__(self, parent = None):
         super().__init__(parent = parent)
 
-        self.animation_enabled = True
-        self.dark_mode = HusTheme.DarkMode.Light
-        self.text_render_type = HusTheme.TextRenderType.QtRendering.value
-        self.helper = HusSystemThemeHelper(self)
-        self.theme_index_path = ":/HuskarUI/resources/theme/Index.json"
-        self.index_object = {}
-        self.index_token_table: dict = {}
+        self._animation_enabled = True
+        self._dark_mode = HusTheme.DarkMode.Light
+        self._text_render_type = HusTheme.TextRenderType.QtRendering.value
+        self._helper = HusSystemThemeHelper(self)
+        self._theme_index_path = ":/HuskarUI/resources/theme/Index.json"
+        self._index_object = {}
+        self._index_token_table: dict = {}
 
-        self.default_theme: Dict[QObject, ThemeData] = {}
-        self.custom_theme: Dict[QObject, ThemeData] = {}
+        self._default_theme: Dict[QObject, ThemeData] = {}
+        self._custom_theme: Dict[QObject, ThemeData] = {}
 
-        self.size_hint_map = {"small": 0.8, "normal": 1.0, "large": 1.25}
+        self._size_hint_map = {"small": 0.8, "normal": 1.0, "large": 1.25}
 
         # 正则表达式
-        self.func_regex = re.compile(r"\$([^)]+)\(")
-        self.args_regex = re.compile(r"\(([^)]+)\)")
+        self._func_regex = re.compile(r"\$([^)]+)\(")
+        self._args_regex = re.compile(r"\(([^)]+)\)")
         # 初始化组件属性
         self._Primary = {}
         self._HusButton = {}
@@ -225,14 +225,14 @@ class HusTheme(QObject):
         self._HusSpin = {}
 
         # 连接系统主题变化信号
-        self.helper.colorSchemeChanged.connect(
+        self._helper.colorSchemeChanged.connect(
             self._on_system_color_scheme_changed)
 
         self.reloadTheme()
 
     def _on_system_color_scheme_changed(self):
         """处理系统颜色方案变化"""
-        if self.dark_mode == HusTheme.DarkMode.System:
+        if self._dark_mode == HusTheme.DarkMode.System:
             self._reload_index_theme()
             self._reload_default_component_theme()
             self._reload_custom_component_theme()
@@ -240,8 +240,8 @@ class HusTheme(QObject):
 
     def _parse_function(self, out: dict, token_name: str, expr: str):
         """解析函数表达式"""
-        func_match = re.search(self.func_regex, expr)
-        args_match = re.search(self.args_regex, expr)
+        func_match = re.search(self._func_regex, expr)
+        args_match = re.search(self._args_regex, expr)
 
         if not func_match:
             return
@@ -279,7 +279,7 @@ class HusTheme(QObject):
         """解析生成颜色函数"""
         color = self._color_from_index_table(args)
         if color.isValid():
-            color_bg_base = self.index_token_table.get("colorBgBase", QColor())
+            color_bg_base = self._index_token_table.get("colorBgBase", QColor())
             if isinstance(color_bg_base, str):
                 color_bg_base = QColor(color_bg_base)
 
@@ -399,8 +399,8 @@ class HusTheme(QObject):
         ref_token_name = token_name
         if ref_token_name.startswith('@'):
             ref_token_name = token_name[1:]
-            if ref_token_name in self.index_token_table:
-                value = self.index_token_table[ref_token_name]
+            if ref_token_name in self._index_token_table:
+                value = self._index_token_table[ref_token_name]
                 if isinstance(value, QColor):
                     return value
                 elif isinstance(value, str):
@@ -427,8 +427,8 @@ class HusTheme(QObject):
         ref_token_name = token_name
         if ref_token_name.startswith('@'):
             ref_token_name = token_name[1:]
-            if ref_token_name in self.index_token_table:
-                value = self.index_token_table[ref_token_name]
+            if ref_token_name in self._index_token_table:
+                value = self._index_token_table[ref_token_name]
                 try:
                     if isinstance(value, (int, float)):
                         return float(value)
@@ -452,13 +452,13 @@ class HusTheme(QObject):
 
         if expr.startswith('@'):
             ref_token_name = expr[1:]
-            if ref_token_name in self.index_token_table:
-                self.index_token_table[token_name] = self.index_token_table[
+            if ref_token_name in self._index_token_table:
+                self._index_token_table[token_name] = self._index_token_table[
                     ref_token_name]
             else:
                 print(f"Token({expr}):Ref({ref_token_name}) not found!")
         elif expr.startswith('$'):
-            self._parse_function(self.index_token_table, token_name, expr)
+            self._parse_function(self._index_token_table, token_name, expr)
         elif expr.startswith('#'):
             # 按颜色处理
             color = QColor(expr)
@@ -467,10 +467,10 @@ class HusTheme(QObject):
                 color = HusColorGenerator.presetToColor(expr[1:])
             if not color.isValid():
                 print(f"Unknown color: {expr}")
-            self.index_token_table[token_name] = color
+            self._index_token_table[token_name] = color
         else:
             # 按字符串处理
-            self.index_token_table[token_name] = expr
+            self._index_token_table[token_name] = expr
 
     def _parse_component_expr(self, token_map: dict, token_name: str,
                              expr: str):
@@ -479,8 +479,8 @@ class HusTheme(QObject):
 
         if expr.startswith('@'):
             ref_token_name = expr[1:]
-            if ref_token_name in self.index_token_table:
-                token_map[token_name] = self.index_token_table[ref_token_name]
+            if ref_token_name in self._index_token_table:
+                token_map[token_name] = self._index_token_table[ref_token_name]
             else:
                 print(
                     f"Component: Token({token_name}):Ref({ref_token_name}) not found!"
@@ -502,10 +502,10 @@ class HusTheme(QObject):
 
     def _reload_index_theme(self):
         """重新加载索引主题"""
-        self.index_token_table.clear()
+        self._index_token_table.clear()
         self._Primary.clear()
 
-        init_obj = self.index_object.get("__init__", {})
+        init_obj = self._index_object.get("__init__", {})
         base_obj = init_obj.get("__base__", {})
 
         color_text_base = base_obj.get("colorTextBase", "#000000|#FFFFFF")
@@ -524,9 +524,9 @@ class HusTheme(QObject):
             )
 
         is_dark = self.isDark
-        self.index_token_table["colorTextBase"] = color_text_list[
+        self._index_token_table["colorTextBase"] = color_text_list[
             1] if is_dark else color_text_list[0]
-        self.index_token_table[
+        self._index_token_table[
             "colorBgBase"] = color_bg_list[1] if is_dark else color_bg_list[0]
 
         # 处理变量
@@ -535,16 +535,16 @@ class HusTheme(QObject):
             self._parse_index_expr(key, str(value))
 
         # 处理样式
-        style_obj = self.index_object.get("__style__", {})
+        style_obj = self._index_object.get("__style__", {})
         for key, value in style_obj.items():
             self._parse_index_expr(key, str(value))
 
         # 更新Primary属性
-        self._Primary = self.index_token_table.copy()
+        self._Primary = self._index_token_table.copy()
         self.PrimaryChanged.emit()
 
         # 注册默认组件主题
-        component_obj = self.index_object.get("__component__", {})
+        component_obj = self._index_object.get("__component__", {})
         for component_name, theme_path in component_obj.items():
             self._register_default_component_theme(component_name,
                                                    str(theme_path))
@@ -561,7 +561,7 @@ class HusTheme(QObject):
     def _reload_component_import(self, style: dict,
                                  component_name: str) -> bool:
         """重新加载组件导入"""
-        component_obj = self.index_object.get("__component__", {})
+        component_obj = self._index_object.get("__component__", {})
         if component_name in component_obj:
             theme_path = component_obj[component_name]
             file = QFile(theme_path)
@@ -618,11 +618,11 @@ class HusTheme(QObject):
 
     def _reload_default_component_theme(self):
         """重新加载默认组件主题"""
-        self._reload_component_theme(self.default_theme)
+        self._reload_component_theme(self._default_theme)
 
     def _reload_custom_component_theme(self):
         """重新加载自定义组件主题"""
-        self._reload_component_theme(self.custom_theme)
+        self._reload_component_theme(self._custom_theme)
 
     def _register_default_component_theme(self, component_name: str,
                                           theme_path: str):
@@ -632,7 +632,7 @@ class HusTheme(QObject):
             if hasattr(self, f"_{component_name}"):
                 theme_map = getattr(self, f"_{component_name}")
                 self._register_component_theme(self, component_name, theme_map,
-                                               theme_path, self.default_theme)
+                                               theme_path, self._default_theme)
 
     def _register_component_theme(self, theme_object: QObject, component: str,
                                   theme_map: dict, theme_path: str,
@@ -647,21 +647,20 @@ class HusTheme(QObject):
     @Property(bool, notify = isDarkChanged)
     def isDark(self) -> bool:
         """是否为暗黑模式"""
-        if self.dark_mode == HusTheme.DarkMode.System:
-            return self.helper.getColorScheme(
-            ) == HusSystemThemeHelper.ColorScheme.Dark
+        if self._dark_mode == HusTheme.DarkMode.System:
+            return self._helper.colorScheme == HusSystemThemeHelper.ColorScheme.Dark
         else:
-            return self.dark_mode == HusTheme.DarkMode.Dark
+            return self._dark_mode == HusTheme.DarkMode.Dark
 
     @Property(int, notify = darkModeChanged)
     def darkMode(self) -> int:
-        return self.dark_mode.value
+        return self._dark_mode.value
 
     @darkMode.setter
     def darkMode(self, mode: int):
-        if self.dark_mode != HusTheme.DarkMode(mode):
+        if self._dark_mode != HusTheme.DarkMode(mode):
             old_is_dark = self.isDark
-            self.dark_mode = HusTheme.DarkMode(mode)
+            self._dark_mode = HusTheme.DarkMode(mode)
             if old_is_dark != self.isDark:
                 self._reload_index_theme()
                 self._reload_default_component_theme()
@@ -671,26 +670,26 @@ class HusTheme(QObject):
 
     @Property(int, notify = textRenderTypeChanged)
     def textRenderType(self) -> int:
-        return self.text_render_type
+        return self._text_render_type
 
     @textRenderType.setter
     def textRenderType(self, render_type: int):
-        if self.text_render_type != render_type:
-            self.text_render_type = render_type
+        if self._text_render_type != render_type:
+            self._text_render_type = render_type
             self.textRenderTypeChanged.emit()
 
     @Property(dict, notify = sizeHintChanged)
     def sizeHint(self) -> Dict[str, float]:
-        return self.size_hint_map.copy()
+        return self._size_hint_map.copy()
 
     @Property(bool, notify = animationEnabledChanged)
     def animationEnabled(self) -> bool:
-        return self.animation_enabled
+        return self._animation_enabled
 
     @animationEnabled.setter
     def animationEnabled(self, enabled: bool):
-        if self.animation_enabled != enabled:
-            self.animation_enabled = enabled
+        if self._animation_enabled != enabled:
+            self._animation_enabled = enabled
             self.animationEnabledChanged.emit()
 
     @Property(dict, notify = PrimaryChanged)
@@ -863,15 +862,15 @@ class HusTheme(QObject):
                                      theme_path: str):
         """注册自定义组件主题"""
         self._register_component_theme(theme_object, component, theme_map,
-                                       theme_path, self.custom_theme)
+                                       theme_path, self._custom_theme)
 
     @Slot()
     def reloadTheme(self):
         """重新加载主题"""
-        file = QFile(self.theme_index_path)
+        file = QFile(self._theme_index_path)
         if file.open(QIODevice.ReadOnly):
             try:
-                self.index_object = json.loads(file.readAll().toStdString())
+                self._index_object = json.loads(file.readAll().toStdString())
             except json.JSONDecodeError as e:
                 print(f"Index.json parse faild: {e}")
             else:
@@ -886,11 +885,11 @@ class HusTheme(QObject):
     @Slot(str)
     def installThemeColorTextBase(self, light_and_dark: str):
         """设置文本基础色"""
-        init_obj = self.index_object.get("__init__", {})
+        init_obj = self._index_object.get("__init__", {})
         base_obj = init_obj.get("__base__", {})
         base_obj["colorTextBase"] = light_and_dark.strip()
         init_obj["__base__"] = base_obj
-        self.index_object["__init__"] = init_obj
+        self._index_object["__init__"] = init_obj
 
         self._reload_index_theme()
         self._reload_default_component_theme()
@@ -899,11 +898,11 @@ class HusTheme(QObject):
     @Slot(str)
     def installThemeColorBgBase(self, light_and_dark: str):
         """设置背景基础色"""
-        init_obj = self.index_object.get("__init__", {})
+        init_obj = self._index_object.get("__init__", {})
         base_obj = init_obj.get("__base__", {})
         base_obj["colorBgBase"] = light_and_dark.strip()
         init_obj["__base__"] = base_obj
-        self.index_object["__init__"] = init_obj
+        self._index_object["__init__"] = init_obj
 
         self._reload_index_theme()
         self._reload_default_component_theme()
@@ -937,11 +936,11 @@ class HusTheme(QObject):
                                          duration_mid: int,
                                          duration_slow: int):
         """设置动画基础速度"""
-        style_obj = self.index_object.get("__style__", {})
+        style_obj = self._index_object.get("__style__", {})
         style_obj["durationFast"] = str(duration_fast)
         style_obj["durationMid"] = str(duration_mid)
         style_obj["durationSlow"] = str(duration_slow)
-        self.index_object["__style__"] = style_obj
+        self._index_object["__style__"] = style_obj
 
         self._reload_index_theme()
         self._reload_default_component_theme()
@@ -951,36 +950,36 @@ class HusTheme(QObject):
     def installSizeHintRatio(self, size: str, ratio: float):
         """设置尺寸提示比率"""
         changed = False
-        if size in self.size_hint_map:
-            value = self.size_hint_map[size]
+        if size in self._size_hint_map:
+            value = self._size_hint_map[size]
             if abs(value - ratio) > 1e-6:  # 浮点数比较
                 changed = True
         else:
             changed = True
 
         if changed:
-            self.size_hint_map[size] = ratio
+            self._size_hint_map[size] = ratio
             self.sizeHintChanged.emit()
 
     @Slot(str)
     def installIndexTheme(self, theme_path: str):
         """设置索引主题"""
-        if theme_path != self.theme_index_path:
+        if theme_path != self._theme_index_path:
             if not theme_path:
-                self.theme_index_path = ":/HuskarUI/theme/Index.json"
+                self._theme_index_path = ":/HuskarUI/theme/Index.json"
             else:
-                self.theme_index_path = theme_path
+                self._theme_index_path = theme_path
 
             self.reloadTheme()
 
     @Slot(str, str)
     def installIndexToken(self, token: str, value: str):
         """设置索引主题令牌"""
-        init_obj = self.index_object.get("__init__", {})
+        init_obj = self._index_object.get("__init__", {})
         vars_obj = init_obj.get("__vars__", {})
         vars_obj[token] = value.strip()
         init_obj["__vars__"] = vars_obj
-        self.index_object["__init__"] = init_obj
+        self._index_object["__init__"] = init_obj
 
         self._reload_index_theme()
         self._reload_default_component_theme()
@@ -989,10 +988,10 @@ class HusTheme(QObject):
     @Slot(str, str)
     def installComponentTheme(self, component: str, theme_path: str):
         """设置组件主题"""
-        component_obj = self.index_object.get("__component__", {})
+        component_obj = self._index_object.get("__component__", {})
         if component in component_obj:
             component_obj[component] = theme_path
-            self.index_object["__component__"] = component_obj
+            self._index_object["__component__"] = component_obj
             self._reload_default_component_theme()
         else:
             print(f"Component [{component}] not found!")
@@ -1001,14 +1000,14 @@ class HusTheme(QObject):
     def installComponentToken(self, component: str, token: str, value: str):
         """设置组件主题令牌"""
         # 在默认主题中查找
-        for theme in self.default_theme.values():
+        for theme in self._default_theme.values():
             if (component in theme.component_map):
                 theme.component_map[component].install_token_map[token] = value
                 self._reload_default_component_theme()
                 return
 
         # 在自定义主题中查找
-        for theme in self.custom_theme.values():
+        for theme in self._custom_theme.values():
             if (component in theme.component_map):
                 theme.component_map[component].install_token_map[token] = value
                 self._reload_custom_component_theme()

@@ -65,7 +65,7 @@ class HusApp(QObject):
     @staticmethod
     def libName() -> str:
         """
-        Get the name of the HuskarUI library.
+        Get the name of the PyHuskarUI library.
         """
         return pyhuskarui.__name__
 
@@ -73,6 +73,6 @@ class HusApp(QObject):
     @staticmethod
     def libVersion() -> str:
         """
-        Get the version of the HuskarUI library.
+        Get the version of the PyHuskarUI library.
         """
         return pyhuskarui.__version__
