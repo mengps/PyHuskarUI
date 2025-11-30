@@ -21,22 +21,7 @@ from PySide6.QtCore import Qt, QUrl, QObject, QFile, QIODevice, QDateTime, Slot
 from PySide6.QtGui import QGuiApplication, QWindow, QDesktopServices
 from PySide6.QtQml import QmlElement, QmlSingleton
 
-
-def systemName() -> str:
-    """
-    Get the system name.
-    """
-    if sys.platform.startswith("win"):
-        return "windows"
-    elif sys.platform.startswith("darwin"):
-        return "macos"
-    elif sys.platform.startswith("linux"):
-        return "linux"
-    else:
-        return "unknown"
-
-
-if systemName() == "windows":
+if sys.platform == "win32":
     from ctypes import WinDLL
 
     user32 = WinDLL("user32")
@@ -58,7 +43,7 @@ class HusApi(QObject):
     @Slot(QWindow, bool)
     def setWindowStaysOnTopHint(self, window: QWindow, hint: bool) -> None:
         if window is not None:
-            if systemName() == "windows":
+            if sys.platform == "win32":
                 hwnd = window.winId()
                 user32.SetWindowPos(hwnd, -1 if hint else -2, 0, 0, 0, 0,
                                     0x0001)
@@ -68,7 +53,7 @@ class HusApi(QObject):
     @Slot(QWindow, int)
     def setWindowState(self, window: QWindow, state: int) -> None:
         if window is not None:
-            if systemName() == "windows":
+            if sys.platform == "win32":
                 hwnd = window.winId()
                 user32.ShowWindow(hwnd, state)
             else:

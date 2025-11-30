@@ -17,17 +17,41 @@
 
 from PySide6.QtCore import QObject, Slot
 from PySide6.QtQuick import QQuickItem
-from PySide6.QtQml import QmlElement
+from PySide6.QtGui import QWindow
+from PySide6.QtQml import QmlElement, QPyQmlParserStatus 
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1
 
 
 @QmlElement
-class HusWindowAgent(QObject):
+class HusWindowAgent(QPyQmlParserStatus):
     
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent = parent)
+        self._host_window: QWindow = None
+        
+    def _setup(self, window: QWindow) -> None:
+        """
+        Setup the window agent.
+        """
+        self._host_window = window
+        pass
+    
+    def classBegin(self) -> None:
+        """
+        Class begin.
+        """
+        p = self.parent()
+        assert p is not None, "HusWindowAgent parent() return nullptr!"
+        if p.objectName() == "__HusWindow__":
+            self._setup(p)
+    
+    def componentComplete(self) -> None:
+        """
+        Component complete.
+        """
+        pass
         
     @Slot(QQuickItem, result = bool)
     def setTitleBar(self, item: QQuickItem) -> bool:
