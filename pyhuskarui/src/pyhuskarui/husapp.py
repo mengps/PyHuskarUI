@@ -38,6 +38,7 @@ from .controls.husqrcode import *
 from .controls.husrectangle import *
 from .controls.huswatermark import *
 from .controls.huswindowagent import *
+from .utils.logger import logger
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1

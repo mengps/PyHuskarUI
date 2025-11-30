@@ -1,9 +1,10 @@
 [project]
 authors = [
-  {name = "MenPenS", email = "843261040@qq.com"},
+    { name = "MenPenS", email = "843261040@qq.com" },
 ]
 dependencies = [
-  "pyside6>=6.8.3,!=6.9.*", #NOTE: 6.9.* has a bug
+    "pyside6>=6.8.3,!=6.9.*", #NOTE: 6.9.* has a bug
+    "loguru"
 ]
 description = "Ant-d UI-Kit for PySide6 and Qml"
 dynamic = ["version"]
@@ -31,12 +32,12 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 huskarui = [
-  "imports/**/*",
-  "resources/**/*",
-  "controls/**/*",
-  "themes/**/*",
-  "utils/**/*",
+    "imports/**/*",
+    "resources/**/*",
+    "controls/**/*",
+    "themes/**/*",
+    "utils/**/*",
 ]
 
 [tool.setuptools.dynamic]
-version = {attr = "pyhuskarui.__version__"}
+version = { attr = "pyhuskarui.__version__" }
