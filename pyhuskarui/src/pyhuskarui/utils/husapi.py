@@ -90,7 +90,7 @@ class HusApi(QObject):
         if file.open(QIODevice.ReadOnly):
             return file.readAll().toStdString()
         else:
-            print("Open file error:", file.errorString())
+            logger.error("Open file error:", file.errorString())
 
         return ""
 

@@ -21,6 +21,7 @@ from PySide6.QtCore import QObject, Property, Qt, QPointF, QRectF, QSize, Signal
 from PySide6.QtGui import QColor, QPainter, QPen, QPainterPath, QLinearGradient
 from PySide6.QtQml import QmlElement, QJSValue
 from PySide6.QtQuick import QQuickPaintedItem
+from loguru import logger
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -74,7 +75,7 @@ class HusRadius(QObject):
         if self._topLeft == value:
             return
         if value < 0.0:
-            print(f"topLeftRadius must >=0.0 { value=}")
+            logger.error(f"topLeftRadius must >=0.0 { value=}")
             return
         self._topLeft = value
         self.topLeftChanged.emit()
@@ -90,7 +91,7 @@ class HusRadius(QObject):
         if self._topRight == value:
             return
         if value < 0.0:
-            print(f"topRightRadius must >=0.0 { value=}")
+            logger.error(f"topRightRadius must >=0.0 { value=}")
             return
         self._topRight = value
         self.topRightChanged.emit()
@@ -106,7 +107,7 @@ class HusRadius(QObject):
         if self._bottomLeft == value:
             return
         if value < 0.0:
-            print(f"bottomLeftRadius must >=0.0 { value=}")
+            logger.error(f"bottomLeftRadius must >=0.0 { value=}")
             return
         self._bottomLeft = value
         self.bottomLeftChanged.emit()
@@ -122,7 +123,7 @@ class HusRadius(QObject):
         if self._bottomRight == value:
             return
         if value < 0.0:
-            print(f"bottomRightRadius must >=0.0 { value=}")
+            logger.error(f"bottomRightRadius must >=0.0 { value=}")
             return
         self._bottomRight = value
         self.bottomRightChanged.emit()
@@ -278,7 +279,7 @@ class HusRectangle(QQuickPaintedItem):
         if self._topLeftRadius == value:
             return
         if value < 0.0:
-            print(f"topLeftRadius must >=0.0 { value=}")
+            logger.error(f"topLeftRadius must >=0.0 { value=}")
             return
         self._topLeftRadius = value
         self.topLeftRadiusChanged.emit()
@@ -295,7 +296,7 @@ class HusRectangle(QQuickPaintedItem):
         if self._topRightRadius == value:
             return
         if value < 0.0:
-            print(f"topRightRadius must >=0.0 { value=}")
+            logger.error(f"topRightRadius must >=0.0 { value=}")
             return
         self._topRightRadius = value
         self.topRightRadiusChanged.emit()
@@ -312,7 +313,7 @@ class HusRectangle(QQuickPaintedItem):
         if self._bottomLeftRadius == value:
             return
         if value < 0.0:
-            print(f"bottomLeftRadius must >=0.0 { value=}")
+            logger.error(f"bottomLeftRadius must >=0.0 { value=}")
             return
 
         self._bottomLeftRadius = value
@@ -330,7 +331,7 @@ class HusRectangle(QQuickPaintedItem):
         if self._bottomRightRadius == value:
             return
         if value < 0.0:
-            print(f"bottomRightRadius must >=0.0 { value=}")
+            logger.error(f"bottomRightRadius must >=0.0 { value=}")
             return
         self._bottomRightRadius = value
         self.bottomRightRadiusChanged.emit()

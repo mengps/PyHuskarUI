@@ -21,6 +21,7 @@ from PySide6.QtGui import QPainter, QFont, QColor, QImage, QFontMetricsF
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQuick import QQuickPaintedItem
 from PySide6.QtQml import QmlElement, qmlEngine
+from loguru import logger
 
 # 创建日志分类
 lcHusWatermark = QLoggingCategory("huskarui.basic.watermark")
@@ -171,7 +172,7 @@ class HusWatermark(QQuickPaintedItem):
                 if engine:
                     self._manager = engine.networkAccessManager()
                 else:
-                    print(
+                    logger.error(
                         "HusWatermark without QmlEngine, we cannot get QNetworkAccessManager!"
                     )
 
@@ -187,7 +188,7 @@ class HusWatermark(QQuickPaintedItem):
             self._updateMarkSize()
             self.update()
         else:
-            print(f"Request image error: {self._imageReply.errorString()}")
+            logger.error(f"Request image error: {self._imageReply.errorString()}")
 
         self._imageReply.deleteLater()
         self._imageReply = None
