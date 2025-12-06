@@ -9,8 +9,7 @@ wheels/
 *.python-version
 
 # Qt rc/qsb
-*_rc.py
-*.qsb
+
 
 # Virtual environments
 .venv
