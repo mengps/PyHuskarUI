@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/qt">
-        <file>qml/HuskarUI/Basic/qmldir</file>
         <file>qml/HuskarUI/Basic/HusAcrylic.qml</file>
         <file>qml/HuskarUI/Basic/HusAutoComplete.qml</file>
         <file>qml/HuskarUI/Basic/HusAvatar.qml</file>
@@ -19,13 +18,14 @@
         <file>qml/HuskarUI/Basic/HusDateTimePicker.qml</file>
         <file>qml/HuskarUI/Basic/HusDivider.qml</file>
         <file>qml/HuskarUI/Basic/HusDrawer.qml</file>
+        <file>qml/HuskarUI/Basic/HusEmpty.qml</file>
         <file>qml/HuskarUI/Basic/HusIconButton.qml</file>
         <file>qml/HuskarUI/Basic/HusIconText.qml</file>
         <file>qml/HuskarUI/Basic/HusImage.qml</file>
-        <file>qml/HuskarUI/Basic/HusImagePreview.qml</file> 
+        <file>qml/HuskarUI/Basic/HusImagePreview.qml</file>
         <file>qml/HuskarUI/Basic/HusInput.qml</file>
-        <file>qml/HuskarUI/Basic/HusInputNumber.qml</file>
         <file>qml/HuskarUI/Basic/HusInputInteger.qml</file>
+        <file>qml/HuskarUI/Basic/HusInputNumber.qml</file>
         <file>qml/HuskarUI/Basic/HusMenu.qml</file>
         <file>qml/HuskarUI/Basic/HusMessage.qml</file>
         <file>qml/HuskarUI/Basic/HusModal.qml</file>
@@ -34,18 +34,20 @@
         <file>qml/HuskarUI/Basic/HusNotification.qml</file>
         <file>qml/HuskarUI/Basic/HusOTPInput.qml</file>
         <file>qml/HuskarUI/Basic/HusPagination.qml</file>
-        <file>qml/HuskarUI/Basic/HusPopup.qml</file>
         <file>qml/HuskarUI/Basic/HusPopconfirm.qml</file>
         <file>qml/HuskarUI/Basic/HusPopover.qml</file>
+        <file>qml/HuskarUI/Basic/HusPopup.qml</file>
         <file>qml/HuskarUI/Basic/HusProgress.qml</file>
         <file>qml/HuskarUI/Basic/HusRadio.qml</file>
         <file>qml/HuskarUI/Basic/HusRadioBlock.qml</file>
         <file>qml/HuskarUI/Basic/HusRate.qml</file>
+        <file>qml/HuskarUI/Basic/HusRectangleInternal.qml</file>
         <file>qml/HuskarUI/Basic/HusResizeMouseArea.qml</file>
         <file>qml/HuskarUI/Basic/HusScrollBar.qml</file>
         <file>qml/HuskarUI/Basic/HusSelect.qml</file>
         <file>qml/HuskarUI/Basic/HusShadow.qml</file>
         <file>qml/HuskarUI/Basic/HusSlider.qml</file>
+        <file>qml/HuskarUI/Basic/HusSpin.qml</file>
         <file>qml/HuskarUI/Basic/HusSwitch.qml</file>
         <file>qml/HuskarUI/Basic/HusSwitchEffect.qml</file>
         <file>qml/HuskarUI/Basic/HusTableView.qml</file>
@@ -57,9 +59,7 @@
         <file>qml/HuskarUI/Basic/HusToolTip.qml</file>
         <file>qml/HuskarUI/Basic/HusTourFocus.qml</file>
         <file>qml/HuskarUI/Basic/HusTourStep.qml</file>
-        <file>qml/HuskarUI/Basic/HusRectangleInternal.qml</file>
         <file>qml/HuskarUI/Basic/HusWindow.qml</file>
-        <file>qml/HuskarUI/Basic/HusEmpty.qml</file>
-        <file>qml/HuskarUI/Basic/HusSpin.qml</file>
+        <file>qml/HuskarUI/Basic/qmldir</file>
     </qresource>
 </RCC>

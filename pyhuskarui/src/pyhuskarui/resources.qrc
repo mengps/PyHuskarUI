@@ -1,15 +1,13 @@
 <RCC>
     <qresource prefix="/HuskarUI">
         <file>resources/font/HuskarUI-Icons.ttf</file>
-
+        <file>resources/images/empty-default.svg</file>
+        <file>resources/images/empty-simple.svg</file>
         <file>resources/images/hblinds.png</file>
         <file>resources/images/heart.png</file>
         <file>resources/images/smoke.png</file>
         <file>resources/images/star.png</file>
         <file>resources/images/stripes.png</file>
-        <file>resources/images/empty-default.svg</file>
-        <file>resources/images/empty-simple.svg</file>
-        
         <file>resources/theme/HusAutoComplete.json</file>
         <file>resources/theme/HusBreadcrumb.json</file>
         <file>resources/theme/HusButton.json</file>
@@ -41,15 +39,15 @@
         <file>resources/theme/HusScrollBar.json</file>
         <file>resources/theme/HusSelect.json</file>
         <file>resources/theme/HusSlider.json</file>
+        <file>resources/theme/HusSpin.json</file>
         <file>resources/theme/HusSwitch.json</file>
-        <file>resources/theme/HusTabView.json</file>
         <file>resources/theme/HusTableView.json</file>
+        <file>resources/theme/HusTabView.json</file>
         <file>resources/theme/HusTag.json</file>
         <file>resources/theme/HusTextArea.json</file>
         <file>resources/theme/HusTimeline.json</file>
         <file>resources/theme/HusToolTip.json</file>
         <file>resources/theme/HusTour.json</file>
-        <file>resources/theme/HusSpin.json</file>
         <file>resources/theme/Index.json</file>
     </qresource>
 </RCC>
