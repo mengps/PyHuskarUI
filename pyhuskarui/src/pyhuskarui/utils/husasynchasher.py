@@ -17,7 +17,7 @@
 
 from PySide6.QtCore import (QObject, Property, Signal, QUrl, QByteArray,
                             QThreadPool, QBuffer, QRunnable, QIODevice,
-                            QLoggingCategory, QEnum)
+                            QLoggingCategory, QEnum, qCDebug)
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQml import QmlElement, qmlEngine
 from PySide6.QtCore import QCryptographicHash

@@ -21,7 +21,8 @@ from enum import Enum
 from typing import Dict
 from dataclasses import dataclass, field
 
-from PySide6.QtCore import QObject, QFile, QIODevice, Property, Slot, Signal, QEnum
+from PySide6.QtCore import (QObject, QFile, QIODevice, Property,
+                            QLoggingCategory, Slot, Signal, QEnum, qCDebug)
 from PySide6.QtGui import QColor
 from PySide6.QtQml import QmlElement, QmlSingleton
 from loguru import logger
@@ -32,6 +33,8 @@ from .husthemefunctions import HusThemeFunctions
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1
+
+lcHusTheme = QLoggingCategory("huskarui.basic.theme")
 
 
 class Component(Enum):
@@ -280,7 +283,8 @@ class HusTheme(QObject):
         """解析生成颜色函数"""
         color = self._color_from_index_table(args)
         if color.isValid():
-            color_bg_base = self._index_token_table.get("colorBgBase", QColor())
+            color_bg_base = self._index_token_table.get(
+                "colorBgBase", QColor())
             if isinstance(color_bg_base, str):
                 color_bg_base = QColor(color_bg_base)
 
@@ -474,7 +478,7 @@ class HusTheme(QObject):
             self._index_token_table[token_name] = expr
 
     def _parse_component_expr(self, token_map: dict, token_name: str,
-                             expr: str):
+                              expr: str):
         """解析组件表达式"""
         expr = expr.strip()
 
@@ -852,7 +856,7 @@ class HusTheme(QObject):
     @Property(dict, notify = HusTextAreaChanged)
     def HusTextArea(self) -> dict:
         return self._HusTextArea
-    
+
     @Property(dict, notify = HusSpinChanged)
     def HusSpin(self) -> dict:
         return self._HusSpin
