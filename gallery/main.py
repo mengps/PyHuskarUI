@@ -27,6 +27,7 @@ from PySide6.QtQuick import QQuickWindow, QSGRendererInterface
 import qml_rc
 import images_rc
 import shaders_rc
+from gallery.logger import logger
 
 from pyhuskarui.husapp import HusApp
 

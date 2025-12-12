@@ -24,6 +24,7 @@ from dataclasses import dataclass, field
 from PySide6.QtCore import QObject, QFile, QIODevice, Property, Slot, Signal, QEnum
 from PySide6.QtGui import QColor
 from PySide6.QtQml import QmlElement, QmlSingleton
+from loguru import logger
 
 from .huscolorgenerator import HusColorGenerator
 from .hussystemthemehelper import HusSystemThemeHelper
@@ -271,9 +272,9 @@ class HusTheme(QObject):
             elif func_name == "multiply":
                 self._parse_multiply(out, token_name, args_str)
             else:
-                print(f"Unknown function name: {func_name}")
+                logger.error(f"Unknown function name: {func_name}")
         else:
-            print(f"Unknown expression: {expr}")
+            logger.error(f"Unknown expression: {expr}")
 
     def _parse_gen_color(self, out: dict, token_name: str, args: str):
         """解析生成颜色函数"""
@@ -295,7 +296,7 @@ class HusTheme(QObject):
                 key = f"{token_name}-{i + 1}"
                 out[key] = gen_color
         else:
-            print(f"func genColor() invalid color: {args}")
+            logger.error(f"func genColor() invalid color: {args}")
 
     def _parse_gen_font_family(self, out: dict, args: str):
         """解析生成字体族函数"""
@@ -310,7 +311,7 @@ class HusTheme(QObject):
                 key = f"{token_name}-{i + 1}"
                 out[key] = font_size
         except ValueError:
-            print(f"func genFontSize() invalid size: {args}")
+            logger.error(f"func genFontSize() invalid size: {args}")
 
     def _parse_gen_font_line_height(self, out: dict, token_name: str,
                                     args: str):
@@ -322,7 +323,7 @@ class HusTheme(QObject):
                 key = f"{token_name}-{i + 1}"
                 out[key] = line_height
         except ValueError:
-            print(f"func genFontLineHeight() invalid size: {args}")
+            logger.error(f"func genFontLineHeight() invalid size: {args}")
 
     def _parse_gen_radius(self, out: dict, token_name: str, args: str):
         """解析生成圆角函数"""
@@ -333,7 +334,7 @@ class HusTheme(QObject):
                 key = f"{token_name}-{i + 1}"
                 out[key] = radius
         except ValueError:
-            print(f"func genRadius() invalid size: {args}")
+            logger.error(f"func genRadius() invalid size: {args}")
 
     def _parse_darker(self, out: dict, token_name: str, args: str):
         """解析变暗函数"""
@@ -346,7 +347,7 @@ class HusTheme(QObject):
             arg2 = self._number_from_index_table(arg_list[1])
             out[token_name] = HusThemeFunctions.darker(arg1, int(arg2))
         else:
-            print(f"func darker() only accepts 1/2 parameters: {args}")
+            logger.error(f"func darker() only accepts 1/2 parameters: {args}")
 
     def _parse_lighter(self, out: dict, token_name: str, args: str):
         """解析变亮函数"""
@@ -359,7 +360,7 @@ class HusTheme(QObject):
             arg2 = self._number_from_index_table(arg_list[1])
             out[token_name] = HusThemeFunctions.lighter(arg1, int(arg2))
         else:
-            print(f"func lighter() only accepts 1/2 parameters: {args}")
+            logger.error(f"func lighter() only accepts 1/2 parameters: {args}")
 
     def _parse_alpha(self, out: dict, token_name: str, args: str):
         """解析透明度函数"""
@@ -372,7 +373,7 @@ class HusTheme(QObject):
             arg2 = self._number_from_index_table(arg_list[1])
             out[token_name] = HusThemeFunctions.alpha(arg1, arg2)
         else:
-            print(f"func alpha() only accepts 1/2 parameters: {args}")
+            logger.error(f"func alpha() only accepts 1/2 parameters: {args}")
 
     def _parse_on_background(self, out: dict, token_name: str, args: str):
         """解析背景上颜色函数"""
@@ -382,7 +383,7 @@ class HusTheme(QObject):
             arg2 = self._color_from_index_table(arg_list[1].strip())
             out[token_name] = HusThemeFunctions.onBackground(arg1, arg2)
         else:
-            print(f"func onBackground() only accepts 2 parameters: {args}")
+            logger.error(f"func onBackground() only accepts 2 parameters: {args}")
 
     def _parse_multiply(self, out: dict, token_name: str, args: str):
         """解析乘法函数"""
@@ -392,7 +393,7 @@ class HusTheme(QObject):
             arg2 = self._number_from_index_table(arg_list[1].strip())
             out[token_name] = HusThemeFunctions.multiply(arg1, arg2)
         else:
-            print(f"func multiply() only accepts 2 parameters: {args}")
+            logger.error(f"func multiply() only accepts 2 parameters: {args}")
 
     def _color_from_index_table(self, token_name: str) -> QColor:
         """从索引表中获取颜色"""
@@ -407,9 +408,9 @@ class HusTheme(QObject):
                     color = QColor(value)
                     if color.isValid():
                         return color
-                print(f"Token toColor failed: {token_name}")
+                logger.error(f"Token toColor failed: {token_name}")
             else:
-                print(f"Index Token({ref_token_name}) not found!")
+                logger.error(f"Index Token({ref_token_name}) not found!")
         else:
             # 按颜色处理
             color = QColor(token_name)
@@ -417,7 +418,7 @@ class HusTheme(QObject):
             if token_name.startswith("#Preset_"):
                 color = HusColorGenerator.presetToColor(token_name[1:])
             if not color.isValid():
-                print(f"Token toColor failed: {token_name}")
+                logger.error(f"Token toColor failed: {token_name}")
             return color
 
         return QColor()
@@ -435,14 +436,14 @@ class HusTheme(QObject):
                     elif isinstance(value, str):
                         return float(value)
                 except (ValueError, TypeError):
-                    print(f"Token toDouble failed: {ref_token_name}")
+                    logger.error(f"Token toDouble failed: {ref_token_name}")
             else:
-                print(f"Index Token({ref_token_name}) not found!")
+                logger.error(f"Index Token({ref_token_name}) not found!")
         else:
             try:
                 return float(token_name)
             except ValueError:
-                print(f"Token toDouble failed: {token_name}")
+                logger.error(f"Token toDouble failed: {token_name}")
 
         return 0.0
 
@@ -456,7 +457,7 @@ class HusTheme(QObject):
                 self._index_token_table[token_name] = self._index_token_table[
                     ref_token_name]
             else:
-                print(f"Token({expr}):Ref({ref_token_name}) not found!")
+                logger.error(f"Token({expr}):Ref({ref_token_name}) not found!")
         elif expr.startswith('$'):
             self._parse_function(self._index_token_table, token_name, expr)
         elif expr.startswith('#'):
@@ -466,7 +467,7 @@ class HusTheme(QObject):
             if expr.startswith("Preset_"):
                 color = HusColorGenerator.presetToColor(expr[1:])
             if not color.isValid():
-                print(f"Unknown color: {expr}")
+                logger.error(f"Unknown color: {expr}")
             self._index_token_table[token_name] = color
         else:
             # 按字符串处理
@@ -482,7 +483,7 @@ class HusTheme(QObject):
             if ref_token_name in self._index_token_table:
                 token_map[token_name] = self._index_token_table[ref_token_name]
             else:
-                print(
+                logger.error(
                     f"Component: Token({token_name}):Ref({ref_token_name}) not found!"
                 )
         elif expr.startswith('$'):
@@ -494,7 +495,7 @@ class HusTheme(QObject):
             if expr.startswith("Preset_"):
                 color = HusColorGenerator.presetToColor(expr[1:])
             if not color.isValid():
-                print(f"Component [{token_name}]: Unknown color: {expr}")
+                logger.error(f"Component [{token_name}]: Unknown color: {expr}")
             token_map[token_name] = color
         else:
             # 按字符串处理
@@ -583,12 +584,12 @@ class HusTheme(QObject):
                     return True
 
                 except Exception as e:
-                    print(
+                    logger.error(
                         f"Parse import component theme [{theme_path}] failed: {e}"
                     )
                     return False
             else:
-                print(
+                logger.error(
                     f"Open import component theme faild: {file.errorString()}, theme_path: {theme_path}"
                 )
         else:
@@ -872,14 +873,14 @@ class HusTheme(QObject):
             try:
                 self._index_object = json.loads(file.readAll().toStdString())
             except json.JSONDecodeError as e:
-                print(f"Index.json parse faild: {e}")
+                logger.error(f"Index.json parse faild: {e}")
             else:
                 self._reload_index_theme()
                 self._reload_default_component_theme()
                 self._reload_custom_component_theme()
 
         else:
-            print(f"Index.json open faild: {file.errorString()}")
+            logger.error(f"Index.json open faild: {file.errorString()}")
 
     # 安装主题的各种方法
     @Slot(str)
@@ -994,7 +995,7 @@ class HusTheme(QObject):
             self._index_object["__component__"] = component_obj
             self._reload_default_component_theme()
         else:
-            print(f"Component [{component}] not found!")
+            logger.error(f"Component [{component}] not found!")
 
     @Slot(str, str, str)
     def installComponentToken(self, component: str, token: str, value: str):
@@ -1013,4 +1014,4 @@ class HusTheme(QObject):
                 self._reload_custom_component_theme()
                 return
 
-        print(f"Component [{component}] not found!")
+        logger.error(f"Component [{component}] not found!")

@@ -2,7 +2,7 @@
 authors = [
   {name = "MenPenS", email = "843261040@qq.com"},
 ]
-dependencies = []
+dependencies = ["loguru"]
 description = "Add your description here"
 name = "utils"
 requires-python = ">=3.9"

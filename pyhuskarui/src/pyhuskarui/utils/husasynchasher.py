@@ -21,6 +21,7 @@ from PySide6.QtCore import (QObject, Property, Signal, QUrl, QByteArray,
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQml import QmlElement, qmlEngine
 from PySide6.QtCore import QCryptographicHash
+from loguru import logger
 
 # 创建日志分类
 lcHusAsyncHasher = QLoggingCategory("huskarui.basic.asynchasher")
@@ -79,7 +80,7 @@ class AsyncRunnable(QObject, QRunnable):
             self.finished.emit(result)
 
         except Exception as e:
-            print(f"Hash calculation error: {e}")
+            logger.error(f"Hash calculation error: {e}")
         finally:
             self._device.deleteLater()
 
@@ -187,7 +188,7 @@ class HusAsyncHasher(QObject):
                             hash_obj.result().toHex().toUpper().toStdString())
                         file.deleteLater()
                 else:
-                    print(f"File Error: {file.errorString()}")
+                    logger.error(f"File Error: {file.errorString()}")
                     file.deleteLater()
             else:
                 # 网络文件
@@ -202,7 +203,7 @@ class HusAsyncHasher(QObject):
                         self._reply = manager.get(QNetworkRequest(source))
                         self._reply.finished.connect(self._on_network_reply_finished)
                     else:
-                        print(
+                        logger.error(
                                 "HusAsyncHasher without QmlEngine, we cannot get QNetworkAccessManager!"
                             )
 
@@ -221,7 +222,7 @@ class HusAsyncHasher(QObject):
                     hash_obj.result().toHex().toUpper().toStdString())
                 self._reply.deleteLater()
         else:
-            print(f"HTTP Request Error: {self._reply.errorString()}")
+            logger.error(f"HTTP Request Error: {self._reply.errorString()}")
             self._reply.deleteLater()
 
         self._reply = None
