@@ -16,15 +16,11 @@
 # limitations under the License.
 
 from PySide6.QtCore import (QObject, Property, Signal, QUrl, QByteArray,
-                            QThreadPool, QBuffer, QRunnable, QIODevice,
-                            QLoggingCategory, QEnum, qCDebug)
+                            QThreadPool, QBuffer, QRunnable, QIODevice, QEnum)
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQml import QmlElement, qmlEngine
 from PySide6.QtCore import QCryptographicHash
 from loguru import logger
-
-# 创建日志分类
-lcHusAsyncHasher = QLoggingCategory("huskarui.basic.asynchasher")
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1

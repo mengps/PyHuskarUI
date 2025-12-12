@@ -21,8 +21,7 @@ from enum import Enum
 from typing import Dict
 from dataclasses import dataclass, field
 
-from PySide6.QtCore import (QObject, QFile, QIODevice, Property,
-                            QLoggingCategory, Slot, Signal, QEnum)
+from PySide6.QtCore import (QObject, QFile, QIODevice, Property, Slot, Signal, QEnum)
 from PySide6.QtGui import QColor
 from PySide6.QtQml import QmlElement, QmlSingleton
 from loguru import logger

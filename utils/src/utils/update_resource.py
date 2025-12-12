@@ -179,7 +179,7 @@ def replace_license(path: Path | str):
             logger.success(f"updated license in {file_path}")
 
         except Exception as e:
-            logger.error(f"error processing {file_path}: {e}")
+            logger.error(f"error processing license {file_path}: {e}")
 
 
 if __name__ == "__main__":
