@@ -1,3 +1,22 @@
+/*
+ * PyHuskarUI
+ *
+ * Copyright (C) 2025 mengps (MenPenS)
+ * https://github.com/mengps/PyHuskarUI
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import QtQuick
 import QtQuick.Effects
 
@@ -293,7 +312,7 @@ Item {
             property real _yPos: Math.sin(__private.inAnimation * Math.PI * 35) * width * 0.02 * (0.5 - Math.abs(0.5 - __private.inAnimation))
 
             Image {
-                id: thunderMask
+                id: __thunderMask
                 source: control.maskSource || 'qrc:/HuskarUI/resources/images/stripes.png'
                 scale: control.maskScaleEnabled ? control.maskScale : 1
                 rotation: control.maskRotationEnabled ? control.maskRotation : 0
@@ -318,7 +337,7 @@ Item {
                 brightness: __private.inAnimation
 
                 maskEnabled: true
-                maskSource: thunderMask
+                maskSource: __thunderMask
                 maskThresholdMin: __private.inAnimation * 0.9
                 maskSpreadAtMin: 0.2
                 maskThresholdMax: 1.0
@@ -350,7 +369,7 @@ Item {
                 brightness: __private.outAnimation
 
                 maskEnabled: true
-                maskSource: thunderMask
+                maskSource: __thunderMask
                 maskThresholdMin: __private.outAnimation * 0.6
                 maskSpreadAtMin: 0.2
                 maskThresholdMax: 1.0

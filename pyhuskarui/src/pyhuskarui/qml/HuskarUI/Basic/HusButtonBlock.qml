@@ -1,3 +1,22 @@
+/*
+ * PyHuskarUI
+ *
+ * Copyright (C) 2025 mengps (MenPenS)
+ * https://github.com/mengps/PyHuskarUI
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import QtQuick
 import QtQuick.Templates as T
 import HuskarUI.Basic
@@ -13,6 +32,7 @@ Item {
     signal pressed(index: int, buttonData: var)
     signal released(index: int, buttonData: var)
     signal clicked(index: int, buttonData: var)
+    signal doubleClicked(index: int, buttonData: var)
 
     property bool animationEnabled: HusTheme.animationEnabled
     property bool effectEnabled: true
@@ -39,7 +59,9 @@ Item {
 
         onPressed: control.pressed(index, modelData);
         onReleased: control.released(index, modelData);
+        onDoubleClicked: control.doubleClicked(index, modelData);
         onClicked: control.clicked(index, modelData);
+
         animationEnabled: control.animationEnabled
         effectEnabled: control.effectEnabled
         autoRepeat: modelData.autoRepeat ?? false
@@ -57,7 +79,7 @@ Item {
         font: control.font
         type: modelData.type ?? HusButton.Type_Default
         iconSource: modelData.iconSource ?? 0
-        text: modelData.label
+        text: modelData.label ?? ''
         background: Item {
             Rectangle {
                 id: __effect

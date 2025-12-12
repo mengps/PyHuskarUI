@@ -22,7 +22,7 @@ from typing import Dict
 from dataclasses import dataclass, field
 
 from PySide6.QtCore import (QObject, QFile, QIODevice, Property,
-                            QLoggingCategory, Slot, Signal, QEnum, qCDebug)
+                            QLoggingCategory, Slot, Signal, QEnum)
 from PySide6.QtGui import QColor
 from PySide6.QtQml import QmlElement, QmlSingleton
 from loguru import logger
@@ -33,8 +33,6 @@ from .husthemefunctions import HusThemeFunctions
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1
-
-lcHusTheme = QLoggingCategory("huskarui.basic.theme")
 
 
 class Component(Enum):
@@ -79,6 +77,7 @@ class Component(Enum):
     HusModal = "HusModal"
     HusTextArea = "HusTextArea"
     HusSpin = "HusSpin"
+    HusColorPicker = "HusColorPicker"
 
 
 @dataclass
@@ -165,6 +164,7 @@ class HusTheme(QObject):
     HusModalChanged = Signal()
     HusTextAreaChanged = Signal()
     HusSpinChanged = Signal()
+    HusColorPickerChanged = Signal()
 
     def __init__(self, parent = None):
         super().__init__(parent = parent)
@@ -227,6 +227,7 @@ class HusTheme(QObject):
         self._HusModal = {}
         self._HusTextArea = {}
         self._HusSpin = {}
+        self._HusColorPicker = {}
 
         # 连接系统主题变化信号
         self._helper.colorSchemeChanged.connect(
@@ -387,7 +388,8 @@ class HusTheme(QObject):
             arg2 = self._color_from_index_table(arg_list[1].strip())
             out[token_name] = HusThemeFunctions.onBackground(arg1, arg2)
         else:
-            logger.error(f"func onBackground() only accepts 2 parameters: {args}")
+            logger.error(
+                f"func onBackground() only accepts 2 parameters: {args}")
 
     def _parse_multiply(self, out: dict, token_name: str, args: str):
         """解析乘法函数"""
@@ -499,7 +501,8 @@ class HusTheme(QObject):
             if expr.startswith("Preset_"):
                 color = HusColorGenerator.presetToColor(expr[1:])
             if not color.isValid():
-                logger.error(f"Component [{token_name}]: Unknown color: {expr}")
+                logger.error(
+                    f"Component [{token_name}]: Unknown color: {expr}")
             token_map[token_name] = color
         else:
             # 按字符串处理
@@ -860,6 +863,10 @@ class HusTheme(QObject):
     @Property(dict, notify = HusSpinChanged)
     def HusSpin(self) -> dict:
         return self._HusSpin
+
+    @Property(dict, notify = HusColorPickerChanged)
+    def HusColorPicker(self) -> dict:
+        return self._HusColorPicker
 
     @Slot(QObject, str, dict, str)
     def registerCustomComponentTheme(self, theme_object: QObject,

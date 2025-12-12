@@ -1,3 +1,22 @@
+/*
+ * PyHuskarUI
+ *
+ * Copyright (C) 2025 mengps (MenPenS)
+ * https://github.com/mengps/PyHuskarUI
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import QtQuick
 import QtQuick.Templates as T
 import Qt.labs.qmlmodels
@@ -463,6 +482,14 @@ HusRectangle {
         return [...__private.model];
     }
 
+    function rowCount() {
+        return __cellModel.rowCount();
+    }
+
+    function columnCount() {
+        return __cellModel.columnCount();
+    }
+
     function appendRow(object: var) {
         __cellModel.appendRow(__private.toCellObject(object));
         __private.model.push(object);
@@ -485,8 +512,8 @@ HusRectangle {
     function moveRow(fromRowIndex, toRowIndex, count = 1) {
         if (fromRowIndex >= 0 && fromRowIndex < __private.model.length &&
                 toRowIndex >= 0 && toRowIndex < __private.model.length) {
-            const objects = __private.model.splice(from, count);
             __cellModel.moveRow(fromRowIndex, toRowIndex, count);
+            const objects = __private.model.splice(from, count);
             __private.model.splice(to, 0, ...objects);
             __private.updateRowHeader();
         }

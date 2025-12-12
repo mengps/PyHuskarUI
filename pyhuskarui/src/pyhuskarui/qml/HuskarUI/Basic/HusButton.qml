@@ -1,3 +1,22 @@
+/*
+ * PyHuskarUI
+ *
+ * Copyright (C) 2025 mengps (MenPenS)
+ * https://github.com/mengps/PyHuskarUI
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import QtQuick
 import QtQuick.Templates as T
 import HuskarUI.Basic
@@ -21,6 +40,7 @@ T.Button {
 
     property bool animationEnabled: HusTheme.animationEnabled
     property bool effectEnabled: true
+    property bool active: down || checked
     property int hoverCursorShape: Qt.PointingHandCursor
     property int type: HusButton.Type_Default
     property int shape: HusButton.Shape_Default
@@ -29,20 +49,20 @@ T.Button {
             switch(control.type)
             {
             case HusButton.Type_Default:
-                return control.down ? themeSource.colorTextActive :
-                                      control.hovered ? themeSource.colorTextHover :
-                                                        themeSource.colorTextDefault;
+                return control.active ? themeSource.colorTextActive :
+                                        control.hovered ? themeSource.colorTextHover :
+                                                          themeSource.colorTextDefault;
             case HusButton.Type_Outlined:
-                return control.down ? themeSource.colorTextActive :
-                                      control.hovered ? themeSource.colorTextHover :
-                                                        themeSource.colorText;
+                return control.active ? themeSource.colorTextActive :
+                                        control.hovered ? themeSource.colorTextHover :
+                                                          themeSource.colorText;
             case HusButton.Type_Primary: return 'white';
             case HusButton.Type_Filled:
             case HusButton.Type_Text:
             case HusButton.Type_Link:
-                return control.down ? themeSource.colorTextActive :
-                                      control.hovered ? themeSource.colorTextHover :
-                                                        themeSource.colorText;
+                return control.active ? themeSource.colorTextActive :
+                                        control.hovered ? themeSource.colorTextHover :
+                                                          themeSource.colorText;
             default: return themeSource.colorText;
             }
         } else {
@@ -56,32 +76,32 @@ T.Button {
             {
             case HusButton.Type_Default:
             case HusButton.Type_Outlined:
-                return control.down ? themeSource.colorBgActive :
-                                      control.hovered ? themeSource.colorBgHover :
-                                                        themeSource.colorBg;
+                return control.active ? themeSource.colorBgActive :
+                                        control.hovered ? themeSource.colorBgHover :
+                                                          themeSource.colorBg;
             case HusButton.Type_Primary:
-                return control.down ? control.themeSource.colorPrimaryBgActive:
-                                      control.hovered ? themeSource.colorPrimaryBgHover :
-                                                        themeSource.colorPrimaryBg;
+                return control.active ? control.themeSource.colorPrimaryBgActive:
+                                        control.hovered ? themeSource.colorPrimaryBgHover :
+                                                          themeSource.colorPrimaryBg;
             case HusButton.Type_Filled:
                 if (HusTheme.isDark) {
-                    return control.down ? themeSource.colorFillBgDarkActive:
-                                          control.hovered ? themeSource.colorFillBgDarkHover :
-                                                            themeSource.colorFillBgDark;
+                    return control.active ? themeSource.colorFillBgDarkActive:
+                                            control.hovered ? themeSource.colorFillBgDarkHover :
+                                                              themeSource.colorFillBgDark;
                 } else {
-                    return control.down ? themeSource.colorFillBgActive:
-                                          control.hovered ? themeSource.colorFillBgHover :
-                                                            themeSource.colorFillBg;
+                    return control.active ? themeSource.colorFillBgActive:
+                                            control.hovered ? themeSource.colorFillBgHover :
+                                                              themeSource.colorFillBg;
                 }
             case HusButton.Type_Text:
                 if (HusTheme.isDark) {
-                    return control.down ? themeSource.colorFillBgDarkActive:
-                                          control.hovered ? themeSource.colorFillBgDarkHover :
-                                                            themeSource.colorTextBg;
+                    return control.active ? themeSource.colorFillBgDarkActive:
+                                            control.hovered ? themeSource.colorFillBgDarkHover :
+                                                              themeSource.colorTextBg;
                 } else {
-                    return control.down ? themeSource.colorTextBgActive:
-                                          control.hovered ? themeSource.colorTextBgHover :
-                                                            themeSource.colorTextBg;
+                    return control.active ? themeSource.colorTextBgActive:
+                                            control.hovered ? themeSource.colorTextBgHover :
+                                                              themeSource.colorTextBg;
                 }
             default: return themeSource.colorBg;
             }
@@ -95,13 +115,13 @@ T.Button {
             switch(control.type)
             {
             case HusButton.Type_Default:
-                return control.down ? themeSource.colorBorderActive :
-                                      control.hovered ? themeSource.colorBorderHover :
-                                                        themeSource.colorDefaultBorder;
+                return control.active ? themeSource.colorBorderActive :
+                                        control.hovered ? themeSource.colorBorderHover :
+                                                          themeSource.colorDefaultBorder;
             default:
-                return control.down ? themeSource.colorBorderActive :
-                                      control.hovered ? themeSource.colorBorderHover :
-                                                        themeSource.colorBorder;
+                return control.active ? themeSource.colorBorderActive :
+                                        control.hovered ? themeSource.colorBorderHover :
+                                                          themeSource.colorBorder;
             }
         } else {
             return themeSource.colorBorderDisabled;

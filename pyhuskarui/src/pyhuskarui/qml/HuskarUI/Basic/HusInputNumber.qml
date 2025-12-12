@@ -1,3 +1,22 @@
+/*
+ * PyHuskarUI
+ *
+ * Copyright (C) 2025 mengps (MenPenS)
+ * https://github.com/mengps/PyHuskarUI
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import QtQuick
 import QtQuick.Layouts
 import HuskarUI.Basic
@@ -97,6 +116,7 @@ Item {
         property real hoverHeight: height * 0.6
         property real noHoverHeight: height * 0.4
         property color colorBorder: enabled ? control.themeSource.colorBorder : control.themeSource.colorBorderDisabled
+        property color colorHandlerBg: enabled ? control.themeSource.colorBg : 'transparent'
 
         Behavior on width {
             enabled: control.animationEnabled;
@@ -123,7 +143,7 @@ Item {
             hoverCursorShape: control.value >= control.max ? Qt.ForbiddenCursor : Qt.PointingHandCursor
             background: HusRectangleInternal {
                 topRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.topRight : 0
-                color: 'transparent'
+                color: __handlerRoot.colorHandlerBg
                 border.color: __handlerRoot.colorBorder
             }
             onClicked: {
@@ -153,7 +173,7 @@ Item {
             hoverCursorShape: control.value <= control.min ? Qt.ForbiddenCursor : Qt.PointingHandCursor
             background: HusRectangleInternal {
                 bottomRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.bottomRight : 0
-                color: 'transparent'
+                color: __handlerRoot.colorHandlerBg
                 border.color: __handlerRoot.colorBorder
             }
             onClicked: {
@@ -295,7 +315,6 @@ Item {
             leftPadding: (__prefixLoader.active ? __prefixLoader.implicitWidth : (leftClearIconPadding > 0 ? 5 : 10))
                          + leftIconPadding + leftClearIconPadding
             rightPadding: (__suffixLoader.active ? __suffixLoader.implicitWidth : (rightClearIconPadding > 0 ? 5 : 10))
-                          + (rightClearIconPadding > 0 ? 0 : __handlerLoader.implicitWidth)
                           + rightIconPadding + rightClearIconPadding
             validator: control.validator
             background: HusRectangleInternal {

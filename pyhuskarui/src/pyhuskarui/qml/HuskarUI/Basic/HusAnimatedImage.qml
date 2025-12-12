@@ -20,7 +20,7 @@
 import QtQuick
 import HuskarUI.Basic
 
-Image {
+AnimatedImage {
     id: control
 
     property bool animationEnabled: HusTheme.animationEnabled
@@ -31,7 +31,7 @@ Image {
     property string placeholder: ''
     property var items: []
 
-    objectName: '__HusImage__'
+    objectName: '__HusAnimatedImage__'
     onSourceChanged: {
         if (items.length == 0) {
             __private.previewItems = [{ url: source }];
@@ -99,6 +99,14 @@ Image {
                 id: __preview
                 animationEnabled: control.animationEnabled
                 items: __private.previewItems
+                sourceDelegate: AnimatedImage {
+                    source: sourceUrl
+                    fillMode: Image.PreserveAspectFit
+                    onStatusChanged: {
+                        if (status === Image.Ready)
+                            __preview.resetTransform();
+                    }
+                }
             }
 
             TapHandler {
