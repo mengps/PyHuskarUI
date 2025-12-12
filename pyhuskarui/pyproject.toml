@@ -4,6 +4,7 @@ authors = [
 ]
 dependencies = [
   "pyside6>=6.8.3,!=6.9.*", #NOTE: 6.9.* has a bug
+    "loguru"
 ]
 description = "Ant-d UI-Kit for PySide6 and Qml"
 dynamic = ["version"]
