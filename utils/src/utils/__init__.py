@@ -1,19 +1,24 @@
-from importlib.resources import files
 from pathlib import Path
 
-from .update_qmldir import generate_qmldir
-from .update_qrc import generate_rc
-from .update_shader import generate_qsb
+from .update_resource import gen_qsbs, gen_qrc, gen_qmldir, update_qrcs, replace_license
 
 
 def init():
-    gallery = (Path(__file__).parent / "../../../gallery").resolve()
+    cwd = (Path(__file__).parent / "../../../").resolve()
+    gallery = cwd / "gallery"
+    huaskui = cwd / "pyhuskarui" / "src" / "pyhuskarui"
 
-    generate_qmldir(files("pyhuskarui") / "qml/HuskarUI/Basic",
-                    "HuskarUI.Basic", ":qt/", "1.0", "qml/HuskarUI/Basic")
+    replace_license(huaskui / "qml")
 
-    generate_qsb(gallery)
-    generate_qsb(files("pyhuskarui"))
+    gen_qsbs(huaskui / "shaders")
+    gen_qrc(huaskui / "shaders", "/HuskarUI")
+    gen_qmldir(huaskui / "qml", "HuskarUI.Basic", "1.0")
+    gen_qrc(huaskui / "qml", "/qt")
+    gen_qrc(huaskui / "resources", "/HuskarUI")
+    update_qrcs(huaskui)
 
-    generate_rc(gallery)
-    generate_rc(files("pyhuskarui"))
+    gen_qsbs(gallery / "shaders")
+    gen_qrc(gallery / 'images', '/Gallery')
+    gen_qrc(gallery / 'shaders', '/Gallery')
+    gen_qrc(gallery / 'qml', '/Gallery')
+    update_qrcs(gallery)
