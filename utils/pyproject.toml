@@ -1,7 +1,5 @@
 [project]
-authors = [
-  {name = "MenPenS", email = "843261040@qq.com"},
-]
+authors = [{ name = "MenPenS", email = "843261040@qq.com" }]
 dependencies = ["loguru"]
 description = "Add your description here"
 name = "utils"

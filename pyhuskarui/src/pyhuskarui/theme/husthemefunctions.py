@@ -36,6 +36,7 @@ class HusThemeFunctions(QObject):
     def __init__(self, parent = None):
         super().__init__(parent = parent)
 
+    @Slot(int, result = list)
     @Slot(int, bool, QColor, result = list)
     @Slot(QColor, bool, QColor, result = list)
     @staticmethod
@@ -44,7 +45,7 @@ class HusThemeFunctions(QObject):
                  background: QColor = QColor()) -> List[QColor]:
         if isinstance(color, int):
             return HusColorGenerator.generate(HusColorGenerator.Preset(color),
-                                            light, background)
+                                              light, background)
         else:
             return HusColorGenerator.generate(color, light, background)
 

@@ -3,18 +3,12 @@ default = true
 url = "https://mirrors.hust.edu.cn/pypi/web/simple/"
 
 [tool.uv.workspace]
-members = [
-  "pyhuskarui",
-  "utils",
-  "gallery",
-]
+members = ["pyhuskarui", "utils", "gallery"]
 
 [tool.uv.sources]
-gallery = {workspace = true}
-pyhuskarui = {workspace = true}
-utils = {workspace = true}
+gallery = { workspace = true }
+pyhuskarui = { workspace = true }
+utils = { workspace = true }
 
 [dependency-groups]
-dev = [
-  "utils",
-]
+dev = ["utils"]

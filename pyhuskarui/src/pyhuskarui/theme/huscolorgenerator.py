@@ -186,7 +186,7 @@ class HusColorGenerator(QObject):
         else:
             color_obj = color
 
-        patterns =[]
+        patterns = []
         hsv = color_obj.toHsv()
 
         # 生成浅色
@@ -216,7 +216,8 @@ class HusColorGenerator(QObject):
             bg_color = background if background.isValid() else QColor(0x141414)
             for index, amount in dark_color_map:
                 dark_color_string.append(
-                    HusColorGenerator._mix(QColor(bg_color), QColor(patterns[index]), amount))
+                    HusColorGenerator._mix(QColor(bg_color),
+                                           QColor(patterns[index]), amount))
             return dark_color_string
 
         return patterns
