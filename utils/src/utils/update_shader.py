@@ -2,6 +2,9 @@ import os
 import subprocess
 from pathlib import Path
 
+from loguru import logger
+
+
 def generate_qsb(dir_name: Path):
     """generate qsb file"""
 
@@ -23,7 +26,7 @@ def generate_qsb(dir_name: Path):
         output_file = shader_file + ".qsb"
 
         if not os.path.exists(shader_file):
-            print(f"shader file not found: {shader_file}")
+            logger.error(f"shader file not found: {shader_file}")
             return
 
         try:
@@ -44,12 +47,12 @@ def generate_qsb(dir_name: Path):
                 capture_output = True,
                 text = True,
             )
-            print(f"successfully generated: {output_file}")
+            logger.info(f"successfully generated: {output_file}")
         except subprocess.CalledProcessError as e:
-            print(f"generate_resource error: {e}")
-            print(f"error output: {e.stderr}")
+            logger.error(f"generate_resource error: {e}")
+            logger.error(f"error output: {e.stderr}")
         except FileNotFoundError:
-            print(f"pyside6-rcc not found!")
+            logger.error(f"pyside6-rcc not found!")
 
 
 if __name__ == "__main__":

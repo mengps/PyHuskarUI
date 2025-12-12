@@ -1,6 +1,8 @@
 from pathlib import Path
 from importlib.resources import files
 
+from loguru import logger
+
 
 def generate_qmldir(qml_path: Path, module_name: str, prefer: str,
                     version: str, qml_prefix: str) -> None:
@@ -20,7 +22,7 @@ def generate_qmldir(qml_path: Path, module_name: str, prefer: str,
             qmldir.write(
                 f"{file_base_name} {version} {qml_prefix}/{file_name}\n")
 
-    print(f"successfully generated: {qmldir_file}")
+    logger.info(f"successfully generated: {qmldir_file}")
 
 
 if __name__ == "__main__":

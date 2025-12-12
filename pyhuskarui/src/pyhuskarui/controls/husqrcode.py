@@ -22,6 +22,7 @@ from PySide6.QtGui import QImage, QColor
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQuick import QQuickItem, QSGNode, QSGTexture, QQuickWindow
 from PySide6.QtQml import QmlElement, qmlEngine
+from loguru import logger
 
 from .qrcodegen import QrCode
 
@@ -136,7 +137,7 @@ class HusQrCode(QQuickItem):
                     self._icon_reply.finished.connect(
                         self._on_icon_reply_finished)
                 else:
-                    print(
+                    logger.error(
                         "HusQrCode without QmlEngine, we cannot get QNetworkAccessManager!"
                     )
 
@@ -145,7 +146,7 @@ class HusQrCode(QQuickItem):
             self._cached_icon = QImage.fromData(self._icon_reply.readAll())
             self._gen_qr_code()
         else:
-            print(f"Request icon error: {self._icon_reply.errorString()}")
+            logger.error(f"Request icon error: {self._icon_reply.errorString()}")
 
         self._icon_reply.deleteLater()
         self._icon_reply = None

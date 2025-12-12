@@ -20,6 +20,7 @@ import sys
 from PySide6.QtCore import Qt, QUrl, QObject, QFile, QIODevice, QDateTime, Slot
 from PySide6.QtGui import QGuiApplication, QWindow, QDesktopServices
 from PySide6.QtQml import QmlElement, QmlSingleton
+from loguru import logger
 
 if sys.platform == "win32":
     from ctypes import WinDLL
@@ -90,7 +91,7 @@ class HusApi(QObject):
         if file.open(QIODevice.ReadOnly):
             return file.readAll().toStdString()
         else:
-            print("Open file error:", file.errorString())
+            logger.error("Open file error:", file.errorString())
 
         return ""
 

@@ -2,6 +2,8 @@ import os
 import subprocess
 from pathlib import Path
 
+from loguru import logger
+
 
 def generate_qrc(dir_name: Path) -> None:
     """generate qrc file"""
@@ -19,7 +21,7 @@ def generate_rc(dir_name: Path) -> None:
         output_file = os.path.join(dir_name, qrc_name + "_rc.py")
 
         if not os.path.exists(qrc_file):
-            print(f"qrc file not found: {qrc_file}")
+            logger.error(f"qrc file not found: {qrc_file}")
             return
 
         try:
@@ -29,12 +31,12 @@ def generate_rc(dir_name: Path) -> None:
                 capture_output = True,
                 text = True,
             )
-            print(f"successfully generated: {output_file}")
+            logger.info(f"successfully generated: {output_file}")
         except subprocess.CalledProcessError as e:
-            print(f"generate_resource error: {e}")
-            print(f"error output: {e.stderr}")
+            logger.error(f"generate_resource error: {e}")
+            logger.error(f"error output: {e.stderr}")
         except FileNotFoundError:
-            print(f"pyside6-rcc not found!")
+            logger.error(f"pyside6-rcc not found!")
 
 
 if __name__ == "__main__":
