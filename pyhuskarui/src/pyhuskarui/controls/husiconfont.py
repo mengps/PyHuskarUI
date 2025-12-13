@@ -27,8 +27,6 @@ QML_IMPORT_MAJOR_VERSION = 1
 @QmlElement
 @QmlSingleton
 class HusIcon(QObject):
-    
-    @QEnum
     class IconType(Enum):
         HuskarUI = 0xE900
         AccountBookFilled = 0xE901
@@ -1647,7 +1645,9 @@ class HusIcon(QObject):
         IcoMoonSvg = 0xEF51
         IcoMoon = 0xEF52
 
-    @Slot(result = dict)
+    QEnum(IconType)
+
+    @Slot(result=dict)
     @staticmethod
     def allIconNames() -> dict:
         """

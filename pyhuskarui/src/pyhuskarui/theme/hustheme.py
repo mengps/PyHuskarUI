@@ -101,17 +101,18 @@ class HusTheme(QObject):
     主题系统主类，管理整个应用程序的主题
     """
 
-    @QEnum
     class DarkMode(Enum):
         Light = 0
         Dark = 1
         System = 2
 
-    @QEnum
     class TextRenderType(Enum):
         QtRendering = 0
         NativeRendering = 1
         CurveRendering = 2
+
+    QEnum(DarkMode)
+    QEnum(TextRenderType)
 
     # 信号定义
     isDarkChanged = Signal()
