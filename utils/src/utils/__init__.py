@@ -7,6 +7,8 @@ from .update_resource import (
     update_qrcs,
     replace_license,
     gen_qmltypes,
+    gen_pyis,
+    del_pyis,
 )
 
 
@@ -32,3 +34,8 @@ def init():
 
     gen_qmltypes(huaskui, "HuskarUI")
     gen_qmltypes(gallery, "Gallery")
+
+    del_pyis(huaskui)
+    gen_pyis(huaskui)
+    del_pyis(gallery)
+    gen_pyis(gallery)

@@ -171,6 +171,31 @@ def gen_qmltypes(path, name, major="1", minor="0", recursive=True):
     )
 
 
+def del_pyis(p: str | Path):
+    p = Path(p)
+    for f in p.rglob("*.pyi"):
+        logger.info(f"删除文件：{f}")
+        f.unlink()
+
+
+# stubgen .\pyhuskarui\src\pyhuskarui\  -o .\pyhuskarui\src\
+
+
+def gen_pyis(path: str | Path):
+    _p = Path(path).parent
+    uv_run(
+        [
+            "stubgen",
+            path,
+            "-o",
+            _p,
+            # path,
+            "--include-private",
+            "-v",
+        ]
+    )
+
+
 def replace_license(path: Path | str):
     """
     将 path 下的所有文件开头的 MIT 版权声明替换为 Apache 2.0 版权声明
