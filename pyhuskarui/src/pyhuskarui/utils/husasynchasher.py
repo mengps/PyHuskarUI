@@ -15,8 +15,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from PySide6.QtCore import (QObject, Property, Signal, QUrl, QByteArray,
-                            QThreadPool, QBuffer, QRunnable, QIODevice, QEnum)
+from PySide6.QtCore import (
+    QObject,
+    Property,
+    Signal,
+    QUrl,
+    QByteArray,
+    QThreadPool,
+    QBuffer,
+    QRunnable,
+    QIODevice,
+    QEnum,
+)
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQml import QmlElement, qmlEngine
 from PySide6.QtCore import QCryptographicHash
@@ -32,8 +42,7 @@ class AsyncRunnable(QObject, QRunnable):
     progress = Signal(int, int)  # processed, total
     finished = Signal(str)  # hash result
 
-    def __init__(self, device: QIODevice,
-                 algorithm: QCryptographicHash.Algorithm):
+    def __init__(self, device: QIODevice, algorithm: QCryptographicHash.Algorithm):
         QObject.__init__(self)
         QRunnable.__init__(self)
         self._device = device
@@ -99,7 +108,7 @@ class HusAsyncHasher(QObject):
 
     QEnum(QCryptographicHash.Algorithm)
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super().__init__(parent)
 
         # 初始化私有变量
@@ -123,7 +132,7 @@ class HusAsyncHasher(QObject):
             self._runnable.deleteLater()
             self._runnable = None
 
-    @Property(QCryptographicHash.Algorithm, notify = algorithmChanged)
+    @Property(QCryptographicHash.Algorithm, notify=algorithmChanged)
     def algorithm(self) -> QCryptographicHash.Algorithm:
         return self._algorithm
 
@@ -134,7 +143,7 @@ class HusAsyncHasher(QObject):
             self.algorithmChanged.emit()
             self.hashLengthChanged.emit()
 
-    @Property(bool, notify = asynchronousChanged)
+    @Property(bool, notify=asynchronousChanged)
     def asynchronous(self) -> bool:
         return self._asynchronous
 
@@ -144,15 +153,15 @@ class HusAsyncHasher(QObject):
             self._asynchronous = isAsync
             self.asynchronousChanged.emit()
 
-    @Property(str, notify = hashValueChanged)
+    @Property(str, notify=hashValueChanged)
     def hashValue(self) -> str:
         return self._hashValue
 
-    @Property(int, notify = hashLengthChanged)
+    @Property(int, notify=hashLengthChanged)
     def hashLength(self) -> int:
         return QCryptographicHash.hashLength(self._algorithm)
 
-    @Property(QUrl, notify = sourceChanged)
+    @Property(QUrl, notify=sourceChanged)
     def source(self) -> QUrl:
         return self._source
 
@@ -167,6 +176,7 @@ class HusAsyncHasher(QObject):
             if source.isLocalFile():
                 # 本地文件
                 from PySide6.QtCore import QFile
+
                 file = QFile(source.toLocalFile())
                 if file.open(QIODevice.ReadOnly):
                     self.started.emit()
@@ -180,8 +190,7 @@ class HusAsyncHasher(QObject):
                         # 同步计算
                         hash_obj = QCryptographicHash(self._algorithm)
                         hash_obj.addData(file)
-                        self._setHashValue(
-                            hash_obj.result().toHex().toUpper().toStdString())
+                        self._setHashValue(hash_obj.result().toHex().toUpper().toStdString())
                         file.deleteLater()
                 else:
                     logger.error(f"File Error: {file.errorString()}")
@@ -192,16 +201,14 @@ class HusAsyncHasher(QObject):
                     self._reply.abort()
 
                 self.started.emit()
-                
+
                 if qmlEngine(self):
                     manager = qmlEngine(self).networkAccessManager()
                     if manager:
                         self._reply = manager.get(QNetworkRequest(source))
                         self._reply.finished.connect(self._on_network_reply_finished)
                     else:
-                        logger.error(
-                                "HusAsyncHasher without QmlEngine, we cannot get QNetworkAccessManager!"
-                            )
+                        logger.error("HusAsyncHasher without QmlEngine, we cannot get QNetworkAccessManager!")
 
     def _on_network_reply_finished(self):
         """网络请求完成"""
@@ -214,8 +221,7 @@ class HusAsyncHasher(QObject):
             else:
                 hash_obj = QCryptographicHash(self._algorithm)
                 hash_obj.addData(self._reply.readAll())
-                self._setHashValue(
-                    hash_obj.result().toHex().toUpper().toStdString())
+                self._setHashValue(hash_obj.result().toHex().toUpper().toStdString())
                 self._reply.deleteLater()
         else:
             logger.error(f"HTTP Request Error: {self._reply.errorString()}")
@@ -223,7 +229,7 @@ class HusAsyncHasher(QObject):
 
         self._reply = None
 
-    @Property(str, notify = sourceTextChanged)
+    @Property(str, notify=sourceTextChanged)
     def sourceText(self) -> str:
         return self._sourceText
 
@@ -249,10 +255,9 @@ class HusAsyncHasher(QObject):
                 # 同步计算
                 hash_obj = QCryptographicHash(self._algorithm)
                 hash_obj.addData(sourceText.encode("utf-8"))
-                self._setHashValue(
-                    hash_obj.result().toHex().toUpper().toStdString())
+                self._setHashValue(hash_obj.result().toHex().toUpper().toStdString())
 
-    @Property(QByteArray, notify = sourceDataChanged)
+    @Property(QByteArray, notify=sourceDataChanged)
     def sourceData(self) -> QByteArray:
         return self._sourceData
 
@@ -278,10 +283,9 @@ class HusAsyncHasher(QObject):
                 # 同步计算
                 hash_obj = QCryptographicHash(self._algorithm)
                 hash_obj.addData(sourceData)
-                self._setHashValue(
-                    hash_obj.result().toHex().toUpper().toStdString())
+                self._setHashValue(hash_obj.result().toHex().toUpper().toStdString())
 
-    @Property(QObject, notify = sourceObjectChanged)
+    @Property(QObject, notify=sourceObjectChanged)
     def sourceObject(self) -> QObject:
         return self._sourceObject
 
@@ -291,11 +295,10 @@ class HusAsyncHasher(QObject):
             self._sourceObject = sourceObject
             self.sourceObjectChanged.emit()
             self.started.emit()
-            
+
             hash_obj = QCryptographicHash(self._algorithm)
             hash_obj.addData(str(id(sourceObject)).encode("utf-8"))
-            self._setHashValue(
-                hash_obj.result().toHex().toUpper().toStdString())
+            self._setHashValue(hash_obj.result().toHex().toUpper().toStdString())
 
     def _setHashValue(self, value: str):
         """设置哈希值（内部方法）"""
@@ -312,8 +315,7 @@ class HusAsyncHasher(QObject):
 
     # 静态方法
     @staticmethod
-    def hash(data: QByteArray,
-             algorithm: QCryptographicHash.Algorithm) -> QByteArray:
+    def hash(data: QByteArray, algorithm: QCryptographicHash.Algorithm) -> QByteArray:
         """静态哈希计算方法"""
         hash_obj = QCryptographicHash(algorithm)
         hash_obj.addData(data)

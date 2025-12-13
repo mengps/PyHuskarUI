@@ -21,14 +21,16 @@ from PySide6.QtCore import QObject
 QML_IMPORT_NAME = "Gallery"
 QML_IMPORT_MAJOR_VERSION = 1
 
+
 @QmlElement
 @QmlSingleton
 class CustomTheme(QObject):
     """
     Custom Theme class.
     """
+
     def __init__(self, parent: QObject = None) -> None:
-        super().__init__(parent = parent)
+        super().__init__(parent=parent)
 
     def registerAll(self) -> None:
         """

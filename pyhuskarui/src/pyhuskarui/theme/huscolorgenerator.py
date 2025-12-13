@@ -28,8 +28,7 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 @QmlElement
 class HusColorGenerator(QObject):
-
-    #@QEnum
+    # @QEnum
     class Preset(IntEnum):
         Preset_None = 0
         Preset_Red = 1
@@ -70,7 +69,7 @@ class HusColorGenerator(QObject):
         Preset.Preset_Geekblue.value: QColor(0x2F54EB),
         Preset.Preset_Purple.value: QColor(0x722ED1),
         Preset.Preset_Magenta.value: QColor(0xEB2F96),
-        Preset.Preset_Grey.value: QColor(0x666666)
+        Preset.Preset_Grey.value: QColor(0x666666),
     }
 
     preset_str_table = {
@@ -86,10 +85,10 @@ class HusColorGenerator(QObject):
         "Preset_Geekblue": QColor(0x2F54EB),
         "Preset_Purple": QColor(0x722ED1),
         "Preset_Magenta": QColor(0xEB2F96),
-        "Preset_Grey": QColor(0x666666)
+        "Preset_Grey": QColor(0x666666),
     }
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super().__init__(parent)
 
     @staticmethod
@@ -98,7 +97,8 @@ class HusColorGenerator(QObject):
         return QColor.fromRgbF(
             (rgb2.redF() - rgb1.redF()) * p + rgb1.redF(),
             (rgb2.greenF() - rgb1.greenF()) * p + rgb1.greenF(),
-            (rgb2.blueF() - rgb1.blueF()) * p + rgb1.blueF())
+            (rgb2.blueF() - rgb1.blueF()) * p + rgb1.blueF(),
+        )
 
     @staticmethod
     def _get_hue(hsv: QColor, i: int, light: bool = False) -> float:
@@ -121,14 +121,11 @@ class HusColorGenerator(QObject):
             return hsv.hsvSaturation()
 
         if light:
-            saturation = hsv.hsvSaturationF(
-            ) - HusColorGenerator.SATURATION_STEP * i
+            saturation = hsv.hsvSaturationF() - HusColorGenerator.SATURATION_STEP * i
         elif i == HusColorGenerator.DARK_COLOR_COUNT:
-            saturation = hsv.hsvSaturationF(
-            ) + HusColorGenerator.SATURATION_STEP
+            saturation = hsv.hsvSaturationF() + HusColorGenerator.SATURATION_STEP
         else:
-            saturation = hsv.hsvSaturationF(
-            ) + HusColorGenerator.SATURATION_STEP2 * i
+            saturation = hsv.hsvSaturationF() + HusColorGenerator.SATURATION_STEP2 * i
 
         if saturation > 1:
             saturation = 1
@@ -151,13 +148,12 @@ class HusColorGenerator(QObject):
 
         return value
 
-    @Slot(QColor, result = QColor)
+    @Slot(QColor, result=QColor)
     @staticmethod
     def reverseColor(color: QColor) -> QColor:
-        return QColor(255 - color.red(), 255 - color.green(),
-                      255 - color.blue(), color.alpha())
+        return QColor(255 - color.red(), 255 - color.green(), 255 - color.blue(), color.alpha())
 
-    @Slot(int, result = QColor)
+    @Slot(int, result=QColor)
     @staticmethod
     def presetToColor(color: int | Preset | str) -> QColor:
         if isinstance(color, HusColorGenerator.Preset):
@@ -175,12 +171,9 @@ class HusColorGenerator(QObject):
 
         return QColor()
 
-    @Slot(QColor, bool, QColor, result = List[QColor])
+    @Slot(QColor, bool, QColor, result=List[QColor])
     @staticmethod
-    def generate(
-        color: Union[Preset, QColor],
-        light: bool = True,
-        background: QColor = QColor()) -> List[QColor]:
+    def generate(color: Union[Preset, QColor], light: bool = True, background: QColor = QColor()) -> List[QColor]:
         if isinstance(color, HusColorGenerator.Preset):
             color_obj = HusColorGenerator.presetToColor(color)
         else:
@@ -210,14 +203,11 @@ class HusColorGenerator(QObject):
 
         # 暗黑主题处理
         if not light:
-            dark_color_map = [(7, 15), (6, 25), (5, 30), (5, 45), (5, 65),
-                              (5, 85), (4, 90), (3, 95), (2, 97), (1, 98)]
+            dark_color_map = [(7, 15), (6, 25), (5, 30), (5, 45), (5, 65), (5, 85), (4, 90), (3, 95), (2, 97), (1, 98)]
             dark_color_string = []
             bg_color = background if background.isValid() else QColor(0x141414)
             for index, amount in dark_color_map:
-                dark_color_string.append(
-                    HusColorGenerator._mix(QColor(bg_color),
-                                           QColor(patterns[index]), amount))
+                dark_color_string.append(HusColorGenerator._mix(QColor(bg_color), QColor(patterns[index]), amount))
             return dark_color_string
 
         return patterns

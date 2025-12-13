@@ -101,13 +101,9 @@ def gen_qmldir(
     qmldir = _ps[0].parent / "qmldir"
 
     with qmldir.open("w", encoding="utf-8") as f:
-        f.write(
-            f"module {qml_module}\ntypeinfo plugins.qmltypes\nprefer {qml_prefix}\n"
-        )
+        f.write(f"module {qml_module}\ntypeinfo plugins.qmltypes\nprefer {qml_prefix}\n")
         for qml in _ps:
-            f.write(
-                f"{qml.stem} {version} {qml.relative_to(folder_path.parent).as_posix()}\n"
-            )
+            f.write(f"{qml.stem} {version} {qml.relative_to(folder_path.parent).as_posix()}\n")
 
 
 def gen_qrc(path: Path | str, qrc_prefix: str = "/qt/qml"):
@@ -144,9 +140,7 @@ def gen_qmltypes(path, name, major="1", minor="0", recursive=True):
     if recursive:
         py_files = list(project_path.rglob("*.py"))
     else:
-        py_files = [
-            f for f in project_path.iterdir() if f.is_file() and f.suffix == ".py"
-        ]
+        py_files = [f for f in project_path.iterdir() if f.is_file() and f.suffix == ".py"]
 
     metadata_path = project_path / "metadata.json"
     qmltypes_path = project_path / "plugins.qmltypes"

@@ -51,16 +51,16 @@ class HusApp(QObject):
     """
 
     def __init__(self, parent: QObject = None) -> None:
-        super().__init__(parent = parent)
-        
+        super().__init__(parent=parent)
+
     @staticmethod
     def initialize(engine: QQmlEngine) -> None:
         """
         Initialize the HusApp class.
         """
         QFontDatabase.addApplicationFont(":/HuskarUI/resources/font/HuskarUI-Icons.ttf")
-        
-    @Slot(result = str)
+
+    @Slot(result=str)
     @staticmethod
     def libName() -> str:
         """
@@ -68,7 +68,7 @@ class HusApp(QObject):
         """
         return pyhuskarui.__name__
 
-    @Slot(result = str)
+    @Slot(result=str)
     @staticmethod
     def libVersion() -> str:
         """

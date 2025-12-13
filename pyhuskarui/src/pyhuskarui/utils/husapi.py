@@ -39,15 +39,14 @@ class HusApi(QObject):
     """
 
     def __init__(self, parent: QObject = None) -> None:
-        super().__init__(parent = parent)
+        super().__init__(parent=parent)
 
     @Slot(QWindow, bool)
     def setWindowStaysOnTopHint(self, window: QWindow, hint: bool) -> None:
         if window is not None:
             if sys.platform == "win32":
                 hwnd = window.winId()
-                user32.SetWindowPos(hwnd, -1 if hint else -2, 0, 0, 0, 0,
-                                    0x0001)
+                user32.SetWindowPos(hwnd, -1 if hint else -2, 0, 0, 0, 0, 0x0001)
             else:
                 window.setFlag(Qt.WindowType.WindowStaysOnTopHint, hint)
 
@@ -62,13 +61,12 @@ class HusApi(QObject):
 
     @Slot(QObject)
     @Slot(QObject, bool, bool)
-    def setPopupAllowAutoFlip(self,
-                              popup: QObject,
-                              allowVerticalFlip: bool = True,
-                              allowHorizontalFlip: bool = True) -> None:
+    def setPopupAllowAutoFlip(
+        self, popup: QObject, allowVerticalFlip: bool = True, allowHorizontalFlip: bool = True
+    ) -> None:
         pass
 
-    @Slot(result = str)
+    @Slot(result=str)
     def getClipbordText(self) -> str:
         clipboard = QGuiApplication.clipboard()
         if clipboard is not None:
@@ -76,7 +74,7 @@ class HusApi(QObject):
         else:
             return ""
 
-    @Slot(str, result = bool)
+    @Slot(str, result=bool)
     def setClipbordText(self, text: str) -> bool:
         clipboard = QGuiApplication.clipboard()
         if clipboard is not None:
@@ -85,7 +83,7 @@ class HusApi(QObject):
         else:
             return False
 
-    @Slot(str, result = str)
+    @Slot(str, result=str)
     def readFileToString(self, fileName: str) -> str:
         file = QFile(fileName)
         if file.open(QIODevice.ReadOnly):
@@ -95,11 +93,11 @@ class HusApi(QObject):
 
         return ""
 
-    @Slot(QDateTime, result = int)
+    @Slot(QDateTime, result=int)
     def getWeekNumber(self, dateTime: QDateTime) -> int:
         return dateTime.date().weekNumber()[0]
 
-    @Slot(str, str, result = QDateTime)
+    @Slot(str, str, result=QDateTime)
     def dateFromString(self, dateTime: str, format: str) -> QDateTime:
         """从字符串中解析日期时间
 

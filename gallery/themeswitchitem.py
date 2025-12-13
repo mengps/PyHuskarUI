@@ -15,8 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from PySide6.QtCore import (QPropertyAnimation, QPoint, QPointF, QSize, 
-                            QEasingCurve, Property, Slot, Signal)
+from PySide6.QtCore import QPropertyAnimation, QPoint, QPointF, QSize, QEasingCurve, Property, Slot, Signal
 from PySide6.QtGui import QPainter, QPainterPath, QImage, QColor
 from PySide6.QtQuick import QQuickItem, QQuickPaintedItem, QQuickItemGrabResult
 from PySide6.QtQml import QmlElement
@@ -27,7 +26,6 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 @QmlElement
 class ThemeSwitchItem(QQuickPaintedItem):
-    
     switchStarted = Signal()
     animationFinished = Signal()
 
@@ -37,7 +35,7 @@ class ThemeSwitchItem(QQuickPaintedItem):
     isDarkChanged = Signal()
     targetChanged = Signal()
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super().__init__(parent)
 
         # 初始化属性
@@ -70,7 +68,7 @@ class ThemeSwitchItem(QQuickPaintedItem):
     def _onDurationChanged(self):
         self._animation.setDuration(self._duration)
 
-    @Property(int, notify = radiusChanged)
+    @Property(int, notify=radiusChanged)
     def radius(self):
         return self._radius
 
@@ -80,7 +78,7 @@ class ThemeSwitchItem(QQuickPaintedItem):
             self._radius = radius
             self.radiusChanged.emit()
 
-    @Property(int, notify = durationChanged)
+    @Property(int, notify=durationChanged)
     def duration(self):
         return self._duration
 
@@ -90,7 +88,7 @@ class ThemeSwitchItem(QQuickPaintedItem):
             self._duration = duration
             self.durationChanged.emit()
 
-    @Property(QColor, notify = colorBgChanged)
+    @Property(QColor, notify=colorBgChanged)
     def colorBg(self):
         return self._colorBg
 
@@ -100,7 +98,7 @@ class ThemeSwitchItem(QQuickPaintedItem):
             self._colorBg = colorBg
             self.colorBgChanged.emit()
 
-    @Property(bool, notify = isDarkChanged)
+    @Property(bool, notify=isDarkChanged)
     def isDark(self):
         return self._isDark
 
@@ -110,7 +108,7 @@ class ThemeSwitchItem(QQuickPaintedItem):
             self._isDark = isDark
             self.isDarkChanged.emit()
 
-    @Property(QQuickItem, notify = targetChanged)
+    @Property(QQuickItem, notify=targetChanged)
     def target(self):
         return self._target
 
@@ -131,8 +129,7 @@ class ThemeSwitchItem(QQuickPaintedItem):
         # 创建圆形路径
         path = QPainterPath()
         path.moveTo(self._center.x(), self._center.y())
-        path.addEllipse(QPointF(self._center.x(), self._center.y()),
-                        self._radius, self._radius)
+        path.addEllipse(QPointF(self._center.x(), self._center.y()), self._radius, self._radius)
 
         # 设置合成模式
         painter.setCompositionMode(QPainter.CompositionMode_Xor)

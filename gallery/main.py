@@ -35,10 +35,9 @@ from customtheme import *
 from themeswitchitem import *
 
 if __name__ == "__main__":
-    
     # 设置渲染后端, 目前来说不需要
-    #QQuickWindow.setGraphicsApi(QSGRendererInterface.GraphicsApi.OpenGL)
-    #QQuickWindow.setDefaultAlphaBuffer(True)
+    # QQuickWindow.setGraphicsApi(QSGRendererInterface.GraphicsApi.OpenGL)
+    # QQuickWindow.setDefaultAlphaBuffer(True)
 
     QGuiApplication.setOrganizationName("MenPenS")
     QGuiApplication.setApplicationName("PyHuskarUI")
@@ -47,18 +46,19 @@ if __name__ == "__main__":
 
     app = QGuiApplication(sys.argv)
     app.setWindowIcon(QIcon(":/Gallery/images/huskarui_icon.ico"))
-    
+
     engine = QQmlApplicationEngine()
     engine.singletonInstance("Gallery", "CustomTheme").registerAll()
-    
+
     HusApp.initialize(engine)
 
     url = QUrl("qrc:/Gallery/qml/Gallery.qml")
-    engine.objectCreated.connect(lambda obj, obj_url: (
-        sys.exit(-1) if obj is None and url == obj_url else None
-    ), Qt.ConnectionType.QueuedConnection)
+    engine.objectCreated.connect(
+        lambda obj, obj_url: (sys.exit(-1) if obj is None and url == obj_url else None),
+        Qt.ConnectionType.QueuedConnection,
+    )
     engine.load(url)
-    
+
     res = app.exec()
     del engine
 

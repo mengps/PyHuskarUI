@@ -39,7 +39,7 @@ if sys.platform == "win32":
             wintypes.HWND,  # hwnd
             wintypes.DWORD,  # dwAttribute
             ctypes.c_void_p,  # pvAttribute
-            wintypes.DWORD  # cbAttribute
+            wintypes.DWORD,  # cbAttribute
         ]
         DwmSetWindowAttribute.restype = wintypes.HRESULT
 
@@ -65,6 +65,7 @@ class HusSystemThemeHelper(QObject):
 
     class ColorScheme(Enum):
         """颜色方案枚举"""
+
         Unknown = 0
         Light = 1
         Dark = 2
@@ -75,51 +76,50 @@ class HusSystemThemeHelper(QObject):
     colorSchemeChanged = Signal(ColorScheme)
 
     def __init__(self, parent: QObject = None) -> None:
-        super().__init__(parent = parent)
+        super().__init__(parent=parent)
 
         self._themeColor = QPalette().color(QPalette.ColorRole.Accent)
         self._timer = QBasicTimer(self)
         self._timer.start(200, self)
 
-        QGuiApplication.styleHints().colorSchemeChanged.connect(
-            self._on_color_scheme_changed)
-        
+        QGuiApplication.styleHints().colorSchemeChanged.connect(self._on_color_scheme_changed)
+
     def _on_color_scheme_changed(self, color_scheme: Qt.ColorScheme):
         """
         颜色方案改变事件处理
         """
         self.colorSchemeChanged.emit(color_scheme.value)
 
-    @Property(QColor, notify = themeColorChanged)
+    @Property(QColor, notify=themeColorChanged)
     def themeColor(self) -> QColor:
         """
         获取当前主题颜色（可用于绑定）
-        
+
         Returns:
             QColor: 当前系统主题颜色
         """
         return self._themeColor
 
-    @Property(ColorScheme, notify = colorSchemeChanged)
+    @Property(ColorScheme, notify=colorSchemeChanged)
     def colorScheme(self) -> ColorScheme:
         """
         获取当前颜色方案（可用于绑定）
-        
+
         Returns:
             ColorScheme: 当前颜色方案
         """
-        return HusSystemThemeHelper.ColorScheme(QGuiApplication.styleHints().colorScheme().value)    
+        return HusSystemThemeHelper.ColorScheme(QGuiApplication.styleHints().colorScheme().value)
 
-    @Slot(QWindow, bool, result = bool)
+    @Slot(QWindow, bool, result=bool)
     @staticmethod
     def setWindowTitleBarMode(window: QWindow, is_dark: bool) -> bool:
         """
         设置窗口标题栏模式（深色/浅色）
-        
+
         Args:
             window: 要设置的窗口对象
             is_dark: 是否为深色模式
-            
+
         Returns:
             bool: 设置是否成功
         """
@@ -131,7 +131,7 @@ class HusSystemThemeHelper(QObject):
 
         try:
             # 获取窗口句柄
-            if hasattr(window, 'winId'):
+            if hasattr(window, "winId"):
                 hwnd = window.winId()
             else:
                 return False
@@ -141,8 +141,7 @@ class HusSystemThemeHelper(QObject):
             size = ctypes.sizeof(ctypes.c_int)
 
             # 调用Windows API
-            result = DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE,
-                                           ctypes.byref(dark_mode), size)
+            result = DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, ctypes.byref(dark_mode), size)
 
             # HRESULT为0表示成功
             return result == 0

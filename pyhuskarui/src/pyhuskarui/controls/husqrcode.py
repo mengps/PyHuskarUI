@@ -17,7 +17,7 @@
 
 from enum import Enum
 
-from PySide6.QtCore import (QObject, QUrl, Signal, Property, QSize, Qt, QEnum)
+from PySide6.QtCore import QObject, QUrl, Signal, Property, QSize, Qt, QEnum
 from PySide6.QtGui import QImage, QColor
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQuick import QQuickItem, QSGNode, QSGTexture, QQuickWindow
@@ -36,13 +36,13 @@ class HusIconSettings(QObject):
     widthChanged = Signal()
     heightChanged = Signal()
 
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super().__init__(parent)
         self._url = QUrl()
         self._width = 40.0
         self._height = 40.0
 
-    @Property(QUrl, notify = urlChanged)
+    @Property(QUrl, notify=urlChanged)
     def url(self) -> QUrl:
         return self._url
 
@@ -52,7 +52,7 @@ class HusIconSettings(QObject):
             self._url = url
             self.urlChanged.emit()
 
-    @Property(float, notify = widthChanged)
+    @Property(float, notify=widthChanged)
     def width(self) -> float:
         return self._width
 
@@ -62,7 +62,7 @@ class HusIconSettings(QObject):
             self._width = width
             self.widthChanged.emit()
 
-    @Property(float, notify = heightChanged)
+    @Property(float, notify=heightChanged)
     def height(self) -> float:
         return self._height
 
@@ -75,9 +75,9 @@ class HusIconSettings(QObject):
     def is_valid(self) -> bool:
         return self._url.isValid() and self._width > 0 and self._height > 0
 
+
 @QmlElement
 class HusQrCode(QQuickItem):
-
     class ErrorLevel(Enum):
         Low = 0  # The QR Code can tolerate about  7% erroneous codewords
         Medium = 1  # The QR Code can tolerate about 15% erroneous codewords
@@ -93,8 +93,8 @@ class HusQrCode(QQuickItem):
     colorBgChanged = Signal()
     errorLevelChanged = Signal()
 
-    def __init__(self, parent = None):
-        super().__init__(parent = parent)
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
         self._qr_code_image = QImage()
         self._text: str = ""
         self._qr_code_change = False
@@ -132,14 +132,10 @@ class HusQrCode(QQuickItem):
 
                 network_manager = qmlEngine(self).networkAccessManager()
                 if network_manager:
-                    self._icon_reply = network_manager.get(
-                        QNetworkRequest(url))
-                    self._icon_reply.finished.connect(
-                        self._on_icon_reply_finished)
+                    self._icon_reply = network_manager.get(QNetworkRequest(url))
+                    self._icon_reply.finished.connect(self._on_icon_reply_finished)
                 else:
-                    logger.error(
-                        "HusQrCode without QmlEngine, we cannot get QNetworkAccessManager!"
-                    )
+                    logger.error("HusQrCode without QmlEngine, we cannot get QNetworkAccessManager!")
 
     def _on_icon_reply_finished(self):
         if self._icon_reply.error() == QNetworkReply.NoError:
@@ -156,7 +152,7 @@ class HusQrCode(QQuickItem):
             HusQrCode.ErrorLevel.Low: QrCode.Ecc.LOW,
             HusQrCode.ErrorLevel.Medium: QrCode.Ecc.MEDIUM,
             HusQrCode.ErrorLevel.Quartile: QrCode.Ecc.QUARTILE,
-            HusQrCode.ErrorLevel.High: QrCode.Ecc.HIGH
+            HusQrCode.ErrorLevel.High: QrCode.Ecc.HIGH,
         }
 
         ecc = ecc_map.get(self._error_level, QrCode.Ecc.MEDIUM)
@@ -166,27 +162,21 @@ class HusQrCode(QQuickItem):
         qr_margin = qr_size + self._margin
         source_size = qr_size + self._margin * 2
 
-        self._qr_code_image = QImage(source_size, source_size,
-                                     QImage.Format_ARGB32)
+        self._qr_code_image = QImage(source_size, source_size, QImage.Format_ARGB32)
         self._qr_code_image.fill(Qt.transparent)
 
         for y in range(-self.margin, qr_margin):
             for x in range(-self.margin, qr_margin):
                 if x < 0 or y < 0 or x >= qr_size or y >= qr_size:
-                    self._qr_code_image.setPixelColor(x + self.margin,
-                                                      y + self.margin,
-                                                      self._color_margin)
+                    self._qr_code_image.setPixelColor(x + self.margin, y + self.margin, self._color_margin)
                 else:
                     if qr.get_module(x, y):
-                        self._qr_code_image.setPixelColor(
-                            x + self.margin, y + self.margin, self._color)
+                        self._qr_code_image.setPixelColor(x + self.margin, y + self.margin, self._color)
                     else:
-                        self._qr_code_image.setPixelColor(
-                            x + self.margin, y + self.margin, self._color_bg)
+                        self._qr_code_image.setPixelColor(x + self.margin, y + self.margin, self._color_bg)
 
         if self.width() > 0 and self.height() > 0:
-            self._qr_code_image = self._qr_code_image.scaled(
-                int(self.width()), int(self.height()))
+            self._qr_code_image = self._qr_code_image.scaled(int(self.width()), int(self.height()))
 
         if self._icon and self._icon.is_valid() and not self._cached_icon.isNull():
             iconWidth = min(self._qr_code_image.width(), self._icon.width)
@@ -203,7 +193,7 @@ class HusQrCode(QQuickItem):
         self._qr_code_change = True
         self.update()
 
-    @Property(str, notify = textChanged)
+    @Property(str, notify=textChanged)
     def text(self) -> str:
         return self._text
 
@@ -214,7 +204,7 @@ class HusQrCode(QQuickItem):
             self.textChanged.emit()
             self._gen_qr_code()
 
-    @Property(int, notify = marginChanged)
+    @Property(int, notify=marginChanged)
     def margin(self) -> int:
         return self._margin
 
@@ -225,7 +215,7 @@ class HusQrCode(QQuickItem):
             self.marginChanged.emit()
             self._gen_qr_code()
 
-    @Property(QColor, notify = colorChanged)
+    @Property(QColor, notify=colorChanged)
     def color(self) -> QColor:
         return self._color
 
@@ -236,7 +226,7 @@ class HusQrCode(QQuickItem):
             self.colorChanged.emit()
             self._gen_qr_code()
 
-    @Property(QColor, notify = colorMarginChanged)
+    @Property(QColor, notify=colorMarginChanged)
     def colorMargin(self) -> QColor:
         return self._color_margin
 
@@ -247,7 +237,7 @@ class HusQrCode(QQuickItem):
             self.colorMarginChanged.emit()
             self._gen_qr_code()
 
-    @Property(QColor, notify = colorBgChanged)
+    @Property(QColor, notify=colorBgChanged)
     def colorBg(self) -> QColor:
         return self._color_bg
 
@@ -258,7 +248,7 @@ class HusQrCode(QQuickItem):
             self.colorBgChanged.emit()
             self._gen_qr_code()
 
-    @Property(int, notify = errorLevelChanged)
+    @Property(int, notify=errorLevelChanged)
     def errorLevel(self) -> int:
         return self._error_level
 
@@ -269,7 +259,7 @@ class HusQrCode(QQuickItem):
             self.errorLevelChanged.emit()
             self._gen_qr_code()
 
-    @Property(HusIconSettings, constant = True)
+    @Property(HusIconSettings, constant=True)
     def icon(self) -> HusIconSettings:
         if not self._icon:
             self._icon = HusIconSettings(self)
@@ -284,16 +274,15 @@ class HusQrCode(QQuickItem):
         if not self._qr_code_image.isNull():
             if not node:
                 node = self.window().createImageNode()
-                texture = self.window().createTextureFromImage(
-                    self._qr_code_image, QQuickWindow.TextureHasAlphaChannel)
+                texture = self.window().createTextureFromImage(self._qr_code_image, QQuickWindow.TextureHasAlphaChannel)
                 node.setTexture(texture)
                 node.setFiltering(QSGTexture.Linear)
                 node.setOwnsTexture(True)
             else:
                 if self._qr_code_change:
                     texture = self.window().createTextureFromImage(
-                        self._qr_code_image,
-                        QQuickWindow.TextureHasAlphaChannel)
+                        self._qr_code_image, QQuickWindow.TextureHasAlphaChannel
+                    )
                     node.setTexture(texture)
                     self._qr_code_change = False
 

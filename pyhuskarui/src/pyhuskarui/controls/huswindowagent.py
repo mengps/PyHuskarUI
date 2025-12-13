@@ -18,7 +18,7 @@
 from PySide6.QtCore import QObject, Slot
 from PySide6.QtQuick import QQuickItem
 from PySide6.QtGui import QWindow
-from PySide6.QtQml import QmlElement, QPyQmlParserStatus 
+from PySide6.QtQml import QmlElement, QPyQmlParserStatus
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -26,18 +26,17 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 @QmlElement
 class HusWindowAgent(QPyQmlParserStatus):
-    
     def __init__(self, parent: QObject = None) -> None:
-        super().__init__(parent = parent)
+        super().__init__(parent=parent)
         self._host_window: QWindow = None
-        
+
     def _setup(self, window: QWindow) -> None:
         """
         Setup the window agent.
         """
         self._host_window = window
         pass
-    
+
     def classBegin(self) -> None:
         """
         Class begin.
@@ -46,35 +45,35 @@ class HusWindowAgent(QPyQmlParserStatus):
         assert p is not None, "HusWindowAgent parent() return nullptr!"
         if p.objectName() == "__HusWindow__":
             self._setup(p)
-    
+
     def componentComplete(self) -> None:
         """
         Component complete.
         """
         pass
-        
-    @Slot(QQuickItem, result = bool)
+
+    @Slot(QQuickItem, result=bool)
     def setTitleBar(self, item: QQuickItem) -> bool:
         """
         Set the title bar item.
         """
         return False
-    
-    @Slot(int, QQuickItem, result = bool)
+
+    @Slot(int, QQuickItem, result=bool)
     def setSystemButton(self, button: int, item: QQuickItem) -> bool:
         """
         Set the system button visible.
         """
         return False
-    
-    @Slot(QQuickItem, bool, result = bool)
+
+    @Slot(QQuickItem, bool, result=bool)
     def setHitTestVisible(self, item: QQuickItem, visible: bool) -> bool:
         """
         Set the hit test visible.
         """
         return False
-    
-    @Slot(str, bool, result = bool)
+
+    @Slot(str, bool, result=bool)
     def setWindowAttribute(self, attribute: str, value: bool) -> bool:
         """
         Set the window attribute.

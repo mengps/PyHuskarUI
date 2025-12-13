@@ -15,8 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from PySide6.QtCore import (Property, Signal, QUrl, QRectF, QSize, QPointF,
-                            QLoggingCategory)
+from PySide6.QtCore import Property, Signal, QUrl, QRectF, QSize, QPointF, QLoggingCategory
 from PySide6.QtGui import QPainter, QFont, QColor, QImage, QFontMetricsF
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQuick import QQuickPaintedItem
@@ -32,7 +31,6 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 @QmlElement
 class HusWatermark(QQuickPaintedItem):
-
     textChanged = Signal()
     imageChanged = Signal()
     markSizeChanged = Signal()
@@ -42,8 +40,8 @@ class HusWatermark(QQuickPaintedItem):
     fontChanged = Signal()
     colorTextChanged = Signal()
 
-    def __init__(self, parent = None):
-        super().__init__(parent = parent)
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
 
         self._text = ""
         self._image = QUrl()
@@ -61,7 +59,7 @@ class HusWatermark(QQuickPaintedItem):
 
         self.setAntialiasing(True)
 
-    @Property(str, notify = textChanged)
+    @Property(str, notify=textChanged)
     def text(self):
         return self._text
 
@@ -73,7 +71,7 @@ class HusWatermark(QQuickPaintedItem):
             self._updateMarkSize()
             self.update()
 
-    @Property(QUrl, notify = imageChanged)
+    @Property(QUrl, notify=imageChanged)
     def image(self):
         return self._image
 
@@ -85,7 +83,7 @@ class HusWatermark(QQuickPaintedItem):
             self._updateImage()
             self.update()
 
-    @Property(QSize, notify = markSizeChanged)
+    @Property(QSize, notify=markSizeChanged)
     def markSize(self):
         return self._markSize
 
@@ -97,7 +95,7 @@ class HusWatermark(QQuickPaintedItem):
             self.markSizeChanged.emit()
             self.update()
 
-    @Property(QPointF, notify = gapChanged)
+    @Property(QPointF, notify=gapChanged)
     def gap(self):
         return self._gap
 
@@ -108,7 +106,7 @@ class HusWatermark(QQuickPaintedItem):
             self.gapChanged.emit()
             self.update()
 
-    @Property(QPointF, notify = offsetChanged)
+    @Property(QPointF, notify=offsetChanged)
     def offset(self):
         return self._offset
 
@@ -119,7 +117,7 @@ class HusWatermark(QQuickPaintedItem):
             self.offsetChanged.emit()
             self.update()
 
-    @Property(float, notify = rotateChanged)
+    @Property(float, notify=rotateChanged)
     def rotate(self):
         return self._rotate
 
@@ -130,7 +128,7 @@ class HusWatermark(QQuickPaintedItem):
             self.rotateChanged.emit()
             self.update()
 
-    @Property(QFont, notify = fontChanged)
+    @Property(QFont, notify=fontChanged)
     def font(self):
         return self._font
 
@@ -142,7 +140,7 @@ class HusWatermark(QQuickPaintedItem):
             self._updateMarkSize()
             self.update()
 
-    @Property(QColor, notify = colorTextChanged)
+    @Property(QColor, notify=colorTextChanged)
     def colorText(self):
         return self._colorText
 
@@ -172,13 +170,10 @@ class HusWatermark(QQuickPaintedItem):
                 if engine:
                     self._manager = engine.networkAccessManager()
                 else:
-                    logger.error(
-                        "HusWatermark without QmlEngine, we cannot get QNetworkAccessManager!"
-                    )
+                    logger.error("HusWatermark without QmlEngine, we cannot get QNetworkAccessManager!")
 
             if self._manager:
-                self._imageReply = self._manager.get(
-                    QNetworkRequest(self._image))
+                self._imageReply = self._manager.get(QNetworkRequest(self._image))
                 self._imageReply.finished.connect(self._onImageReplyFinished)
 
     def _onImageReplyFinished(self):
@@ -204,8 +199,7 @@ class HusWatermark(QQuickPaintedItem):
                 self._markSize = QSize(int(textWidth), int(textHeight))
             else:
                 # 图像水印：使用图像尺寸
-                self._markSize = QSize(self._cachedImage.width(),
-                                       self._cachedImage.height())
+                self._markSize = QSize(self._cachedImage.width(), self._cachedImage.height())
 
     def paint(self, painter: QPainter):
         """绘制水印"""
@@ -248,13 +242,11 @@ class HusWatermark(QQuickPaintedItem):
 
                 if self._cachedImage.isNull():
                     # 绘制文本水印
-                    rect = QRectF(-markWidth * 0.5, -markHeight * 0.5,
-                                  markWidth, markHeight)
+                    rect = QRectF(-markWidth * 0.5, -markHeight * 0.5, markWidth, markHeight)
                     painter.drawText(rect, self._text)
                 else:
                     # 绘制图像水印
-                    rect = QRectF(-markWidth * 0.5, -markHeight * 0.5,
-                                  markWidth, markHeight)
+                    rect = QRectF(-markWidth * 0.5, -markHeight * 0.5, markWidth, markHeight)
                     painter.drawImage(rect, self._cachedImage)
 
                 painter.restore()

@@ -29,22 +29,21 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 @QmlElement
 class HusRadius(QObject):
-
     allChanged = Signal()
     topLeftChanged = Signal()
     topRightChanged = Signal()
     bottomLeftChanged = Signal()
     bottomRightChanged = Signal()
 
-    def __init__(self, parent = None):
-        super().__init__(parent = parent)
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
         self._all = 0.0
         self._topLeft = -1.0
         self._topRight = -1.0
         self._bottomLeft = -1.0
         self._bottomRight = -1.0
 
-    @Property(float, notify = allChanged)
+    @Property(float, notify=allChanged)
     def all(self):
         return self._all
 
@@ -64,7 +63,7 @@ class HusRadius(QObject):
         if self._bottomRight < 0.0:
             self.bottomRightChanged.emit()
 
-    @Property(float, notify = topLeftChanged)
+    @Property(float, notify=topLeftChanged)
     def topLeft(self):
         if self._topLeft >= 0.0:
             return self._topLeft
@@ -80,7 +79,7 @@ class HusRadius(QObject):
         self._topLeft = value
         self.topLeftChanged.emit()
 
-    @Property(float, notify = topRightChanged)
+    @Property(float, notify=topRightChanged)
     def topRight(self):
         if self._topRight >= 0.0:
             return self._topRight
@@ -96,7 +95,7 @@ class HusRadius(QObject):
         self._topRight = value
         self.topRightChanged.emit()
 
-    @Property(float, notify = bottomLeftChanged)
+    @Property(float, notify=bottomLeftChanged)
     def bottomLeft(self):
         if self._bottomLeft >= 0.0:
             return self._bottomLeft
@@ -112,7 +111,7 @@ class HusRadius(QObject):
         self._bottomLeft = value
         self.bottomLeftChanged.emit()
 
-    @Property(float, notify = bottomRightChanged)
+    @Property(float, notify=bottomRightChanged)
     def bottomRight(self):
         if self._bottomRight >= 0.0:
             return self._bottomRight
@@ -131,18 +130,17 @@ class HusRadius(QObject):
 
 @QmlElement
 class HusPen(QObject):
-
     widthChanged = Signal()
     colorChanged = Signal()
     styleChanged = Signal()
 
-    def __init__(self, parent = None):
-        super().__init__(parent = parent)
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
         self._width = 1.0
         self._color = QColor(Qt.GlobalColor.transparent.value)
         self._style = QColor(Qt.PenStyle.SolidLine.value)
 
-    @Property(float, notify = widthChanged)
+    @Property(float, notify=widthChanged)
     def width(self):
         return self._width
 
@@ -153,7 +151,7 @@ class HusPen(QObject):
         self._width = value
         self.widthChanged.emit()
 
-    @Property(QColor, notify = colorChanged)
+    @Property(QColor, notify=colorChanged)
     def color(self):
         return self._color
 
@@ -164,7 +162,7 @@ class HusPen(QObject):
         self._color = value
         self.colorChanged.emit()
 
-    @Property(int, notify = styleChanged)
+    @Property(int, notify=styleChanged)
     def style(self):
         return self._style
 
@@ -176,16 +174,17 @@ class HusPen(QObject):
         self.styleChanged.emit()
 
     def isValid(self) -> bool:
-        return all([
-            self._width > 0.0,
-            self._color.isValid(),
-            self._color.alpha() > 0,
-        ])
+        return all(
+            [
+                self._width > 0.0,
+                self._color.isValid(),
+                self._color.alpha() > 0,
+            ]
+        )
 
 
 @QmlElement
 class HusRectangle(QQuickPaintedItem):
-
     colorChanged = Signal()
     radiusChanged = Signal()
     topLeftRadiusChanged = Signal()
@@ -193,8 +192,8 @@ class HusRectangle(QQuickPaintedItem):
     bottomLeftRadiusChanged = Signal()
     bottomRightRadiusChanged = Signal()
 
-    def __init__(self, parent = None):
-        super().__init__(parent = parent)
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
         self._color = QColor(0xFFFFFF)
         self._radius = 0.0
         self._topLeftRadius = -1.0
@@ -205,7 +204,7 @@ class HusRectangle(QQuickPaintedItem):
         self._gradient = QJSValue()
         self.doUpdateSlotIdx = -1
 
-    @Property(QColor, notify = colorChanged)
+    @Property(QColor, notify=colorChanged)
     def color(self) -> QColor:
         return self._color
 
@@ -239,7 +238,7 @@ class HusRectangle(QQuickPaintedItem):
         resetGradient,
     )
 
-    @Property(HusPen, constant = True)
+    @Property(HusPen, constant=True)
     def border(self):
         if self._pen is None:
             self._pen = HusPen(self)
@@ -248,7 +247,7 @@ class HusRectangle(QQuickPaintedItem):
             self._pen.styleChanged.connect(self.update)
         return self._pen
 
-    @Property(float, notify = radiusChanged)
+    @Property(float, notify=radiusChanged)
     def radius(self):
         return self._radius
 
@@ -268,7 +267,7 @@ class HusRectangle(QQuickPaintedItem):
             self.bottomRightRadiusChanged.emit()
         self.update()
 
-    @Property(float, notify = topLeftRadiusChanged)
+    @Property(float, notify=topLeftRadiusChanged)
     def topLeftRadius(self):
         if self._topLeftRadius >= 0.0:
             return self._topLeftRadius
@@ -285,7 +284,7 @@ class HusRectangle(QQuickPaintedItem):
         self.topLeftRadiusChanged.emit()
         self.update()
 
-    @Property(float, notify = topRightRadiusChanged)
+    @Property(float, notify=topRightRadiusChanged)
     def topRightRadius(self):
         if self._topRightRadius >= 0.0:
             return self._topRightRadius
@@ -302,7 +301,7 @@ class HusRectangle(QQuickPaintedItem):
         self.topRightRadiusChanged.emit()
         self.update()
 
-    @Property(float, notify = bottomLeftRadiusChanged)
+    @Property(float, notify=bottomLeftRadiusChanged)
     def bottomLeftRadius(self):
         if self._bottomLeftRadius >= 0.0:
             return self._bottomLeftRadius
@@ -320,7 +319,7 @@ class HusRectangle(QQuickPaintedItem):
         self.bottomLeftRadiusChanged.emit()
         self.update()
 
-    @Property(float, notify = bottomRightRadiusChanged)
+    @Property(float, notify=bottomRightRadiusChanged)
     def bottomRightRadius(self):
         if self._bottomRightRadius >= 0.0:
             return self._bottomRightRadius
@@ -340,22 +339,19 @@ class HusRectangle(QQuickPaintedItem):
     def _maybeSetImplicitAntialiasing(self) -> bool:
         implicit_aa = bool(self._radius != 0.0)
         if implicit_aa:
-            implicit_aa = any([
-                self._topLeftRadius > 0.0,
-                self._topRightRadius > 0.0,
-                self._bottomLeftRadius > 0.0,
-                self._bottomRightRadius > 0.0,
-            ])
+            implicit_aa = any(
+                [
+                    self._topLeftRadius > 0.0,
+                    self._topRightRadius > 0.0,
+                    self._bottomLeftRadius > 0.0,
+                    self._bottomRightRadius > 0.0,
+                ]
+            )
         return implicit_aa
 
     def paint(self, painter: QPainter):
-
         painter.save()
-        if any([
-                self.antialiasing(),
-                self.smooth(),
-                self._maybeSetImplicitAntialiasing()
-        ]):
+        if any([self.antialiasing(), self.smooth(), self._maybeSetImplicitAntialiasing()]):
             painter.setRenderHint(QPainter.Antialiasing)
 
         rect = self.boundingRect()
@@ -373,7 +369,8 @@ class HusRectangle(QQuickPaintedItem):
                     Qt.PenStyle(self._pen.style),
                     Qt.PenCapStyle.FlatCap,
                     Qt.PenJoinStyle.SvgMiterJoin,
-                ))
+                )
+            )
         else:
             painter.setPen(Qt.transparent)
 
@@ -395,8 +392,7 @@ class HusRectangle(QQuickPaintedItem):
         )
         path.lineTo(rect.topLeft() + QPointF(top_left_radius, 0))
         path.arcTo(
-            QRectF(QPointF(rect.topLeft()),
-                   QSize(top_left_radius * 2, top_left_radius * 2)),
+            QRectF(QPointF(rect.topLeft()), QSize(top_left_radius * 2, top_left_radius * 2)),
             90,
             90,
         )
@@ -415,9 +411,7 @@ class HusRectangle(QQuickPaintedItem):
         path.lineTo(rect.bottomRight() - QPointF(bottom_right_radius, 0))
         path.arcTo(
             QRectF(
-                QPointF(rect.bottomRight() -
-                        QPointF(bottom_right_radius * 2, bottom_right_radius *
-                                2)),
+                QPointF(rect.bottomRight() - QPointF(bottom_right_radius * 2, bottom_right_radius * 2)),
                 QSize(bottom_right_radius * 2, bottom_right_radius * 2),
             ),
             270,
@@ -429,8 +423,7 @@ class HusRectangle(QQuickPaintedItem):
 
         if self._gradient.isQObject():
             object = self._gradient.toQObject()
-            veritical = self._gradient.property(
-                "orientation").toInt() == Qt.Orientation.Vertical.value
+            veritical = self._gradient.property("orientation").toInt() == Qt.Orientation.Vertical.value
             children = object.children()
             for child in children:
                 position = child.property("position")
@@ -442,13 +435,9 @@ class HusRectangle(QQuickPaintedItem):
             gradientLength = rect.height() if veritical else rect.width()
             secondaryLength = rect.width() if veritical else rect.height()
             if veritical:
-                gradient = QLinearGradient(
-                    QPointF(gradientStart, 0),
-                    QPointF(gradientStart, gradientLength))
+                gradient = QLinearGradient(QPointF(gradientStart, 0), QPointF(gradientStart, gradientLength))
             else:
-                gradient = QLinearGradient(
-                    QPointF(0, secondaryLength),
-                    QPointF(gradientLength, secondaryLength))
+                gradient = QLinearGradient(QPointF(0, secondaryLength), QPointF(gradientLength, secondaryLength))
             gradient.setStops(stops)
             painter.setBrush(gradient)
         else:
