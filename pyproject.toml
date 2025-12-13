@@ -11,4 +11,20 @@ pyhuskarui = { workspace = true }
 utils = { workspace = true }
 
 [dependency-groups]
-dev = ["utils"]
+dev = [
+    "ruff>=0.14.9",
+    "utils",
+]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = [
+    "qrcodegen.py",
+]
+
+[tool.ruff.lint]
+# E501: line too long
+extend-select = ["E501"]
+# F401: imported but unused
+# F403: from module import *
+extend-ignore = ["F401", "F403"]
