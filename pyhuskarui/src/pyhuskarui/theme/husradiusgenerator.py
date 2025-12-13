@@ -30,11 +30,11 @@ class HusRadiusGenerator(QObject):
     HusRadiusGenerator class.
     """
 
-    def __init__(self, parent = None):
-        super().__init__(parent = parent)
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
 
     @staticmethod
-    @Slot(int, result = List[int])
+    @Slot(int, result=List)
     def generateRadius(radius_base: int) -> List[int]:
         radius_lg = radius_base
         radius_sm = radius_base

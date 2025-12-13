@@ -31,18 +31,17 @@ class HusSizeGenerator(QObject):
     HusSizeGenerator class.
     """
 
-    def __init__(self, parent = None):
-        super().__init__(parent = parent)
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
 
     @staticmethod
-    @Slot(float, result = List[float])
+    @Slot(float, result=List)
     def generateFontSize(font_size_base: float) -> List[float]:
         font_sizes = [0.0] * 10
         for index in range(10):
             i = index - 1
             base_size = font_size_base * math.exp(i / 5.0)
-            int_size = math.floor(base_size) if (
-                i + 1) > 1 else math.ceil(base_size)
+            int_size = math.floor(base_size) if (i + 1) > 1 else math.ceil(base_size)
             # 转换为偶数
             font_sizes[index] = math.floor(int_size / 2) * 2
 
@@ -50,7 +49,7 @@ class HusSizeGenerator(QObject):
         return font_sizes
 
     @staticmethod
-    @Slot(float, result = List[float])
+    @Slot(float, result=List)
     def generateFontLineHeight(font_size_base: float) -> List[float]:
         font_line_heights = HusSizeGenerator.generateFontSize(font_size_base)
         for index in range(10):

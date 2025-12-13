@@ -11,12 +11,11 @@ def uv_run(cmd: list):
     try:
         subprocess.run(
             uv_cmd,
-            check = True,
-            capture_output = True,
-            text = True,
+            check=True,
+            capture_output=True,
+            text=True,
         )
-        logger.success(
-            f"successfully updated: {' '.join([str(i) for i in cmd])}")
+        logger.success(f"successfully updated: {' '.join([str(i) for i in cmd])}")
     except subprocess.CalledProcessError as e:
         logger.error(f"Error: {e.stderr}")
     except FileNotFoundError:
@@ -25,18 +24,20 @@ def uv_run(cmd: list):
 
 def gen_qsb(p: Path | str):
     p = Path(p)
-    uv_run([
-        "pyside6-qsb",
-        "--glsl",
-        "100 es,120,150",
-        "--hlsl",
-        "50",
-        "--msl",
-        "12",
-        p,
-        "-o",
-        p.parent / f"{p.name}.qsb",
-    ])
+    uv_run(
+        [
+            "pyside6-qsb",
+            "--glsl",
+            "100 es,120,150",
+            "--hlsl",
+            "50",
+            "--msl",
+            "12",
+            p,
+            "-o",
+            p.parent / f"{p.name}.qsb",
+        ]
+    )
 
 
 def gen_qsbs(path: Path | str):
@@ -48,12 +49,14 @@ def gen_qsbs(path: Path | str):
 
 def update_qrc(qrc: Path | str):
     qrc = Path(qrc)
-    uv_run([
-        "pyside6-rcc",
-        qrc,
-        "-o",
-        qrc.parent / f"{qrc.stem}_rc.py",
-    ])
+    uv_run(
+        [
+            "pyside6-rcc",
+            qrc,
+            "-o",
+            qrc.parent / f"{qrc.stem}_rc.py",
+        ]
+    )
 
 
 def update_qrcs(path: Path | str):
@@ -62,26 +65,26 @@ def update_qrcs(path: Path | str):
     list(map(update_qrc, qrcs))
 
 
-def update_ts_to_qm(path: Path | str,
-                    app_name: str = "app",
-                    to_dir: Path | str = ""):
+def update_ts_to_qm(path: Path | str, app_name: str = "app", to_dir: Path | str = ""):
     path = Path(path)
     to_dir = Path(to_dir) if to_dir else path / "i18n"
-    to_dir.mkdir(parents = True, exist_ok = True)
+    to_dir.mkdir(parents=True, exist_ok=True)
     locale_datas = ["zh_CN", "en_US", "zh_TW"]
     pys = path.rglob("*.py")
 
     for locale in locale_datas:
         p_ts = to_dir / f"{app_name}_{locale}.ts"
 
-        uv_run([
-            "pyside6-lupdate",
-            f"{path}/resource.qrc",
-            *pys,
-            "-ts",
-            p_ts,
-            # "-no-obsolete",
-        ])
+        uv_run(
+            [
+                "pyside6-lupdate",
+                f"{path}/resource.qrc",
+                *pys,
+                "-ts",
+                p_ts,
+                # "-no-obsolete",
+            ]
+        )
 
         uv_run(["pyside6-lrelease", p_ts])
 
@@ -97,7 +100,7 @@ def gen_qmldir(
     _ps = list(folder_path.rglob("*.qml"))
     qmldir = _ps[0].parent / "qmldir"
 
-    with qmldir.open("w", encoding = "utf-8") as f:
+    with qmldir.open("w", encoding="utf-8") as f:
         f.write(
             f"module {qml_module}\ntypeinfo plugins.qmltypes\nprefer {qml_prefix}\n"
         )
@@ -121,18 +124,76 @@ def gen_qrc(path: Path | str, qrc_prefix: str = "/qt/qml"):
         ".pyc",
     ]
     resource = [
-        i.relative_to(path.parent).as_posix() for i in res.rglob("*")
-        if all([i.suffix not in excluded_suffixes,
-                i.is_file()])
+        i.relative_to(path.parent).as_posix()
+        for i in res.rglob("*")
+        if all([i.suffix not in excluded_suffixes, i.is_file()])
     ]
 
-    with qrc.open("w", encoding = "utf-8") as f:
+    with qrc.open("w", encoding="utf-8") as f:
         f.write("<RCC>\n")
         f.write(f'    <qresource prefix="{qrc_prefix}">\n')
         for _p in resource:
             f.write(f"        <file>{_p}</file>\n")
         f.write("    </qresource>\n")
         f.write("</RCC>\n")
+
+
+def gen_qmltypes(path, name, major="1", minor="0", recursive=True):
+    project_path = Path(path)
+
+    if recursive:
+        py_files = list(project_path.rglob("*.py"))
+    else:
+        py_files = [
+            f for f in project_path.iterdir() if f.is_file() and f.suffix == ".py"
+        ]
+
+    metadata_path = project_path / "metadata.json"
+    qmltypes_path = project_path / "plugins.qmltypes"
+
+    command = ["pyside6-metaobjectdump"]
+    command.extend(py_files)
+    command.extend(["--out-file", metadata_path])
+    uv_run(command)
+    uv_run(
+        [
+            "pyside6-qmltyperegistrar",
+            metadata_path,
+            "--import-name",
+            name,
+            "--major-version",
+            major,
+            "--minor-version",
+            minor,
+            "--generate-qmltypes",
+            qmltypes_path,
+        ]
+    )
+
+
+def del_pyis(p: str | Path):
+    p = Path(p)
+    for f in p.rglob("*.pyi"):
+        logger.info(f"删除文件：{f}")
+        f.unlink()
+
+
+# stubgen .\pyhuskarui\src\pyhuskarui\  -o .\pyhuskarui\src\
+
+
+def gen_pyis(path: str | Path):
+    _p = Path(path).parent
+    uv_run(
+        [
+            "stubgen",
+            path,
+            "-o",
+            _p,
+            # path,
+            "--include-private",
+            "-v",
+        ]
+    )
 
 
 def replace_license(path: Path | str):
@@ -165,7 +226,7 @@ def replace_license(path: Path | str):
 
     for file_path in path.rglob("*.qml"):
         try:
-            with file_path.open("r", encoding = "utf-8") as f:
+            with file_path.open("r", encoding="utf-8") as f:
                 lines = f.readlines()
 
             if "PyHuskarUI" in lines[0] or "PyHuskarUI" in lines[1]:
@@ -173,7 +234,7 @@ def replace_license(path: Path | str):
 
             new_content = apache_license + "".join(lines[22:])
 
-            with file_path.open("w", encoding = "utf-8") as f:
+            with file_path.open("w", encoding="utf-8") as f:
                 f.write(new_content)
 
             logger.success(f"updated license in {file_path}")
@@ -197,7 +258,7 @@ if __name__ == "__main__":
     update_qrcs(huaskui)
 
     gen_qsbs(gallery / "shaders")
-    gen_qrc(gallery / 'images', '/Gallery')
-    gen_qrc(gallery / 'shaders', '/Gallery')
-    gen_qrc(gallery / 'qml', '/Gallery')
+    gen_qrc(gallery / "images", "/Gallery")
+    gen_qrc(gallery / "shaders", "/Gallery")
+    gen_qrc(gallery / "qml", "/Gallery")
     update_qrcs(gallery)
