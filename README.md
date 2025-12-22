@@ -109,7 +109,7 @@ uv run ./gallery/main.py
      HusApp.initialize(engine)
      ...
  ```
-- Add the following code to your `.qml`
+- Add the following code to your `Main.qml`
  ```qml
   import HuskarUI.Basic
 

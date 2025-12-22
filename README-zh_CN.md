@@ -111,7 +111,7 @@ uv run ./gallery/main.py
      HusApp.initialize(engine)
      ...
  ```
- - 添加下面的代码到您的 `.qml` 中
+ - 添加下面的代码到您的 `Main.qml` 中
  ```qml
   import HuskarUI.Basic
   HusWindow { 
