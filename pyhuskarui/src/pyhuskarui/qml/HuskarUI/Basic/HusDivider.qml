@@ -45,10 +45,12 @@ Item {
                                      })
     property int titleAlign: HusDivider.Align_Left
     property int titlePadding: 20
+    property int lineStyle: HusDivider.SolidLine
+    property int lineWidth: 1
+    property list<real> dashPattern: [4, 2]
+    property int orientation: Qt.Horizontal
     property color colorText: HusTheme.HusDivider.colorText
     property color colorSplit: HusTheme.HusDivider.colorSplit
-    property int style: HusDivider.SolidLine
-    property int orientation: Qt.Horizontal
     property Component titleDelegate: HusText {
         text: control.title
         font: control.titleFont
@@ -61,12 +63,14 @@ Item {
         property real lineY: __titleLoader.y + __titleLoader.implicitHeight * 0.5
 
         ShapePath {
-            strokeStyle: control.style === HusDivider.SolidLine ? ShapePath.SolidLine : ShapePath.DashLine
+            strokeStyle: control.lineStyle === HusDivider.SolidLine ? ShapePath.SolidLine : ShapePath.DashLine
             strokeColor: control.colorSplit
-            strokeWidth: 1
+            strokeWidth: control.lineWidth
+            dashPattern: control.dashPattern
             fillColor: 'transparent'
             startX: control.orientation === Qt.Horizontal ? 0 : __shape.lineX
             startY: control.orientation === Qt.Horizontal ? __shape.lineY : 0
+
             PathLine {
                 x: {
                     if (control.orientation === Qt.Horizontal) {
@@ -80,9 +84,10 @@ Item {
         }
 
         ShapePath {
-            strokeStyle: control.style === HusDivider.SolidLine ? ShapePath.SolidLine : ShapePath.DashLine
+            strokeStyle: control.lineStyle === HusDivider.SolidLine ? ShapePath.SolidLine : ShapePath.DashLine
             strokeColor: control.colorSplit
-            strokeWidth: 1
+            strokeWidth: control.lineWidth
+            dashPattern: control.dashPattern
             fillColor: 'transparent'
             startX: {
                 if (control.orientation === Qt.Horizontal) {
@@ -114,7 +119,7 @@ Item {
 
     Loader {
         id: __splitLoader
-        sourceComponent: splitDelegate
+        sourceComponent: control.splitDelegate
     }
 
     Loader {
@@ -130,7 +135,7 @@ Item {
         anchors.rightMargin: (control.orientation === Qt.Horizontal && control.titleAlign === HusDivider.Align_Right) ? control.titlePadding : 0
         anchors.horizontalCenter: (control.orientation !== Qt.Horizontal || control.titleAlign === HusDivider.Align_Center) ? parent.horizontalCenter : undefined
         anchors.verticalCenter: (control.orientation === Qt.Horizontal || control.titleAlign === HusDivider.Align_Center) ? parent.verticalCenter : undefined
-        sourceComponent: titleDelegate
+        sourceComponent: control.titleDelegate
     }
 
     Accessible.role: Accessible.Separator

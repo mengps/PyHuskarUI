@@ -35,8 +35,7 @@ HusSelect {
     property string suffix: ''
     property bool genDefaultKey: true
     property var selectedKeys: []
-    property bool searchEnabled: true
-    property string placeholderText: ''
+    property alias searchEnabled: control.editable
     readonly property alias tagCount: __tagListModel.count
     property int maxTagCount: -1
     property int tagSpacing: 5
@@ -173,6 +172,7 @@ HusSelect {
         family: themeSource.fontFamily
         pixelSize: parseInt(themeSource.fontSize)
     }
+    editable: true
     leftPadding: 2
     clearEnabled: false
     contentItem: Item {
@@ -189,7 +189,7 @@ HusSelect {
         Loader {
             id: __suffixLoader
             anchors.right: parent.right
-            anchors.rightMargin: 0
+            anchors.rightMargin: 5
             anchors.verticalCenter: parent.verticalCenter
             sourceComponent: control.suffixDelegate
         }

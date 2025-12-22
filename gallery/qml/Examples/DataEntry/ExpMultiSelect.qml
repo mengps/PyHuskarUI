@@ -15,7 +15,7 @@ Flickable {
 
         Description {
             desc: qsTr(`
-# HusMultiSelect 选择器 \n
+# HusMultiSelect 多选器 \n
 下拉多选器。\n
 * **继承自 { [HusSelect](internal://HusSelect) }**\n
 \n<br/>
@@ -38,7 +38,6 @@ suffix | string | '' | 后缀文本
 genDefaultKey | bool | true | 是否生成默认键(如果没有给定key则为label)
 selectedKeys | list | [] | 选中项的键
 searchEnabled | bool | true | 是否启用搜索
-placeholderText | string | '' | 占位符文本
 tagCount | int(readonly) | 0 | 当前(选择)标签数量
 maxTagCount | int | -1 | 最多显示多少个标签(-1无限制)
 tagSpacing | int | 5 | 标签间隔

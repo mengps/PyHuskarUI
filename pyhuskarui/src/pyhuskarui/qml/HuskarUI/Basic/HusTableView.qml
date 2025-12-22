@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 
+pragma ComponentBehavior: Unbound
+
 import QtQuick
 import QtQuick.Templates as T
 import Qt.labs.qmlmodels
@@ -58,6 +60,11 @@ HusRectangle {
 
     property color colorGridLine: HusTheme.HusTableView.colorGridLine
     property color colorResizeBlockBg: HusTheme.HusTableView.colorResizeBlockBg
+
+    property alias verScrollBar: __vScrollBar
+    property alias horScrollBar: __hScrollBar
+    property alias tableView: __cellView
+    property alias tableModel: __cellModel
 
     property Component columnHeaderDelegate: Item {
         id: __columnHeaderDelegate
@@ -128,15 +135,15 @@ HusRectangle {
                     if (checkState == Qt.Unchecked) {
                         __private.model.forEach(
                                     object => {
-                                        __private.checkedKeysMap.delete(object.key);
+                                        __private.checkedKeysSet.delete(object.key);
                                     });
-                        __private.checkedKeysMapChanged();
+                        __private.checkedKeysSetChanged();
                     } else {
                         __private.model.forEach(
                                     object => {
-                                        __private.checkedKeysMap.set(object.key, true);
+                                        __private.checkedKeysSet.add(object.key);
                                     });
-                        __private.checkedKeysMapChanged();
+                        __private.checkedKeysSetChanged();
                     }
                     __private.updateParentCheckBox();
                 }
@@ -357,24 +364,24 @@ HusRectangle {
                     row => {
                         if (row >= 0 && row < __private.model.length) {
                             const key = __private.model[row].key;
-                            __private.checkedKeysMap.set(key, true);
+                            __private.checkedKeysSet.add(key);
                         }
                     });
-        __private.checkedKeysMapChanged();
+        __private.checkedKeysSetChanged();
     }
 
     function checkForKeys(keys: var) {
-        keys.forEach(key => __private.checkedKeysMap.set(key, true));
-        __private.checkedKeysMapChanged();
+        keys.forEach(key => __private.checkedKeysSet.add(key));
+        __private.checkedKeysSetChanged();
     }
 
     function getCheckedKeys() {
-        return [...__private.checkedKeysMap.keys()];
+        return [...__private.checkedKeysSet.keys()];
     }
 
     function clearAllCheckedKeys() {
-        __private.checkedKeysMap.clear();
-        __private.checkedKeysMapChanged();
+        __private.checkedKeysSet.clear();
+        __private.checkedKeysSetChanged();
         __private.parentCheckState = Qt.Unchecked;
         __private.parentCheckStateChanged();
     }
@@ -621,13 +628,13 @@ HusRectangle {
 
         property var model: []
         property int parentCheckState: Qt.Unchecked
-        property var checkedKeysMap: new Map
+        property var checkedKeysSet: new Set
 
         function updateParentCheckBox() {
             let checkCount = 0;
             model.forEach(
                         object => {
-                            if (checkedKeysMap.has(object.key)) {
+                            if (checkedKeysSet.has(object.key)) {
                                 checkCount++;
                             }
                         });
@@ -636,7 +643,7 @@ HusRectangle {
         }
 
         function updateCheckedKeys() {
-            control.checkedKeys = [...checkedKeysMap.keys()];
+            control.checkedKeys = [...checkedKeysSet.keys()];
         }
 
         function updateRowHeader() {
@@ -681,7 +688,7 @@ HusRectangle {
             updateParentCheckBox();
         }
         onParentCheckStateChanged: updateCheckedKeys();
-        onCheckedKeysMapChanged: updateCheckedKeys();
+        onCheckedKeysSetChanged: updateCheckedKeys();
     }
 
     HusRectangleInternal {
@@ -877,7 +884,7 @@ HusRectangle {
                 visible: implicitHeight >= 0
                 clip: true
                 color: {
-                    if (__private.checkedKeysMap.has(key)) {
+                    if (__private.checkedKeysSet.has(key)) {
                         if (row == __cellView.currentHoverRow)
                             return HusTheme.isDark ? HusTheme.HusTableView.colorCellBgDarkHoverChecked :
                                                      HusTheme.HusTableView.colorCellBgHoverChecked;
@@ -894,7 +901,7 @@ HusRectangle {
                 Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationMid } }
 
                 TableView.onReused: {
-                    checked = __private.checkedKeysMap.has(key);
+                    checked = __private.checkedKeysSet.has(key);
                     if (__childCheckBoxLoader.item) {
                         __childCheckBoxLoader.item.checked = checked;
                     }
@@ -931,15 +938,15 @@ HusRectangle {
                             animationEnabled: control.animationEnabled
 
                             Component.onCompleted: {
-                                __childBox.checked = __rootItem.checked = __private.checkedKeysMap.has(key);
+                                __childBox.checked = __rootItem.checked = __private.checkedKeysSet.has(key);
                             }
 
                             onToggled: {
                                 if (checkState == Qt.Checked) {
-                                    __private.checkedKeysMap.set(__rootItem.key, true);
+                                    __private.checkedKeysSet.add(__rootItem.key);
                                     __rootItem.checked = true;
                                 } else {
-                                    __private.checkedKeysMap.delete(__rootItem.key);
+                                    __private.checkedKeysSet.delete(__rootItem.key);
                                     __rootItem.checked = false;
                                 }
                                 __private.updateParentCheckBox();
@@ -948,8 +955,8 @@ HusRectangle {
 
                             Connections {
                                 target: __private
-                                function onCheckedKeysMapChanged() {
-                                    __childBox.checked = __rootItem.checked = __private.checkedKeysMap.has(__rootItem.key);
+                                function onCheckedKeysSetChanged() {
+                                    __childBox.checked = __rootItem.checked = __private.checkedKeysSet.has(__rootItem.key);
                                 }
                             }
                         }

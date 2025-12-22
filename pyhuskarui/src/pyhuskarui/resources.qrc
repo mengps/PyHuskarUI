@@ -49,6 +49,7 @@
         <file>resources/theme/HusTimeline.json</file>
         <file>resources/theme/HusToolTip.json</file>
         <file>resources/theme/HusTour.json</file>
+        <file>resources/theme/HusTreeView.json</file>
         <file>resources/theme/Index.json</file>
     </qresource>
 </RCC>

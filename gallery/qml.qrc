@@ -25,6 +25,7 @@
         <file>qml/Examples/DataDisplay/ExpToolTip.qml</file>
         <file>qml/Examples/DataDisplay/ExpTourFocus.qml</file>
         <file>qml/Examples/DataDisplay/ExpTourStep.qml</file>
+        <file>qml/Examples/DataDisplay/ExpTreeView.qml</file>
         <file>qml/Examples/DataEntry/ExpAutoComplete.qml</file>
         <file>qml/Examples/DataEntry/ExpCheckBox.qml</file>
         <file>qml/Examples/DataEntry/ExpColorPicker.qml</file>

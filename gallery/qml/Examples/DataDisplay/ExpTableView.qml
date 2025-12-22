@@ -156,6 +156,10 @@ rowHeaderTitleFont | font | - | 行头标题字体
 colorRowHeaderTitle | color | - | 行头标题颜色
 colorRowHeaderBg | color | - | 行头背景颜色
 colorResizeBlockBg | color | - | 调整头大小块(左上角方块)背景色
+verScrollBar | [HusScrollBar](internal://HusScrollBar) | - | 访问内部垂直滚动条
+horScrollBar | [HusScrollBar](internal://HusScrollBar) | - | 访问内部水平滚动条
+tableView | TableView | - | 访问内部表格视图
+tableModel | TableModel | - | 访问内部表格模型
 \n<br/>
 \n### {columns}支持的属性：\n
 属性名 | 类型 | 可选/必选 | 描述

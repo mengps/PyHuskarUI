@@ -249,7 +249,7 @@ Item {
                             newValue = index + 1;
                         }
                         
-                        // 只有当评分值变化时才触发动画
+                        /*! 只有当评分值变化时才触发动画 */
                         if (newValue !== control.value) {
                             control.value = newValue;
                             if (control.animationEnabled && !__scaleAnim.running) {

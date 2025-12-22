@@ -528,7 +528,7 @@ HusInput {
             selectDateTime(HusApi.dateFromString(dateTimeString, control.format));
         }
 
-        function getDateTimeString() {
+        function getDateTimeString(): string {
             const text = '';
             const date = getDateTime();
             const month = date.getMonth();

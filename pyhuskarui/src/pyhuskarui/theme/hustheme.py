@@ -78,6 +78,7 @@ class Component(Enum):
     HusTextArea = "HusTextArea"
     HusSpin = "HusSpin"
     HusColorPicker = "HusColorPicker"
+    HusTreeView = "HusTreeView"
 
 
 @dataclass
@@ -168,6 +169,7 @@ class HusTheme(QObject):
     HusTextAreaChanged = Signal()
     HusSpinChanged = Signal()
     HusColorPickerChanged = Signal()
+    HusTreeViewChanged = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -231,6 +233,7 @@ class HusTheme(QObject):
         self._HusTextArea = {}
         self._HusSpin = {}
         self._HusColorPicker = {}
+        self._HusTreeView = {}
 
         # 连接系统主题变化信号
         self._helper.colorSchemeChanged.connect(self._on_system_color_scheme_changed)
@@ -844,6 +847,10 @@ class HusTheme(QObject):
     @Property(dict, notify=HusColorPickerChanged)
     def HusColorPicker(self) -> dict:
         return self._HusColorPicker
+    
+    @Property(dict, notify=HusTreeViewChanged)
+    def HusTreeView(self) -> dict:
+        return self._HusTreeView
 
     @Slot(QObject, str, dict, str)
     def registerCustomComponentTheme(self, theme_object: QObject, component: str, theme_map: dict, theme_path: str):
