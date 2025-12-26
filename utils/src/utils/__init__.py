@@ -58,7 +58,7 @@ def package():
             "--output-dir=./package",
             "--output-folder-name=package",
             "--output-filename=PyHuskarUI-Gallery",
-            f"--macos-app-icon={gallery}/images/huskarui_icon.icns"
+            f"--macos-app-icon={gallery}/images/huskarui_icon.icns",
             f"--windows-icon-from-ico={gallery}/images/huskarui_icon.ico",
             f"{gallery}/main.py",
         ]
