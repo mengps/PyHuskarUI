@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 from .update_resource import (
@@ -45,25 +46,32 @@ def init():
 def package():
     cwd = (Path(__file__).parent / "../../../").resolve()
     gallery = cwd / "gallery"
+    dist = Path("./package/package.dist")
+    target = dist.parent / "PyHuskarUI-Gallery"
+    args = [
+        "nuitka",
+        "--standalone",
+        "--windows-console-mode=disable",
+        "--show-memory",
+        "--enable-plugin=pyside6",
+        "--include-qt-plugins=qml",
+        "--show-progress",
+        "--output-dir=./package",
+        "--output-folder-name=package",
+        "--output-filename=PyHuskarUI-Gallery",
+        f"--macos-app-icon={gallery}/images/huskarui_icon.icns",
+        f"--windows-icon-from-ico={gallery}/images/huskarui_icon.ico",
 
-    uv_run(
-        [
-            "nuitka",
-            "--standalone",
-            "--windows-console-mode=disable",
-            "--show-memory",
-            "--enable-plugin=pyside6",
-            "--include-qt-plugins=qml",
-            "--show-progress",
-            "--output-dir=./package",
-            "--output-folder-name=package",
-            "--output-filename=PyHuskarUI-Gallery",
-            f"--macos-app-icon={gallery}/images/huskarui_icon.icns",
-            f"--windows-icon-from-ico={gallery}/images/huskarui_icon.ico",
-            f"{gallery}/main.py",
-        ]
-    )
-    
+    ]
+    if sys.platform.startswith("darwin"):
+        args.extend(["--macos-create-app-bundle", "--disable-ccache"])
+        dist = Path("./package/package.app")
+        target = dist.parent / "PyHuskarUI-Gallery.app"
+
+    args.extend([f"{gallery}/main.py", ])
+
+    uv_run(args)
+
     excludeFiles = [
         "opengl32sw*",
         "qt6charts*",
@@ -115,9 +123,10 @@ def package():
     ]
 
     for file in excludeFiles:
-        for p in Path("./package/package.dist").glob(file):
+        for p in dist.glob(file):
             if p.is_dir():
                 import shutil
                 shutil.rmtree(p)
             else:
                 p.unlink()
+    dist.rename(target)
