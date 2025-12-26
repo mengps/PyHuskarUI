@@ -1,6 +1,6 @@
 [project]
 authors = [{ name = "MenPenS", email = "843261040@qq.com" }]
-dependencies = ["loguru", "mypy"]
+dependencies = ["loguru", "mypy", "nuitka"]
 description = "Add your description here"
 name = "utils"
 requires-python = ">=3.9"
@@ -12,3 +12,4 @@ requires = ["hatchling"]
 
 [project.scripts]
 init = "utils:init"
+package = "utils:package"
