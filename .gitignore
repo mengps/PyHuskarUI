@@ -33,6 +33,4 @@ plugins.qmltypes
 metadata.json
 
 # nuitka
-main.build/
-main.dist/
-main.onefile-build/
+package/
