@@ -190,51 +190,14 @@ class HusTheme(QObject):
         # 正则表达式
         self._func_regex = re.compile(r"\$([^)]+)\(")
         self._args_regex = re.compile(r"\(([^)]+)\)")
+        
         # 初始化组件属性
         self._Primary = {}
-        self._HusButton = {}
-        self._HusIconText = {}
-        self._HusCopyableText = {}
-        self._HusCaptionButton = {}
-        self._HusTour = {}
-        self._HusMenu = {}
-        self._HusDivider = {}
-        self._HusEmpty = {}
-        self._HusSwitch = {}
-        self._HusScrollBar = {}
-        self._HusSlider = {}
-        self._HusTabView = {}
-        self._HusToolTip = {}
-        self._HusSelect = {}
-        self._HusInput = {}
-        self._HusRate = {}
-        self._HusRadio = {}
-        self._HusCheckBox = {}
-        self._HusDrawer = {}
-        self._HusCollapse = {}
-        self._HusCard = {}
-        self._HusPagination = {}
-        self._HusPopup = {}
-        self._HusTimeline = {}
-        self._HusTag = {}
-        self._HusTableView = {}
-        self._HusMessage = {}
-        self._HusAutoComplete = {}
-        self._HusProgress = {}
-        self._HusCarousel = {}
-        self._HusBreadcrumb = {}
-        self._HusImage = {}
-        self._HusMultiSelect = {}
-        self._HusDateTimePicker = {}
-        self._HusNotification = {}
-        self._HusPopconfirm = {}
-        self._HusPopover = {}
-        self._HusModal = {}
-        self._HusTextArea = {}
-        self._HusSpin = {}
-        self._HusColorPicker = {}
-        self._HusTreeView = {}
-
+        
+        # 使用Component枚举动态初始化所有组件属性
+        for component in Component:
+            setattr(self, f"_{component.value}", {})
+            
         # 连接系统主题变化信号
         self._helper.colorSchemeChanged.connect(self._on_system_color_scheme_changed)
 
@@ -847,7 +810,7 @@ class HusTheme(QObject):
     @Property(dict, notify=HusColorPickerChanged)
     def HusColorPicker(self) -> dict:
         return self._HusColorPicker
-    
+
     @Property(dict, notify=HusTreeViewChanged)
     def HusTreeView(self) -> dict:
         return self._HusTreeView

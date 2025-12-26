@@ -30,6 +30,7 @@ import shaders_rc
 import logger
 
 from pyhuskarui.husapp import HusApp
+from pyhuskarui.theme.hustheme import HusTheme, HusSystemThemeHelper
 
 from customtheme import *
 from themeswitchitem import *
@@ -49,9 +50,14 @@ if __name__ == "__main__":
 
     engine = QQmlApplicationEngine()
     engine.singletonInstance("Gallery", "CustomTheme").registerAll()
-
+    
     HusApp.initialize(engine)
-
+    
+    # 设置初始主题
+    systemTheme = HusSystemThemeHelper()
+    if systemTheme.colorScheme == HusSystemThemeHelper.ColorScheme.Dark:
+        engine.singletonInstance("HuskarUI.Basic", "HusTheme").darkMode = HusTheme.DarkMode.Dark
+    
     url = QUrl("qrc:/Gallery/qml/Gallery.qml")
     engine.objectCreated.connect(
         lambda obj, obj_url: (sys.exit(-1) if obj is None and url == obj_url else None),

@@ -9,15 +9,25 @@ def uv_run(cmd: list):
     uv_cmd = ["uv", "run"]
     uv_cmd.extend(cmd)
     try:
-        subprocess.run(
+        process = subprocess.Popen(
             uv_cmd,
-            check=True,
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,  # 将stderr重定向到stdout，以便统一处理
             text=True,
+            bufsize=1,
+            universal_newlines=True,
         )
-        logger.success(f"successfully updated: {' '.join([str(i) for i in cmd])}")
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Error: {e.stderr}")
+
+        # 实时读取输出
+        for line in process.stdout:
+            logger.info(line.rstrip())
+
+        process.wait()
+
+        if process.returncode != 0:
+            logger.error(f"Command failed with return code {process.returncode}: {' '.join([str(i) for i in cmd])}")
+        else:
+            logger.success(f"successfully: {' '.join([str(i) for i in cmd])}")
     except FileNotFoundError:
         logger.error(f"{cmd[2]} not found!")
 
@@ -168,11 +178,8 @@ def gen_qmltypes(path, name, major="1", minor="0", recursive=True):
 def del_pyis(p: str | Path):
     p = Path(p)
     for f in p.rglob("*.pyi"):
-        logger.info(f"删除文件：{f}")
+        logger.info(f"delete .pyi: {f}")
         f.unlink()
-
-
-# stubgen .\pyhuskarui\src\pyhuskarui\  -o .\pyhuskarui\src\
 
 
 def gen_pyis(path: str | Path):

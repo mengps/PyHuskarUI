@@ -20,6 +20,7 @@
         <file>qml/HuskarUI/Basic/HusContextMenu.qml</file>
         <file>qml/HuskarUI/Basic/HusCopyableText.qml</file>
         <file>qml/HuskarUI/Basic/HusDateTimePicker.qml</file>
+        <file>qml/HuskarUI/Basic/HusDateTimePickerPanel.qml</file>
         <file>qml/HuskarUI/Basic/HusDivider.qml</file>
         <file>qml/HuskarUI/Basic/HusDrawer.qml</file>
         <file>qml/HuskarUI/Basic/HusEmpty.qml</file>

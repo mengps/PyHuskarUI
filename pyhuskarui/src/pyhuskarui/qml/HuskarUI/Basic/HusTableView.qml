@@ -28,6 +28,7 @@ HusRectangle {
     id: control
 
     property bool animationEnabled: HusTheme.animationEnabled
+    property alias reuseItems: __cellView.reuseItems
     property bool propagateWheelEvent: false
     property bool alternatingRow: false
     property int defaultColumnHeaderHeight: 40
@@ -126,11 +127,7 @@ HusRectangle {
             sourceComponent: HusCheckBox {
                 id: __parentBox
                 animationEnabled: control.animationEnabled
-
-                Component.onCompleted: {
-                    __parentBox.checkState = __private.parentCheckState;
-                }
-
+                checkState: __private.parentCheckState
                 onToggled: {
                     if (checkState == Qt.Unchecked) {
                         __private.model.forEach(
@@ -151,7 +148,7 @@ HusRectangle {
                 Connections {
                     target: __private
                     function onParentCheckStateChanged() {
-                        __parentBox.checkState = __private.parentCheckState;
+                        __parentBox.checkState = Qt.binding(() => __private.parentCheckState);
                     }
                 }
             }
@@ -639,7 +636,6 @@ HusRectangle {
                             }
                         });
             parentCheckState = checkCount == 0 ? Qt.Unchecked : checkCount == model.length ? Qt.Checked : Qt.PartiallyChecked;
-            parentCheckStateChanged();
         }
 
         function updateCheckedKeys() {
@@ -706,7 +702,7 @@ HusRectangle {
             anchors.fill: parent
             syncDirection: Qt.Horizontal
             syncView: __cellView
-            reuseItems: false /*! 重用有未知BUG */
+            reuseItems: false
             boundsBehavior: Flickable.StopAtBounds
             clip: true
             model: TableModel {
@@ -875,7 +871,7 @@ HusRectangle {
             T.ScrollBar.horizontal: __hScrollBar
             T.ScrollBar.vertical: __vScrollBar
             clip: true
-            reuseItems: false /*! 重用有未知BUG */
+            reuseItems: false
             model: TableModel { id: __cellModel }
             delegate: Rectangle {
                 id: __rootItem
@@ -907,20 +903,20 @@ HusRectangle {
                     }
                 }
 
+                required property int row
+                required property int column
                 required property var model
                 required property var index
                 required property var display
                 required property bool current
                 required property bool selected
 
-                property int row: model.row
-                property int column: model.column
                 property string key: __private.model[row]?.key ?? ''
                 property string selectionType: control.columns[column].selectionType ?? ''
                 property string dataIndex: control.columns[column].dataIndex ?? ''
                 property string filterInput: control.columns[column].filterInput ?? ''
                 property alias cellData: __rootItem.display
-                property bool checked: false
+                property bool checked: __private.checkedKeysSet.has(key)
 
                 MouseArea {
                     anchors.fill: parent
@@ -936,11 +932,7 @@ HusRectangle {
                         sourceComponent: HusCheckBox {
                             id: __childBox
                             animationEnabled: control.animationEnabled
-
-                            Component.onCompleted: {
-                                __childBox.checked = __rootItem.checked = __private.checkedKeysSet.has(key);
-                            }
-
+                            checked: __rootItem.checked
                             onToggled: {
                                 if (checkState == Qt.Checked) {
                                     __private.checkedKeysSet.add(__rootItem.key);

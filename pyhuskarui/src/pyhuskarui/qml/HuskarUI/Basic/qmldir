@@ -21,6 +21,7 @@ HusColorPickerPanel 1.0 qml/HuskarUI/Basic/HusColorPickerPanel.qml
 HusContextMenu 1.0 qml/HuskarUI/Basic/HusContextMenu.qml
 HusCopyableText 1.0 qml/HuskarUI/Basic/HusCopyableText.qml
 HusDateTimePicker 1.0 qml/HuskarUI/Basic/HusDateTimePicker.qml
+HusDateTimePickerPanel 1.0 qml/HuskarUI/Basic/HusDateTimePickerPanel.qml
 HusDivider 1.0 qml/HuskarUI/Basic/HusDivider.qml
 HusDrawer 1.0 qml/HuskarUI/Basic/HusDrawer.qml
 HusEmpty 1.0 qml/HuskarUI/Basic/HusEmpty.qml

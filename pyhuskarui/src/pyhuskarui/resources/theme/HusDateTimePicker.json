@@ -5,6 +5,8 @@
     "__style__": {
         "fontFamily": "@fontPrimaryFamily",
         "fontSize": "@fontPrimarySize",
+        "colorBg": "@colorBgBase",
+        "colorBorder": "@colorTextQuaternary",
         "colorWeekText": "@colorTextBase",
         "colorIcon": "@colorTextTertiary",
         "colorIconHover": "@colorTextSecondary",

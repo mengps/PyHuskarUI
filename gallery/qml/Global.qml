@@ -283,6 +283,13 @@ QtObject {
                     addVersion: '0.5.2',
                     desc: qsTr('用于选择颜色的弹出式窗口。')
                 },
+                {
+                    key: 'HusDateTimePickerPanel',
+                    label: qsTr('HusDateTimePickerPanel 日期时间选择面板'),
+                    source: './Examples/DataEntry/ExpDateTimePickerPanel.qml',
+                    addVersion: '0.5.4',
+                    desc: qsTr('非弹出式的日期时间选择面板。')
+                },
             ]
         },
         {
@@ -314,7 +321,7 @@ QtObject {
                     key: 'HusTabView',
                     label: qsTr('HusTabView 标签页'),
                     source: './Examples/DataDisplay/ExpTabView.qml',
-                    updateVersion: '0.4.*.1',
+                    updateVersion: '0.4.9.1',
                     desc: qsTr('新增 closeTabCallback() 关闭标签回调。')
                 },
                 {
