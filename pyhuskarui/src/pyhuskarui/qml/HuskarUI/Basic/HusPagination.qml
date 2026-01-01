@@ -18,15 +18,16 @@
  */
 
 import QtQuick
+import QtQuick.Templates as T
 import HuskarUI.Basic
 
-Item {
+T.Control {
     id: control
 
     property bool animationEnabled: HusTheme.animationEnabled
     property int defaultButtonWidth: 32
     property int defaultButtonHeight: 32
-    property int defaultButtonSpacing: 8
+    property alias defaultButtonSpacing: control.spacing
     property bool showQuickJumper: false
     property int currentPageIndex: 0
     property int total: 0
@@ -36,6 +37,8 @@ Item {
     property var pageSizeModel: []
     property string prevButtonTooltip: qsTr('上一页')
     property string nextButtonTooltip: qsTr('下一页')
+    property var themeSource: HusTheme.HusPagination
+
     property Component prevButtonDelegate: ActionButton {
         iconSource: HusIcon.LeftOutlined
         tooltipText: control.prevButtonTooltip
@@ -55,10 +58,7 @@ Item {
         HusText {
             anchors.verticalCenter: parent.verticalCenter
             text: qsTr('跳至')
-            font {
-                family: HusTheme.HusCopyableText.fontFamily
-                pixelSize: parseInt(HusTheme.HusCopyableText.fontSize)
-            }
+            font: control.font
             color: HusTheme.Primary.colorTextBase
         }
 
@@ -78,22 +78,8 @@ Item {
         HusText {
             anchors.verticalCenter: parent.verticalCenter
             text: qsTr('页')
-            font {
-                family: HusTheme.Primary.fontPrimaryFamily
-                pixelSize: HusTheme.Primary.fontPrimarySize
-            }
+            font: control.font
             color: HusTheme.Primary.colorTextBase
-        }
-    }
-
-    objectName: '__HusPagination__'
-    width: __row.width
-    height: __row.height
-    Component.onCompleted: currentPageIndexChanged();
-    onPageSizeChanged: {
-        const __pageTotal = (pageSize > 0 ? Math.ceil(total / pageSize) : 0);
-        if (currentPageIndex > __pageTotal) {
-            currentPageIndex = __pageTotal - 1;
         }
     }
 
@@ -130,6 +116,101 @@ Item {
             currentPageIndex = pageTotal - 1;
     }
 
+    onPageSizeChanged: {
+        const __pageTotal = (pageSize > 0 ? Math.ceil(total / pageSize) : 0);
+        if (currentPageIndex > __pageTotal) {
+            currentPageIndex = __pageTotal - 1;
+        }
+    }
+    Component.onCompleted: currentPageIndexChanged();
+
+    objectName: '__HusPagination__'
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
+    spacing: 8
+    font {
+        family: themeSource.fontFamily
+        pixelSize: parseInt(themeSource.fontSize)
+    }
+    contentItem: Row {
+        id: __row
+        spacing: control.spacing
+
+        Loader {
+            anchors.verticalCenter: parent.verticalCenter
+            sourceComponent: control.prevButtonDelegate
+        }
+
+        PaginationButton {
+            pageIndex: 0
+            visible: control.pageTotal > 0
+        }
+
+        PaginationMoreButton {
+            isPrev: true
+            tooltipText: qsTr('向前5页')
+            visible: control.pageTotal > control.pageButtonMaxCount && (control.currentPageIndex + 1) > __private.pageButtonHalfCount
+            onClicked: control.gotoPrev5Page();
+        }
+
+        Repeater {
+            id: __repeater
+            model: (control.pageTotal < 2) ? 0 :
+                                             (control.pageTotal >= control.pageButtonMaxCount) ? (control.pageButtonMaxCount - 2) :
+                                                                                                 (control.pageTotal - 2)
+            delegate: Loader {
+                sourceComponent: PaginationButton {
+                    pageIndex: {
+                        if ((control.currentPageIndex + 1) <= __private.pageButtonHalfCount)
+                            return index + 1;
+                        else if (control.pageTotal - (control.currentPageIndex + 1) <= (control.pageButtonMaxCount - __private.pageButtonHalfCount))
+                            return (control.pageTotal - __repeater.count + index - 1);
+                        else
+                            return (control.currentPageIndex + index + 2 - __private.pageButtonHalfCount);
+                    }
+                }
+                required property int index
+            }
+        }
+
+        PaginationMoreButton {
+            isPrev: false
+            tooltipText: qsTr('向后5页')
+            visible: control.pageTotal > control.pageButtonMaxCount &&
+                     (control.pageTotal - (control.currentPageIndex + 1) > (control.pageButtonMaxCount - __private.pageButtonHalfCount))
+            onClicked: control.gotoNext5Page();
+        }
+
+        PaginationButton {
+            pageIndex: control.pageTotal - 1
+            visible: control.pageTotal > 1
+        }
+
+        Loader {
+            anchors.verticalCenter: parent.verticalCenter
+            sourceComponent: control.nextButtonDelegate
+        }
+
+        HusSelect {
+            anchors.verticalCenter: parent.verticalCenter
+            animationEnabled: control.animationEnabled
+            clearEnabled: false
+            model: control.pageSizeModel
+            visible: count > 0
+            onActivated:
+                (index) => {
+                    control.pageSize = currentValue;
+                }
+        }
+
+        Loader {
+            anchors.verticalCenter: parent.verticalCenter
+            sourceComponent: control.showQuickJumper ? control.quickJumperDelegate : null
+        }
+    }
+
     component PaginationButton: HusButton {
         padding: 0
         width: control.defaultButtonWidth
@@ -139,26 +220,30 @@ Item {
         enabled: control.enabled
         text: (pageIndex + 1)
         checked: control.currentPageIndex == pageIndex
-        font.bold: checked
+        font {
+            family: control.font.family
+            pixelSize: control.font.pixelSize
+            bold: checked
+        }
         colorText: {
             if (enabled)
-                return checked ? HusTheme.HusPagination.colorButtonTextActive : HusTheme.HusPagination.colorButtonText;
+                return checked ? control.themeSource.colorButtonTextActive : control.themeSource.colorButtonText;
             else
-                return HusTheme.HusPagination.colorButtonTextDisabled;
+                return control.themeSource.colorButtonTextDisabled;
         }
         colorBg: {
             if (enabled) {
                 if (checked)
-                    return HusTheme.HusPagination.colorButtonBg;
+                    return control.themeSource.colorButtonBg;
                 else
-                    return down ? HusTheme.HusPagination.colorButtonBgActive :
-                                  hovered ? HusTheme.HusPagination.colorButtonBgHover :
-                                            HusTheme.HusPagination.colorButtonBg;
+                    return down ? control.themeSource.colorButtonBgActive :
+                                  hovered ? control.themeSource.colorButtonBgHover :
+                                            control.themeSource.colorButtonBg;
             } else {
-                return checked ? HusTheme.HusPagination.colorButtonBgDisabled : 'transparent';
+                return checked ? control.themeSource.colorButtonBgDisabled : 'transparent';
             }
         }
-        colorBorder: checked ? HusTheme.HusPagination.colorBorderActive : 'transparent'
+        colorBorder: checked ? control.themeSource.colorBorderActive : 'transparent'
         onClicked: {
             control.currentPageIndex = pageIndex;
         }
@@ -242,9 +327,9 @@ Item {
             enabled: control.enabled && !__actionRoot.disabled
             effectEnabled: false
             colorBorder: 'transparent'
-            colorBg: enabled ? (down ? HusTheme.HusPagination.colorActionBgActive :
-                                       hovered ? HusTheme.HusPagination.colorActionBgHover :
-                                                 HusTheme.HusPagination.colorActionBg) : HusTheme.HusPagination.colorActionBg
+            colorBg: enabled ? (down ? control.themeSource.colorActionBgActive :
+                                       hovered ? control.themeSource.colorActionBgHover :
+                                                 control.themeSource.colorActionBg) : control.themeSource.colorActionBg
             onClicked: __actionRoot.clicked();
 
             HusToolTip {
@@ -263,82 +348,5 @@ Item {
     QtObject {
         id: __private
         property int pageButtonHalfCount: Math.ceil(control.pageButtonMaxCount * 0.5)
-    }
-
-    Row {
-        id: __row
-        spacing: control.defaultButtonSpacing
-
-        Loader {
-            anchors.verticalCenter: parent.verticalCenter
-            sourceComponent: control.prevButtonDelegate
-        }
-
-        PaginationButton {
-            pageIndex: 0
-            visible: control.pageTotal > 0
-        }
-
-        PaginationMoreButton {
-            isPrev: true
-            tooltipText: qsTr('向前5页')
-            visible: control.pageTotal > control.pageButtonMaxCount && (control.currentPageIndex + 1) > __private.pageButtonHalfCount
-            onClicked: control.gotoPrev5Page();
-        }
-
-        Repeater {
-            id: __repeater
-            model: (control.pageTotal < 2) ? 0 :
-                                             (control.pageTotal >= control.pageButtonMaxCount) ? (control.pageButtonMaxCount - 2) :
-                                                                                                 (control.pageTotal - 2)
-            delegate: Loader {
-                sourceComponent: PaginationButton {
-                    pageIndex: {
-                        if ((control.currentPageIndex + 1) <= __private.pageButtonHalfCount)
-                            return index + 1;
-                        else if (control.pageTotal - (control.currentPageIndex + 1) <= (control.pageButtonMaxCount - __private.pageButtonHalfCount))
-                            return (control.pageTotal - __repeater.count + index - 1);
-                        else
-                            return (control.currentPageIndex + index + 2 - __private.pageButtonHalfCount);
-                    }
-                }
-                required property int index
-            }
-        }
-
-        PaginationMoreButton {
-            isPrev: false
-            tooltipText: qsTr('向后5页')
-            visible: control.pageTotal > control.pageButtonMaxCount &&
-                     (control.pageTotal - (control.currentPageIndex + 1) > (control.pageButtonMaxCount - __private.pageButtonHalfCount))
-            onClicked: control.gotoNext5Page();
-        }
-
-        PaginationButton {
-            pageIndex: control.pageTotal - 1
-            visible: control.pageTotal > 1
-        }
-
-        Loader {
-            anchors.verticalCenter: parent.verticalCenter
-            sourceComponent: control.nextButtonDelegate
-        }
-
-        HusSelect {
-            anchors.verticalCenter: parent.verticalCenter
-            animationEnabled: control.animationEnabled
-            clearEnabled: false
-            model: control.pageSizeModel
-            visible: count > 0
-            onActivated:
-                (index) => {
-                    control.pageSize = currentValue;
-                }
-        }
-
-        Loader {
-            anchors.verticalCenter: parent.verticalCenter
-            sourceComponent: control.showQuickJumper ? control.quickJumperDelegate : null
-        }
     }
 }

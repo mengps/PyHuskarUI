@@ -123,7 +123,6 @@ T.RadioButton {
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
     }
-    background: Item { }
 
     HoverHandler {
         cursorShape: control.hoverCursorShape

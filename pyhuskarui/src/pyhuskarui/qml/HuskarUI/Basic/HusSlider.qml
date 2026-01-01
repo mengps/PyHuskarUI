@@ -21,7 +21,7 @@ import QtQuick
 import QtQuick.Templates as T
 import HuskarUI.Basic
 
-Item {
+T.Control {
     id: control
 
     enum SnapMode
@@ -50,20 +50,22 @@ Item {
         }
     }
     property bool range: false
-    readonly property bool hovered: __sliderLoader.item ? __sliderLoader.item.hovered : false
     property int snapMode: HusSlider.NoSnap
     property int orientation: Qt.Horizontal
-    property color colorBg: (enabled && hovered) ? HusTheme.HusSlider.colorBgHover : HusTheme.HusSlider.colorBg
-    property color colorHandle: HusTheme.HusSlider.colorHandle
+    property color colorBg: (enabled && hovered) ? themeSource.colorBgHover : themeSource.colorBg
+    property color colorHandle: themeSource.colorHandle
     property color colorTrack: {
-        if (!enabled) return HusTheme.HusSlider.colorTrackDisabled;
+        if (!enabled) return themeSource.colorTrackDisabled;
 
         if (HusTheme.isDark)
-            return hovered ? HusTheme.HusSlider.colorTrackHoverDark : HusTheme.HusSlider.colorTrackDark;
+            return hovered ? themeSource.colorTrackHoverDark : themeSource.colorTrackDark;
         else
-            return hovered ? HusTheme.HusSlider.colorTrackHover : HusTheme.HusSlider.colorTrack;
+            return hovered ? themeSource.colorTrackHover : themeSource.colorTrack;
     }
-    property HusRadius radiusBg: HusRadius { all: HusTheme.HusSlider.radiusBg }
+    property HusRadius radiusBg: HusRadius { all: themeSource.radiusBg }
+    property string contentDescription: ''
+    property var themeSource: HusTheme.HusSlider
+
     property Component handleToolTipDelegate: Item { }
     property Component handleDelegate: Rectangle {
         id: __handleItem
@@ -88,11 +90,11 @@ Item {
         border.color: {
             if (control.enabled) {
                 if (HusTheme.isDark)
-                    return active ? HusTheme.HusSlider.colorHandleBorderHoverDark : HusTheme.HusSlider.colorHandleBorderDark;
+                    return active ? control.themeSource.colorHandleBorderHoverDark : control.themeSource.colorHandleBorderDark;
                 else
-                    return active ? HusTheme.HusSlider.colorHandleBorderHover : HusTheme.HusSlider.colorHandleBorder;
+                    return active ? control.themeSource.colorHandleBorderHover : control.themeSource.colorHandleBorder;
             } else {
-                return HusTheme.HusSlider.colorHandleBorderDisabled;
+                return control.themeSource.colorHandleBorderDisabled;
             }
         }
         border.width: active ? 4 : 2
@@ -108,6 +110,7 @@ Item {
 
         HoverHandler {
             id: __hoverHandler
+            enabled: control.enabled
             cursorShape: control.hoverCursorShape
         }
 
@@ -165,10 +168,6 @@ Item {
             }
         }
     }
-    property string contentDescription: ''
-
-    objectName: '__HusSlider__'
-    onValueChanged: __fromValueUpdate();
 
     function decrease(first = true) {
         if (__sliderLoader.item) {
@@ -182,6 +181,7 @@ Item {
             }
         }
     }
+
     function increase(first = true) {
         if (range) {
             if (first)
@@ -192,12 +192,30 @@ Item {
             __sliderLoader.item.decrease();
         }
     }
-    function __fromValueUpdate() {
-        if (__sliderLoader.item) {
-            if (range) {
-                __sliderLoader.item.setValues(...value);
-            } else {
-                __sliderLoader.item.value = value;
+
+    onValueChanged: __private.fromValueUpdate();
+
+    objectName: '__HusSlider__'
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
+    contentItem: Loader {
+        id: __sliderLoader
+        sourceComponent: control.range ? __rangeSliderComponent : __sliderComponent
+        onLoaded: __private.fromValueUpdate();
+    }
+
+    QtObject {
+        id: __private
+
+        function fromValueUpdate() {
+            if (__sliderLoader.item) {
+                if (range) {
+                    __sliderLoader.item.setValues(...value);
+                } else {
+                    __sliderLoader.item.value = value;
+                }
             }
         }
     }
@@ -206,7 +224,7 @@ Item {
         id: __sliderComponent
 
         T.Slider {
-            id: __control
+            id: __slider
             from: min
             to: max
             stepSize: control.stepSize
@@ -220,14 +238,14 @@ Item {
             }
             handle: Loader {
                 sourceComponent: handleDelegate
-                property alias slider: __control
-                property alias visualPosition: __control.visualPosition
-                property alias pressed: __control.pressed
+                property alias slider: __slider
+                property alias visualPosition: __slider.visualPosition
+                property alias pressed: __slider.pressed
             }
             background: Loader {
                 sourceComponent: bgDelegate
-                property alias slider: __control
-                property alias visualPosition: __control.visualPosition
+                property alias slider: __slider
+                property alias visualPosition: __slider.visualPosition
             }
             onMoved: control.firstMoved();
             onPressedChanged: {
@@ -241,7 +259,7 @@ Item {
         id: __rangeSliderComponent
 
         T.RangeSlider {
-            id: __control
+            id: __rangeSlider
             from: min
             to: max
             stepSize: control.stepSize
@@ -255,9 +273,9 @@ Item {
             orientation: control.orientation
             first.handle: Loader {
                 sourceComponent: handleDelegate
-                property alias slider: __control
-                property alias visualPosition: __control.first.visualPosition
-                property alias pressed: __control.first.pressed
+                property alias slider: __rangeSlider
+                property alias visualPosition: __rangeSlider.first.visualPosition
+                property alias pressed: __rangeSlider.first.pressed
             }
             first.onMoved: control.firstMoved();
             first.onPressedChanged: {
@@ -266,9 +284,9 @@ Item {
             }
             second.handle: Loader {
                 sourceComponent: handleDelegate
-                property alias slider: __control
-                property alias visualPosition: __control.second.visualPosition
-                property alias pressed: __control.second.pressed
+                property alias slider: __rangeSlider
+                property alias visualPosition: __rangeSlider.second.visualPosition
+                property alias pressed: __rangeSlider.second.pressed
             }
             second.onMoved: control.secondMoved();
             second.onPressedChanged: {
@@ -277,16 +295,9 @@ Item {
             }
             background: Loader {
                 sourceComponent: bgDelegate
-                property alias slider: __control
+                property alias slider: __rangeSlider
             }
         }
-    }
-
-    Loader {
-        id: __sliderLoader
-        anchors.fill: parent
-        sourceComponent: control.range ? __rangeSliderComponent : __sliderComponent
-        onLoaded: __fromValueUpdate();
     }
 
     Accessible.role: Accessible.Slider

@@ -1,8 +1,10 @@
 <RCC>
     <qresource prefix="/Gallery">
-        <file>images/huskarui_icon.ico</file>
-        <file>images/huskarui_icon.png</file>
-        <file>images/huskarui_icon.svg</file>
+        <file>images/huskarui_new_square.icns</file>
+        <file>images/huskarui_new_square.ico</file>
+        <file>images/huskarui_new_square.jpg</file>
+        <file>images/huskarui_new_square.png</file>
+        <file>images/huskarui_new_square.svg</file>
         <file>images/switch_effect1.jpg</file>
         <file>images/switch_effect2.jpg</file>
     </qresource>

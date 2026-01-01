@@ -59,16 +59,19 @@ def package():
         "--output-dir=./package",
         "--output-folder-name=package",
         "--output-filename=PyHuskarUI-Gallery",
-        f"--macos-app-icon={gallery}/images/huskarui_icon.icns",
-        f"--windows-icon-from-ico={gallery}/images/huskarui_icon.ico",
-
+        f"--macos-app-icon={gallery}/images/huskarui_new_square.icns",
+        f"--windows-icon-from-ico={gallery}/images/huskarui_new_square.ico",
     ]
     if sys.platform.startswith("darwin"):
         args.extend(["--macos-create-app-bundle", "--disable-ccache"])
         dist = Path("./package/package.app")
         target = dist.parent / "PyHuskarUI-Gallery.app"
 
-    args.extend([f"{gallery}/main.py", ])
+    args.extend(
+        [
+            f"{gallery}/main.py",
+        ]
+    )
 
     uv_run(args)
 
@@ -126,6 +129,7 @@ def package():
         for p in dist.glob(file):
             if p.is_dir():
                 import shutil
+
                 shutil.rmtree(p)
             else:
                 p.unlink()

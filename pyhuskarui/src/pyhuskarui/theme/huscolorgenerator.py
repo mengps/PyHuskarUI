@@ -28,7 +28,6 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 @QmlElement
 class HusColorGenerator(QObject):
-
     class Preset(IntEnum):
         Preset_None = 0
         Preset_Red = 1

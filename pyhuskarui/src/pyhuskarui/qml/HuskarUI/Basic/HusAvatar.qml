@@ -18,10 +18,11 @@
  */
 
 import QtQuick
+import QtQuick.Templates as T
 import QtQuick.Effects
 import HuskarUI.Basic
 
-Item {
+T.Control {
     id: control
 
     enum TextSiz {
@@ -36,10 +37,7 @@ Item {
     property bool imageMipmap: false
 
     property string textSource: ''
-    property font textFont: Qt.font({
-                                        family: HusTheme.Primary.fontPrimaryFamily,
-                                        pixelSize: control.size * 0.5
-                                    })
+    property alias textFont: control.font
     property int textSize: HusAvatar.Size_Fixed
     property int textGap: 4
 
@@ -49,15 +47,31 @@ Item {
     property HusRadius radiusBg: HusRadius { all: control.width * 0.5 }
 
     objectName: '__HusAvatar__'
-    width: __loader.width
-    height: __loader.height
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
+    font {
+        family: HusTheme.Primary.fontPrimaryFamily
+        pixelSize: control.size * 0.5
+    }
+    contentItem: Loader {
+        sourceComponent: {
+            if (control.iconSource !== 0 && control.iconSource !== '')
+                return __iconImpl;
+            else if (control.imageSource != '')
+                return __imageImpl;
+            else
+                return __textImpl;
+        }
+    }
 
     Component {
         id: __iconImpl
 
         HusRectangleInternal {
-            width: control.size
-            height: control.size
+            implicitWidth: control.size
+            implicitHeight: control.size
             radius: control.radiusBg.all
             topLeftRadius: control.radiusBg.topLeft
             topRightRadius: control.radiusBg.topRight
@@ -79,8 +93,8 @@ Item {
         id: __imageImpl
 
         HusRectangleInternal {
-            width: control.size
-            height: control.size
+            implicitWidth: control.size
+            implicitHeight: control.size
             radius: control.radiusBg.all
             topLeftRadius: control.radiusBg.topLeft
             topRightRadius: control.radiusBg.topRight
@@ -124,8 +138,8 @@ Item {
 
         HusRectangleInternal {
             id: __bg
-            width: Math.max(control.size, __textSource.implicitWidth + control.textGap * 2);
-            height: width
+            implicitWidth: Math.max(control.size, __textSource.implicitWidth + control.textGap * 2);
+            implicitHeight: implicitWidth
             radius: control.radiusBg.all
             topLeftRadius: control.radiusBg.topLeft
             topRightRadius: control.radiusBg.topRight
@@ -169,18 +183,6 @@ Item {
                     }
                 }
             }
-        }
-    }
-
-    Loader {
-        id: __loader
-        sourceComponent: {
-            if (control.iconSource !== 0 && control.iconSource !== '')
-                return __iconImpl;
-            else if (control.imageSource != '')
-                return __imageImpl;
-            else
-                return __textImpl;
         }
     }
 }

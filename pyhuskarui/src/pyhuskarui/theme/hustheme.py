@@ -54,6 +54,7 @@ class Component(Enum):
     HusInput = "HusInput"
     HusRate = "HusRate"
     HusRadio = "HusRadio"
+    HusRadioBlock = "HusRadioBlock"
     HusCheckBox = "HusCheckBox"
     HusDrawer = "HusDrawer"
     HusCollapse = "HusCollapse"
@@ -145,6 +146,7 @@ class HusTheme(QObject):
     HusInputChanged = Signal()
     HusRateChanged = Signal()
     HusRadioChanged = Signal()
+    HusRadioBlockChanged = Signal()
     HusCheckBoxChanged = Signal()
     HusDrawerChanged = Signal()
     HusCollapseChanged = Signal()
@@ -190,14 +192,14 @@ class HusTheme(QObject):
         # 正则表达式
         self._func_regex = re.compile(r"\$([^)]+)\(")
         self._args_regex = re.compile(r"\(([^)]+)\)")
-        
+
         # 初始化组件属性
         self._Primary = {}
-        
+
         # 使用Component枚举动态初始化所有组件属性
         for component in Component:
             setattr(self, f"_{component.value}", {})
-            
+
         # 连接系统主题变化信号
         self._helper.colorSchemeChanged.connect(self._on_system_color_scheme_changed)
 
@@ -237,6 +239,8 @@ class HusTheme(QObject):
                 self._parse_darker(out, token_name, args_str)
             elif func_name == "lighter":
                 self._parse_lighter(out, token_name, args_str)
+            elif func_name == "brightness":
+                self._parse_brightness(out, token_name, args_str)
             elif func_name == "alpha":
                 self._parse_alpha(out, token_name, args_str)
             elif func_name == "onBackground":
@@ -331,6 +335,24 @@ class HusTheme(QObject):
             out[token_name] = HusThemeFunctions.lighter(arg1, int(arg2))
         else:
             logger.error(f"func lighter() only accepts 1/2 parameters: {args}")
+
+    def _parse_brightness(self, out: dict, token_name: str, args: str):
+        """解析亮度函数"""
+        arg_list = args.split(",")
+        if len(arg_list) == 1:
+            arg1 = self._color_from_index_table(arg_list[0])
+            out[token_name] = HusThemeFunctions.brightness(arg1, not self.isDark)
+        elif len(arg_list) == 2:
+            arg1 = self._color_from_index_table(arg_list[0])
+            arg2 = self._number_from_index_table(arg_list[1])
+            out[token_name] = HusThemeFunctions.brightness(arg1, not self.isDark, int(arg2))
+        elif len(arg_list) == 3:
+            arg1 = self._color_from_index_table(arg_list[0])
+            arg2 = self._number_from_index_table(arg_list[1])
+            arg3 = self._number_from_index_table(arg_list[2])
+            out[token_name] = HusThemeFunctions.brightness(arg1, not self.isDark, int(arg2), int(arg3))
+        else:
+            logger.error(f"func brightness() only accepts 1/2/3 parameters: {args}")
 
     def _parse_alpha(self, out: dict, token_name: str, args: str):
         """解析透明度函数"""
@@ -714,6 +736,10 @@ class HusTheme(QObject):
     @Property(dict, notify=HusRadioChanged)
     def HusRadio(self) -> dict:
         return self._HusRadio
+
+    @Property(dict, notify=HusRadioBlockChanged)
+    def HusRadioBlock(self) -> dict:
+        return self._HusRadioBlock
 
     @Property(dict, notify=HusCheckBoxChanged)
     def HusCheckBox(self) -> dict:

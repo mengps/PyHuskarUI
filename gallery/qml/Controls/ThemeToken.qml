@@ -99,8 +99,8 @@ Item {
                 HusIconButton {
                     anchors.verticalCenter: parent.verticalCenter
                     iconSource: HusIcon.EditOutlined
-                    topPadding: 4
-                    bottomPadding: 4
+                    topPadding: 2
+                    bottomPadding: 2
                     leftPadding: 4
                     rightPadding: 4
                     onClicked: {
@@ -209,14 +209,14 @@ Item {
                         dataIndex: 'tokenName',
                         key: 'tokenName',
                         delegate: tagDelegate,
-                        width: 250
+                        width: 300
                     },
                     {
                         title: qsTr('Token 值'),
                         key: 'tokenValue',
                         dataIndex: 'tokenValue',
                         delegate: editDelegate,
-                        width: 400
+                        width: 450
                     },
                     {
                         title: qsTr('Token 计算值'),

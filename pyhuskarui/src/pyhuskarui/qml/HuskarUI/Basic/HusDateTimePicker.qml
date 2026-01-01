@@ -82,7 +82,7 @@ HusInput {
     property alias locale: __dateTimePickerPanel.locale
 
     property alias radiusItemBg: __dateTimePickerPanel.radiusItemBg
-    property HusRadius radiusPopupBg: HusRadius { all: themeSource.radiusPopupBg }
+    property alias radiusPopupBg: __picker.radiusBg
 
     property alias dayDelegate: __dateTimePickerPanel.dayDelegate
 
@@ -196,9 +196,9 @@ HusInput {
         padding: 0
         implicitWidth: implicitContentWidth + leftPadding + rightPadding
         implicitHeight: implicitContentHeight + topPadding + bottomPadding
-        colorBg: HusTheme.isDark ? control.themeSource.colorPopupBgDark : control.themeSource.colorPopupBg
-        radiusBg: control.radiusPopupBg
         animationEnabled: control.animationEnabled
+        colorBg: HusTheme.isDark ? control.themeSource.colorPopupBgDark : control.themeSource.colorPopupBg
+        radiusBg.all: control.themeSource.radiusPopupBg
         closePolicy: T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutsideParent
         transformOrigin: isTop ? Item.Bottom : Item.Top
         enter: Transition {

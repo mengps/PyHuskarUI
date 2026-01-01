@@ -55,10 +55,26 @@ HusInput {
         Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationMid } }
     }
 
-    objectName: '__HusAutoComplete__'
-    themeSource: HusTheme.HusAutoComplete
-    iconPosition: HusInput.Position_Right
-    clearEnabled: 'active'
+    function clearInput() {
+        control.clear();
+        control.textEdited();
+        __popupListView.currentIndex = __popupListView.selectedIndex = -1;
+    }
+
+    function openPopup() {
+        if (!__popup.opened)
+            __popup.open();
+    }
+
+    function closePopup() {
+        __popup.close();
+    }
+
+    function filter() {
+        __private.model = options.filter(option => filterOption(text, option) === true);
+        __popupListView.currentIndex = __popupListView.selectedIndex = -1;
+    }
+
     onClickClear: {
         control.clearInput();
     }
@@ -76,7 +92,6 @@ HusInput {
         else
             control.closePopup();
     }
-
     Keys.onPressed: function(event) {
         if (event.key === Qt.Key_Escape) {
             control.closePopup();
@@ -106,25 +121,10 @@ HusInput {
         }
     }
 
-    function clearInput() {
-        control.clear();
-        control.textEdited();
-        __popupListView.currentIndex = __popupListView.selectedIndex = -1;
-    }
-
-    function openPopup() {
-        if (!__popup.opened)
-            __popup.open();
-    }
-
-    function closePopup() {
-        __popup.close();
-    }
-
-    function filter() {
-        __private.model = options.filter(option => filterOption(text, option) === true);
-        __popupListView.currentIndex = __popupListView.selectedIndex = -1;
-    }
+    objectName: '__HusAutoComplete__'
+    themeSource: HusTheme.HusAutoComplete
+    iconPosition: HusInput.Position_Right
+    clearEnabled: 'active'
 
     Item {
         id: __private

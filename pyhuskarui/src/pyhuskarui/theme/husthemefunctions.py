@@ -92,6 +92,17 @@ class HusThemeFunctions(QObject):
         return color.lighter(factor)
 
     @Slot(QColor, result=QColor)
+    @Slot(QColor, bool, result=QColor)
+    @Slot(QColor, bool, int, result=QColor)
+    @Slot(QColor, bool, int, int, result=QColor)
+    @staticmethod
+    def brightness(color: QColor, isLight: bool = True, lightFactor: int = 140, darkFactor: int = 140) -> QColor:
+        if isLight:
+            return color.lighter(lightFactor)
+        else:
+            return color.darker(darkFactor)
+
+    @Slot(QColor, result=QColor)
     @Slot(QColor, float, result=QColor)
     @staticmethod
     def alpha(color: QColor, alpha_val: float = 0.5) -> QColor:

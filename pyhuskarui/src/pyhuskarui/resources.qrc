@@ -36,6 +36,7 @@
         <file>resources/theme/HusPopup.json</file>
         <file>resources/theme/HusProgress.json</file>
         <file>resources/theme/HusRadio.json</file>
+        <file>resources/theme/HusRadioBlock.json</file>
         <file>resources/theme/HusRate.json</file>
         <file>resources/theme/HusScrollBar.json</file>
         <file>resources/theme/HusSelect.json</file>

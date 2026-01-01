@@ -1,5 +1,5 @@
 <div align=center>
-<img width=64 src="gallery/images/huskarui_icon.svg">
+<img width=64 src="gallery/images/huskarui_new_square.svg">
 
 # 「 PyHuskarUI 」 Modern UI for PySide6 and Qml 
 

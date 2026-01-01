@@ -41,11 +41,6 @@ T.Popup {
         }
     }
 
-    focus: true
-    modal: !penetrationEvent
-    dim: true
-    objectName: '__HusTourFocus__'
-    closePolicy: maskClosable ? T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutside : T.Popup.NoAutoClose
     onFocusMarginChanged: {
         __private.recalcPosition();
     }
@@ -61,6 +56,12 @@ T.Popup {
             __private.startClosing();
         }
     }
+
+    focus: true
+    modal: !penetrationEvent
+    dim: true
+    objectName: '__HusTourFocus__'
+    closePolicy: maskClosable ? T.Popup.CloseOnEscape | T.Popup.CloseOnPressOutside : T.Popup.NoAutoClose
     enter: Transition {
         NumberAnimation {
             property: 'opacity';

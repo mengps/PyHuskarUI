@@ -114,11 +114,11 @@ T.Control {
             setDateTime(initDateTime);
         } else {
             const now = new Date();
-            currentYear = now.getFullYear()
-            currentMonth = now.getMonth()
-            currentDay = now.getDate()
-            currentWeekNumber = HusApi.getWeekNumber(now)
-            currentQuarter = Math.floor(currentMonth / 3) + 1
+            currentYear = now.getFullYear();
+            currentMonth = now.getMonth();
+            currentDay = now.getDate();
+            currentWeekNumber = HusApi.getWeekNumber(now);
+            currentQuarter = Math.floor(currentMonth / 3) + 1;
             currentHours = 0;
             currentMinutes = 0;
             currentSeconds = 0;
@@ -218,7 +218,7 @@ T.Control {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 1
-                    color: control.themeSource.colorSplitLine
+                    color: control.themeSource.colorSplit
                 }
 
                 ColumnLayout {
@@ -507,7 +507,7 @@ T.Control {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 1
                     visible: control.showNow && control.datePickerMode == HusDateTimePicker.Mode_Day && !control.showTime
-                    color: control.themeSource.colorSplitLine
+                    color: control.themeSource.colorSplit
                 }
 
                 Loader {
@@ -535,7 +535,7 @@ T.Control {
                         width: 1
                         height: parent.height
                         anchors.right: parent.right
-                        color: control.themeSource.colorSplitLine
+                        color: control.themeSource.colorSplit
                     }
                 }
             }
@@ -574,7 +574,7 @@ T.Control {
                         width: parent.width
                         height: 1
                         anchors.bottom: parent.bottom
-                        color: control.themeSource.colorSplitLine
+                        color: control.themeSource.colorSplit
                         visible: control.showDate && control.showTime
                     }
                 }
@@ -594,7 +594,7 @@ T.Control {
                             width: 1
                             height: parent.height
                             anchors.right: parent.right
-                            color: control.themeSource.colorSplitLine
+                            color: control.themeSource.colorSplit
                         }
                     }
 
@@ -611,7 +611,7 @@ T.Control {
                             anchors.right: parent.right
                             visible: control.timePickerMode == HusDateTimePicker.Mode_HHMMSS ||
                                      control.timePickerMode == HusDateTimePicker.Mode_MMSS
-                            color: control.themeSource.colorSplitLine
+                            color: control.themeSource.colorSplit
                         }
                     }
 
@@ -635,7 +635,7 @@ T.Control {
                 Rectangle {
                     width: parent.width
                     height: 1
-                    color: control.themeSource.colorSplitLine
+                    color: control.themeSource.colorSplit
                 }
 
                 HusButton {

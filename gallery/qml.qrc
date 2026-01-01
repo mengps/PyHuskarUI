@@ -56,6 +56,7 @@
         <file>qml/Examples/Feedback/ExpProgress.qml</file>
         <file>qml/Examples/Feedback/ExpSpin.qml</file>
         <file>qml/Examples/Feedback/ExpWatermark.qml</file>
+        <file>qml/Examples/Functions/ExpApi.qml</file>
         <file>qml/Examples/General/ExpButton.qml</file>
         <file>qml/Examples/General/ExpButtonBlock.qml</file>
         <file>qml/Examples/General/ExpCaptionBar.qml</file>
