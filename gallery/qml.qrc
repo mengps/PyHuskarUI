@@ -79,6 +79,7 @@
         <file>qml/Examples/Navigation/ExpScrollBar.qml</file>
         <file>qml/Examples/Theme/ExpTheme.qml</file>
         <file>qml/Examples/Utils/ExpAsyncHasher.qml</file>
+        <file>qml/Examples/Utils/ExpRouter.qml</file>
         <file>qml/Home/AboutPage.qml</file>
         <file>qml/Home/CreatorPage.qml</file>
         <file>qml/Home/HomePage.qml</file>

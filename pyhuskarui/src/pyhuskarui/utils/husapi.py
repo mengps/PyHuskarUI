@@ -45,8 +45,18 @@ class HusApi(QObject):
     def setWindowStaysOnTopHint(self, window: QWindow, hint: bool) -> None:
         if window is not None:
             if sys.platform == "win32":
+                from ctypes import wintypes
+
                 hwnd = window.winId()
-                user32.SetWindowPos(hwnd, -1 if hint else -2, 0, 0, 0, 0, 0x0001)
+
+                HWND_TOPMOST = wintypes.HWND(-1)
+                HWND_NOTOPMOST = wintypes.HWND(-2)
+
+                result = user32.SetWindowPos(
+                    hwnd, HWND_TOPMOST if hint else HWND_NOTOPMOST, 0, 0, 0, 0, 0x0002 | 0x0001
+                )
+                if not result:
+                    logger.warning(f"Failed to set window topmost status. Hint: {hint}")
             else:
                 window.setFlag(Qt.WindowType.WindowStaysOnTopHint, hint)
 
@@ -55,7 +65,14 @@ class HusApi(QObject):
         if window is not None:
             if sys.platform == "win32":
                 hwnd = window.winId()
-                user32.ShowWindow(hwnd, state)
+                SW_MINIMIZE = 6
+                SW_MAXIMIZE = 3
+                if state == Qt.WindowState.WindowMaximized.value:
+                    user32.ShowWindow(hwnd, SW_MAXIMIZE)
+                elif state == Qt.WindowState.WindowMinimized.value:
+                    user32.ShowWindow(hwnd, SW_MINIMIZE)
+                else:
+                    window.setWindowState(Qt.WindowState(state))
             else:
                 window.setWindowState(Qt.WindowState(state))
 

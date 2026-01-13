@@ -52,6 +52,7 @@
         <file>qml/HuskarUI/Basic/HusSelect.qml</file>
         <file>qml/HuskarUI/Basic/HusShadow.qml</file>
         <file>qml/HuskarUI/Basic/HusSlider.qml</file>
+        <file>qml/HuskarUI/Basic/HusSpace.qml</file>
         <file>qml/HuskarUI/Basic/HusSpin.qml</file>
         <file>qml/HuskarUI/Basic/HusSwitch.qml</file>
         <file>qml/HuskarUI/Basic/HusSwitchEffect.qml</file>
@@ -67,5 +68,6 @@
         <file>qml/HuskarUI/Basic/HusTreeView.qml</file>
         <file>qml/HuskarUI/Basic/HusWindow.qml</file>
         <file>qml/HuskarUI/Basic/qmldir</file>
+        <file>qml/HuskarUI/Basic/designer/huskaruibasic.metainfo</file>
     </qresource>
 </RCC>

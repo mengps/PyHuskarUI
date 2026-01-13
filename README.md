@@ -40,6 +40,7 @@ English | [中文](./README-zh_CN.md)
 <img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/light.png">
 <img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/dark.png">
 <img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/doc.png">
+<img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/designer.png">
 
 </div>
 
@@ -100,13 +101,12 @@ uv run ./gallery/main.py
  - Create QtQuick application `QtVersion >= 6.8`
  - Add the following code to your `main.py`
  ```python
- from pyhuskarui.husapp import HusApp
-
+ ...
  if __name__ == "__main__":
      ...
      app = QGuiApplication(sys.argv)
      engine = QQmlApplicationEngine()
-     HusApp.initialize(engine)
+     engine.singletonInstance("HuskarUI.Basic", "HusApp")
      ...
  ```
 - Add the following code to your `Main.qml`
@@ -126,7 +126,7 @@ uv run ./gallery/main.py
 
 ## 💓 LICENSE
 
-Use ` Apache License 2.0`
+Use `Apache License 2.0`
 
 ## 🎉 Star History
 

@@ -150,7 +150,8 @@ QtObject {
                     key: 'HusPagination',
                     label: qsTr('HusPagination 分页'),
                     source: './Examples/Navigation/ExpPagination.qml',
-                    desc: qsTr('分页器用于分隔长列表，每次只加载一个页面。')
+                    updateVersion: '0.5.4.1',
+                    desc: qsTr('新增 sizeHint 尺寸提示。')
                 },
                 {
                     key: 'HusContextMenu',
@@ -188,8 +189,8 @@ QtObject {
                     key: 'HusSelect',
                     label: qsTr('HusSelect 选择器'),
                     source: './Examples/DataEntry/ExpSelect.qml',
-                    updateVersion: '0.4.8.1',
-                    desc: qsTr('新增 clearIconDelegate。\n新增 bgDelegate代理。\n新增清除图标相关属性和信号。')
+                    updateVersion: '0.5.4.1',
+                    desc: qsTr('新增 sizeHint 尺寸提示。')
                 },
                 {
                     key: 'HusInput',
@@ -202,7 +203,8 @@ QtObject {
                     key: 'HusOTPInput',
                     label: qsTr('HusOTPInput 一次性口令输入框'),
                     source: './Examples/DataEntry/ExpOTPInput.qml',
-                    desc: qsTr('新增 setInput() 函数。\n新增 setInputAtIndex() 函数。')
+                    updateVersion: '0.5.4.1',
+                    desc: qsTr('新增 sizeHint 尺寸提示。')
                 },
                 {
                     key: 'HusRate',
@@ -461,6 +463,13 @@ QtObject {
                     label: qsTr('HusAsyncHasher 异步哈希器'),
                     source: './Examples/Utils/ExpAsyncHasher.qml',
                     desc: qsTr('可对任意数据(url/text/object)生成加密哈希的异步散列器。')
+                },
+                {
+                    key: 'HusRouter',
+                    label: qsTr('HusRouter 路由'),
+                    source: './Examples/Utils/ExpRouter.qml',
+                    addVersion: '0.5.5',
+                    desc: qsTr('简单的URL路由。')
                 }
             ]
         },

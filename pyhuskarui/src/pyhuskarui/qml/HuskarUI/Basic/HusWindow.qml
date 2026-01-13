@@ -18,6 +18,7 @@
  */
 
 import QtQuick
+import HuskarUI.Impl
 import HuskarUI.Basic
 
 Window {
@@ -70,7 +71,7 @@ Window {
                 windowAgent.setWindowAttribute('mica-alt', false);
                 if (windowAgent.setWindowAttribute('dwm-blur', true)) {
                     window.specialEffect = HusWindow.Win_DwmBlur;
-                    window.color = 'transparent'
+                    window.color = 'transparent';
                     return true;
                 } else {
                     return false;

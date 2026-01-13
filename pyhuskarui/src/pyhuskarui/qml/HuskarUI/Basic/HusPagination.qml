@@ -25,8 +25,8 @@ T.Control {
     id: control
 
     property bool animationEnabled: HusTheme.animationEnabled
-    property int defaultButtonWidth: 32
-    property int defaultButtonHeight: 32
+    property int defaultButtonWidth: 32 * sizeRatio
+    property int defaultButtonHeight: 32 * sizeRatio
     property alias defaultButtonSpacing: control.spacing
     property bool showQuickJumper: false
     property int currentPageIndex: 0
@@ -37,6 +37,8 @@ T.Control {
     property var pageSizeModel: []
     property string prevButtonTooltip: qsTr('上一页')
     property string nextButtonTooltip: qsTr('下一页')
+    property string sizeHint: 'normal'
+    property real sizeRatio: HusTheme.sizeHint[sizeHint]
     property var themeSource: HusTheme.HusPagination
 
     property Component prevButtonDelegate: ActionButton {
@@ -63,11 +65,12 @@ T.Control {
         }
 
         HusInput {
-            width: 48
+            width: 48 * control.sizeRatio
             anchors.verticalCenter: parent.verticalCenter
             horizontalAlignment: HusInput.AlignHCenter
             animationEnabled: control.animationEnabled
             enabled: control.enabled
+            sizeRatio: control.sizeRatio
             validator: IntValidator { top: 99999; bottom: 0 }
             onEditingFinished: {
                 control.gotoPageIndex(parseInt(text) - 1);
@@ -129,10 +132,10 @@ T.Control {
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
-    spacing: 8
+    spacing: 8 * sizeRatio
     font {
         family: themeSource.fontFamily
-        pixelSize: parseInt(themeSource.fontSize)
+        pixelSize: parseInt(themeSource.fontSize) * sizeRatio
     }
     contentItem: Row {
         id: __row
@@ -197,8 +200,10 @@ T.Control {
             anchors.verticalCenter: parent.verticalCenter
             animationEnabled: control.animationEnabled
             clearEnabled: false
+            sizeRatio: control.sizeRatio
             model: control.pageSizeModel
             visible: count > 0
+            font: control.font
             onActivated:
                 (index) => {
                     control.pageSize = currentValue;
@@ -218,6 +223,7 @@ T.Control {
         animationEnabled: false
         effectEnabled: false
         enabled: control.enabled
+        sizeRatio: control.sizeRatio
         text: (pageIndex + 1)
         checked: control.currentPageIndex == pageIndex
         font {
@@ -268,6 +274,7 @@ T.Control {
         animationEnabled: false
         effectEnabled: false
         enabled: control.enabled
+        sizeRatio: control.sizeRatio
         colorBg: 'transparent'
         colorBorder: 'transparent'
         text: '•••'
@@ -326,6 +333,8 @@ T.Control {
             animationEnabled: control.animationEnabled
             enabled: control.enabled && !__actionRoot.disabled
             effectEnabled: false
+            sizeRatio: control.sizeRatio
+            iconSize: control.font.pixelSize
             colorBorder: 'transparent'
             colorBg: enabled ? (down ? control.themeSource.colorActionBgActive :
                                        hovered ? control.themeSource.colorActionBgHover :

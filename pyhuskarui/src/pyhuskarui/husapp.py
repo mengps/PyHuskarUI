@@ -27,6 +27,7 @@ from .shaders_rc import *
 
 from .utils.husapi import *
 from .utils.husasynchasher import *
+from .utils.husrouter import *
 from .theme.hustheme import *
 from .theme.huscolorgenerator import *
 from .theme.husthemefunctions import *
@@ -50,8 +51,16 @@ class HusApp(QObject):
     HusApp class.
     """
 
+    _initialized = False
+
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent=parent)
+
+    @staticmethod
+    def create(engine: QQmlEngine) -> "HusApp":
+        if not HusApp._initialized:
+            HusApp.initialize(engine)
+        return HusApp()
 
     @staticmethod
     def initialize(engine: QQmlEngine) -> None:
@@ -59,6 +68,7 @@ class HusApp(QObject):
         Initialize the HusApp class.
         """
         QFontDatabase.addApplicationFont(":/HuskarUI/resources/font/HuskarUI-Icons.ttf")
+        HusApp._initialized = True
 
     @Slot(result=str)
     @staticmethod

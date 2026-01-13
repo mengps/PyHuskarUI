@@ -42,6 +42,7 @@ Qt Qml 的 Ant 设计组件库
 <img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/light.png">
 <img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/dark.png">
 <img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/doc.png">
+<img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/designer.png">
 
 </div>
 
@@ -102,14 +103,14 @@ uv run ./gallery/main.py
  - 创建 QtQuick 应用 `QtVersion >= 6.7`
  - 添加下面的代码到您的 `main.py` 中
  ```python
- from pyhuskarui.husapp import HusApp
-
+ ...
  if __name__ == "__main__":
      ...
      app = QGuiApplication(sys.argv)
      engine = QQmlApplicationEngine()
-     HusApp.initialize(engine)
+     engine.singletonInstance("HuskarUI.Basic", "HusApp")
      ...
+ ```.
  ```
  - 添加下面的代码到您的 `Main.qml` 中
  ```qml
@@ -127,7 +128,7 @@ uv run ./gallery/main.py
 
 ## 💓 许可证
 
-使用 `MIT LICENSE`
+使用 `Apache License 2.0`
 
 ## 🌇 环境
 

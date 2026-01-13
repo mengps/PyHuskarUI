@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import HuskarUI.Basic
 import Gallery
@@ -21,6 +22,7 @@ HusWindow {
     captionBar.color: HusTheme.Primary.colorFillTertiary
     captionBar.showThemeButton: true
     captionBar.showTopButton: true
+    captionBar.showWinIcon: Qt.platform.os !== 'osx'
     captionBar.winIconWidth: 22
     captionBar.winIconHeight: 22
     captionBar.winIconDelegate: Item {
@@ -37,7 +39,130 @@ HusWindow {
     captionBar.topCallback: (checked) => {
         HusApi.setWindowStaysOnTopHint(galleryWindow, checked);
     }
-    captionBar.winPresetButtonsDelegate: Row {
+    captionBar.winTitleDelegate: RowLayout {
+        layoutDirection: captionBar.mirrored ? Qt.RightToLeft : Qt.LeftToRight
+        spacing: 0
+
+        Connections {
+            target: captionBar
+            function onWindowAgentChanged() {
+                captionBar.addInteractionItem(goBackButton);
+                captionBar.addInteractionItem(goForwardButton);
+                captionBar.addInteractionItem(historyButton);
+            }
+        }
+
+        HusText {
+            text: captionBar.winTitle
+            color: captionBar.winTitleColor
+            font: captionBar.winTitleFont
+        }
+
+        HusCaptionButton {
+            id: goBackButton
+            Layout.leftMargin: 10
+            Layout.fillHeight: true
+            noDisabledState: true
+            enabled: galleryRouter.canGoBack
+            hoverCursorShape: Qt.PointingHandCursor
+            iconSource: HusIcon.ArrowLeftOutlined
+            iconSize: 14
+            colorIcon: enabled ? themeSource.colorIcon :
+                                 themeSource.colorIconDisabled
+            colorBg: {
+                if (enabled) {
+                    return active ? themeSource.colorBgActive :
+                                    hovered ? themeSource.colorBgHover : 'transparent';
+                } else {
+                    return 'transparent';
+                }
+            }
+            contentDescription: qsTr('后退')
+            onClicked: galleryRouter.goBack();
+
+            HusToolTip {
+                visible: parent.hovered
+                showArrow: true
+                position: HusToolTip.Position_Bottom
+                text: parent.contentDescription
+            }
+        }
+
+        HusCaptionButton {
+            id: goForwardButton
+            Layout.fillHeight: true
+            noDisabledState: true
+            enabled: galleryRouter.canGoForward
+            hoverCursorShape: Qt.PointingHandCursor
+            iconSource: HusIcon.ArrowRightOutlined
+            iconSize: 14
+            colorIcon: enabled ? themeSource.colorIcon :
+                                 themeSource.colorIconDisabled
+            colorBg: {
+                if (enabled) {
+                    return active ? themeSource.colorBgActive :
+                                    hovered ? themeSource.colorBgHover : 'transparent';
+                } else {
+                    return 'transparent';
+                }
+            }
+            contentDescription: qsTr('前进')
+            onClicked:galleryRouter.goForward();
+
+            HusToolTip {
+                visible: parent.hovered
+                showArrow: true
+                position: HusToolTip.Position_Bottom
+                text: parent.contentDescription
+            }
+        }
+
+        HusCaptionButton {
+            id: historyButton
+            Layout.fillHeight: true
+            noDisabledState: true
+            hoverCursorShape: Qt.PointingHandCursor
+            iconSource: HusIcon.HistoryOutlined
+            iconSize: 14
+            contentDescription: qsTr('历史记录')
+            onClicked: historyPopup.open();
+
+            HusToolTip {
+                visible: parent.hovered
+                showArrow: true
+                position: HusToolTip.Position_Bottom
+                text: parent.contentDescription
+            }
+
+            HusPopup {
+                id: historyPopup
+                x: (parent.width - width) * 0.5
+                y: parent.height
+                padding: 5
+                contentItem: ListView {
+                    implicitWidth: 180
+                    implicitHeight: Math.min(contentHeight, 300)
+                    clip: true
+                    model: galleryRouter.history
+                    delegate: HusButton {
+                        width: ListView.view.width
+                        effectEnabled: false
+                        text: urlData.label
+                        colorBorder: 'transparent'
+                        radiusBg.all: 0
+                        onClicked: galleryRouter.gotoUrl(modelData.location);
+                        required property var modelData
+                        property var urlData: galleryRouter.urlDataMap.get(modelData.location)
+                    }
+                    ScrollBar.vertical: HusScrollBar { }
+                }
+            }
+        }
+    }
+    captionBar.winPresetButtonsDelegate: RowLayout {
+        layoutDirection: captionBar.mirrored ? Qt.RightToLeft : Qt.LeftToRight
+        spacing: 0
+
         Connections {
             target: captionBar
             function onWindowAgentChanged() {
@@ -49,7 +174,7 @@ HusWindow {
 
         HusCaptionButton {
             id: wikiButton
-            height: parent.height
+            Layout.fillHeight: true
             noDisabledState: true
             text: qsTr('在线 Wiki (AI)')
             colorText: HusTheme.Primary.colorTextBase
@@ -87,7 +212,7 @@ HusWindow {
 
         HusCaptionButton {
             id: themeButton
-            height: parent.height
+            Layout.fillHeight: true
             noDisabledState: true
             iconSource: HusTheme.isDark ? HusIcon.MoonOutlined : HusIcon.SunOutlined
             iconSize: 14
@@ -97,7 +222,7 @@ HusWindow {
 
         HusCaptionButton {
             id: topButton
-            height: parent.height
+            Layout.fillHeight: true
             noDisabledState: true
             iconSource: HusIcon.PushpinOutlined
             iconSize: 14
@@ -136,6 +261,22 @@ HusWindow {
         anchors.fill: content
         color: HusTheme.isDark ? '#181818' : '#f5f5f5'
         opacity: 0.2
+    }
+
+    HusRouter {
+        id: galleryRouter
+        property var urlDataMap: new Map
+        function gotoUrl(url) {
+            if (urlDataMap.has(url)) {
+                const data = urlDataMap.get((url));
+                containerLoader.version = data.addVersion || data.updateVersion || '';
+                containerLoader.desc = data.desc || '';
+                containerLoader.tagState = data.state || '';
+                galleryMenu.gotoMenu(data.key);
+                gallerySwitchEffect.switchToSource(data.source);
+            }
+        }
+        onCurrentUrlChanged: gotoUrl(currentUrl);
     }
 
     Loader {
@@ -279,12 +420,8 @@ HusWindow {
             iconSource: HusIcon.SearchOutlined
             colorBg: !(galleryMenu.compactMode === HusMenu.Mode_Relaxed) ? HusTheme.HusInput.colorBg : 'transparent'
             options: galleryGlobal.options
-            filterOption: function(input, option) {
-                return option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1;
-            }
-            onSelect: function(option) {
-                galleryMenu.gotoMenu(option.key);
-            }
+            filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1
+            onSelect: option => galleryMenu.gotoMenu(option.key)
             labelDelegate: HusText {
                 height: implicitHeight + 4
                 text: parent.textData
@@ -407,13 +544,13 @@ HusWindow {
                     if (data.hasOwnProperty('menuChildren')) {
                         setDataProperty(key, 'badgeState', '');
                     } else {
+                        galleryRouter.urlDataMap.set(Qt.url(data.source), data);
+                        galleryRouter.push(data.source);
                         console.debug('onClickMenu', deep, key, keyPath, JSON.stringify(data));
-                        containerLoader.version = data.addVersion || data.updateVersion || '';
-                        containerLoader.desc = data.desc || '';
-                        containerLoader.tagState = data.state || '';
-                        gallerySwitchEffect.switchToSource(data.source);
                     }
                 }
+            }
+            onSelectedKeyChanged: {
             }
         }
 

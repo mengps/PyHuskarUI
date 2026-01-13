@@ -193,7 +193,7 @@ T.Control {
     }
 
     function appendNode(parentIndex: var, data: var) {
-        if (parentIndex.vaild) {
+        if (parentIndex.valid) {
             const parentData = __treeModel.getRow(parentIndex);
             let newRowIndex = 0;
             if (parentData.hasOwnProperty('rows'))
@@ -207,7 +207,7 @@ T.Control {
     }
 
     function removeNode(index: var) {
-        if (index.vaild) {
+        if (index.valid) {
             __treeModel.removeRow(index);
         }
     }
@@ -219,13 +219,13 @@ T.Control {
     }
 
     function setNodeData(index: var, data: var) {
-        if (index.vaild) {
+        if (index.valid) {
             __treeModel.setData(index, data, 'display');
         }
     }
 
     function getNodeData(index: var): var {
-        if (index.vaild) {
+        if (index.valid) {
             return __treeModel.data(index, 'display');
         } else {
             return undefined;
@@ -652,7 +652,7 @@ T.Control {
             }
         }
 
-        function initRows(rows, treePath = []) {
+        function initRows(rows: var, treePath = []) {
             const newRows = [];
             for (let i = 0; i < rows.length; i++) {
                 const object = rows[i];
@@ -661,7 +661,7 @@ T.Control {
             return newRows;
         }
 
-        function initObject(object, treePath) {
+        function initObject(object: var, treePath: var): var {
             const newObject = {
                 __data: object?.__data ?? {},
             };

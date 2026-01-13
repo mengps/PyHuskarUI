@@ -96,6 +96,7 @@ T.Control {
     }
 
     objectName: '__HusBadge__'
+    z: 1
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,

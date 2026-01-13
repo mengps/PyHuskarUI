@@ -19,6 +19,7 @@
 
 import QtQuick
 import QtQuick.Layouts
+import HuskarUI.Impl
 import HuskarUI.Basic
 
 Rectangle {
@@ -29,6 +30,7 @@ Rectangle {
 
     property alias layoutDirection: __row.layoutDirection
 
+    property bool mirrored: false
     property string winIcon: ''
     property alias winIconWidth: __winIconLoader.width
     property alias winIconHeight: __winIconLoader.height
@@ -75,19 +77,37 @@ Rectangle {
             if (targetWindow) targetWindow.close();
         }
     property string contentDescription: winTitle
+    property var themeSource: HusTheme.HusCaptionButton
 
+    property Component winNavButtonsDelegate: Row {
+        layoutDirection: control.mirrored ? Qt.RightToLeft : Qt.LeftToRight
+
+        HusCaptionButton {
+            id: __returnButton
+            noDisabledState: true
+            iconSource: HusIcon.ArrowLeftOutlined
+            iconSize: parseInt(control.themeSource.fontSize) + 2
+            visible: control.showReturnButton
+            onClicked: control.returnCallback();
+            contentDescription: qsTr('返回')
+        }
+    }
     property Component winIconDelegate: Image {
+        width: 20
+        height: 20
         source: control.winIcon
         sourceSize.width: width
         sourceSize.height: height
         mipmap: true
     }
     property Component winTitleDelegate: HusText {
-        text: winTitle
-        color: winTitleColor
-        font: winTitleFont
+        text: control.winTitle
+        color: control.winTitleColor
+        font: control.winTitleFont
     }
     property Component winPresetButtonsDelegate: Row {
+        layoutDirection: control.mirrored ? Qt.RightToLeft : Qt.LeftToRight
+
         Connections {
             target: control
             function onWindowAgentChanged() {
@@ -122,6 +142,8 @@ Rectangle {
     }
     property Component winExtraButtonsDelegate: Item { }
     property Component winButtonsDelegate: Row {
+        layoutDirection: control.mirrored ? Qt.RightToLeft : Qt.LeftToRight
+
         Connections {
             target: control
             function onWindowAgentChanged() {
@@ -199,17 +221,13 @@ Rectangle {
     RowLayout {
         id: __row
         anchors.fill: parent
+        layoutDirection: control.mirrored ? Qt.RightToLeft : Qt.LeftToRight
         spacing: 0
 
-        HusCaptionButton {
-            id: __returnButton
+        Loader {
+            Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
-            noDisabledState: true
-            iconSource: HusIcon.ArrowLeftOutlined
-            iconSize: parseInt(HusTheme.HusCaptionButton.fontSize) + 2
-            visible: control.showReturnButton
-            onClicked: control.returnCallback();
-            contentDescription: qsTr('返回')
+            sourceComponent: control.winNavButtonsDelegate
         }
 
         Item {
@@ -217,30 +235,38 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Component.onCompleted: {
-                if (windowAgent)
-                    windowAgent.setTitleBar(__title);
+                if (control.windowAgent)
+                    control.windowAgent.setTitleBar(__title);
             }
+            readonly property real maxMargin: Math.max(x,  __row.width - (x + width))
+            readonly property real leftMargin: maxMargin > x ? (maxMargin - x) : 0
+            readonly property real rightMargin: maxMargin > x ? 0 : (maxMargin - (__row.width - (x + width)))
 
-            Row {
+            Item {
                 height: parent.height
-                anchors.left: Qt.platform.os === 'osx' ? undefined : parent.left
-                anchors.leftMargin: Qt.platform.os === 'osx' ? 0 : 8
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: Qt.platform.os === 'osx' ? parent.horizontalCenter : undefined
-                spacing: 5
+                anchors.left: parent.left
+                anchors.leftMargin: Qt.platform.os === 'osx' ? __title.leftMargin : (control.mirrored ? 0 : 8)
+                anchors.right: parent.right
+                anchors.rightMargin: Qt.platform.os === 'osx' ? __title.rightMargin : (control.mirrored ? 8 : 0)
 
-                Loader {
-                    id: __winIconLoader
-                    width: 20
-                    height: 20
+                Row {
+                    height: parent.height
                     anchors.verticalCenter: parent.verticalCenter
-                    sourceComponent: winIconDelegate
-                }
+                    anchors.horizontalCenter: Qt.platform.os === 'osx' ? parent.horizontalCenter : undefined
+                    layoutDirection: control.mirrored ? Qt.RightToLeft : Qt.LeftToRight
+                    spacing: 5
 
-                Loader {
-                    id: __winTitleLoader
-                    anchors.verticalCenter: parent.verticalCenter
-                    sourceComponent: winTitleDelegate
+                    Loader {
+                        id: __winIconLoader
+                        anchors.verticalCenter: parent.verticalCenter
+                        sourceComponent: control.winIconDelegate
+                    }
+
+                    Loader {
+                        id: __winTitleLoader
+                        anchors.verticalCenter: parent.verticalCenter
+                        sourceComponent: control.winTitleDelegate
+                    }
                 }
             }
         }
@@ -248,19 +274,19 @@ Rectangle {
         Loader {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
-            sourceComponent: winPresetButtonsDelegate
+            sourceComponent: control.winPresetButtonsDelegate
         }
 
         Loader {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
-            sourceComponent: winExtraButtonsDelegate
+            sourceComponent: control.winExtraButtonsDelegate
         }
 
         Loader {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
-            sourceComponent: winButtonsDelegate
+            sourceComponent: control.winButtonsDelegate
         }
     }
 
