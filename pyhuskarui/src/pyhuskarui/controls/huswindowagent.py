@@ -15,12 +15,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from PySide6.QtCore import QObject, Slot
+import sys
+from PySide6.QtCore import QObject, Qt, Slot
 from PySide6.QtQuick import QQuickItem
-from PySide6.QtGui import QWindow
+from PySide6.QtGui import QWindow, QGuiApplication
 from PySide6.QtQml import QmlElement, QPyQmlParserStatus
 
-QML_IMPORT_NAME = "HuskarUI.Basic"
+# Import native event filter if on Windows
+if sys.platform == "win32":
+    from .huswindow_win import (
+        set_window_attribute,
+        install_filter,
+        ReleaseCapture,
+        SendMessage,
+        SC_MOVE,
+        HTCAPTION,
+        WM_SYSCOMMAND,
+    )
+
+QML_IMPORT_NAME = "HuskarUI.Impl"
 QML_IMPORT_MAJOR_VERSION = 1
 
 
@@ -29,13 +42,19 @@ class HusWindowAgent(QPyQmlParserStatus):
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent=parent)
         self._host_window: QWindow = None
+        self._native_filter = None
 
     def _setup(self, window: QWindow) -> None:
         """
         Setup the window agent.
         """
         self._host_window = window
-        pass
+
+        if sys.platform == "win32":
+            app = QGuiApplication.instance()
+            self._native_filter = install_filter(app)
+            if isinstance(window, QWindow):
+                self._native_filter.add_window(window)
 
     def classBegin(self) -> None:
         """
@@ -50,13 +69,15 @@ class HusWindowAgent(QPyQmlParserStatus):
         """
         Component complete.
         """
-        pass
 
     @Slot(QQuickItem, result=bool)
     def setTitleBar(self, item: QQuickItem) -> bool:
         """
         Set the title bar item.
         """
+        if sys.platform == "win32" and self._native_filter and self._host_window:
+            self._native_filter.update_context(self._host_window, title_bar=item)
+            return True
         return False
 
     @Slot(int, QQuickItem, result=bool)
@@ -64,13 +85,26 @@ class HusWindowAgent(QPyQmlParserStatus):
         """
         Set the system button visible.
         """
-        return False
+        # Treat system buttons as hit test visible items (exclude from caption area)
+        return self.setHitTestVisible(item, True)
 
     @Slot(QQuickItem, bool, result=bool)
     def setHitTestVisible(self, item: QQuickItem, visible: bool) -> bool:
         """
         Set the hit test visible.
         """
+        if sys.platform == "win32" and self._native_filter and self._host_window:
+            context = self._native_filter.contexts.get(int(self._host_window.winId()))
+            if context:
+                items = context["hit_test_items"]
+                if visible:
+                    if item not in items:
+                        items.add(item)
+                        item.destroyed.connect(lambda: items.remove(item))
+                else:
+                    items.remove(item)
+                self._native_filter.update_context(self._host_window, hit_test_items=items)
+                return True
         return False
 
     @Slot(str, bool, result=bool)
@@ -78,4 +112,30 @@ class HusWindowAgent(QPyQmlParserStatus):
         """
         Set the window attribute.
         """
+        if sys.platform == "win32":
+            return set_window_attribute(self._host_window.winId(), attribute, value)
+
+        # For unsupported platforms
         return False
+
+    @Slot()
+    def startSystemMove(self):
+        """
+        Start system move (drag window).
+
+        """
+        if self._host_window:
+            if sys.platform == "win32":
+                hwnd = int(self._host_window.winId())
+                ReleaseCapture()
+                SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0)
+            else:
+                self._host_window.startSystemMove()
+
+    @Slot()
+    def startSystemResize(self, edge):
+        """
+        Start system resize.
+        """
+        if self._host_window:
+            self._host_window.startSystemResize(edge)
