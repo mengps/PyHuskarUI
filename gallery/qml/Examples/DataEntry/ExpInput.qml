@@ -13,11 +13,13 @@ Flickable {
         width: parent.width - 15
         spacing: 30
 
-        Description {
+        DocDescription {
             desc: qsTr(`
 # HusInput 输入框 \n
 通过鼠标或键盘输入内容，是最基础的表单域的包装。\n
+* **模块 { HuskarUI.Basic }**\n
 * **继承自 { TextField }**\n
+* **继承此 { [HusDateTimePicker](internal://HusDateTimePicker), [HusAutoComplete](internal://HusAutoComplete) }**\n
 \n<br/>
 \n### 支持的代理：\n
 - **iconDelegate: Component** 图标代理\n
@@ -63,6 +65,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
 
         ThemeToken {
             source: 'HusInput'
+            historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/imports/HusInput.qml'
         }
 
         Description {
@@ -187,6 +190,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
             width: parent.width
             desc: qsTr(`
 通过 \`sizeHint\` 属性设置尺寸。\n
+通过 \`echoMode\` 属性实现密码框。\n
                        `)
             code: `
                 import QtQuick
@@ -212,6 +216,31 @@ contentDescription | string | '' | 内容描述(提高可用性)
                         placeholderText: 'Username'
                         sizeHint: sizeHintRadio.currentCheckedValue
                     }
+
+                    HusInput {
+                        id: passwordInput
+                        width: 150
+                        iconPosition: HusInput.Position_Right
+                        iconSource: echoMode === HusInput.Password ? HusIcon.EyeInvisibleOutlined :
+                                                                     HusIcon.EyeOutlined
+                        iconDelegate: HusIconButton {
+                            padding: 0
+                            rightPadding: 10 * passwordInput.sizeRatio
+                            effectEnabled: false
+                            type: HusButton.Type_Link
+                            iconSize: passwordInput.iconSize
+                            iconSource: passwordInput.iconSource
+                            onClicked: {
+                                if (passwordInput.echoMode === HusInput.Password) {
+                                    passwordInput.echoMode = HusInput.Normal;
+                                } else {
+                                    passwordInput.echoMode = HusInput.Password;
+                                }
+                            }
+                        }
+                        placeholderText: 'Password'
+                        sizeHint: sizeHintRadio.currentCheckedValue
+                    }
                 }
             `
             exampleDelegate: Column {
@@ -232,6 +261,31 @@ contentDescription | string | '' | 内容描述(提高可用性)
                     iconPosition: HusInput.Position_Left
                     iconSource: HusIcon.UserOutlined
                     placeholderText: 'Username'
+                    sizeHint: sizeHintRadio.currentCheckedValue
+                }
+
+                HusInput {
+                    id: passwordInput
+                    width: 150
+                    iconPosition: HusInput.Position_Right
+                    iconSource: echoMode === HusInput.Password ? HusIcon.EyeInvisibleOutlined :
+                                                                 HusIcon.EyeOutlined
+                    iconDelegate: HusIconButton {
+                        padding: 0
+                        rightPadding: 10 * passwordInput.sizeRatio
+                        effectEnabled: false
+                        type: HusButton.Type_Link
+                        iconSize: passwordInput.iconSize
+                        iconSource: passwordInput.iconSource
+                        onClicked: {
+                            if (passwordInput.echoMode === HusInput.Password) {
+                                passwordInput.echoMode = HusInput.Normal;
+                            } else {
+                                passwordInput.echoMode = HusInput.Password;
+                            }
+                        }
+                    }
+                    placeholderText: 'Password'
                     sizeHint: sizeHintRadio.currentCheckedValue
                 }
             }

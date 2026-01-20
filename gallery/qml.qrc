@@ -4,8 +4,11 @@
         <file>qml/Global.qml</file>
         <file>qml/Controls/CodeBox.qml</file>
         <file>qml/Controls/CodeRunner.qml</file>
+        <file>qml/Controls/CommitHistory.qml</file>
         <file>qml/Controls/Description.qml</file>
+        <file>qml/Controls/DocDescription.qml</file>
         <file>qml/Controls/ThemeToken.qml</file>
+        <file>qml/Controls/Thumbnail.qml</file>
         <file>qml/Controls/UpdateDesc.qml</file>
         <file>qml/Examples/DataDisplay/ExpAnimatedImage.qml</file>
         <file>qml/Examples/DataDisplay/ExpAvatar.qml</file>
@@ -64,6 +67,7 @@
         <file>qml/Examples/General/ExpCopyableText.qml</file>
         <file>qml/Examples/General/ExpIconButton.qml</file>
         <file>qml/Examples/General/ExpIconText.qml</file>
+        <file>qml/Examples/General/ExpLabel.qml</file>
         <file>qml/Examples/General/ExpMoveMouseArea.qml</file>
         <file>qml/Examples/General/ExpPopup.qml</file>
         <file>qml/Examples/General/ExpRadius.qml</file>
@@ -72,6 +76,7 @@
         <file>qml/Examples/General/ExpText.qml</file>
         <file>qml/Examples/General/ExpWindow.qml</file>
         <file>qml/Examples/Layout/ExpDivider.qml</file>
+        <file>qml/Examples/Layout/ExpSpace.qml</file>
         <file>qml/Examples/Navigation/ExpBreadcrumb.qml</file>
         <file>qml/Examples/Navigation/ExpContextMenu.qml</file>
         <file>qml/Examples/Navigation/ExpMenu.qml</file>

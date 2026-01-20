@@ -17,13 +17,14 @@
 
 from typing import List
 from PySide6.QtCore import QObject, Property, Signal, Slot, QUrl, QUrlQuery
-from PySide6.QtQml import QmlElement
+from PySide6.QtQml import QmlElement, QmlUncreatable
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1
 
 
 @QmlElement
+@QmlUncreatable("HusRouterHistory is only available via read-only properties.")
 class HusRouterHistory(QObject):
     """路由器历史记录项"""
 

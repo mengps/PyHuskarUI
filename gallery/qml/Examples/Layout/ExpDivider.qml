@@ -13,10 +13,11 @@ Flickable {
         width: parent.width - 15
         spacing: 30
 
-        Description {
+        DocDescription {
             desc: qsTr(`
 # HusDivider 分割线\n
 区隔内容的分割线。\n
+* **模块 { HuskarUI.Basic }**\n
 * **继承自 { Item }**\n
 \n<br/>
 \n### 支持的代理：\n
@@ -51,6 +52,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
 
         ThemeToken {
             source: 'HusDivider'
+            historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/imports/HusDivider.qml'
         }
 
         Description {
@@ -60,7 +62,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
         CodeBox {
             width: parent.width
             desc: qsTr(`
-通过 \`title\` 属性改变标题文字\n
+通过 \`title\` 属性改变标题文字。\n
 通过 \`titleAlign\` 属性改变标题对齐，支持的对齐：\n
 - 居左(默认){ HusDivider.Align_Left }\n
 - 居中{ HusDivider.Align_Center }\n
@@ -76,7 +78,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
 
                     HusText {
                         width: parent.width
-                        text: qsTr('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo.')
+                        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo.'
                         wrapMode: Text.WrapAnywhere
                     }
 
@@ -107,7 +109,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
 
                 HusText {
                     width: parent.width
-                    text: qsTr('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo.')
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen, quo modo.'
                     wrapMode: Text.WrapAnywhere
                 }
 

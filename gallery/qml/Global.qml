@@ -35,8 +35,8 @@ QtObject {
                     key: 'HusButton',
                     label: qsTr('HusButton 按钮'),
                     source: './Examples/General/ExpButton.qml',
-                    updateVersion: '0.4.9.0',
-                    desc: qsTr('新增 sizeHint 尺寸提示。')
+                    updateVersion: '0.5.5.1',
+                    desc: qsTr('新增 Type_Dashed 类型。')
                 },
                 {
                     key: 'HusIconButton',
@@ -112,6 +112,13 @@ QtObject {
                     source: './Examples/General/ExpRadius.qml',
                     addVersion: '0.4.9.0',
                     desc: qsTr('提供四方向的圆角半径类型。')
+                },
+                {
+                    key: 'HusLabel',
+                    label: qsTr('HusLabel 文本标签'),
+                    source: './Examples/General/ExpLabel.qml',
+                    addVersion: '0.5.6.0',
+                    desc: qsTr('自带背景和圆角的文本。')
                 }
             ]
         },
@@ -125,7 +132,14 @@ QtObject {
                     label: qsTr('HusDivider 分割线'),
                     source: './Examples/Layout/ExpDivider.qml',
                     desc: qsTr('区隔内容的分割线。')
-                }
+                },
+                {
+                    key: 'HusSpace',
+                    label: qsTr('HusSpace 间距'),
+                    source: './Examples/Layout/ExpSpace.qml',
+                    addVersion: '0.5.6.0',
+                    desc: qsTr('布局并设置组件之间的间距/圆角。')
+                },
             ]
         },
         {
@@ -343,7 +357,8 @@ QtObject {
                     key: 'HusCard',
                     label: qsTr('HusCard 卡片'),
                     source: './Examples/DataDisplay/ExpCard.qml',
-                    desc: qsTr('最基础的卡片容器，可承载文字、列表、图片、段落。')
+                    updateVersion: '0.5.5.1',
+                    desc: qsTr('新增 hoverable 悬浮效果\n新增 showShadow 是否显示阴影。')
                 },
                 {
                     key: 'HusTimeline',

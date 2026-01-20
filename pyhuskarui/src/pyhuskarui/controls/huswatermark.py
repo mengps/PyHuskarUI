@@ -15,15 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from PySide6.QtCore import Property, Signal, QUrl, QRectF, QSize, QPointF, QLoggingCategory
+from PySide6.QtCore import Property, Signal, QUrl, QRectF, QSize, QPointF
 from PySide6.QtGui import QPainter, QFont, QColor, QImage, QFontMetricsF
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQuick import QQuickPaintedItem
 from PySide6.QtQml import QmlElement, qmlEngine
 from loguru import logger
-
-# 创建日志分类
-lcHusWatermark = QLoggingCategory("huskarui.basic.watermark")
 
 QML_IMPORT_NAME = "HuskarUI.Basic"
 QML_IMPORT_MAJOR_VERSION = 1

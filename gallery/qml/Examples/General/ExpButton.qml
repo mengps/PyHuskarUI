@@ -13,11 +13,13 @@ Flickable {
         width: parent.width - 15
         spacing: 30
 
-        Description {
+        DocDescription {
             desc: qsTr(`
 # HusButton 按钮\n
 按钮用于开始一个即时操作。\n
+* **模块 { HuskarUI.Basic }**\n
 * **继承自 { Button }**\n
+* **继承此 { [HusIconButton](internal://HusIconButton) }**\n
 \n<br/>
 \n### 支持的代理：\n
 - 无\n
@@ -34,7 +36,7 @@ shape | enum | HusButton.Shape_Default | 按钮形状(来自 HusButton)
 colorText | color | - | 文本颜色
 colorBg | color | - | 背景颜色
 colorBorder | color | - | 边框颜色
-radiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角半径
+radiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角
 sizeHint | string | 'normal' | 尺寸提示
 contentDescription | string | '' | 内容描述(提高可用性)
                        `)
@@ -47,6 +49,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
 在 HuskarUI 中我们提供了五种按钮。\n
 - 默认按钮：用于没有主次之分的一组行动点。\n
 - 主要按钮：用于主行动点，一个操作区域只能有一个主按钮。\n
+- 虚线按钮：常用于添加操作。\n
 - 线框按钮：等同于默认按钮，但线框使用了主要颜色。\n
 - 填充按钮：用于次级的行动点。\n
 - 文本按钮：用于最次级的行动点。\n
@@ -56,6 +59,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
 
         ThemeToken {
             source: 'HusButton'
+            historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/imports/HusButton.qml'
         }
 
         Description {
@@ -69,6 +73,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
 通过 \`type\` 属性改变按钮类型，支持的类型：\n
 - 默认按钮{ HusButton.Type_Default }\n
 - 线框按钮{ HusButton.Type_Outlined }\n
+- 虚线按钮{ HusButton.Type_Dashed }\n
 - 主要按钮{ HusButton.Type_Primary }\n
 - 填充按钮{ HusButton.Type_Filled }\n
 - 文本按钮{ HusButton.Type_Text }\n
@@ -102,6 +107,12 @@ contentDescription | string | '' | 内容描述(提高可用性)
                         HusButton {
                             text: qsTr('线框')
                             type: HusButton.Type_Outlined
+                            sizeHint: sizeHintRadio.currentCheckedValue
+                        }
+
+                        HusButton {
+                            text: qsTr('虚线')
+                            type: HusButton.Type_Dashed
                             sizeHint: sizeHintRadio.currentCheckedValue
                         }
 
@@ -155,6 +166,12 @@ contentDescription | string | '' | 内容描述(提高可用性)
                     HusButton {
                         text: qsTr('线框')
                         type: HusButton.Type_Outlined
+                        sizeHint: sizeHintRadio.currentCheckedValue
+                    }
+
+                    HusButton {
+                        text: qsTr('虚线')
+                        type: HusButton.Type_Dashed
                         sizeHint: sizeHintRadio.currentCheckedValue
                     }
 

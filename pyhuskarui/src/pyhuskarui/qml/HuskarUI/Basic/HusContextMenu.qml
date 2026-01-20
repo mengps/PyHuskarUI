@@ -38,6 +38,8 @@ HusPopup {
     property int subMenuOffset: -4
     property HusRadius radiusMenuBg: HusRadius { all: HusTheme.Primary.radiusPrimary }
 
+    property alias menu: __menu
+
     function open() {
         visible = true;
         if (parent && parent instanceof Item) {
@@ -73,6 +75,7 @@ HusPopup {
         }
     }
     contentItem: HusMenu {
+        id: __menu
         radiusMenuBg: control.radiusMenuBg
         radiusPopupBg: control.radiusBg
         initModel: control.initModel

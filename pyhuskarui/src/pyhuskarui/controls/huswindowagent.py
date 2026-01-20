@@ -16,7 +16,7 @@
 # limitations under the License.
 
 import sys
-from PySide6.QtCore import QObject, Qt, Slot
+from PySide6.QtCore import QObject, Slot, QEvent
 from PySide6.QtQuick import QQuickItem
 from PySide6.QtGui import QWindow, QGuiApplication
 from PySide6.QtQml import QmlElement, QPyQmlParserStatus
@@ -37,11 +37,54 @@ QML_IMPORT_NAME = "HuskarUI.Impl"
 QML_IMPORT_MAJOR_VERSION = 1
 
 
+class TitleBarEventFilter(QObject):
+    def __init__(self, parent: QObject = None) -> None:
+        super().__init__(parent=parent)
+        self._host_window: QWindow = None
+        self._pressed = False
+
+    def _startSystemMove(self):
+        """
+        Start system move (drag window).
+        """
+        if self._host_window:
+            if sys.platform == "win32":
+                hwnd = int(self._host_window.winId())
+                ReleaseCapture()
+                SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0)
+            else:
+                self._startSystemMove()
+
+    def _startSystemResize(self, edge: int):
+        """
+        Start system resize.
+        """
+        if self._host_window:
+            self._host_window.startSystemResize(edge)
+
+    def eventFilter(self, obj: QObject, event: QEvent) -> bool:
+        """
+        Event filter.
+        """
+        if event.type() == QEvent.MouseButtonPress:
+            self._pressed = True
+            return True
+        elif event.type() == QEvent.MouseButtonRelease:
+            self._pressed = False
+            return True
+        elif event.type() == QEvent.MouseMove:
+            if self._pressed:
+                self._startSystemMove()
+            return True
+        return False
+
+
 @QmlElement
 class HusWindowAgent(QPyQmlParserStatus):
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent=parent)
         self._host_window: QWindow = None
+        self._title_bar: QQuickItem = None
         self._native_filter = None
 
     def _setup(self, window: QWindow) -> None:
@@ -75,10 +118,10 @@ class HusWindowAgent(QPyQmlParserStatus):
         """
         Set the title bar item.
         """
+        self._title_bar = item
         if sys.platform == "win32" and self._native_filter and self._host_window:
             self._native_filter.update_context(self._host_window, title_bar=item)
-            return True
-        return False
+        return True
 
     @Slot(int, QQuickItem, result=bool)
     def setSystemButton(self, button: int, item: QQuickItem) -> bool:
@@ -117,25 +160,3 @@ class HusWindowAgent(QPyQmlParserStatus):
 
         # For unsupported platforms
         return False
-
-    @Slot()
-    def startSystemMove(self):
-        """
-        Start system move (drag window).
-
-        """
-        if self._host_window:
-            if sys.platform == "win32":
-                hwnd = int(self._host_window.winId())
-                ReleaseCapture()
-                SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0)
-            else:
-                self._host_window.startSystemMove()
-
-    @Slot()
-    def startSystemResize(self, edge):
-        """
-        Start system resize.
-        """
-        if self._host_window:
-            self._host_window.startSystemResize(edge)

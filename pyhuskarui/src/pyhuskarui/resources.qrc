@@ -25,6 +25,7 @@
         <file>resources/theme/HusIconText.json</file>
         <file>resources/theme/HusImage.json</file>
         <file>resources/theme/HusInput.json</file>
+        <file>resources/theme/HusLabel.json</file>
         <file>resources/theme/HusMenu.json</file>
         <file>resources/theme/HusMessage.json</file>
         <file>resources/theme/HusModal.json</file>

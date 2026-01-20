@@ -30,11 +30,15 @@ Item {
             width: parent.width - 15
             spacing: 30
 
-            Description {
+            DocDescription {
                 desc: qsTr(`
 # HusIconText 图标文本\n
 语义化的图标文本或图标。\n
-* **继承自 { Text }**\n
+* **模块 { HuskarUI.Basic }**\n
+* **继承自 { [HusText](internal://HusText) }**\n
+\n<br/>
+\n### 支持的代理：\n
+- 无\n
 \n<br/>
 \n### 支持的属性：\n
 属性名 | 类型 | 默认值 | 描述
@@ -51,6 +55,7 @@ contentDescription | string | '' | 内容描述(提高可用性)
             ThemeToken {
                 id: themeToken
                 source: 'HusIconText'
+                historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/imports/HusIconText.qml'
             }
         }
     }

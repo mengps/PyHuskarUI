@@ -29,6 +29,7 @@ HusInput {
 
     property var options: []
     property var filterOption: (input, option) => true
+    readonly property int count: options.length
     property string textRole: 'label'
     property string valueRole: 'value'
     property bool showToolTip: false

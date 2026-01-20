@@ -13,10 +13,11 @@ Flickable {
         width: parent.width - 15
         spacing: 30
 
-        Description {
+        DocDescription {
             desc: qsTr(`
 # HusContextMenu 上下文菜单\n
 上下文菜单，通常作为右键单击后显示的菜单。\n
+* **模块 { HuskarUI.Basic }**\n
 * **继承自 { [HusPopup](internal://HusPopup) }**\n
 \n<br/>
 \n### 支持的代理：\n
@@ -36,6 +37,7 @@ defaultMenuBottomPadding | int | 5 | 默认菜单下边距
 defaultMenuSpacing | int | 4 | 默认菜单间隔
 subMenuOffset | int | -4 | 子菜单偏移
 radiusMenuBg | [HusRadius](internal://HusRadius) | - | 菜单项背景圆角
+menu | [HusMenu](internal://HusMenu) | - | 访问内部菜单
 \n<br/>
 \n### 支持的信号：\n
 - \`clickMenu(deep: int, key: string, keyPath: var, data: var)\` 点击任意菜单项时发出\n
@@ -55,6 +57,7 @@ radiusMenuBg | [HusRadius](internal://HusRadius) | - | 菜单项背景圆角
 
         ThemeToken {
             source: 'HusMenu'
+            historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/imports/HusContextMenu.qml'
         }
 
         Description {

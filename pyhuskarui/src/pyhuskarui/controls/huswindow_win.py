@@ -18,6 +18,7 @@
 import ctypes
 import sys
 from ctypes import wintypes
+from enum import IntEnum
 from loguru import logger
 from PySide6.QtCore import QAbstractNativeEventFilter, QOperatingSystemVersion, QVersionNumber
 from PySide6.QtGui import QCursor, QWindow
@@ -69,85 +70,114 @@ SM_CXSIZEFRAME = 32
 SM_CYSIZEFRAME = 33
 SM_CXPADDEDBORDER = 92
 
+
 # DWM Constants for Shadow
-DWMWA_NCRENDERING_POLICY = 2
-DWMNCRENDERINGPOLICY_ENABLED = 2
-DWMWA_WINDOW_CORNER_PREFERENCE = 33
-DWMWCP_ROUND = 2
+class DWMNCRENDERINGPOLICY(IntEnum):
+    DWMNCRP_USEWINDOWSTYLE = 0
+    DWMNCRP_DISABLED = 1
+    DWMNCRP_ENABLED = 2
+    DWMNCRP_LAST = 3
+
+
+class DWM_WINDOW_CORNER_PREFERENCE(IntEnum):
+    DWMWCP_DEFAULT = 0
+    DWMWCP_DONOTROUND = 1
+    DWMWCP_ROUND = 2
+    DWMWCP_ROUNDSMALL = 3
+
 
 # Windows 10+ DWM attributes
-DWMWA_USE_IMMERSIVE_DARK_MODE = 20
-DWMWA_USE_HOSTBACKDROP_BRUSH = 17
-DWMWA_SYSTEMBACKDROP_TYPE = 38
-DWMWA_MICA_EFFECT = 1029  # Windows 11 22H2+ MICA效果
-DWMWA_WINDOW_CORNER_PREFERENCE = 33  # 窗口圆角
+class DWMWINDOWATTRIBUTE(IntEnum):
+    DWMWA_NCRENDERING_POLICY = 2
+    DWMWA_USE_IMMERSIVE_DARK_MODE = 20
+    DWMWA_USE_HOSTBACKDROP_BRUSH = 17
+    DWMWA_SYSTEMBACKDROP_TYPE = 38
+    DWMWA_MICA_EFFECT = 1029  # Windows 11 22H2+ MICA效果
+    DWMWA_WINDOW_CORNER_PREFERENCE = 33  # 窗口圆角
+
 
 # Window Attributes
-WCA_UNDEFINED = 0
-WCA_NCRENDERING_ENABLED = 1
-WCA_NCRENDERING_POLICY = 2
-WCA_TRANSITIONS_FORCEDISABLED = 3
-WCA_ALLOW_NCPAINT = 4
-WCA_CAPTION_BUTTON_BOUNDS = 5
-WCA_NONCLIENT_RTL_LAYOUT = 6
-WCA_FORCE_ICONIC_REPRESENTATION = 7
-WCA_EXTENDED_FRAME_BOUNDS = 8
-WCA_HAS_ICONIC_BITMAP = 9
-WCA_THEME_ATTRIBUTES = 10
-WCA_NCRENDERING_EXILED = 11
-WCA_NCADORNMENTINFO = 12
-WCA_EXCLUDED_FROM_LIVEPREVIEW = 13
-WCA_VIDEO_OVERLAY_ACTIVE = 14
-WCA_FORCE_ACTIVEWINDOW_APPEARANCE = 15
-WCA_DISALLOW_PEEK = 16
-WCA_CLOAK = 17
-WCA_CLOAKED = 18
-WCA_ACCENT_POLICY = 19
-WCA_FREEZE_REPRESENTATION = (20,)
-WCA_EVER_UNCLOAKED = 21
-WCA_VISUAL_OWNER = 22
-WCA_HOLOGRAPHIC = 23
-WCA_EXCLUDED_FROM_DDA = 24
-WCA_PASSIVEUPDATEMODE = 25
-WCA_USEDARKMODECOLORS = 26
-WCA_CORNER_STYLE = 27
-WCA_PART_COLOR = 28
-WCA_DISABLE_MOVESIZE_FEEDBACK = 29
-WCA_LAST = 30
+class WINDOWCOMPOSITIONATTRIB(IntEnum):
+    WCA_UNDEFINED = 0
+    WCA_NCRENDERING_ENABLED = 1
+    WCA_NCRENDERING_POLICY = 2
+    WCA_TRANSITIONS_FORCEDISABLED = 3
+    WCA_ALLOW_NCPAINT = 4
+    WCA_CAPTION_BUTTON_BOUNDS = 5
+    WCA_NONCLIENT_RTL_LAYOUT = 6
+    WCA_FORCE_ICONIC_REPRESENTATION = 7
+    WCA_EXTENDED_FRAME_BOUNDS = 8
+    WCA_HAS_ICONIC_BITMAP = 9
+    WCA_THEME_ATTRIBUTES = 10
+    WCA_NCRENDERING_EXILED = 11
+    WCA_NCADORNMENTINFO = 12
+    WCA_EXCLUDED_FROM_LIVEPREVIEW = 13
+    WCA_VIDEO_OVERLAY_ACTIVE = 14
+    WCA_FORCE_ACTIVEWINDOW_APPEARANCE = 15
+    WCA_DISALLOW_PEEK = 16
+    WCA_CLOAK = 17
+    WCA_CLOAKED = 18
+    WCA_ACCENT_POLICY = 19
+    WCA_FREEZE_REPRESENTATION = (20,)
+    WCA_EVER_UNCLOAKED = 21
+    WCA_VISUAL_OWNER = 22
+    WCA_HOLOGRAPHIC = 23
+    WCA_EXCLUDED_FROM_DDA = 24
+    WCA_PASSIVEUPDATEMODE = 25
+    WCA_USEDARKMODECOLORS = 26
+    WCA_CORNER_STYLE = 27
+    WCA_PART_COLOR = 28
+    WCA_DISABLE_MOVESIZE_FEEDBACK = 29
+    WCA_LAST = 30
+
 
 # Backdrop types for Windows 11
-DWMSBT_AUTO = 0
-DWMSBT_NONE = 1
-DWMSBT_MAINWINDOW = 2
-DWMSBT_TRANSIENTWINDOW = 3
-DWMSBT_TABBEDWINDOW = 4
+class DWM_SYSTEMBACKDROP_TYPE(IntEnum):
+    DWMSBT_AUTO = 0
+    DWMSBT_NONE = 1
+    DWMSBT_MAINWINDOW = 2
+    DWMSBT_TRANSIENTWINDOW = 3
+    DWMSBT_TABBEDWINDOW = 4
+
 
 # ACCENT_STATE
-ACCENT_DISABLED = 0
-ACCENT_ENABLE_GRADIENT = 1
-ACCENT_ENABLE_TRANSPARENTGRADIENT = 2
-ACCENT_ENABLE_BLURBEHIND = 3
-ACCENT_ENABLE_ACRYLICBLURBEHIND = 4
-ACCENT_ENABLE_HOST_BACKDROP = 5
-ACCENT_INVALID_STATE = 6   
+class ACCENT_STATE(IntEnum):
+    ACCENT_DISABLED = 0
+    ACCENT_ENABLE_GRADIENT = 1
+    ACCENT_ENABLE_TRANSPARENTGRADIENT = 2
+    ACCENT_ENABLE_BLURBEHIND = 3
+    ACCENT_ENABLE_ACRYLICBLURBEHIND = 4
+    ACCENT_ENABLE_HOST_BACKDROP = 5
+    ACCENT_INVALID_STATE = 6
+
 
 # ACCENT_FLAG
-ACCENT_NONE = 0
-ACCENT_ENABLE_ACRYLIC = 1
-ACCENT_ENABLE_ACRYLIC_WITH_LUMINOSITY = 482
+class ACCENT_FLAGS(IntEnum):
+    ACCENT_NONE = 0
+    ACCENT_ENABLE_ACRYLIC = 1
+    ACCENT_ENABLE_ACRYLIC_WITH_LUMINOSITY = 482
+
 
 # Types
 class RECT(ctypes.Structure):
-    _fields_ = [("left", ctypes.c_long), ("top", ctypes.c_long), ("right", ctypes.c_long), ("bottom", ctypes.c_long)]
+    _fields_ = [
+        ("left", wintypes.LONG),
+        ("top", wintypes.LONG),
+        ("right", wintypes.LONG),
+        ("bottom", wintypes.LONG),
+    ]
 
 
 class POINT(ctypes.Structure):
-    _fields_ = [("x", ctypes.c_long), ("y", ctypes.c_long)]
+    _fields_ = [
+        ("x", wintypes.LONG),
+        ("y", wintypes.LONG),
+    ]
 
 
 class MSG(ctypes.Structure):
     _fields_ = [
-        ("hwnd", ctypes.c_void_p),
+        ("hwnd", wintypes.HWND),
         ("message", wintypes.UINT),
         ("wParam", wintypes.WPARAM),
         ("lParam", wintypes.LPARAM),
@@ -167,47 +197,47 @@ class MINMAXINFO(ctypes.Structure):
 
 
 class NCCALCSIZE_PARAMS(ctypes.Structure):
-    _fields_ = [("rgrc", RECT * 3), ("lppos", ctypes.c_void_p)]
+    _fields_ = [("rgrc", RECT * 3), ("lppos", wintypes.LPVOID)]
 
 
 class APPBARDATA(ctypes.Structure):
     _fields_ = [
-        ("cbSize", ctypes.c_ulong),
-        ("hWnd", ctypes.c_void_p),
-        ("uCallbackMessage", ctypes.c_ulong),
-        ("uEdge", ctypes.c_ulong),
+        ("cbSize", wintypes.ULONG),
+        ("hWnd", wintypes.HWND),
+        ("uCallbackMessage", wintypes.UINT),
+        ("uEdge", wintypes.UINT),
         ("rc", RECT),
-        ("lParam", ctypes.c_long),
+        ("lParam", wintypes.LPARAM),
     ]
 
 
 class MONITORINFO(ctypes.Structure):
-    _fields_ = [("cbSize", ctypes.c_ulong), ("rcMonitor", RECT), ("rcWork", RECT), ("dwFlags", ctypes.c_ulong)]
+    _fields_ = [("cbSize", wintypes.ULONG), ("rcMonitor", RECT), ("rcWork", RECT), ("dwFlags", wintypes.DWORD)]
 
 
 class MARGINS(ctypes.Structure):
     _fields_ = [
-        ("cxLeftWidth", ctypes.c_int),
-        ("cxRightWidth", ctypes.c_int),
-        ("cyTopHeight", ctypes.c_int),
-        ("cyBottomHeight", ctypes.c_int),
+        ("cxLeftWidth", wintypes.INT),
+        ("cxRightWidth", wintypes.INT),
+        ("cyTopHeight", wintypes.INT),
+        ("cyBottomHeight", wintypes.INT),
     ]
 
 
 class ACCENT_POLICY(ctypes.Structure):
     _fields_ = [
-        ("dwAccentState", ctypes.c_ulong),
-        ("dwAccentFlags", ctypes.c_ulong),
-        ("dwGradientColor", ctypes.c_ulong),
-        ("dwAnimationId", ctypes.c_ulong),
+        ("dwAccentState", wintypes.DWORD),
+        ("dwAccentFlags", wintypes.DWORD),
+        ("dwGradientColor", wintypes.DWORD),
+        ("dwAnimationId", wintypes.DWORD),
     ]
 
 
 class WINDOWCOMPOSITIONATTRIBDATA(ctypes.Structure):
     _fields_ = [
-        ("Attrib", ctypes.c_int),
+        ("Attrib", wintypes.DWORD),
         ("pvData", ctypes.POINTER(ACCENT_POLICY)),
-        ("cbData", ctypes.c_size_t),
+        ("cbData", wintypes.UINT),
     ]
 
 
@@ -216,21 +246,22 @@ user32 = ctypes.windll.user32
 shell32 = ctypes.windll.shell32
 dwmapi = ctypes.windll.dwmapi
 
+
 def is_greater_equal_win8_1():
-    """ determine if the windows version ≥ Win8.1 """
+    """determine if the windows version ≥ Win8.1"""
     cv = QOperatingSystemVersion.current()
     cv = QVersionNumber(cv.majorVersion(), cv.minorVersion(), cv.microVersion())
     return cv >= QVersionNumber(8, 1, 0)
 
 
 def is_greater_equal_win10():
-    """ determine if the windows version ≥ Win10 """
+    """determine if the windows version ≥ Win10"""
     cv = QOperatingSystemVersion.current()
     return cv.majorVersion() >= 10
 
 
 def is_greater_equal_win11():
-    """ determine if the windows version ≥ Win11 """
+    """determine if the windows version ≥ Win11"""
     return is_greater_equal_win10() and sys.getwindowsversion().build >= 22000
 
 
@@ -270,14 +301,12 @@ def set_window_attribute(hwnd: int, attribute: str, value: bool) -> bool:
         user32.GetWindowRect(hwnd, ctypes.byref(rect))
         user32.MoveWindow(hwnd, rect.left, rect.top, 1, 1, False)
         user32.MoveWindow(hwnd, rect.right - 1, rect.bottom - 1, 1, 1, False)
-        user32.MoveWindow(
-            hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, False
-        )
-        
+        user32.MoveWindow(hwnd, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, False)
+
     def extend_margins(hwnd: int, value: bool):
         margins = MARGINS(65536, 0, 0, 0) if value else MARGINS(0, 0, 0, 0)
         dwmapi.DwmExtendFrameIntoClientArea(hwnd, ctypes.byref(margins))
-        
+
     if hwnd == 0:
         return False
     try:
@@ -285,93 +314,101 @@ def set_window_attribute(hwnd: int, attribute: str, value: bool) -> bool:
             dark_mode = wintypes.BOOL(1 if value else 0)
             size = ctypes.sizeof(wintypes.BOOL)
             result = dwmapi.DwmSetWindowAttribute(
-                hwnd,
-                DWMWA_USE_IMMERSIVE_DARK_MODE,
-                ctypes.byref(dark_mode),
-                size
+                hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, ctypes.byref(dark_mode), size
             )
             return result == 0
 
-        elif attribute in ["dwm-blur", "acrylic-material", "mica", "mica-alt"]:
-            if attribute == "dwm-blur":
-                if value:
-                    accent_policy = ACCENT_POLICY()
-                    accent_policy.dwAccentState = ACCENT_ENABLE_BLURBEHIND
-                    accent_policy.dwAccentFlags = ACCENT_NONE
-                    window_composition_attr_data = WINDOWCOMPOSITIONATTRIBDATA()
-                    window_composition_attr_data.Attrib = WCA_ACCENT_POLICY
-                    window_composition_attr_data.pvData = ctypes.pointer(accent_policy)
-                    window_composition_attr_data.cbData = ctypes.sizeof(accent_policy)
-                    result = user32.SetWindowCompositionAttribute(hwnd, ctypes.pointer(window_composition_attr_data))
-                    return bool(result)
-                else:
-                    accent_policy = ACCENT_POLICY()
-                    accent_policy.dwAccentState = ACCENT_DISABLED
-                    accent_policy.dwAccentFlags = ACCENT_NONE
-                    window_composition_attr_data = WINDOWCOMPOSITIONATTRIBDATA()
-                    window_composition_attr_data.Attrib = WCA_ACCENT_POLICY
-                    window_composition_attr_data.pvData = ctypes.pointer(accent_policy)
-                    window_composition_attr_data.cbData = ctypes.sizeof(accent_policy)
-                    result = user32.SetWindowCompositionAttribute(hwnd, ctypes.pointer(window_composition_attr_data))
-                    return bool(result)
+        elif attribute == "dwm-blur":
+            if value:
+                accent_policy = ACCENT_POLICY()
+                accent_policy.dwAccentState = ACCENT_STATE.ACCENT_ENABLE_BLURBEHIND
+                accent_policy.dwAccentFlags = ACCENT_FLAGS.ACCENT_NONE
+                window_composition_attr_data = WINDOWCOMPOSITIONATTRIBDATA()
+                window_composition_attr_data.Attrib = WINDOWCOMPOSITIONATTRIB.WCA_ACCENT_POLICY
+                window_composition_attr_data.pvData = ctypes.pointer(accent_policy)
+                window_composition_attr_data.cbData = ctypes.sizeof(accent_policy)
+                result = user32.SetWindowCompositionAttribute(hwnd, ctypes.pointer(window_composition_attr_data))
+                return bool(result)
+            else:
+                accent_policy = ACCENT_POLICY()
+                accent_policy.dwAccentState = ACCENT_STATE.ACCENT_DISABLED
+                accent_policy.dwAccentFlags = ACCENT_FLAGS.ACCENT_NONE
+                window_composition_attr_data = WINDOWCOMPOSITIONATTRIBDATA()
+                window_composition_attr_data.Attrib = WINDOWCOMPOSITIONATTRIB.WCA_ACCENT_POLICY
+                window_composition_attr_data.pvData = ctypes.pointer(accent_policy)
+                window_composition_attr_data.cbData = ctypes.sizeof(accent_policy)
+                result = user32.SetWindowCompositionAttribute(hwnd, ctypes.pointer(window_composition_attr_data))
+                return bool(result)
 
-            elif attribute == "acrylic-material":
-                if value: 
-                    extend_margins(hwnd, True)
-                backdrop_type = wintypes.DWORD(DWMSBT_TRANSIENTWINDOW) if value else wintypes.DWORD(DWMSBT_AUTO)
-                size = ctypes.sizeof(wintypes.DWORD)
-                result = dwmapi.DwmSetWindowAttribute(
-                        hwnd,
-                        DWMWA_SYSTEMBACKDROP_TYPE,
-                        ctypes.byref(backdrop_type),
-                        size,
-                    )
-                if not value:
-                    extend_margins(hwnd, False)
-                effect_bug_workaround(hwnd)
-                return result == 0
+        elif attribute == "acrylic-material":
+            if value:
+                extend_margins(hwnd, True)
+            backdrop_type = (
+                wintypes.DWORD(DWM_SYSTEMBACKDROP_TYPE.DWMSBT_TRANSIENTWINDOW)
+                if value
+                else wintypes.DWORD(DWM_SYSTEMBACKDROP_TYPE.DWMSBT_AUTO)
+            )
+            size = ctypes.sizeof(wintypes.DWORD)
+            result = dwmapi.DwmSetWindowAttribute(
+                hwnd,
+                DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
+                ctypes.byref(backdrop_type),
+                size,
+            )
+            if not value:
+                extend_margins(hwnd, False)
+            effect_bug_workaround(hwnd)
+            return result == 0
 
-            elif attribute == "mica":
-                if value: 
-                    extend_margins(hwnd, True)
-                backdrop_type = wintypes.DWORD(DWMSBT_MAINWINDOW) if value else wintypes.DWORD(DWMSBT_AUTO)
-                size = ctypes.sizeof(wintypes.DWORD)
-                result = dwmapi.DwmSetWindowAttribute(
-                        hwnd,
-                        DWMWA_SYSTEMBACKDROP_TYPE,
-                        ctypes.byref(backdrop_type),
-                        size,
-                    )
-                if not value:
-                    extend_margins(hwnd, False)
-                """
-                enabled = wintypes.BOOL(1 if value else 0)
-                size = ctypes.sizeof(wintypes.BOOL)
-                result = dwmapi.DwmSetWindowAttribute(
-                    hwnd,
-                    DWMWA_MICA_EFFECT,
-                    ctypes.byref(enabled), 
-                    size
-                )
-                """
-                effect_bug_workaround(hwnd)
-                return result == 0
+        elif attribute == "mica":
+            if value:
+                extend_margins(hwnd, True)
+            backdrop_type = (
+                wintypes.DWORD(DWM_SYSTEMBACKDROP_TYPE.DWMSBT_MAINWINDOW)
+                if value
+                else wintypes.DWORD(DWM_SYSTEMBACKDROP_TYPE.DWMSBT_AUTO)
+            )
+            size = ctypes.sizeof(wintypes.DWORD)
+            result = dwmapi.DwmSetWindowAttribute(
+                hwnd,
+                DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
+                ctypes.byref(backdrop_type),
+                size,
+            )
+            if not value:
+                extend_margins(hwnd, False)
+            """
+            enabled = wintypes.BOOL(1 if value else 0)
+            size = ctypes.sizeof(wintypes.BOOL)
+            result = dwmapi.DwmSetWindowAttribute(
+                hwnd,
+                DWMWA_MICA_EFFECT,
+                ctypes.byref(enabled), 
+                size
+            )
+            """
+            effect_bug_workaround(hwnd)
+            return result == 0
 
-            elif attribute == "mica-alt":
-                if value: 
-                    extend_margins(hwnd, True)
-                backdrop_type = wintypes.DWORD(DWMSBT_TABBEDWINDOW) if value else wintypes.DWORD(DWMSBT_AUTO)
-                size = ctypes.sizeof(wintypes.DWORD)
-                result = dwmapi.DwmSetWindowAttribute(
-                        hwnd,
-                        DWMWA_SYSTEMBACKDROP_TYPE,
-                        ctypes.byref(backdrop_type),
-                        size,
-                    )
-                if not value:
-                    extend_margins(hwnd, False)
-                effect_bug_workaround(hwnd)
-                return result == 0
+        elif attribute == "mica-alt":
+            if value:
+                extend_margins(hwnd, True)
+            backdrop_type = (
+                wintypes.DWORD(DWM_SYSTEMBACKDROP_TYPE.DWMSBT_TABBEDWINDOW)
+                if value
+                else wintypes.DWORD(DWM_SYSTEMBACKDROP_TYPE.DWMSBT_AUTO)
+            )
+            size = ctypes.sizeof(wintypes.DWORD)
+            result = dwmapi.DwmSetWindowAttribute(
+                hwnd,
+                DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
+                ctypes.byref(backdrop_type),
+                size,
+            )
+            if not value:
+                extend_margins(hwnd, False)
+            effect_bug_workaround(hwnd)
+            return result == 0
 
         return False
 
@@ -433,12 +470,17 @@ class HusWinEventFilter(QAbstractNativeEventFilter):
         )
 
         # Enable Shadow and Rounded Corners
-        ncrp = ctypes.c_int(DWMNCRENDERINGPOLICY_ENABLED)
-        dwmapi.DwmSetWindowAttribute(hwnd, DWMWA_NCRENDERING_POLICY, ctypes.byref(ncrp), ctypes.sizeof(ncrp))
-
-        corner_preference = ctypes.c_int(DWMWCP_ROUND)
+        ncrp = ctypes.c_int(DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED)
         dwmapi.DwmSetWindowAttribute(
-            hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, ctypes.byref(corner_preference), ctypes.sizeof(corner_preference)
+            hwnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, ctypes.byref(ncrp), ctypes.sizeof(ncrp)
+        )
+
+        corner_preference = ctypes.c_int(DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND)
+        dwmapi.DwmSetWindowAttribute(
+            hwnd,
+            DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE,
+            ctypes.byref(corner_preference),
+            ctypes.sizeof(corner_preference),
         )
 
         # Extend frame into client area to show shadow

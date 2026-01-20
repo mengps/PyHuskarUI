@@ -107,7 +107,7 @@ HusWindow {
                 }
             }
             contentDescription: qsTr('前进')
-            onClicked:galleryRouter.goForward();
+            onClicked: galleryRouter.goForward();
 
             HusToolTip {
                 visible: parent.hovered
@@ -318,7 +318,7 @@ HusWindow {
         Connections {
             target: HusTheme
             function onIsDarkChanged() {
-                if (HusTheme.darkMode == HusTheme.System) {
+                if (HusTheme.darkMode === HusTheme.System) {
                     galleryWindow.setWindowMode(HusTheme.isDark);
                 }
             }

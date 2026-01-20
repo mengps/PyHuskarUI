@@ -45,13 +45,14 @@ Window {
                                      Qt.platform.os === 'osx' ||
                                      Qt.platform.os === 'linux'
 
-    function setMacSystemButtonsVisible(visible) {
+    function setMacSystemButtonsVisible(visible: bool): bool {
         if (Qt.platform.os === 'osx') {
-            windowAgent.setWindowAttribute('no-system-buttons', !visible);
+            return windowAgent.setWindowAttribute('no-system-buttons', !visible);
         }
+        return false;
     }
 
-    function setWindowMode(isDark) {
+    function setWindowMode(isDark: bool): bool {
         if (isDesktopPlatform) {
             if (window.initialized)
                 return windowAgent.setWindowAttribute('dark-mode', isDark);
@@ -61,7 +62,7 @@ Window {
         }
     }
 
-    function setSpecialEffect(specialEffect) {
+    function setSpecialEffect(specialEffect: int): bool {
         if (Qt.platform.os === 'windows') {
             switch (specialEffect)
             {

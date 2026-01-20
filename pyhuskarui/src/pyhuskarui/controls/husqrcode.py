@@ -21,7 +21,7 @@ from PySide6.QtCore import QObject, QUrl, Signal, Property, QSize, Qt, QEnum
 from PySide6.QtGui import QImage, QColor
 from PySide6.QtNetwork import QNetworkRequest, QNetworkReply
 from PySide6.QtQuick import QQuickItem, QSGNode, QSGTexture, QQuickWindow
-from PySide6.QtQml import QmlElement, qmlEngine
+from PySide6.QtQml import QmlElement, QmlUncreatable, qmlEngine
 from loguru import logger
 
 from .qrcodegen import QrCode
@@ -31,6 +31,7 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 
 @QmlElement
+@QmlUncreatable("HusIconSettings is only available via read-only properties.")
 class HusIconSettings(QObject):
     urlChanged = Signal()
     widthChanged = Signal()
@@ -99,15 +100,15 @@ class HusQrCode(QQuickItem):
         self._text: str = ""
         self._qr_code_change = False
         self._margin = 4
-        self._color_margin = QColor(Qt.transparent)
-        self._color = QColor(Qt.black)
-        self._color_bg = QColor(Qt.transparent)
+        self._color_margin = QColor(Qt.GlobalColor.transparent)
+        self._color = QColor(Qt.GlobalColor.black)
+        self._color_bg = QColor(Qt.GlobalColor.transparent)
         self._error_level = HusQrCode.ErrorLevel.Medium
         self._icon: HusIconSettings = None
         self._icon_reply = None
         self._cached_icon = QImage()
 
-        self.setFlag(QQuickItem.ItemHasContents, True)
+        self.setFlag(QQuickItem.Flag.ItemHasContents, True)
         self.setSize(QSize(160, 160))
 
         self.windowChanged.connect(self._on_window_changed)

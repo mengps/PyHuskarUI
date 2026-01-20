@@ -80,6 +80,7 @@ class Component(Enum):
     HusSpin = "HusSpin"
     HusColorPicker = "HusColorPicker"
     HusTreeView = "HusTreeView"
+    HusLabel = "HusLabel"
 
 
 @dataclass
@@ -172,6 +173,7 @@ class HusTheme(QObject):
     HusSpinChanged = Signal()
     HusColorPickerChanged = Signal()
     HusTreeViewChanged = Signal()
+    HusLabelChanged = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -840,6 +842,10 @@ class HusTheme(QObject):
     @Property(dict, notify=HusTreeViewChanged)
     def HusTreeView(self) -> dict:
         return self._HusTreeView
+    
+    @Property(dict, notify=HusLabelChanged)
+    def HusLabel(self) -> dict:
+        return self._HusLabel
 
     @Slot(QObject, str, dict, str)
     def registerCustomComponentTheme(self, theme_object: QObject, component: str, theme_map: dict, theme_path: str):
