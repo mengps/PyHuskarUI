@@ -29,6 +29,9 @@ T.SpinBox {
     signal afterActivated(index: int, var data)
 
     property bool animationEnabled: HusTheme.animationEnabled
+    property bool active: hovered || activeFocus
+    property alias type: __input.type
+    property alias showShadow: __input.showShadow
     property alias clearEnabled: __input.clearEnabled
     property alias clearIconSource: __input.clearIconSource
     property alias clearIconSize: __input.clearIconSize
@@ -48,7 +51,7 @@ T.SpinBox {
     property alias inputFont: control.font
     property font labelFont: Qt.font({
                                          family: 'HuskarUI-Icons',
-                                         pixelSize: parseInt(themeSource.fontSize)
+                                         pixelSize: parseInt(themeSource.fontSize) * sizeRatio
                                      })
     property var beforeLabel: '' || []
     property var afterLabel: '' || []
@@ -57,23 +60,25 @@ T.SpinBox {
     property string currentBeforeLabel: ''
     property string currentAfterLabel: ''
     property var formatter: (value, locale) => value.toLocaleString(locale, 'f', 0)
-    property var parser: (text, locale) => Number.fromLocaleString(locale, text)
-    property int defaultHandlerWidth: 24
+    property var parser: (text, locale) => HusApi.clamp(Number.fromLocaleString(locale, text), min, max)
+    property int defaultHandlerWidth: 22
     property alias colorText: __input.colorText
+    property alias colorBg: __input.colorBg
+    property color colorShadow: enabled ? themeSource.colorShadow : 'transparent'
     property HusRadius radiusBg: HusRadius { all: themeSource.radiusBg }
+    property string sizeHint: 'normal'
+    property real sizeRatio: HusTheme.sizeHint[sizeHint]
     property var themeSource: HusTheme.HusInput
 
     property alias input: __input
 
     property Component beforeDelegate: HusRectangleInternal {
-        enabled: control.enabled
-        width: Math.max(30, __beforeCompLoader.implicitWidth + 10)
+        width: Math.max(30 * control.sizeRatio, __beforeCompLoader.implicitWidth + 10 * control.sizeRatio)
         topLeftRadius: control.radiusBg.topLeft
         bottomLeftRadius: control.radiusBg.bottomLeft
-        color: enabled ? control.themeSource.colorLabelBg : control.themeSource.colorLabelBgDisabled
-        border.color: enabled ? control.themeSource.colorBorder : control.themeSource.colorBorderDisabled
-
-        Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
+        color: control.colorBg
+        border.color: enabled ? control.themeSource.colorBorder :
+                                control.themeSource.colorBorderDisabled
 
         Loader {
             id: __beforeCompLoader
@@ -83,14 +88,12 @@ T.SpinBox {
         }
     }
     property Component afterDelegate: HusRectangleInternal {
-        enabled: control.enabled
-        width: Math.max(30, __afterCompLoader.implicitWidth + 10)
+        width: Math.max(30 * control.sizeRatio, __afterCompLoader.implicitWidth + 10 * control.sizeRatio)
         topRightRadius: control.radiusBg.topRight
         bottomRightRadius: control.radiusBg.bottomRight
-        color: enabled ? control.themeSource.colorLabelBg : control.themeSource.colorLabelBgDisabled
-        border.color: enabled ? control.themeSource.colorBorder : control.themeSource.colorBorderDisabled
-
-        Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
+        color: control.colorBg
+        border.color: enabled ? control.themeSource.colorBorder :
+                                control.themeSource.colorBorderDisabled
 
         Loader {
             id: __afterCompLoader
@@ -99,17 +102,21 @@ T.SpinBox {
             property bool isBefore: false
         }
     }
-    property Component handlerDelegate: Item {
+    property Component handlerDelegate: HusRectangleInternal {
         id: __handlerRoot
         clip: true
-        enabled: control.enabled
         width: enabled && (control.hovered || control.alwaysShowHandler) ? control.defaultHandlerWidth : 0
+        radius: 0
+        topRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.topRight : 0
+        bottomRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.bottomRight : 0
+        color: control.colorBg
 
         property real halfHeight: height * 0.5
         property real hoverHeight: height * 0.6
         property real noHoverHeight: height * 0.4
-        property color colorBorder: enabled ? control.themeSource.colorBorder : control.themeSource.colorBorderDisabled
-        property color colorHandlerBg: enabled ? control.themeSource.colorBg : 'transparent'
+        property color colorBorder: enabled ? control.themeSource.colorBorder :
+                                              control.themeSource.colorBorderDisabled
+        property color colorHandlerBg: 'transparent'
 
         Behavior on width {
             enabled: control.animationEnabled;
@@ -121,12 +128,12 @@ T.SpinBox {
 
         HusIconButton {
             id: __upButton
+            padding: 0
             width: parent.width
             height: hovered ? parent.hoverHeight :
                               __downButton.hovered ? parent.noHoverHeight : parent.halfHeight
-            padding: 0
-            enabled: control.enabled
             animationEnabled: control.animationEnabled
+            sizeRatio: control.sizeRatio
             autoRepeat: true
             colorIcon: control.enabled ?
                            hovered ? control.themeSource.colorBorderHover :
@@ -134,11 +141,7 @@ T.SpinBox {
             iconSize: parseInt(control.themeSource.fontSize) - 4
             iconSource: control.upIcon
             hoverCursorShape: control.value >= control.max ? Qt.ForbiddenCursor : Qt.PointingHandCursor
-            background: HusRectangleInternal {
-                topRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.topRight : 0
-                color: __handlerRoot.colorHandlerBg
-                border.color: __handlerRoot.colorBorder
-            }
+            background: null
             onClicked: {
                 control.increase();
                 control.valueModified();
@@ -149,14 +152,14 @@ T.SpinBox {
 
         HusIconButton {
             id: __downButton
+            padding: 0
             width: parent.width
             height: (hovered ? parent.hoverHeight :
                                __upButton.hovered ? parent.noHoverHeight : parent.halfHeight) + 1
             anchors.top: __upButton.bottom
             anchors.topMargin: -1
-            padding: 0
-            enabled: control.enabled
             animationEnabled: control.animationEnabled
+            sizeRatio: control.sizeRatio
             autoRepeat: true
             colorIcon: control.enabled ?
                            hovered ? control.themeSource.colorBorderHover :
@@ -164,11 +167,7 @@ T.SpinBox {
             iconSize: parseInt(control.themeSource.fontSize) - 4
             iconSource: control.downIcon
             hoverCursorShape: control.value <= control.min ? Qt.ForbiddenCursor : Qt.PointingHandCursor
-            background: HusRectangleInternal {
-                bottomRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.bottomRight : 0
-                color: __handlerRoot.colorHandlerBg
-                border.color: __handlerRoot.colorBorder
-            }
+            background: null
             onClicked: {
                 control.decrease();
                 control.valueModified();
@@ -176,9 +175,23 @@ T.SpinBox {
 
             Behavior on height { enabled: control.animationEnabled; NumberAnimation { duration: HusTheme.Primary.durationFast } }
         }
+
+        Rectangle {
+            width: 1
+            height: parent.height
+            anchors.left: parent.left
+            color: __handlerRoot.colorBorder
+        }
+
+        Rectangle {
+            width: parent.width
+            height: 1
+            anchors.top: __upButton.bottom
+            color: __handlerRoot.colorBorder
+        }
     }
 
-    function getFullText() {
+    function getFullText(): string {
         return __input.text;
     }
 
@@ -223,13 +236,26 @@ T.SpinBox {
         control.valueChanged();
     }
 
+    onValueChanged: {
+        if (__input.modified) {
+            __input.modified = false;
+            control.valueModified();
+        }
+    }
+    onPrefixChanged: valueChanged();
+    onSuffixChanged: valueChanged();
+    onCurrentAfterLabelChanged: valueChanged();
+    onCurrentBeforeLabelChanged: valueChanged();
+    Component.onCompleted: valueChanged();
+
     objectName: '__HusInputNumber__'
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
-    leftPadding: __beforeLoader.active ? (__beforeLoader.implicitWidth - 1) : 0
-    rightPadding: __afterLoader.active ? (__afterLoader.implicitWidth - 1) : 0
+    padding: 0
+    leftPadding: __beforeLoader.active ? __beforeLoader.implicitWidth : 0
+    rightPadding: __afterLoader.active ? __afterLoader.implicitWidth : 0
     editable: true
     live: true
     min: -2147483648
@@ -241,36 +267,36 @@ T.SpinBox {
     }
     font {
         family: themeSource.fontFamily
-        pixelSize: parseInt(themeSource.fontSize)
+        pixelSize: parseInt(themeSource.fontSize) * sizeRatio
     }
     valueFromText: parser
     textFromValue: formatter
     contentItem: HusInput {
         id: __input
-        enabled: control.enabled
-        readOnly: !control.editable
-        animationEnabled: control.animationEnabled
+        z: 1
         leftPadding: (__prefixLoader.active ? __prefixLoader.implicitWidth : (leftClearIconPadding > 0 ? 5 : 10))
                      + leftIconPadding + leftClearIconPadding
         rightPadding: (__suffixLoader.active ? __suffixLoader.implicitWidth : (rightClearIconPadding > 0 ? 5 : 10))
                       + rightIconPadding + rightClearIconPadding
+        readOnly: !control.editable
+        animationEnabled: control.animationEnabled
+        sizeRatio: control.sizeRatio
+        themeSource: control.themeSource
         text: control.displayText
         validator: control.validator
         inputMethodHints: control.inputMethodHints
         font: control.font
-        background: HusRectangleInternal {
-            color: __input.colorBg
-            topLeftRadius: control.beforeLabel?.length === 0 ? control.radiusBg.topLeft : 0
-            topRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.topRight : 0
-            bottomLeftRadius: control.beforeLabel?.length === 0 ? control.radiusBg.bottomLeft : 0
-            bottomRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.bottomRight : 0
-        }
+        radiusBg.all: control.radiusBg.all
+        radiusBg.topLeft: control.beforeLabel?.length === 0 ? control.radiusBg.topLeft : 0
+        radiusBg.topRight: control.afterLabel?.length === 0 ? control.radiusBg.topRight : 0
+        radiusBg.bottomLeft: control.beforeLabel?.length === 0 ? control.radiusBg.bottomLeft : 0
+        radiusBg.bottomRight: control.afterLabel?.length === 0 ? control.radiusBg.bottomRight : 0
         clearIconDelegate: HusIconText {
             iconSource: control.clearIconSource
             iconSize: control.clearIconSize
-            leftPadding: control.clearIconPosition === HusInput.Position_Left ? (control.leftIconPadding > 0 ? 5 : 10) * __input.sizeRatio : 0
+            leftPadding: control.clearIconPosition === HusInput.Position_Left ? (control.leftIconPadding > 0 ? 5 : 10) * control.sizeRatio : 0
             rightPadding: control.clearIconPosition === HusInput.Position_Right ?
-                              ((control.rightIconPadding > 0 ? 5 : 10) * __input.sizeRatio + __handlerLoader.implicitWidth) : 0
+                              ((control.rightIconPadding > 0 ? 5 : 10) * control.sizeRatio + __handlerLoader.implicitWidth) : 0
             colorIcon: {
                 if (control.enabled) {
                     return __tapHandler.pressed ? control.themeSource.colorClearIconActive :
@@ -331,10 +357,10 @@ T.SpinBox {
         Loader {
             id: __prefixLoader
             height: parent.height
-            active: control.prefix != ''
+            active: control.prefix !== ''
             sourceComponent: HusText {
-                leftPadding: 10
-                rightPadding: 5
+                leftPadding: 10 * control.sizeRatio
+                rightPadding: 5 * control.sizeRatio
                 text: control.prefix
                 color: __input.colorText
                 verticalAlignment: Text.AlignVCenter
@@ -345,10 +371,10 @@ T.SpinBox {
             id: __suffixLoader
             height: parent.height
             anchors.right: __handlerLoader.left
-            active: control.suffix != ''
+            active: control.suffix !== ''
             sourceComponent: HusText {
-                leftPadding: 5
-                rightPadding: 10
+                leftPadding: 5 * control.sizeRatio
+                rightPadding: 10 * control.sizeRatio
                 text: control.suffix
                 color: __input.colorText
                 verticalAlignment: Text.AlignVCenter
@@ -360,27 +386,17 @@ T.SpinBox {
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            anchors.margins: 1
             active: control.showHandler && !__input.readOnly
             sourceComponent: control.handlerDelegate
         }
     }
 
-    onValueChanged: {
-        if (__input.modified) {
-            __input.modified = false;
-            control.valueModified();
-        }
-    }
-    onPrefixChanged: valueChanged();
-    onSuffixChanged: valueChanged();
-    onCurrentAfterLabelChanged: valueChanged();
-    onCurrentBeforeLabelChanged: valueChanged();
-    Component.onCompleted: valueChanged();
-
     Loader {
         id: __beforeLoader
         height: parent.height
         anchors.left: parent.left
+        anchors.leftMargin: 1
         active: control.beforeLabel?.length !== 0
         sourceComponent: control.beforeDelegate
     }
@@ -389,18 +405,9 @@ T.SpinBox {
         id: __afterLoader
         height: parent.height
         anchors.right: parent.right
+        anchors.rightMargin: 1
         active: control.afterLabel?.length !== 0
         sourceComponent: control.afterDelegate
-    }
-
-    HusRectangleInternal {
-        anchors.fill: parent.contentItem
-        color: 'transparent'
-        border.color: __input.colorBorder
-        topLeftRadius: control.beforeLabel?.length === 0 ? control.radiusBg.topLeft : 0
-        bottomLeftRadius: control.beforeLabel?.length === 0 ? control.radiusBg.bottomLeft : 0
-        topRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.topRight : 0
-        bottomRightRadius: control.afterLabel?.length === 0 ? control.radiusBg.bottomRight : 0
     }
 
     Component {
@@ -408,8 +415,8 @@ T.SpinBox {
 
         HusSelect {
             id: __afterText
-            rightPadding: 4
             animationEnabled: control.animationEnabled
+            sizeRatio: control.sizeRatio
             colorBg: 'transparent'
             colorBorder: 'transparent'
             clearEnabled: false
@@ -437,7 +444,7 @@ T.SpinBox {
 
         HusText {
             text: isBefore ? control.beforeLabel : control.afterLabel
-            color: __input.colorText
+            color: control.colorText
             font: control.labelFont
             Component.onCompleted: {
                 if (isBefore)

@@ -27,6 +27,8 @@ T.Control {
     signal finished(input: string)
 
     property bool animationEnabled: HusTheme.animationEnabled
+    property int type: HusInput.Type_Outlined
+    property bool showShadow: false
     property int length: 6
     property int characterLength: 1
     property int currentIndex: 0
@@ -39,11 +41,11 @@ T.Control {
     property bool itemPassword: false
     property string itemPasswordCharacter: ''
     property var formatter: (text) => text
-
     property color colorItemText: enabled ? themeSource.colorText : themeSource.colorTextDisabled
     property color colorItemBorder: enabled ? themeSource.colorBorder : themeSource.colorBorderDisabled
     property color colorItemBorderActive: enabled ? themeSource.colorBorderHover : themeSource.colorBorderDisabled
     property color colorItemBg: enabled ? themeSource.colorBg : themeSource.colorBgDisabled
+    property color colorShadow: enabled ? themeSource.colorShadow : 'transparent'
     property HusRadius radiusBg: HusRadius { all: themeSource.radiusBg }
     property string sizeHint: 'normal'
     property real sizeRatio: HusTheme.sizeHint[sizeHint]
@@ -127,15 +129,17 @@ T.Control {
             animationEnabled: control.animationEnabled
             sizeRatio: control.sizeRatio
             themeSource: control.themeSource
+            showShadow: control.showShadow
             font: control.font
             colorText: control.colorItemText
             colorBorder: active ? control.colorItemBorderActive : control.colorItemBorder
             colorBg: control.colorItemBg
+            colorShadow: control.colorShadow
             radiusBg: control.radiusBg
             validator: control.itemValidator
             inputMethodHints: control.itemInputMethodHints
             echoMode: control.itemPassword ? HusInput.Password : HusInput.Normal
-            passwordCharacter:control.itemPasswordCharacter
+            passwordCharacter: control.itemPasswordCharacter
             onReleased: __timer.restart();
             onTextEdited: {
                 text = control.formatter(text);
