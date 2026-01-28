@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from shutil import rmtree
 
 from .update_resource import (
     uv_run,
@@ -12,10 +13,12 @@ from .update_resource import (
     gen_pyis,
     del_pyis,
 )
+from .extract_docs import extract_all_docs, save_docs_to_json
+from .generate_markdown import generate_markdown
 
 
 def init():
-    cwd = (Path(__file__).parent / "../../../").resolve()
+    cwd = (Path(__file__) / "../../../../").resolve()
     gallery = cwd / "gallery"
     huaskui = cwd / "pyhuskarui" / "src" / "pyhuskarui"
 
@@ -44,7 +47,7 @@ def init():
 
 
 def package():
-    cwd = (Path(__file__).parent / "../../../").resolve()
+    cwd = (Path(__file__) / "../../../../").resolve()
     gallery = cwd / "gallery"
     dist = Path("./package/package.dist")
     target = dist.parent / "PyHuskarUI-Gallery"
@@ -128,9 +131,19 @@ def package():
     for file in excludeFiles:
         for p in dist.glob(file):
             if p.is_dir():
-                import shutil
-
-                shutil.rmtree(p)
+                rmtree(p)
             else:
                 p.unlink()
     dist.rename(target)
+
+
+def gen_docs():
+    cwd = (Path(__file__) / "../../../../").resolve()
+    docs_dir = cwd / "docs"
+    if docs_dir.exists():
+        rmtree(docs_dir)
+    examples_dir = cwd / "gallery/qml/Examples"
+    output_meta_path = cwd / "docs/guide.metainfo.json"
+    docs = extract_all_docs(examples_dir)
+    save_docs_to_json(docs, output_meta_path)
+    generate_markdown(str(output_meta_path))

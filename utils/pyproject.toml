@@ -13,3 +13,4 @@ requires = ["hatchling"]
 [project.scripts]
 init = "utils:init"
 package = "utils:package"
+gendocs = "utils:gen_docs"
