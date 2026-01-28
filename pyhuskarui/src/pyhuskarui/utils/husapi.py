@@ -40,11 +40,11 @@ class HusApi(QObject):
 
     def __init__(self, parent: QObject = None) -> None:
         super().__init__(parent=parent)
-        
+
     @Slot(float, float, float, result=float)
     def clamp(self, value: float, minValue: float, maxValue: float) -> float:
         return min(max(value, minValue), maxValue)
-    
+
     @Slot(QWindow, bool)
     def setWindowStaysOnTopHint(self, window: QWindow, hint: bool) -> None:
         if window is not None:

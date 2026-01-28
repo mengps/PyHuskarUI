@@ -40,6 +40,7 @@ T.Control {
     property bool checkable: false
     property bool blockNode: false
     property bool genDefaultKey: true
+    property bool forceUpdateCheckState: false
     property real indent: 18
     property bool showIcon: false
     property int defaultNodeIconSize: 16
@@ -55,7 +56,12 @@ T.Control {
     property string selectedKey: ''
     property var initModel: []
     property alias titleFont: control.font
+    property font nodeIconFont: Qt.font({
+                                            family: 'HuskarUI-Icons',
+                                            pixelSize: defaultNodeIconSize
+                                        })
     property color colorLine: themeSource.colorLine
+    property color colorNodeIcon: themeSource.colorNodeIcon
     property HusRadius radiusSwitcherBg: HusRadius { all: themeSource.radiusSwitcherBg }
     property HusRadius radiusTitleBg: HusRadius { all: themeSource.radiusTitleBg }
     property string contentDescription: ''
@@ -141,8 +147,10 @@ T.Control {
                 visible: active
                 sourceComponent: HusIconText {
                     Layout.alignment: Qt.AlignVCenter
+                    font.family: control.nodeIconFont.family
                     iconSource: treeData?.iconSource ?? 0
-                    iconSize: treeData?.iconSize ?? control.defaultNodeIconSize
+                    iconSize: treeData?.iconSize ?? control.nodeIconFont.pixelSize
+                    colorIcon: treeData?.colorNodeIcon ?? control.colorNodeIcon
                 }
             }
 
@@ -232,6 +240,7 @@ T.Control {
         }
     }
 
+    onCheckableChanged: checkForKeys(defaultCheckedKeys);
     onDefaultCheckedKeysChanged: checkForKeys(defaultCheckedKeys);
     onInitModelChanged: {
         __private.clearCheckedKeys();
@@ -413,8 +422,8 @@ T.Control {
                         enabled: __rootItem.contentEnabled && !__rootItem.checkboxDisabled
                         checkState: __rootItem.checkState
                         onToggled: {
-                            __private.updateTreeNodeCheckState(__rootItem.treeData.treePath, checkState);
                             __rootItem.model.display.checkState = checkState;
+                            __private.updateTreeNodeCheckState(__rootItem.treeData.treePath, checkState);
                         }
                     }
                 }
@@ -454,7 +463,7 @@ T.Control {
             const data = object.__data;
             const nodeTreePath = data.treePath;
             if (isSubNode(rootPath, nodeTreePath)) {
-                if (data.enabled && !data.checkboxDisabled) {
+                if (control.forceUpdateCheckState || (data.enabled && !data.checkboxDisabled)) {
                     /*! 更新模型 */
                     updateModelCheckState(data, nodeTreePath, checkState);
                 } else {
@@ -490,7 +499,7 @@ T.Control {
                 node.rows.forEach(
                             o => {
                                 const data = o.__data;
-                                if (data.enabled && !data.checkboxDisabled) {
+                                if (control.forceUpdateCheckState || (data.enabled && !data.checkboxDisabled)) {
                                     checkableCount++
                                     /*! 计算该节点状态 */
                                     let checkState = Qt.Unchecked;
@@ -530,13 +539,13 @@ T.Control {
 
         function updateTreeNodeCheckState(treePath: var, checkState: int) {
             if (control.checkable) {
+                /*! 先更新该节点下所有子节点状态 */
+                const index = __treeModel.index(treePath, 0);
+                const subTreeNode = __treeModel.getRow(index);
+                updateSubNodeCheckState(treePath, subTreeNode, checkState);
                 for (const row of __treeModel.rows) {
                     /* 仅更新本节点的根子树 */
                     if (row.__data.treePath[0] === treePath[0]) {
-                        /*! 更新该节点下所有子节点状态 */
-                        const index = __treeModel.index(treePath, 0);
-                        const subTreeNode = __treeModel.getRow(index);
-                        updateSubNodeCheckState(treePath, subTreeNode, checkState);
                         /*! 非根子树则需要更新整条链路状态 */
                         const rootPath = [treePath[0]];
                         if (!treeEqual(rootPath, treePath)) {

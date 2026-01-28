@@ -842,7 +842,7 @@ class HusTheme(QObject):
     @Property(dict, notify=HusTreeViewChanged)
     def HusTreeView(self) -> dict:
         return self._HusTreeView
-    
+
     @Property(dict, notify=HusLabelChanged)
     def HusLabel(self) -> dict:
         return self._HusLabel

@@ -31,6 +31,13 @@ T.Control {
         Mode_Compact = 2
     }
 
+    enum PositionMode {
+        Position_None = 0,
+        Position_Beginning = 1,
+        Position_Center = 2,
+        Position_End = 3
+    }
+
     signal clickMenu(deep: int, key: string, keyPath: var, data: var)
 
     property bool animationEnabled: HusTheme.animationEnabled
@@ -180,41 +187,42 @@ T.Control {
         }
     }
 
-    function gotoMenu(key) {
+    function gotoMenu(key: string, mode = HusMenu.Position_None) {
         __private.gotoMenuKey = key;
-        __private.gotoMenu(key);
+        __private.gotoMenuMode = mode;
+        __private.gotoMenu(key, mode);
     }
 
-    function get(index) {
+    function get(index: int): var {
         if (index >= 0 && index < __listView.model.length) {
             return __listView.model[index];
         }
         return undefined;
     }
 
-    function set(index, object) {
+    function set(index: int, object: var) {
         if (index >= 0 && index < __listView.model.length) {
             __listView.model[index] = object;
             __listView.modelChanged();
         }
     }
 
-    function setProperty(index, propertyName, value) {
+    function setProperty(index: int, propertyName: string, value: var) {
         if (index >= 0 && index < __listView.model.length) {
             __listView.model[index][propertyName] = value;
             __listView.modelChanged();
         }
     }
 
-    function setData(key, data) {
+    function setData(key: string, data: var) {
         __private.setData(key, data);
     }
 
-    function setDataProperty(key, propertyName, value) {
+    function setDataProperty(key: string, propertyName: string, value: var) {
         __private.setDataProperty(key, propertyName, value);
     }
 
-    function move(from, to, count = 1) {
+    function move(from: int, to: int, count = 1) {
         if (from >= 0 && from < __listView.model.length && to >= 0 && to < __listView.model.length) {
             const objects = __listView.model.splice(from, count);
             __listView.model.splice(to, 0, ...objects);
@@ -222,17 +230,17 @@ T.Control {
         }
     }
 
-    function insert(index, object) {
+    function insert(index: int, object: var) {
         __listView.model.splice(index, 0, object);
         __listView.modelChanged();
     }
 
-    function append(object) {
+    function append(object: var) {
         __listView.model.push(object);
         __listView.modelChanged();
     }
 
-    function remove(index, count = 1) {
+    function remove(index: int, count = 1) {
         if (index >= 0 && index < __listView.model.length) {
             __listView.model.splice(index, count);
             __listView.modelChanged();
@@ -241,6 +249,7 @@ T.Control {
 
     function clear() {
         __private.gotoMenuKey = '';
+        __private.gotoMenuMode = HusMenu.Position_None;
         __listView.model = [];
     }
 
@@ -490,15 +499,38 @@ T.Control {
                 }
             }
 
+            Timer {
+                id: __gotoPositionTimer
+                interval: 300
+                onTriggered: {
+                    const posY = __listView.contentY + __rootItem.mapToItem(__listView, 0, 0).y;
+                    const maxY = __listView.height > __listView.contentHeight ? 0 : __listView.contentHeight - __listView.height;
+                    switch (__private.gotoMenuMode) {
+                    case HusMenu.Position_None: break;
+                    case HusMenu.Position_Beginning:
+                        __listView.contentY = posY;
+                        break;
+                    case HusMenu.Position_Center:
+                        __listView.contentY = HusApi.clamp(posY - (__listView.height - __rootItem.height) * 0.5, 0, maxY);
+                        break;
+                    case HusMenu.Position_End:
+                        __listView.contentY =  HusApi.clamp(posY - (__listView.height - __rootItem.height), 0, maxY);
+                        break;
+                    }
+                    __private.gotoMenuMode = HusMenu.Position_None;
+                }
+            }
+
             Connections {
                 target: __private
                 enabled: __rootItem.menuKey !== ''
                 ignoreUnknownSignals: true
 
-                function onGotoMenu(key) {
+                function onGotoMenu(key: string, mode: int) {
                     if (__rootItem.menuKey === key) {
                         __rootItem.expandParent();
                         __menuButton.clicked();
+                        __gotoPositionTimer.restart();
                     }
                 }
 
@@ -679,11 +711,12 @@ T.Control {
     Item {
         id: __private
 
-        signal gotoMenu(key: string)
+        signal gotoMenu(key: string, mode: int)
         signal setData(key: string, data: var)
         signal setDataProperty(key: string, propertyName: string, value: var)
 
         property string gotoMenuKey: ''
+        property int gotoMenuMode: HusMenu.Position_None
         property var window: Window.window
         property var selectedItem: null
         property var popupList: []

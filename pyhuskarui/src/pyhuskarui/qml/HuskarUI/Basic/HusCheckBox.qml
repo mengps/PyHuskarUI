@@ -27,7 +27,7 @@ T.CheckBox {
     property bool animationEnabled: HusTheme.animationEnabled
     property bool effectEnabled: true
     property int hoverCursorShape: Qt.PointingHandCursor
-    property int indicatorSize: 18
+    property int indicatorSize: 18 * sizeRatio
     property color colorText: enabled ? themeSource.colorText : themeSource.colorTextDisabled
     property color colorIndicator: {
         if (enabled) {
@@ -42,6 +42,8 @@ T.CheckBox {
                                                                     themeSource.colorIndicatorBorder : themeSource.colorIndicatorDisabled
     property HusRadius radiusIndicator: HusRadius { all: themeSource.radiusIndicator }
     property string contentDescription: ''
+    property string sizeHint: 'normal'
+    property real sizeRatio: HusTheme.sizeHint[sizeHint]
     property var themeSource: HusTheme.HusCheckBox
 
     Behavior on colorText { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationMid } }
@@ -51,9 +53,11 @@ T.CheckBox {
     objectName: '__HusCheckBox__'
     implicitWidth: implicitContentWidth + leftPadding + rightPadding
     implicitHeight: Math.max(implicitContentHeight, implicitIndicatorHeight) + topPadding + bottomPadding
-    font.family: themeSource.fontFamily
-    font.pixelSize: parseInt(themeSource.fontSize)
-    spacing: 6
+    font {
+        family: themeSource.fontFamily
+        pixelSize: parseInt(themeSource.fontSize) * sizeRatio
+    }
+    spacing: 6 * sizeRatio
     indicator: Item {
         x: control.leftPadding
         implicitWidth: __bg.width
@@ -251,7 +255,6 @@ T.CheckBox {
             ColorAnimation { duration: HusTheme.Primary.durationMid }
         }
     }
-    background: Item { }
 
     HoverHandler {
         cursorShape: control.hoverCursorShape
