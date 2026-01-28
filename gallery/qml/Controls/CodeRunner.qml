@@ -12,6 +12,8 @@ HusWindow {
         () => {
             root.destroy();
         }
+    captionBar.winIconWidth: 22
+    captionBar.winIconHeight: 22
     captionBar.winIconDelegate: Item {
         Image {
             width: 16
