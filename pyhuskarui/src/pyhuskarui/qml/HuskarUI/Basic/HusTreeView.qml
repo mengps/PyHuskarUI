@@ -46,7 +46,7 @@ T.Control {
     property int defaultNodeIconSize: 16
     property bool showLine: false
     property int lineStyle: HusTreeView.SolidLine
-    property real lineWidth: 1
+    property real lineWidth: 1 / Screen.devicePixelRatio
     property list<real> dashPattern: [4, 4]
     property var switcherIconSouce: HusIcon.CaretRightOutlined ?? ''
     property int switcherIconSize: 12
@@ -255,8 +255,8 @@ T.Control {
     padding: 4
     spacing: 4
     font {
-        family: control.themeSource.fontFamily
-        pixelSize: parseInt(control.themeSource.fontSize)
+        family: themeSource.fontFamily
+        pixelSize: parseInt(themeSource.fontSize)
     }
     background: Item { }
     contentItem: TreeView {

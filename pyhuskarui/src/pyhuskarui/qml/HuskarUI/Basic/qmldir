@@ -67,5 +67,6 @@ HusTimeline 1.0 qml/HuskarUI/Basic/HusTimeline.qml
 HusToolTip 1.0 qml/HuskarUI/Basic/HusToolTip.qml
 HusTourFocus 1.0 qml/HuskarUI/Basic/HusTourFocus.qml
 HusTourStep 1.0 qml/HuskarUI/Basic/HusTourStep.qml
+HusTransfer 1.0 qml/HuskarUI/Basic/HusTransfer.qml
 HusTreeView 1.0 qml/HuskarUI/Basic/HusTreeView.qml
 HusWindow 1.0 qml/HuskarUI/Basic/HusWindow.qml

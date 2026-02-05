@@ -31,13 +31,6 @@ T.Control {
         Mode_Compact = 2
     }
 
-    enum PositionMode {
-        Position_None = 0,
-        Position_Beginning = 1,
-        Position_Center = 2,
-        Position_End = 3
-    }
-
     signal clickMenu(deep: int, key: string, keyPath: var, data: var)
 
     property bool animationEnabled: HusTheme.animationEnabled
@@ -61,7 +54,7 @@ T.Control {
     property int defaultMenuTopPadding: 10
     property int defaultMenuBottomPadding: 10
     property int defaultMenuSpacing: 4
-    property var defaultSelectedKey: []
+    property var defaultSelectedKeys: []
     property string selectedKey: ''
     property var initModel: []
     property HusRadius radiusMenuBg: HusRadius { all: themeSource.radiusMenuBg }
@@ -187,10 +180,9 @@ T.Control {
         }
     }
 
-    function gotoMenu(key: string, mode = HusMenu.Position_None) {
+    function gotoMenu(key: string) {
         __private.gotoMenuKey = key;
-        __private.gotoMenuMode = mode;
-        __private.gotoMenu(key, mode);
+        __private.gotoMenu(key);
     }
 
     function get(index: int): var {
@@ -202,8 +194,7 @@ T.Control {
 
     function set(index: int, object: var) {
         if (index >= 0 && index < __listView.model.length) {
-            __listView.model[index] = object;
-            __listView.modelChanged();
+            __listView.model[index] = object; 
         }
     }
 
@@ -249,7 +240,6 @@ T.Control {
 
     function clear() {
         __private.gotoMenuKey = '';
-        __private.gotoMenuMode = HusMenu.Position_None;
         __listView.model = [];
     }
 
@@ -404,8 +394,8 @@ T.Control {
                     for (let i = 0; i < menuChildren.length; i++) {
                         __childrenListView.model.push(menuChildren[i]);
                     }
-                    if (control.defaultSelectedKey.length != 0) {
-                        if (control.defaultSelectedKey.indexOf(menuKey) != -1) {
+                    if (control.defaultSelectedKeys.length !== 0) {
+                        if (control.defaultSelectedKeys.indexOf(menuKey) !== -1) {
                             __rootItem.expandParent();
                             __menuButton.clicked();
                         }
@@ -462,6 +452,7 @@ T.Control {
                 /*! 根菜单返回自身 */
                 return __rootItem;
             }
+
             /*! 展开当前菜单的所有父菜单 */
             function expandParent() {
                 let parent = parentMenu;
@@ -474,6 +465,7 @@ T.Control {
                     parent = parent.parentMenu;
                 }
             }
+
             /*! 清除当前菜单的所有子菜单 */
             function clearIsCurrentParent() {
                 isCurrentParent = false;
@@ -483,6 +475,7 @@ T.Control {
                         item.clearIsCurrentParent();
                 }
             }
+
             /*! 选中当前菜单的所有父菜单 */
             function selectedCurrentParentMenu() {
                 for (let i = 0; i < __listView.count; i++) {
@@ -499,38 +492,15 @@ T.Control {
                 }
             }
 
-            Timer {
-                id: __gotoPositionTimer
-                interval: 300
-                onTriggered: {
-                    const posY = __listView.contentY + __rootItem.mapToItem(__listView, 0, 0).y;
-                    const maxY = __listView.height > __listView.contentHeight ? 0 : __listView.contentHeight - __listView.height;
-                    switch (__private.gotoMenuMode) {
-                    case HusMenu.Position_None: break;
-                    case HusMenu.Position_Beginning:
-                        __listView.contentY = posY;
-                        break;
-                    case HusMenu.Position_Center:
-                        __listView.contentY = HusApi.clamp(posY - (__listView.height - __rootItem.height) * 0.5, 0, maxY);
-                        break;
-                    case HusMenu.Position_End:
-                        __listView.contentY =  HusApi.clamp(posY - (__listView.height - __rootItem.height), 0, maxY);
-                        break;
-                    }
-                    __private.gotoMenuMode = HusMenu.Position_None;
-                }
-            }
-
             Connections {
                 target: __private
                 enabled: __rootItem.menuKey !== ''
                 ignoreUnknownSignals: true
 
-                function onGotoMenu(key: string, mode: int) {
+                function onGotoMenu(key: string) {
                     if (__rootItem.menuKey === key) {
                         __rootItem.expandParent();
                         __menuButton.clicked();
-                        __gotoPositionTimer.restart();
                     }
                 }
 
@@ -711,12 +681,11 @@ T.Control {
     Item {
         id: __private
 
-        signal gotoMenu(key: string, mode: int)
+        signal gotoMenu(key: string)
         signal setData(key: string, data: var)
         signal setDataProperty(key: string, propertyName: string, value: var)
 
         property string gotoMenuKey: ''
-        property int gotoMenuMode: HusMenu.Position_None
         property var window: Window.window
         property var selectedItem: null
         property var popupList: []

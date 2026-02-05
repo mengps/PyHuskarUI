@@ -143,7 +143,11 @@ def gen_docs():
     if docs_dir.exists():
         rmtree(docs_dir)
     examples_dir = cwd / "gallery/qml/Examples"
-    output_meta_path = cwd / "docs/guide.metainfo.json"
+    output_meta_path = cwd / "ai_tools/HuskarUIExpert/guide.metainfo.json"
     docs = extract_all_docs(examples_dir, cwd)
     save_docs_to_json(docs, output_meta_path)
     generate_markdown(str(output_meta_path))
+
+
+def format_code():
+    return uv_run(["ruff", "format"])

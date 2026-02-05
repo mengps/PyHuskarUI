@@ -14,3 +14,4 @@ requires = ["hatchling"]
 init = "utils:init"
 package = "utils:package"
 gendocs = "utils:gen_docs"
+format = "utils:format_code"

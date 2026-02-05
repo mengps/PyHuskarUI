@@ -66,6 +66,7 @@
         <file>qml/HuskarUI/Basic/HusToolTip.qml</file>
         <file>qml/HuskarUI/Basic/HusTourFocus.qml</file>
         <file>qml/HuskarUI/Basic/HusTourStep.qml</file>
+        <file>qml/HuskarUI/Basic/HusTransfer.qml</file>
         <file>qml/HuskarUI/Basic/HusTreeView.qml</file>
         <file>qml/HuskarUI/Basic/HusWindow.qml</file>
         <file>qml/HuskarUI/Basic/qmldir</file>

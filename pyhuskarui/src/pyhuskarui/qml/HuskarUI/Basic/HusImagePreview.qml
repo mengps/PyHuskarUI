@@ -682,7 +682,7 @@ HusPopup {
             }
 
             Loader {
-                anchors.bottom: operationLoader.top
+                anchors.bottom: __operationLoader.top
                 anchors.bottomMargin: 18
                 anchors.horizontalCenter: parent.horizontalCenter
                 active: __listModel.count > 1
@@ -690,7 +690,7 @@ HusPopup {
             }
 
             Loader {
-                id: operationLoader
+                id: __operationLoader
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 30

@@ -122,6 +122,10 @@ Flickable {
 - **rowHeaderDelegate: Component** 行头代理，代理可访问属性：\n
   - \`model: var\` 行模型数据\n
   - \`row: int\` 行索引\n
+- **columnHeaderTitleDelegate: Component** 列头标题代理，代理可访问属性：\n
+  - \`align: string\` 该列标题的对齐\n
+  - \`headerData: var\` 列描述数据(即columns[column])\n
+  - \`column: int\` 列索引\n
 - **columnHeaderSorterIconDelegate: Component** 列头搜索器图标代理，代理可访问属性：\n
   - \`sorter: var\` 该列的搜索器\n
   - \`sortDirections: list\` 该列的搜索方向数组\n
@@ -141,13 +145,16 @@ defaultColumnHeaderHeight | int | 40 | 默认列头高度
 defaultRowHeaderWidth | int | 40 | 默认行头宽度
 showColumnGrid | bool | false | 是否显示列网格线
 showRowGrid | bool | false | 是否显示行网格线
+columnResizable | bool | true | 是否可调整列大小
+rowResizable | bool | true | 是否可调整行大小
 rowHeightProvider | function(row, key) | minimumRowHeight | 行高提供函数
 minimumRowHeight | int | 40 | 最小行高
 maximumRowHeight | int | Number.MAX_VALUE | 最大行高
-initModel | list | [] | 表格初始数据模型
+initModel | array | [] | 表格初始数据模型
 rowCount | int | 0 | 当前模型行数
-columns | list | [] | 列描述对象数组
-checkedKeys | list | [] | 选中行的键列表
+columns | array | [] | 列描述对象数组
+defaultCheckedKeys | array | [] | 默认选中的键列表
+checkedKeys | array | [] | 选中行的键列表
 colorGridLine | color | - | 网格线颜色
 showColumnHeader | bool | true | 是否显示列头
 columnHeaderTitleFont | font | - | 列头标题字体
@@ -163,6 +170,12 @@ horScrollBar | [HusScrollBar](internal://HusScrollBar) | - | 访问内部水平�
 tableView | TableView | - | 访问内部表格视图
 tableModel | TableModel | - | 访问内部表格模型
 \n<br/>
+\n### {initModel}支持的属性：\n
+属性名 | 类型 | 可选/必选 | 描述
+------ | --- | :---: | ---
+key | string | 可选 | 本行数据键
+enabled | bool | 可选 | 本行是否禁用
+\n<br/>
 \n### {columns}支持的属性：\n
 属性名 | 类型 | 可选/必选 | 描述
 ------ | --- | :---: | ---
@@ -176,7 +189,7 @@ editable | bool | 可选 | 列头标题是否可编辑
 align | string | 可选 | 列头标题对齐方式, 支持 'center'丨'left'丨'right'
 selectionType | string | 可选 | 该列选择类型, 支持 'checkbox'
 sorter | var | 可选 | 该列排序器
-sortDirections | list | 可选 | 该列排序方向, 支持 'false'丨'ascend'丨'descend'
+sortDirections | array | 可选 | 该列排序方向, 支持 'false'丨'ascend'丨'descend'
 onFilter | var | 可选 | 该列过滤器
 filterInput | string | 可选 | 该列过滤输入
 \n<br/>
@@ -193,6 +206,8 @@ filterInput | string | 单元格的过滤输入
 \n### 支持的函数：\n
 - \`checkForRows(rows: Array)\` 选中 \`rows\` 提供的行列表。\n
 - \`checkForKeys(keys: Array)\` 选中 \`keys\` 提供的键列表。\n
+- \`toggleForRows(rows: Array)\` 切换 \`rows\` 提供的行列表的选中状态。\n
+- \`toggleForKeys(keys: Array)\` 切换 \`keys\` 提供的键列表的选中状态。\n
 - \`Array getCheckedKeys()\` 获取选中的键列表。\n
 - \`clearAllCheckedKeys()\` 清除所有选中的键。\n
 - \`scrollToRow(row: int)\` 滚动到 \`row\` 指定的行。\n

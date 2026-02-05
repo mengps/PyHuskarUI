@@ -256,8 +256,8 @@ QtObject {
                     key: 'HusMultiSelect',
                     label: qsTr('HusMultiSelect 多选器'),
                     source: './Examples/DataEntry/ExpMultiSelect.qml',
-                    addVersion: '0.4.3',
-                    desc: qsTr('多选器，可多选的下拉选择器。'),
+                    updateVersion: '0.5.6.2',
+                    desc: qsTr('新增 defaultSelectedKeys 属性。\n新增 insertTag()/appendTag() 接口。'),
                 },
                 {
                     key: 'HusDateTimePicker',
@@ -307,6 +307,13 @@ QtObject {
                     source: './Examples/DataEntry/ExpDateTimePickerPanel.qml',
                     addVersion: '0.5.4',
                     desc: qsTr('非弹出式的日期时间选择面板。')
+                },
+                {
+                    key: 'HusTransfer',
+                    label: qsTr('HusTransfer 穿梭框'),
+                    source: './Examples/DataEntry/ExpTransfer.qml',
+                    addVersion: '0.5.7',
+                    desc: qsTr('双栏穿梭选择框。')
                 },
             ]
         },
@@ -377,8 +384,8 @@ QtObject {
                     key: 'HusTableView',
                     label: qsTr('HusTableView 表格'),
                     source: './Examples/DataDisplay/ExpTableView.qml',
-                    updateVersion: '0.4.8.1',
-                    desc: qsTr('新增 getCellData 获取单元数据。\n新增 setCellData 设置单元数据。')
+                    updateVersion: '0.5.6.2',
+                    desc: qsTr('新增 columnResizable/rowResizable/defaultCheckedKeys 属性。')
                 },
                 {
                     key: 'HusBadge',

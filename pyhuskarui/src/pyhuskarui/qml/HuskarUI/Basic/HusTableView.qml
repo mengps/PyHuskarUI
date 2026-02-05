@@ -38,29 +38,33 @@ HusRectangleInternal {
     property bool showRowGrid: false
     property real minimumRowHeight: 40
     property real maximumRowHeight: Number.MAX_VALUE
+    property bool columnResizable: true
+    property bool rowResizable: true
     property var initModel: []
     readonly property int rowCount: __cellModel.rowCount
     property var columns: []
+    property var defaultCheckedKeys: []
     property var checkedKeys: []
 
     property bool showColumnHeader: true
     property font columnHeaderTitleFont: Qt.font({
-                                                     family: HusTheme.HusTableView.fontFamily,
-                                                     pixelSize: parseInt(HusTheme.HusTableView.fontSize)
+                                                     family: themeSource.fontFamily,
+                                                     pixelSize: parseInt(themeSource.fontSize)
                                                  })
-    property color colorColumnHeaderTitle: HusTheme.HusTableView.colorColumnTitle
-    property color colorColumnHeaderBg: HusTheme.HusTableView.colorColumnHeaderBg
+    property color colorColumnHeaderTitle: themeSource.colorColumnTitle
+    property color colorColumnHeaderBg: themeSource.colorColumnHeaderBg
 
     property bool showRowHeader: true
     property font rowHeaderTitleFont: Qt.font({
-                                                  family: HusTheme.HusTableView.fontFamily,
-                                                  pixelSize: parseInt(HusTheme.HusTableView.fontSize)
+                                                  family: themeSource.fontFamily,
+                                                  pixelSize: parseInt(themeSource.fontSize)
                                               })
-    property color colorRowHeaderTitle: HusTheme.HusTableView.colorRowTitle
-    property color colorRowHeaderBg: HusTheme.HusTableView.colorRowHeaderBg
+    property color colorRowHeaderTitle: themeSource.colorRowTitle
+    property color colorRowHeaderBg: themeSource.colorRowHeaderBg
 
-    property color colorGridLine: HusTheme.HusTableView.colorGridLine
-    property color colorResizeBlockBg: HusTheme.HusTableView.colorResizeBlockBg
+    property color colorGridLine: themeSource.colorGridLine
+    property color colorResizeBlockBg: themeSource.colorResizeBlockBg
+    property var themeSource: HusTheme.HusTableView
 
     property alias verScrollBar: __vScrollBar
     property alias horScrollBar: __hScrollBar
@@ -72,6 +76,7 @@ HusRectangleInternal {
 
         property var model: parent.model
         property var headerData: parent.headerData
+        property int column: parent?.model?.column ?? -1
         property bool editable: headerData?.editable ?? false
         property string align: headerData?.align ?? 'center'
         property string selectionType: headerData?.selectionType ?? ''
@@ -79,7 +84,7 @@ HusRectangleInternal {
         property var sortDirections: headerData?.sortDirections ?? []
         property var onFilter: headerData?.onFilter
 
-        HusText {
+        Loader {
             anchors {
                 left: __checkBoxLoader.active ? __checkBoxLoader.right : parent.left
                 leftMargin: __checkBoxLoader.active ? 0 : 10
@@ -90,18 +95,10 @@ HusRectangleInternal {
                 bottom: parent.bottom
                 bottomMargin: 4
             }
-            font: control.columnHeaderTitleFont
-            text: headerData?.title ?? ''
-            color: control.colorColumnHeaderTitle
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: {
-                if (__columnHeaderDelegate.align == 'left')
-                    return Text.AlignLeft;
-                else if (__columnHeaderDelegate.align == 'right')
-                    return Text.AlignRight;
-                else
-                    return Text.AlignHCenter;
-            }
+            sourceComponent: control.columnHeaderTitleDelegate
+            property alias column: __columnHeaderDelegate.column
+            property alias headerData: __columnHeaderDelegate.headerData
+            property alias align: __columnHeaderDelegate.align
         }
 
         MouseArea {
@@ -123,7 +120,7 @@ HusRectangleInternal {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            active: __columnHeaderDelegate.selectionType == 'checkbox'
+            active: __columnHeaderDelegate.selectionType === 'checkbox'
             sourceComponent: HusCheckBox {
                 id: __parentBox
                 animationEnabled: control.animationEnabled
@@ -131,15 +128,19 @@ HusRectangleInternal {
                 onToggled: {
                     if (checkState == Qt.Unchecked) {
                         __private.model.forEach(
-                                    object => {
-                                        __private.checkedKeysSet.delete(object.key);
-                                    });
+                            object => {
+                                if (object?.enabled ?? true) {
+                                    __private.checkedKeysSet.delete(object.key);
+                                }
+                            });
                         __private.checkedKeysSetChanged();
                     } else {
                         __private.model.forEach(
-                                    object => {
-                                        __private.checkedKeysSet.add(object.key);
-                                    });
+                            object => {
+                                if (object?.enabled ?? true) {
+                                    __private.checkedKeysSet.add(object.key);
+                                }
+                            });
                         __private.checkedKeysSetChanged();
                     }
                     __private.updateParentCheckBox();
@@ -160,7 +161,7 @@ HusRectangleInternal {
             anchors.rightMargin: 8
             anchors.verticalCenter: parent.verticalCenter
             active: sorter !== undefined
-            sourceComponent: columnHeaderSorterIconDelegate
+            sourceComponent: control.columnHeaderSorterIconDelegate
             onLoaded: {
                 if (sortDirections.length === 0) return;
 
@@ -176,7 +177,7 @@ HusRectangleInternal {
                 }
                 sortMode = ref.sortMode;
             }
-            property int column: __columnHeaderDelegate?.model?.column ?? -1
+            property alias column: __columnHeaderDelegate.column
             property alias sorter: __columnHeaderDelegate.sorter
             property alias sortDirections: __columnHeaderDelegate.sortDirections
             property string sortMode: 'false'
@@ -188,8 +189,8 @@ HusRectangleInternal {
             anchors.rightMargin: 8
             anchors.verticalCenter: parent.verticalCenter
             active: onFilter !== undefined
-            sourceComponent: columnHeaderFilterIconDelegate
-            property int column: __columnHeaderDelegate?.model?.column ?? -1
+            sourceComponent: control.columnHeaderFilterIconDelegate
+            property alias column: __columnHeaderDelegate.column
             property alias onFilter: __columnHeaderDelegate.onFilter
         }
     }
@@ -212,6 +213,20 @@ HusRectangleInternal {
             horizontalAlignment: Text.AlignHCenter
         }
     }
+    property Component columnHeaderTitleDelegate: HusText {
+        font: control.columnHeaderTitleFont
+        text: headerData?.title ?? ''
+        color: control.colorColumnHeaderTitle
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: {
+            if (align === 'left')
+            return Text.AlignLeft;
+            else if (align === 'right')
+            return Text.AlignRight;
+            else
+            return Text.AlignHCenter;
+        }
+    }
     property Component columnHeaderSorterIconDelegate: Item {
         id: __sorterIconDelegate
         width: __sorterIconColumn.width
@@ -224,18 +239,18 @@ HusRectangleInternal {
 
             HusIconText {
                 visible: sortDirections.indexOf('ascend') !== -1
-                colorIcon: sortMode === 'ascend' ? HusTheme.HusTableView.colorIconHover :
-                                                   HusTheme.HusTableView.colorIcon
+                colorIcon: sortMode === 'ascend' ? control.themeSource.colorIconHover :
+                                                   control.themeSource.colorIcon
                 iconSource: HusIcon.CaretUpOutlined
-                iconSize: parseInt(HusTheme.HusTableView.fontSize) - 2
+                iconSize: parseInt(control.themeSource.fontSize) - 2
             }
 
             HusIconText {
                 visible: sortDirections.indexOf('descend') !== -1
-                colorIcon: sortMode === 'descend' ? HusTheme.HusTableView.colorIconHover :
-                                                    HusTheme.HusTableView.colorIcon
+                colorIcon: sortMode === 'descend' ? control.themeSource.colorIconHover :
+                                                    control.themeSource.colorIcon
                 iconSource: HusIcon.CaretDownOutlined
-                iconSize: parseInt(HusTheme.HusTableView.fontSize) - 2
+                iconSize: parseInt(control.themeSource.fontSize) - 2
             }
         }
     }
@@ -247,7 +262,7 @@ HusRectangleInternal {
             id: __headerFilterIcon
             anchors.centerIn: parent
             iconSource: HusIcon.SearchOutlined
-            colorIcon: hovered ? HusTheme.HusTableView.colorIconHover : HusTheme.HusTableView.colorIcon
+            colorIcon: hovered ? control.themeSource.colorIconHover : control.themeSource.colorIcon
             onClicked: {
                 __filterPopup.open();
             }
@@ -290,7 +305,7 @@ HusRectangleInternal {
                         type: HusButton.Type_Primary
                         onClicked: {
                             if (__searchInput.text.length === 0)
-                                __filterPopup.close();
+                            __filterPopup.close();
                             control.columns[column].filterInput = __searchInput.text;
                             control.filter();
                         }
@@ -301,7 +316,7 @@ HusRectangleInternal {
                         text: qsTr('Reset')
                         onClicked: {
                             if (__searchInput.text.length === 0)
-                                __filterPopup.close();
+                            __filterPopup.close();
                             __searchInput.clear();
                             control.columns[column].filterInput = '';
                             control.filter();
@@ -322,40 +337,6 @@ HusRectangleInternal {
         }
     }
 
-    objectName: '__HusTableView__'
-    clip: true
-    color: HusTheme.HusTableView.colorBg
-    topLeftRadius: HusTheme.HusTableView.radiusBg
-    topRightRadius: HusTheme.HusTableView.radiusBg
-    onColumnsChanged: {
-        let headerColumns = [];
-        let headerRow = {};
-        for (const object of columns) {
-            let column = Qt.createQmlObject('import Qt.labs.qmlmodels; TableModelColumn {}', __columnHeaderModel);
-            column.display = object.dataIndex;
-            headerColumns.push(column);
-            headerRow[object.dataIndex] = object;
-        }
-
-        __columnHeaderModel.clear();
-        if (showColumnHeader) {
-            __columnHeaderModel.columns = headerColumns;
-            __columnHeaderModel.rows = [headerRow];
-        }
-
-        let cellColumns = [];
-        for (let i = 0; i < columns.length; i++) {
-            let column = Qt.createQmlObject('import Qt.labs.qmlmodels; TableModelColumn {}', __cellModel);
-            column.display = `__data${i}`;
-            cellColumns.push(column);
-        }
-        __cellModel.columns = cellColumns;
-    }
-    onInitModelChanged: {
-        clearSort();
-        filter();
-    }
-
     function checkForRows(rows: var) {
         rows.forEach(
                     row => {
@@ -372,7 +353,32 @@ HusRectangleInternal {
         __private.checkedKeysSetChanged();
     }
 
-    function getCheckedKeys() {
+    function toggleForRows(rows: var) {
+        rows.forEach(row => {
+                         if (row >= 0 && row < __private.model.length) {
+                             const key = __private.model[row].key;
+                             if (__private.checkedKeysSet.has(key)) {
+                                 __private.checkedKeysSet.delete(key);
+                             } else {
+                                 __private.checkedKeysSet.add(key);
+                             }
+                         }
+                     });
+        __private.checkedKeysSetChanged();
+    }
+
+    function toggleForKeys(Keys: var) {
+        keys.forEach(key => {
+                         if (__private.checkedKeysSet.has(key)) {
+                             __private.checkedKeysSet.delete(key);
+                         } else {
+                             __private.checkedKeysSet.add(key);
+                         }
+                     });
+        __private.checkedKeysSetChanged();
+    }
+
+    function getCheckedKeys(): var {
         return [...__private.checkedKeysSet.keys()];
     }
 
@@ -383,12 +389,12 @@ HusRectangleInternal {
         __private.parentCheckStateChanged();
     }
 
-    function scrollToRow(row) {
-        __cellView.positionViewAtRow(row, TableView.AlignVCenter);
+    function scrollToRow(row: int, mode = TableView.AlignVCenter) {
+        __cellView.positionViewAtRow(row, mode);
         __private.updateParentCheckBox();
     }
 
-    function sort(column) {
+    function sort(column: int) {
         /*! 仅需设置排序相关属性, 真正的排序在 filter() 中完成 */
         if (columns[column].hasOwnProperty('sorter')) {
             columns.forEach(
@@ -467,6 +473,7 @@ HusRectangleInternal {
     }
 
     function clear() {
+        clearAllCheckedKeys();
         __private.model = initModel = [];
         __cellModel.clear();
         columns.forEach(
@@ -554,6 +561,44 @@ HusRectangleInternal {
         }
     }
 
+    onColumnsChanged: {
+        let headerColumns = [];
+        let headerRow = {};
+        for (const object of columns) {
+            let column = Qt.createQmlObject('import Qt.labs.qmlmodels; TableModelColumn {}', __columnHeaderModel);
+            column.display = object.dataIndex;
+            headerColumns.push(column);
+            headerRow[object.dataIndex] = object;
+        }
+
+        __columnHeaderModel.clear();
+        if (showColumnHeader) {
+            __columnHeaderModel.columns = headerColumns;
+            __columnHeaderModel.rows = [headerRow];
+        }
+
+        let cellColumns = [];
+        for (let i = 0; i < columns.length; i++) {
+            let column = Qt.createQmlObject('import Qt.labs.qmlmodels; TableModelColumn {}', __cellModel);
+            column.display = `__data${i}`;
+            cellColumns.push(column);
+        }
+        __cellModel.columns = cellColumns;
+    }
+    onInitModelChanged: {
+        clearSort();
+        filter();
+    }
+    Component.onCompleted: {
+        checkForKeys(defaultCheckedKeys);
+    }
+
+    objectName: '__HusTableView__'
+    clip: true
+    color: themeSource.colorBg
+    topLeftRadius: themeSource.radiusBg
+    topRightRadius: themeSource.radiusBg
+
     component HoverIcon: HusIconText {
         signal clicked()
         property alias hovered: __hoverHandler.hovered
@@ -583,42 +628,43 @@ HusRectangleInternal {
         onEntered: cursorShape = isHorizontal ? Qt.SplitHCursor : Qt.SplitVCursor;
         onPressed:
             (mouse) => {
-                if (target) {
-                    startPos = Qt.point(mouseX, mouseY);
-                }
+            if (target) {
+                startPos = Qt.point(mouseX, mouseY);
             }
+        }
         onPositionChanged:
             (mouse) => {
-                if (pressed && target) {
-                    if (isHorizontal) {
-                        let resultWidth = 0;
-                        let offsetX = mouse.x - startPos.x;
-                        if (maximumWidth != Number.NaN && (target.width + offsetX) > maximumWidth) {
-                            resultWidth = maximumWidth;
-                        } else if ((target.width + offsetX) < minimumWidth) {
-                            resultWidth = minimumWidth;
-                        } else {
-                            resultWidth = target.width + offsetX;
-                        }
-                        resizeCallback(resultWidth);
+            if (pressed && target) {
+                if (isHorizontal) {
+                    let resultWidth = 0;
+                    let offsetX = mouse.x - startPos.x;
+                    if (maximumWidth != Number.NaN && (target.width + offsetX) > maximumWidth) {
+                        resultWidth = maximumWidth;
+                    } else if ((target.width + offsetX) < minimumWidth) {
+                        resultWidth = minimumWidth;
                     } else {
-                        let resultHeight = 0;
-                        let offsetY = mouse.y - startPos.y;
-                        if (maximumHeight != Number.NaN && (target.height + offsetY) > maximumHeight) {
-                            resultHeight = maximumHeight;
-                        } else if ((target.height + offsetY) < minimumHeight) {
-                            resultHeight = minimumHeight;
-                        } else {
-                            resultHeight = target.height + offsetY;
-                        }
-                        resizeCallback(resultHeight);
+                        resultWidth = target.width + offsetX;
                     }
-                    mouse.accepted = true;
+                    resizeCallback(resultWidth);
+                } else {
+                    let resultHeight = 0;
+                    let offsetY = mouse.y - startPos.y;
+                    if (maximumHeight != Number.NaN && (target.height + offsetY) > maximumHeight) {
+                        resultHeight = maximumHeight;
+                    } else if ((target.height + offsetY) < minimumHeight) {
+                        resultHeight = minimumHeight;
+                    } else {
+                        resultHeight = target.height + offsetY;
+                    }
+                    resizeCallback(resultHeight);
                 }
+                mouse.accepted = true;
             }
+        }
     }
 
     Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationMid } }
+    Behavior on colorGridLine { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationMid } }
 
     QtObject {
         id: __private
@@ -629,13 +675,17 @@ HusRectangleInternal {
 
         function updateParentCheckBox() {
             let checkCount = 0;
+            let checkableCount = 0;
             model.forEach(
                         object => {
-                            if (checkedKeysSet.has(object.key)) {
-                                checkCount++;
+                            if (object?.enabled ?? true) {
+                                checkableCount++;
+                                if (checkedKeysSet.has(object.key)) {
+                                    checkCount++;
+                                }
                             }
                         });
-            parentCheckState = checkCount == 0 ? Qt.Unchecked : checkCount == model.length ? Qt.Checked : Qt.PartiallyChecked;
+            parentCheckState = checkCount === 0 ? Qt.Unchecked : checkCount === checkableCount ? Qt.Checked : Qt.PartiallyChecked;
         }
 
         function updateCheckedKeys() {
@@ -665,18 +715,18 @@ HusRectangleInternal {
 
             let cellRows = [];
             model.forEach(
-                        (object, index) => {
-                            let data = {};
-                            for (let i = 0; i < columns.length; i++) {
-                                const dataIndex = columns[i].dataIndex ?? '';
-                                if (object.hasOwnProperty(dataIndex)) {
-                                    data[`__data${i}`] = object[dataIndex];
-                                } else {
-                                    data[`__data${i}`] = null;
-                                }
-                            }
-                            cellRows.push(data);
-                        });
+                (object, index) => {
+                    let data = {};
+                    for (let i = 0; i < columns.length; i++) {
+                        const dataIndex = columns[i].dataIndex ?? '';
+                        if (object.hasOwnProperty(dataIndex)) {
+                            data[`__data${i}`] = object[dataIndex];
+                        } else {
+                            data[`__data${i}`] = null;
+                        }
+                    }
+                    cellRows.push(data);
+                });
             __cellModel.rows = cellRows;
 
             __rowHeaderModel.rows = model;
@@ -684,7 +734,10 @@ HusRectangleInternal {
             updateParentCheckBox();
         }
         onParentCheckStateChanged: updateCheckedKeys();
-        onCheckedKeysSetChanged: updateCheckedKeys();
+        onCheckedKeysSetChanged: {
+            updateCheckedKeys();
+            updateParentCheckBox();
+        }
     }
 
     HusRectangleInternal {
@@ -692,8 +745,8 @@ HusRectangleInternal {
         height: control.defaultColumnHeaderHeight
         anchors.left: control.showRowHeader ? __rowHeaderViewBg.right : parent.left
         anchors.right: parent.right
-        topLeftRadius: control.showRowHeader ? 0 : HusTheme.HusTableView.radiusBg
-        topRightRadius: HusTheme.HusTableView.radiusBg
+        topLeftRadius: control.showRowHeader ? 0 : control.themeSource.radiusBg
+        topRightRadius: control.themeSource.radiusBg
         color: control.colorColumnHeaderBg
         visible: control.showColumnHeader
 
@@ -727,7 +780,7 @@ HusRectangleInternal {
 
                 TableView.onReused: {
                     if (selectionType == 'checkbox')
-                        __private.updateParentCheckBox();
+                    __private.updateParentCheckBox();
                 }
 
                 TableView.editDelegate: HusInput {
@@ -756,10 +809,11 @@ HusRectangleInternal {
                 Rectangle {
                     z: 2
                     width: 1
-                    color: control.colorGridLine
                     height: parent.height * 0.5
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
+                    color: control.colorGridLine
+                    visible: control.columnResizable
                 }
 
                 ResizeArea {
@@ -769,6 +823,8 @@ HusRectangleInternal {
                     maximumWidth: __columnHeaderItem.maximumWidth
                     anchors.right: parent.right
                     anchors.rightMargin: -width * 0.5
+                    visible: control.columnResizable
+                    enabled: visible
                     target: __columnHeaderItem
                     isHorizontal: true
                     resizeCallback: result => __columnHeaderView.setColumnWidth(__columnHeaderItem.column, result);
@@ -824,10 +880,11 @@ HusRectangleInternal {
                 Rectangle {
                     z: 2
                     width: parent.width * 0.5
-                    color: control.colorGridLine
                     height: 1
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
+                    color: control.colorGridLine
+                    visible: control.rowResizable
                 }
 
                 ResizeArea {
@@ -837,6 +894,8 @@ HusRectangleInternal {
                     maximumHeight: control.maximumRowHeight
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: -height * 0.5
+                    visible: control.rowResizable
+                    enabled: visible
                     target: __rowHeaderItem
                     isHorizontal: false
                     resizeCallback: result => __rowHeaderView.setRowHeight(__rowHeaderItem.row, result);
@@ -878,19 +937,21 @@ HusRectangleInternal {
                 implicitWidth: control.columns[column].width
                 implicitHeight: Math.max(control.minimumRowHeight, Math.min(control.rowHeightProvider(row, key), control.maximumRowHeight))
                 visible: implicitHeight >= 0
+                enabled: isEnabled
                 clip: true
                 color: {
+                    if (!enabled) return control.themeSource.colorBgDisabled;
                     if (__private.checkedKeysSet.has(key)) {
                         if (row == __cellView.currentHoverRow)
-                            return HusTheme.isDark ? HusTheme.HusTableView.colorCellBgDarkHoverChecked :
-                                                     HusTheme.HusTableView.colorCellBgHoverChecked;
+                        return HusTheme.isDark ? control.themeSource.colorCellBgDarkHoverChecked :
+                                                 control.themeSource.colorCellBgHoverChecked;
                         else
-                            return HusTheme.isDark ? HusTheme.HusTableView.colorCellBgDarkChecked :
-                                                     HusTheme.HusTableView.colorCellBgChecked;
+                        return HusTheme.isDark ? control.themeSource.colorCellBgDarkChecked :
+                                                 control.themeSource.colorCellBgChecked;
                     } else {
-                        return row == __cellView.currentHoverRow ? HusTheme.HusTableView.colorCellBgHover :
+                        return row == __cellView.currentHoverRow ? control.themeSource.colorCellBgHover :
                                                                    control.alternatingRow && __rootItem.row % 2 !== 0 ?
-                                                                       HusTheme.HusTableView.colorCellBgHover : HusTheme.HusTableView.colorCellBg;
+                                                                       control.themeSource.colorCellBgHover : control.themeSource.colorCellBg;
                     }
                 }
 
@@ -911,6 +972,7 @@ HusRectangleInternal {
                 required property bool current
                 required property bool selected
 
+                property bool isEnabled: __private.model[row]?.enabled ?? true
                 property string key: __private.model[row]?.key ?? ''
                 property string selectionType: control.columns[column].selectionType ?? ''
                 property string dataIndex: control.columns[column].dataIndex ?? ''
@@ -925,7 +987,7 @@ HusRectangleInternal {
 
                     Loader {
                         id: __childCheckBoxLoader
-                        active: selectionType == 'checkbox'
+                        active: __rootItem.selectionType === 'checkbox'
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
@@ -934,13 +996,14 @@ HusRectangleInternal {
                             animationEnabled: control.animationEnabled
                             checked: __rootItem.checked
                             onToggled: {
-                                if (checkState == Qt.Checked) {
+                                if (checkState === Qt.Checked) {
                                     __private.checkedKeysSet.add(__rootItem.key);
                                     __rootItem.checked = true;
                                 } else {
                                     __private.checkedKeysSet.delete(__rootItem.key);
                                     __rootItem.checked = false;
                                 }
+                                __private.updateCheckedKeys();
                                 __private.updateParentCheckBox();
                                 __cellView.currentHoverRowChanged();
                             }
@@ -952,7 +1015,6 @@ HusRectangleInternal {
                                 }
                             }
                         }
-                        property alias key: __rootItem.key
                     }
 
                     Loader {
@@ -1004,7 +1066,7 @@ HusRectangleInternal {
         active: control.showRowHeader && control.showColumnHeader
         sourceComponent: HusRectangleInternal {
             color: control.colorResizeBlockBg
-            topLeftRadius: HusTheme.HusTableView.radiusBg
+            topLeftRadius: control.themeSource.radiusBg
 
             ResizeArea {
                 width: parent.width

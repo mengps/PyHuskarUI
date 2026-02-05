@@ -108,6 +108,7 @@ sources_table = {
     "HusTourFocus": ["pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTourFocus.qml"],
     "HusTourStep": ["pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTourStep.qml"],
     "HusTreeView": ["pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTreeView.qml"],
+    "HusTransfer": ["pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTransfer.qml"],
     "HusWindow": ["pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusWindow.qml"],
 }
 
