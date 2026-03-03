@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/HuskarUI">
+        <file>shaders/husliquidglass.frag.qsb</file>
+        <file>shaders/husliquidglass.vert.qsb</file>
         <file>shaders/husrate.frag.qsb</file>
     </qresource>
 </RCC>

@@ -32,6 +32,7 @@
         <file>qml/HuskarUI/Basic/HusInputInteger.qml</file>
         <file>qml/HuskarUI/Basic/HusInputNumber.qml</file>
         <file>qml/HuskarUI/Basic/HusLabel.qml</file>
+        <file>qml/HuskarUI/Basic/HusLiquidGlass.qml</file>
         <file>qml/HuskarUI/Basic/HusMenu.qml</file>
         <file>qml/HuskarUI/Basic/HusMessage.qml</file>
         <file>qml/HuskarUI/Basic/HusModal.qml</file>

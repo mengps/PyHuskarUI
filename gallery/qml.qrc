@@ -49,6 +49,7 @@
         <file>qml/Examples/DataEntry/ExpTextArea.qml</file>
         <file>qml/Examples/DataEntry/ExpTransfer.qml</file>
         <file>qml/Examples/Effect/ExpAcrylic.qml</file>
+        <file>qml/Examples/Effect/ExpLiquidGlass.qml</file>
         <file>qml/Examples/Effect/ExpShadow.qml</file>
         <file>qml/Examples/Effect/ExpSwitchEffect.qml</file>
         <file>qml/Examples/Feedback/ExpDrawer.qml</file>

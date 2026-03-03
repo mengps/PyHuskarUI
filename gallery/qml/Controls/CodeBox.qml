@@ -163,8 +163,8 @@ Rectangle {
                             win.createQmlObject(code);
                         }
                     }
+
                     HusToolTip {
-                        showArrow: false
                         visible: parent ? parent.hovered : false
                         text: qsTr('运行代码')
                     }
@@ -177,11 +177,11 @@ Rectangle {
                     iconSize: HusTheme.Primary.fontPrimarySizeHeading4
                     iconSource: HusIcon.CopyOutlined
                     onClicked: {
-                        HusApi.setClipbordText(codeText.text);
+                        HusApi.setClipboardText(codeText.text);
                         message.success(qsTr('代码复制成功'))
                     }
+
                     HusToolTip {
-                        showArrow: false
                         visible: parent ? parent.hovered : false
                         text: qsTr('复制代码')
                     }
