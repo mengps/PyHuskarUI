@@ -218,7 +218,7 @@ T.Control {
         family: control.themeSource.fontFamily
         pixelSize: parseInt(control.themeSource.fontSize)
     }
-    contentItem: ListView{
+    contentItem: ListView {
         id: __listView
         implicitHeight: 30
         orientation: ListView.Horizontal

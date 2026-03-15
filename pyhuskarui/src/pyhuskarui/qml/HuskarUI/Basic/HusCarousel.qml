@@ -72,7 +72,7 @@ T.Control {
 
         TapHandler {
             onTapped: {
-                control.swithTo(index);
+                control.switchTo(index);
             }
         }
     }
@@ -83,7 +83,7 @@ T.Control {
         iconSize: 20
         colorIcon: hovered ? HusTheme.HusCarousel.colorArrowHover : HusTheme.HusCarousel.colorArrow
         type: HusButton.Type_Link
-        onClicked: control.swithToPrev();
+        onClicked: control.switchToPrev();
     }
     property Component nextDelegate: HusIconButton {
         padding: 5
@@ -92,17 +92,17 @@ T.Control {
         iconSize: 20
         colorIcon: hovered ? HusTheme.HusCarousel.colorArrowHover : HusTheme.HusCarousel.colorArrow
         type: HusButton.Type_Link
-        onClicked: control.swithToNext();
+        onClicked: control.switchToNext();
     }
 
-    function swithTo(index, animated = true) {
+    function switchTo(index, animated = true) {
         if (animated)
             __listView.currentIndex = infinite ? index + 1 : index;
         else
             __listView.positionViewAtIndex(infinite ? 1 : 0, ListView.SnapPosition);
     }
 
-    function swithToPrev() {
+    function switchToPrev() {
         if (infinite && __listView.currentIndex === 0) {
             __listView.positionViewAtIndex(__listView.count - 2, ListView.SnapPosition);
             __listView.decrementCurrentIndex();
@@ -111,7 +111,7 @@ T.Control {
         }
     }
 
-    function swithToNext() {
+    function switchToNext() {
         if (infinite && __listView.currentIndex === __listView.count - 1) {
             __listView.positionViewAtIndex(1, ListView.SnapPosition);
             __listView.incrementCurrentIndex();
@@ -323,7 +323,7 @@ T.Control {
         interval: control.autoplaySpeed
         running: control.autoplay
         onTriggered: {
-            control.swithToNext();
+            control.switchToNext();
         }
     }
 }

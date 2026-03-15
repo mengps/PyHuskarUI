@@ -214,6 +214,6 @@ T.Control {
     }
 
     Accessible.role: Accessible.EditableText
-    Accessible.editable: control.readOnly
+    Accessible.editable: !control.readOnly
     Accessible.description: control.contentDescription
 }

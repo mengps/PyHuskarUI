@@ -189,7 +189,7 @@ T.Control {
             else
                 __sliderLoader.item.second.increase();
         } else {
-            __sliderLoader.item.decrease();
+            __sliderLoader.item.increase();
         }
     }
 

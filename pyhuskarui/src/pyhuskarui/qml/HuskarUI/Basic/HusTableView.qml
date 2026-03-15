@@ -64,6 +64,10 @@ HusRectangleInternal {
 
     property color colorGridLine: themeSource.colorGridLine
     property color colorResizeBlockBg: themeSource.colorResizeBlockBg
+    property HusRadius radiusBg: HusRadius {
+        topLeft: themeSource.radiusBg
+        topRight: themeSource.radiusBg
+    }
     property var themeSource: HusTheme.HusTableView
 
     property alias verScrollBar: __vScrollBar
@@ -338,43 +342,69 @@ HusRectangleInternal {
     }
 
     function checkForRows(rows: var) {
-        rows.forEach(
-                    row => {
-                        if (row >= 0 && row < __private.model.length) {
-                            const key = __private.model[row].key;
-                            __private.checkedKeysSet.add(key);
-                        }
-                    });
+        if (rows.length <= 0) return;
+
+        if (__private.selectionType === 'radio') {
+            const key = __private.model[rows[rows.length - 1]].key;
+            __private.checkedKeysSet.add(key);
+        } else {
+            rows.forEach(
+                        row => {
+                            if (row >= 0 && row < __private.model.length) {
+                                const key = __private.model[row].key;
+                                __private.checkedKeysSet.add(key);
+                            }
+                        });
+        }
         __private.checkedKeysSetChanged();
     }
 
     function checkForKeys(keys: var) {
-        keys.forEach(key => __private.checkedKeysSet.add(key));
+        if (keys.length <= 0) return;
+
+        if (__private.selectionType === 'radio') {
+            __private.checkedKeysSet.add(keys[keys.length - 1]);
+        } else {
+            keys.forEach(key => __private.checkedKeysSet.add(key));
+        }
         __private.checkedKeysSetChanged();
     }
 
     function toggleForRows(rows: var) {
-        rows.forEach(row => {
-                         if (row >= 0 && row < __private.model.length) {
-                             const key = __private.model[row].key;
+        if (rows.length <= 0) return;
+
+        if (__private.selectionType === 'radio') {
+            const key = __private.model[rows[rows.length - 1]].key;
+            __private.checkedKeysSet.add(key);
+        } else {
+            rows.forEach(row => {
+                             if (row >= 0 && row < __private.model.length) {
+                                 const key = __private.model[row].key;
+                                 if (__private.checkedKeysSet.has(key)) {
+                                     __private.checkedKeysSet.delete(key);
+                                 } else {
+                                     __private.checkedKeysSet.add(key);
+                                 }
+                             }
+                         });
+        }
+        __private.checkedKeysSetChanged();
+    }
+
+    function toggleForKeys(keys: var) {
+        if (keys.length <= 0) return;
+
+        if (__private.selectionType === 'radio') {
+            __private.checkedKeysSet.add(keys[keys.length - 1]);
+        } else {
+            keys.forEach(key => {
                              if (__private.checkedKeysSet.has(key)) {
                                  __private.checkedKeysSet.delete(key);
                              } else {
                                  __private.checkedKeysSet.add(key);
                              }
-                         }
-                     });
-        __private.checkedKeysSetChanged();
-    }
-
-    function toggleForKeys(Keys: var) {
-        keys.forEach(key => {
-                         if (__private.checkedKeysSet.has(key)) {
-                             __private.checkedKeysSet.delete(key);
-                         } else {
-                             __private.checkedKeysSet.add(key);
-                         }
-                     });
+                         });
+        }
         __private.checkedKeysSetChanged();
     }
 
@@ -474,7 +504,8 @@ HusRectangleInternal {
 
     function clear() {
         clearAllCheckedKeys();
-        __private.model = initModel = [];
+        initModel = [];
+        __private.model = [];
         __cellModel.clear();
         columns.forEach(
                     object => {
@@ -565,6 +596,7 @@ HusRectangleInternal {
         let headerColumns = [];
         let headerRow = {};
         for (const object of columns) {
+            __private.selectionType = object?.selectionType ?? 'none';
             let column = Qt.createQmlObject('import Qt.labs.qmlmodels; TableModelColumn {}', __columnHeaderModel);
             column.display = object.dataIndex;
             headerColumns.push(column);
@@ -596,8 +628,8 @@ HusRectangleInternal {
     objectName: '__HusTableView__'
     clip: true
     color: themeSource.colorBg
-    topLeftRadius: themeSource.radiusBg
-    topRightRadius: themeSource.radiusBg
+    topLeftRadius: radiusBg.topLeft
+    topRightRadius: radiusBg.topRight
 
     component HoverIcon: HusIconText {
         signal clicked()
@@ -672,6 +704,7 @@ HusRectangleInternal {
         property var model: []
         property int parentCheckState: Qt.Unchecked
         property var checkedKeysSet: new Set
+        property string selectionType: 'none'
 
         function updateParentCheckBox() {
             let checkCount = 0;
@@ -746,7 +779,7 @@ HusRectangleInternal {
         anchors.left: control.showRowHeader ? __rowHeaderViewBg.right : parent.left
         anchors.right: parent.right
         topLeftRadius: control.showRowHeader ? 0 : control.themeSource.radiusBg
-        topRightRadius: control.themeSource.radiusBg
+        topRightRadius: control.radiusBg.topRight
         color: control.colorColumnHeaderBg
         visible: control.showColumnHeader
 
@@ -779,8 +812,9 @@ HusRectangleInternal {
                 property real maximumWidth: display.maximumWidth ?? Number.MAX_VALUE
 
                 TableView.onReused: {
-                    if (selectionType == 'checkbox')
-                    __private.updateParentCheckBox();
+                    if (selectionType == 'checkbox') {
+                        __private.updateParentCheckBox();
+                    }
                 }
 
                 TableView.editDelegate: HusInput {
@@ -942,16 +976,17 @@ HusRectangleInternal {
                 color: {
                     if (!enabled) return control.themeSource.colorBgDisabled;
                     if (__private.checkedKeysSet.has(key)) {
-                        if (row == __cellView.currentHoverRow)
-                        return HusTheme.isDark ? control.themeSource.colorCellBgDarkHoverChecked :
-                                                 control.themeSource.colorCellBgHoverChecked;
-                        else
-                        return HusTheme.isDark ? control.themeSource.colorCellBgDarkChecked :
-                                                 control.themeSource.colorCellBgChecked;
+                        if (row == __cellView.currentHoverRow) {
+                            return HusTheme.isDark ? control.themeSource.colorCellBgDarkHoverChecked :
+                                                     control.themeSource.colorCellBgHoverChecked;
+                        } else {
+                            return HusTheme.isDark ? control.themeSource.colorCellBgDarkChecked :
+                                                     control.themeSource.colorCellBgChecked;
+                        }
                     } else {
                         return row == __cellView.currentHoverRow ? control.themeSource.colorCellBgHover :
                                                                    control.alternatingRow && __rootItem.row % 2 !== 0 ?
-                                                                       control.themeSource.colorCellBgHover : control.themeSource.colorCellBg;
+                                                                       control.themeSource.colorCellOddBg : control.themeSource.colorCellBg;
                     }
                 }
 
@@ -992,7 +1027,7 @@ HusRectangleInternal {
                         anchors.leftMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
                         sourceComponent: HusCheckBox {
-                            id: __childBox
+                            id: __childCheckBox
                             animationEnabled: control.animationEnabled
                             checked: __rootItem.checked
                             onToggled: {
@@ -1011,7 +1046,33 @@ HusRectangleInternal {
                             Connections {
                                 target: __private
                                 function onCheckedKeysSetChanged() {
-                                    __childBox.checked = __rootItem.checked = __private.checkedKeysSet.has(__rootItem.key);
+                                    __childCheckBox.checked = __rootItem.checked = __private.checkedKeysSet.has(__rootItem.key);
+                                }
+                            }
+                        }
+                    }
+
+                    Loader {
+                        id: __childRadioLoader
+                        active: __rootItem.selectionType === 'radio'
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        anchors.verticalCenter: parent.verticalCenter
+                        sourceComponent: HusRadio {
+                            id: __childRadio
+                            animationEnabled: control.animationEnabled
+                            checked: __rootItem.checked
+                            onToggled: {
+                                __private.checkedKeysSet.clear();
+                                __private.checkedKeysSet.add(__rootItem.key);
+                                __private.checkedKeysSetChanged();
+                                __cellView.currentHoverRowChanged();
+                            }
+
+                            Connections {
+                                target: __private
+                                function onCheckedKeysSetChanged() {
+                                    __childRadio.checked = __private.checkedKeysSet.has(__rootItem.key);
                                 }
                             }
                         }
@@ -1066,7 +1127,7 @@ HusRectangleInternal {
         active: control.showRowHeader && control.showColumnHeader
         sourceComponent: HusRectangleInternal {
             color: control.colorResizeBlockBg
-            topLeftRadius: control.themeSource.radiusBg
+            topLeftRadius: control.radiusBg.topLeft
 
             ResizeArea {
                 width: parent.width

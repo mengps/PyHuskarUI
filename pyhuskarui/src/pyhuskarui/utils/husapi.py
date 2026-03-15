@@ -88,7 +88,7 @@ class HusApi(QObject):
         pass
 
     @Slot(result=str)
-    def getClipbordText(self) -> str:
+    def getClipboardText(self) -> str:
         clipboard = QGuiApplication.clipboard()
         if clipboard is not None:
             return clipboard.text()
@@ -96,7 +96,7 @@ class HusApi(QObject):
             return ""
 
     @Slot(str, result=bool)
-    def setClipbordText(self, text: str) -> bool:
+    def setClipboardText(self, text: str) -> bool:
         clipboard = QGuiApplication.clipboard()
         if clipboard is not None:
             clipboard.setText(text)
@@ -133,11 +133,11 @@ class HusApi(QObject):
         return QDateTime.fromString(dateTime, format)
 
     @Slot(str)
-    def openFile(self, fileName: str) -> None:
+    def openLocalUrl(self, localFile: str) -> None:
         """打开文件
 
         Args:
-            fileName (str): 文件名
+            localFile (str): 本地文件
         """
 
-        QDesktopServices.openUrl(QUrl.fromLocalFile(fileName))
+        QDesktopServices.openUrl(QUrl.fromLocalFile(localFile))
