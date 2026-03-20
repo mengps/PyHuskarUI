@@ -67,10 +67,12 @@
         <file>qml/Examples/General/ExpCaptionBar.qml</file>
         <file>qml/Examples/General/ExpCaptionButton.qml</file>
         <file>qml/Examples/General/ExpCopyableText.qml</file>
+        <file>qml/Examples/General/ExpFrame.qml</file>
         <file>qml/Examples/General/ExpIconButton.qml</file>
         <file>qml/Examples/General/ExpIconText.qml</file>
         <file>qml/Examples/General/ExpLabel.qml</file>
         <file>qml/Examples/General/ExpMoveMouseArea.qml</file>
+        <file>qml/Examples/General/ExpPage.qml</file>
         <file>qml/Examples/General/ExpPopup.qml</file>
         <file>qml/Examples/General/ExpRadius.qml</file>
         <file>qml/Examples/General/ExpRectangle.qml</file>

@@ -25,6 +25,7 @@ HusDateTimePickerPanel 1.0 qml/HuskarUI/Basic/HusDateTimePickerPanel.qml
 HusDivider 1.0 qml/HuskarUI/Basic/HusDivider.qml
 HusDrawer 1.0 qml/HuskarUI/Basic/HusDrawer.qml
 HusEmpty 1.0 qml/HuskarUI/Basic/HusEmpty.qml
+HusFrame 1.0 qml/HuskarUI/Basic/HusFrame.qml
 HusIconButton 1.0 qml/HuskarUI/Basic/HusIconButton.qml
 HusIconText 1.0 qml/HuskarUI/Basic/HusIconText.qml
 HusImage 1.0 qml/HuskarUI/Basic/HusImage.qml
@@ -41,6 +42,7 @@ HusMoveMouseArea 1.0 qml/HuskarUI/Basic/HusMoveMouseArea.qml
 HusMultiSelect 1.0 qml/HuskarUI/Basic/HusMultiSelect.qml
 HusNotification 1.0 qml/HuskarUI/Basic/HusNotification.qml
 HusOTPInput 1.0 qml/HuskarUI/Basic/HusOTPInput.qml
+HusPage 1.0 qml/HuskarUI/Basic/HusPage.qml
 HusPagination 1.0 qml/HuskarUI/Basic/HusPagination.qml
 HusPopconfirm 1.0 qml/HuskarUI/Basic/HusPopconfirm.qml
 HusPopover 1.0 qml/HuskarUI/Basic/HusPopover.qml

@@ -1501,6 +1501,19 @@
     ]
   },
   {
+    "name": "HusFrame",
+    "doc": "# HusFrame 框架\n\n逻辑控件组的视觉框架。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { Frame }**\n\n\n<br/>\n\n### 支持的代理：\n\n- 无\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nborderWidth | real | 1 | 边框宽度\ncolorBg | color | - | 背景颜色\ncolorBorder | color | - | 边框颜色\nradiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角",
+    "docPath": "gallery/qml/Examples/General/ExpFrame.qml",
+    "examples": [
+      {
+        "title": "",
+        "description": "使用方法等同于 `Frame`",
+        "code": "import QtQuick\n                import QtQuick.Layouts\n                import HuskarUI.Basic\n\n                Column {\n                    spacing: 15\n\n                    HusFrame {\n                        padding: 20\n\n                        HusSpace {\n                            anchors.fill: parent\n                            layout: 'ColumnLayout'\n                            spacing: 10\n\n                            HusCheckBox { text: 'E-mail '}\n                            HusCheckBox { text: 'Calendar' }\n                            HusCheckBox { text: 'Contacts' }\n                        }\n                    }\n\n                    HusFrame {\n                        padding: 20\n\n                        HusSpace {\n                            anchors.fill: parent\n                            layout: 'ColumnLayout'\n\n                            HusCard {\n                                Layout.fillWidth: true\n                                title: 'Card title'\n                                extraDelegate: HusButton { type: HusButton.Type_Link; text: 'More' }\n                                bodyDescription: 'Card content\\nCard content\\nCard content'\n                            }\n                            HusSpace {\n                                Layout.fillWidth: true\n                                layout: 'RowLayout'\n\n                                HusInput { text: 'https://github.com/mengps/HuskarUI' }\n                                HusButton { Layout.preferredWidth: 80; type: HusButton.Type_Primary; text: 'Submit' }\n                            }\n                            HusSpace {\n                                Layout.fillWidth: true\n                                layout: 'RowLayout'\n\n                                HusInput { text: 'https://github.com/mengps/HuskarUI' }\n                                HusIconButton { Layout.preferredWidth: 80; iconSource: HusIcon.CopyOutlined }\n                            }\n                        }\n                    }\n                }"
+      }
+    ],
+    "sources": []
+  },
+  {
     "name": "HusIconButton",
     "doc": "# HusIconButton 图标按钮\n\n带图标的按钮。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { [HusButton](internal://HusButton) }**\n\n* **继承此 { [HusCaptionButton](internal://HusCaptionButton) }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **iconDelegate: Component** 图标代理\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\niconSource | int丨string | 0丨'' | 图标源(来自 HusIcon)或图标链接\niconSize | int | - | 图标大小\niconSpacing | int | 5 | 图标间隔\niconPosition | enum | HusIconButton.Position_Start | 图标位置(来自 HusIconButton)\nloading | bool | false | 是否在加载中\norientation | enum | Qt.Horizontal | 方向(Qt.Horizontal 或 Qt.Vertical)\ntextFont | font | - | 文本字体\niconFont | font | 'HuskarUI-Icons' | 图标字体\ncolorIcon | color | - | 图标颜色",
     "docPath": "gallery/qml/Examples/General/ExpIconButton.qml",
@@ -1553,6 +1566,19 @@
     "sources": [
       "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMoveMouseArea.qml"
     ]
+  },
+  {
+    "name": "HusPage",
+    "doc": "# HusPage 页面\n\n一个容器控件，可以方便地向页面添加页眉和页脚项。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { Page }**\n\n\n<br/>\n\n### 支持的代理：\n\n- 无\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\ncolorBg | color | - | 背景颜色",
+    "docPath": "gallery/qml/Examples/General/ExpPage.qml",
+    "examples": [
+      {
+        "title": "",
+        "description": "使用方法等同于 `Page`。",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    spacing: 15\n\n                    HusTabView {\n                        width: parent.width\n                        height: 200\n                        contentDelegate: HusPage {\n                            header: HusText {\n                                width: parent.width\n                                padding: 5\n                                font.pixelSize: HusTheme.Primary.fontPrimarySizeHeading4\n                                horizontalAlignment: Text.AlignHCenter\n                                text: 'Title - Page ' + (index + 1)\n                            }\n                            contentItem: Item {\n                                width: parent.width\n\n                                HusDivider {\n                                    anchors.top: parent.top\n                                    width: parent.width\n                                }\n\n                                HusText {\n                                    anchors.centerIn: parent\n                                    text: model.content + (index + 1)\n                                }\n\n                                HusDivider {\n                                    anchors.bottom: parent.bottom\n                                    width: parent.width\n                                }\n                            }\n                            footer: HusText {\n                                width: parent.width\n                                padding: 5\n                                horizontalAlignment: Text.AlignHCenter\n                                text: '(' + (index + 1) + ')'\n                            }\n                        }\n                        initModel: [\n                            {\n                                iconSource: HusIcon.CreditCardOutlined,\n                                title: 'Tab 1',\n                                content: 'Content of page ',\n                            },\n                            {\n                                iconSource: HusIcon.CreditCardOutlined,\n                                title: 'Tab 2',\n                                content: 'Content of page ',\n                            },\n                            {\n                                iconSource: HusIcon.CreditCardOutlined,\n                                title: 'Tab 3',\n                                content: 'Content of page ',\n                            }\n                        ]\n                    }\n                }"
+      }
+    ],
+    "sources": []
   },
   {
     "name": "HusPopup",

@@ -18,6 +18,7 @@
  */
 
 import QtQuick
+import QtQuick.Controls.Basic
 import QtQuick.Templates as T
 import HuskarUI.Basic
 
@@ -47,8 +48,8 @@ T.CheckBox {
     property real sizeRatio: HusTheme.sizeHint[sizeHint]
     property var themeSource: HusTheme.HusCheckBox
 
-    Behavior on colorText { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationMid } }
-    Behavior on colorIndicator { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationMid } }
+    Behavior on colorText { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
+    Behavior on colorIndicator { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
     Behavior on colorIndicatorBorder { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
 
     objectName: '__HusCheckBox__'

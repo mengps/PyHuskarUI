@@ -24,6 +24,7 @@
         <file>qml/HuskarUI/Basic/HusDivider.qml</file>
         <file>qml/HuskarUI/Basic/HusDrawer.qml</file>
         <file>qml/HuskarUI/Basic/HusEmpty.qml</file>
+        <file>qml/HuskarUI/Basic/HusFrame.qml</file>
         <file>qml/HuskarUI/Basic/HusIconButton.qml</file>
         <file>qml/HuskarUI/Basic/HusIconText.qml</file>
         <file>qml/HuskarUI/Basic/HusImage.qml</file>
@@ -40,6 +41,7 @@
         <file>qml/HuskarUI/Basic/HusMultiSelect.qml</file>
         <file>qml/HuskarUI/Basic/HusNotification.qml</file>
         <file>qml/HuskarUI/Basic/HusOTPInput.qml</file>
+        <file>qml/HuskarUI/Basic/HusPage.qml</file>
         <file>qml/HuskarUI/Basic/HusPagination.qml</file>
         <file>qml/HuskarUI/Basic/HusPopconfirm.qml</file>
         <file>qml/HuskarUI/Basic/HusPopover.qml</file>

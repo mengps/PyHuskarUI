@@ -119,6 +119,20 @@ QtObject {
                     source: './Examples/General/ExpLabel.qml',
                     addVersion: '0.5.6.0',
                     desc: qsTr('自带背景和圆角的文本。')
+                },
+                {
+                    key: 'HusFrame',
+                    label: qsTr('HusFrame 框架'),
+                    source: './Examples/General/ExpFrame.qml',
+                    addVersion: '0.5.9.0',
+                    desc: qsTr('逻辑控件组的视觉框架。')
+                },
+                {
+                    key: 'HusPage',
+                    label: qsTr('HusPage 页面'),
+                    source: './Examples/General/ExpPage.qml',
+                    addVersion: '0.5.9.0',
+                    desc: qsTr('自导页眉和页脚项的基础页面。')
                 }
             ]
         },
