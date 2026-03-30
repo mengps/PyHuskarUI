@@ -15,6 +15,7 @@ DataDisplay分类包含以下组件：
 - [HusImage 图片](./HusImage.md)
 - [HusImagePreview 图片预览](./HusImagePreview.md)
 - [HusQrCode 二维码 ](./HusQrCode.md)
+- [HusSegmented 分段控制器 ](./HusSegmented.md)
 - [HusTableView 表格](./HusTableView.md)
 - [HusTabView 标签页](./HusTabView.md)
 - [HusTag 标签 ](./HusTag.md)

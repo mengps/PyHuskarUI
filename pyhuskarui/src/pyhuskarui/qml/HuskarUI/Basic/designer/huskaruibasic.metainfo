@@ -121,6 +121,16 @@ MetaInfo {
     }
 
     Type {
+        name: "HuskarUI.Basic.HusSegmented"
+        ItemLibraryEntry {
+            name: "Segmented"
+            category: "DataDisplay"
+            version: "1.0"
+            requiredImport: "HuskarUI.Basic"
+        }
+    }
+
+    Type {
         name: "HuskarUI.Basic.HusTableView"
         ItemLibraryEntry {
             name: "TableView"

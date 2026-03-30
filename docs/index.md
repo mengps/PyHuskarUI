@@ -14,6 +14,7 @@
  - [HusImage 图片](./DataDisplay/HusImage.md)
  - [HusImagePreview 图片预览](./DataDisplay/HusImagePreview.md)
  - [HusQrCode 二维码 ](./DataDisplay/HusQrCode.md)
+ - [HusSegmented 分段控制器 ](./DataDisplay/HusSegmented.md)
  - [HusTableView 表格](./DataDisplay/HusTableView.md)
  - [HusTabView 标签页](./DataDisplay/HusTabView.md)
  - [HusTag 标签 ](./DataDisplay/HusTag.md)

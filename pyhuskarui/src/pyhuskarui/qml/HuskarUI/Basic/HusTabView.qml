@@ -48,6 +48,13 @@ T.Control {
         Size_Fixed = 1
     }
 
+    enum TabAlign
+    {
+        Align_Center = 0,
+        Align_Left = 1,
+        Align_Right = 2
+    }
+
     property bool animationEnabled: HusTheme.animationEnabled
     property var initModel: []
     property alias count: __tabModel.count
@@ -55,13 +62,16 @@ T.Control {
     property int tabType: HusTabView.Type_Default
     property int tabSize: HusTabView.Size_Auto
     property int tabPosition: HusTabView.Position_Top
+    property int tabAlign: HusTabView.Align_Center
     property bool tabAddable: false
     property bool tabCentered: false
     property bool tabCardMovable: true
     property int defaultTabWidth: 80
     property int defaultTabHeight: parseInt(themeSource.fontSize) + 16
-    property int defaultTabSpacing: 2
-    property int defaultTabBgRadius: themeSource.radiusTabBg
+    property alias defaultTabSpacing: control.spacing
+    property int defaultTabIconSpacing: 2
+    property int defaultTabLeftPadding: 8
+    property int defaultTabRightPadding: 8
     property int defaultHighlightWidth: __private.isHorizontal ? 30 : 20
     property var addTabCallback:
         () => {
@@ -72,6 +82,11 @@ T.Control {
         (index, data) => {
             remove(index);
         }
+    property color colorTabCardBg: themeSource.colorTabCardBg
+    property color colorTabCardBgActive: themeSource.colorTabCardBgActive
+    property color colorTabCardBorder: themeSource.colorTabCardBorder
+    property color colorTabCardBorderActive: themeSource.colorTabCardBorderActive
+    property HusRadius radiusTabBg: HusRadius { all: themeSource.radiusTabBg }
     property var themeSource: HusTheme.HusTabView
 
     property Component addButtonDelegate: HusCaptionButton {
@@ -161,7 +176,7 @@ T.Control {
         __tabView.positionViewAtBeginning();
     }
 
-    function positionViewAtIndex(index, mode) {
+    function positionViewAtIndex(index: int, mode: int) {
         __tabView.positionViewAtIndex(index, mode);
     }
 
@@ -169,40 +184,40 @@ T.Control {
         __tabView.positionViewAtEnd();
     }
 
-    function get(index) {
+    function get(index: int): var {
         return __tabModel.get(index);
     }
 
-    function set(index, object) {
+    function set(index: int, object: var) {
         /*! 默认为true */
         if (object.editable === undefined)
             object.editable = true;
         __tabModel.set(index, object);
     }
 
-    function setProperty(index, propertyName, value) {
+    function setProperty(index: int, propertyName: string, value: var) {
         __tabModel.setProperty(index, propertyName, value);
     }
 
-    function move(from, to, count = 1) {
+    function move(from: int, to: int, count = 1) {
         __tabModel.move(from, to, count);
     }
 
-    function insert(index, object) {
+    function insert(index: int, object: var) {
         /*! 默认为true */
         if (object.editable === undefined)
             object.editable = true;
         __tabModel.insert(index, object);
     }
 
-    function append(object) {
+    function append(object: var) {
         /*! 默认为true */
         if (object.editable === undefined)
             object.editable = true;
         __tabModel.append(object);
     }
 
-    function remove(index, count = 1) {
+    function remove(index: int, count = 1) {
         __tabModel.remove(index, count);
     }
 
@@ -212,7 +227,16 @@ T.Control {
 
     onInitModelChanged: {
         clear();
+        /**
+         * [Warning]
+         * ListModel 的静态角色类型下, 如果某一条数据了单独的内容代理, 就必须同时为其他数据设置默认代理,
+         * 所以我们这里需要进行两遍遍历, (另一种方式是设置 dynamicRoles, 但会大幅降低性能)
+         */
+        const hasContentDelegate = initModel.some(item => 'contentDelegate' in item);
         for (const object of initModel) {
+            if (hasContentDelegate && !object.hasOwnProperty('contentDelegate')) {
+                object.contentDelegate = control.contentDelegate;
+            }
             append(object);
         }
     }
@@ -226,6 +250,7 @@ T.Control {
         family: control.themeSource.fontFamily
         pixelSize: parseInt(control.themeSource.fontSize)
     }
+    spacing: 2
     contentItem: Item {
         id: __contentItem
 
@@ -234,9 +259,9 @@ T.Control {
             onWheel:
                 wheel => {
                     if (__private.isHorizontal)
-                        __tabView.flick(wheel.angleDelta.y * 6.5, 0);
+                    __tabView.flick(wheel.angleDelta.y * 6.5, 0);
                     else
-                        __tabView.flick(0, wheel.angleDelta.y * 6.5);
+                    __tabView.flick(0, wheel.angleDelta.y * 6.5);
                 }
         }
 
@@ -459,7 +484,7 @@ T.Control {
                 delegate: Loader {
                     id: __contentLoader
                     anchors.fill: parent
-                    sourceComponent: control.contentDelegate
+                    sourceComponent: model.contentDelegate ?? control.contentDelegate
                     visible: __tabView.currentIndex === index
                     required property int index
                     required property var model
@@ -475,8 +500,8 @@ T.Control {
             id: __tabItem
             width: (!__private.isHorizontal && control.tabSize == HusTabView.Size_Auto) ? Math.max(__private.tabMaxWidth, tabWidth) : tabWidth
             height: tabHeight
-            leftPadding: 5
-            rightPadding: 5
+            leftPadding: control.defaultTabLeftPadding
+            rightPadding: control.defaultTabRightPadding
             iconSize: tabIconSize
             iconSource: tabIcon
             text: tabTitle
@@ -518,8 +543,8 @@ T.Control {
 
                 HusText {
                     id: __text
-                    width: control.tabSize == HusTabView.Size_Auto ? implicitWidth :
-                                                                     Math.max(0, __tabItem.tabFixedWidth - 5 - parent.calcIconWidth)
+                    width: control.tabSize === HusTabView.Size_Auto ? implicitWidth :
+                                                                      Math.max(0, __tabItem.tabFixedWidth - parent.calcIconWidth)
                     anchors.left: __icon.right
                     anchors.leftMargin: __icon.empty ? 0 : __tabItem.tabIconSpacing
                     anchors.verticalCenter: parent.verticalCenter
@@ -527,6 +552,13 @@ T.Control {
                     font: __tabItem.font
                     color: __tabItem.colorText
                     elide: Text.ElideRight
+                    horizontalAlignment: {
+                        switch (control.tabAlign) {
+                        case HusTabView.Align_Left: return Text.AlignLeft;
+                        case HusTabView.Align_Right: return Text.AlignRight;
+                        default: return Text.AlignHCenter;
+                        }
+                    }
 
                     Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
                 }
@@ -540,17 +572,16 @@ T.Control {
 
             required property int index
             required property var model
-            property alias modelData: __tabItem.model
             property bool isCurrent: __tabView.currentIndex === index
-            property string tabKey: modelData.key || ''
-            property var tabIcon: modelData.iconSource || 0
-            property int tabIconSize: modelData.iconSize || parseInt(control.themeSource.fontSize)
-            property int tabIconSpacing: modelData.iconSpacing || 5
-            property string tabTitle: modelData.title || ''
-            property int tabFixedWidth: modelData.tabWidth || defaultTabWidth
+            property string tabKey: model.key || ''
+            property var tabIcon: model.iconSource || 0
+            property int tabIconSize: model.iconSize || parseInt(control.themeSource.fontSize)
+            property int tabIconSpacing: model.iconSpacing || control.defaultTabIconSpacing
+            property string tabTitle: model.title || ''
+            property int tabFixedWidth: model.tabWidth || control.defaultTabWidth
             property int tabWidth: control.tabSize == HusTabView.Size_Auto ? (implicitContentWidth + leftPadding + rightPadding) :
                                                                              implicitContentWidth
-            property int tabHeight: modelData.tabHeight || defaultTabHeight
+            property int tabHeight: model.tabHeight || control.defaultTabHeight
         }
     }
 
@@ -564,19 +595,18 @@ T.Control {
 
             required property int index
             required property var model
-            property alias modelData: __tabContainer.model
             property alias tabItem: __tabItem
             property bool isCurrent: __tabView.currentIndex === index
-            property string tabKey: modelData.key || ''
-            property var tabIcon: modelData.iconSource || 0
-            property int tabIconSize: modelData.iconSize || parseInt(control.themeSource.fontSize)
-            property int tabIconSpacing: modelData.iconSpacing || 5
-            property string tabTitle: modelData.title || ''
-            property int tabFixedWidth: modelData.tabWidth || defaultTabWidth
+            property string tabKey: model.key || ''
+            property var tabIcon: model.iconSource || 0
+            property int tabIconSize: model.iconSize || parseInt(control.themeSource.fontSize)
+            property int tabIconSpacing: model.iconSpacing || control.defaultTabIconSpacing
+            property string tabTitle: model.title || ''
+            property int tabFixedWidth: model.tabWidth || control.defaultTabWidth
             property int tabWidth: __tabItem.calcWidth
-            property int tabHeight: modelData.tabHeight || defaultTabHeight
+            property int tabHeight: model.tabHeight || control.defaultTabHeight
 
-            property bool tabEditable: modelData.editable && control.tabType == HusTabView.Type_CardEditable
+            property bool tabEditable: model.editable && control.tabType == HusTabView.Type_CardEditable
 
             onTabWidthChanged: {
                 if (__private.needResetTabMaxWidth) {
@@ -588,26 +618,25 @@ T.Control {
 
             HusRectangleInternal {
                 id: __tabItem
-                width: (!__private.isHorizontal && control.tabSize == HusTabView.Size_Auto) ? Math.max(__private.tabMaxWidth, tabWidth) : tabWidth
-                height: tabHeight
                 z: __dragHandler.drag.active ? 1 : 0
-                color: {
-                    if (HusTheme.isDark)
-                        return isCurrent ? control.themeSource.colorTabCardBgCheckedDark : control.themeSource.colorTabCardBgDark;
-                    else
-                        return isCurrent ? control.themeSource.colorTabCardBgChecked : control.themeSource.colorTabCardBg;
-                }
-                border.color: control.themeSource.colorTabCardBorder
-                topLeftRadius: control.tabPosition == HusTabView.Position_Top || control.tabPosition == HusTabView.Position_Left ? defaultTabBgRadius : 0
-                topRightRadius: control.tabPosition == HusTabView.Position_Top || control.tabPosition == HusTabView.Position_Right ? defaultTabBgRadius : 0
-                bottomLeftRadius: control.tabPosition == HusTabView.Position_Bottom || control.tabPosition == HusTabView.Position_Left ? defaultTabBgRadius : 0
-                bottomRightRadius: control.tabPosition == HusTabView.Position_Bottom || control.tabPosition == HusTabView.Position_Right ? defaultTabBgRadius : 0
+                width: (!__private.isHorizontal && control.tabSize == HusTabView.Size_Auto) ? __private.tabMaxWidth : calcWidth
+                height: __tabContainer.tabHeight
+                color: isCurrent ? control.colorTabCardBgActive : control.colorTabCardBg
+                border.color: isCurrent ? control.colorTabCardBorderActive : control.colorTabCardBorder
+                topLeftRadius: control.tabPosition == HusTabView.Position_Top ||
+                               control.tabPosition == HusTabView.Position_Left ? control.radiusTabBg.topLeft : 0
+                topRightRadius: control.tabPosition == HusTabView.Position_Top ||
+                                control.tabPosition == HusTabView.Position_Right ? control.radiusTabBg.topRight : 0
+                bottomLeftRadius: control.tabPosition == HusTabView.Position_Bottom ||
+                                  control.tabPosition == HusTabView.Position_Left ? control.radiusTabBg.bottomLeft : 0
+                bottomRightRadius: control.tabPosition == HusTabView.Position_Bottom ||
+                                   control.tabPosition == HusTabView.Position_Right ? control.radiusTabBg.bottomRight : 0
 
                 property bool down: false
                 property bool hovered: false
                 property int calcIconWidth: __icon.empty ? 0 : (__icon.implicitWidth + __tabContainer.tabIconSpacing)
-                property int calcCloseWidth: __close.visible ? (__close.implicitWidth + 5) : 0
-                property real calcWidth: control.tabSize == HusTabView.Size_Auto ? (__text.width + calcIconWidth + calcCloseWidth + 10)
+                property int calcCloseWidth: __close.visible ? (__close.implicitWidth + __tabContainer.tabIconSpacing + control.defaultTabRightPadding) : 0
+                property real calcWidth: control.tabSize == HusTabView.Size_Auto ? (__text.width + calcIconWidth + calcCloseWidth)
                                                                                  : __tabContainer.tabFixedWidth
                 property real calcHeight: Math.max(__icon.implicitHeight, __text.implicitHeight, __close.height)
                 property color colorText: {
@@ -626,6 +655,7 @@ T.Control {
                     id: __dragHandler
                     anchors.fill: parent
                     hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
                     drag.target: control.tabCardMovable ? __tabItem : null
                     drag.axis: __private.isHorizontal ? Drag.XAxis : Drag.YAxis
                     onEntered: __tabItem.hovered = true;
@@ -676,12 +706,12 @@ T.Control {
 
                 HusIconText {
                     id: __icon
+                    leftPadding: empty ? 0 : control.defaultTabLeftPadding
                     anchors.left: parent.left
-                    anchors.leftMargin: 5
                     anchors.verticalCenter: parent.verticalCenter
                     color: __tabItem.colorText
-                    iconSize: tabIconSize
-                    iconSource: tabIcon
+                    iconSize: __tabContainer.tabIconSize
+                    iconSource: __tabContainer.tabIcon
                     verticalAlignment: Text.AlignVCenter
 
                     Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
@@ -689,8 +719,11 @@ T.Control {
 
                 HusText {
                     id: __text
-                    width: control.tabSize == HusTabView.Size_Auto ? implicitWidth :
-                                                                     Math.max(0, __tabContainer.tabFixedWidth - 5 - __tabItem.calcIconWidth - __tabItem.calcCloseWidth)
+                    width: control.tabSize === HusTabView.Size_Auto ? implicitWidth :
+                                                                      Math.max(0, __tabContainer.tabFixedWidth
+                                                                               - __tabItem.calcIconWidth - __tabItem.calcCloseWidth)
+                    leftPadding: __icon.empty ? control.defaultTabLeftPadding : 0
+                    rightPadding: __close.visible ? 0 : control.defaultTabRightPadding
                     anchors.left: __icon.right
                     anchors.leftMargin: __icon.empty ? 0 : __tabContainer.tabIconSpacing
                     anchors.verticalCenter: parent.verticalCenter
@@ -698,6 +731,13 @@ T.Control {
                     font {
                         family: control.themeSource.fontFamily
                         pixelSize: parseInt(control.themeSource.fontSize)
+                    }
+                    horizontalAlignment: {
+                        switch (control.tabAlign) {
+                        case HusTabView.Align_Left: return Text.AlignLeft;
+                        case HusTabView.Align_Right: return Text.AlignRight;
+                        default: return Text.AlignHCenter;
+                        }
                     }
                     color: __tabItem.colorText
                     elide: Text.ElideRight
@@ -715,7 +755,7 @@ T.Control {
                     leftPadding: 2
                     rightPadding: 2
                     anchors.right: parent.right
-                    anchors.rightMargin: 5
+                    anchors.rightMargin: control.defaultTabRightPadding
                     anchors.verticalCenter: parent.verticalCenter
                     animationEnabled: control.animationEnabled
                     hoverCursorShape: Qt.PointingHandCursor
@@ -746,7 +786,8 @@ T.Control {
 
     QtObject {
         id: __private
-        property bool isHorizontal: control.tabPosition == HusTabView.Position_Top || control.tabPosition == HusTabView.Position_Bottom
+        property bool isHorizontal: control.tabPosition == HusTabView.Position_Top ||
+                                    control.tabPosition == HusTabView.Position_Bottom
         property int tabMaxWidth: 0
         property bool needResetTabMaxWidth: false
     }

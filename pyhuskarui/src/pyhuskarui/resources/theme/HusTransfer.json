@@ -7,7 +7,7 @@
         "fontSizeTitle": "@fontPrimarySize",
         "colorBgDisabled": "transparent",
         "colorText": "@colorTextBase",
-        "colorTextDisabled": "@colorPrimaryTextDisabled",
+        "colorTextDisabled": "@colorTextDisabled",
         "colorBorder": "@colorBorder",
         "radiusTransferBg": "@radiusPrimary",
         "radiusItemBg": "@radiusPrimary"

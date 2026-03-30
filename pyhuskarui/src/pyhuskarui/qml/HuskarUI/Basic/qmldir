@@ -54,6 +54,7 @@ HusRate 1.0 qml/HuskarUI/Basic/HusRate.qml
 HusRectangleInternal 1.0 qml/HuskarUI/Basic/HusRectangleInternal.qml
 HusResizeMouseArea 1.0 qml/HuskarUI/Basic/HusResizeMouseArea.qml
 HusScrollBar 1.0 qml/HuskarUI/Basic/HusScrollBar.qml
+HusSegmented 1.0 qml/HuskarUI/Basic/HusSegmented.qml
 HusSelect 1.0 qml/HuskarUI/Basic/HusSelect.qml
 HusShadow 1.0 qml/HuskarUI/Basic/HusShadow.qml
 HusSlider 1.0 qml/HuskarUI/Basic/HusSlider.qml

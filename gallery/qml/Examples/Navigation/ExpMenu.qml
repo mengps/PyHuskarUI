@@ -104,9 +104,9 @@ bgDelegate | var | 可选 | 本菜单项背景代理(将覆盖menuBgDelegate)
   - iconSource: int 图标源\n
   - iconSize: int 图标大小\n
   - iconSpacing: int 图标间隔\n
-  - expanded: int 是否展开\n
-  - isCurrent: int 是否为当前选择菜单\n
-  - isGroup: int 是否为组菜单\n
+  - expanded: bool 是否展开\n
+  - isCurrent: bool 是否为当前选择菜单\n
+  - isGroup: bool 是否为组菜单\n
 \n<br/>
 \n### 支持的函数：\n
 - \`gotoMenu(key: string)\` 跳转到菜单键为 \`key\` 处的菜单项 \n

@@ -25,7 +25,7 @@
 
 属性名 | 类型 | 默认值 | 描述 |
 ------ | --- | :---: | ---
-animationEnabled | bool | true | 是否开启动画
+animationEnabled | bool | HusTheme.animationEnabled | 是否开启动画
 minimumHandleSize | int | 24 | 滑块的最小大小
 colorBar | color | - | 把手颜色
 colorBg | color | - | 背景颜色

@@ -61,6 +61,17 @@ radiusBg | [HusRadius](../General/HusRadius.md) | - | 背景圆角
 
 <br/>
 
+### 模型支持的属性：
+
+属性名 | 类型 | 可选/必选 | 描述
+------ | --- | :---: | ---
+key | string | 可选 | 本面板键
+title | string | 可选 | 本面板标题
+content | string | 可选 | 本面板内容
+contentDelegate | var | 可选 | 本面板内容代理(将覆盖contentDelegate)
+
+<br/>
+
 ### 支持的函数：
 
 - `get(index: int): Object` 获取 `index` 处的模型数据 
@@ -186,17 +197,17 @@ Column {
 
     Component {
         id: contentDelegate1
-        Rectangle { color: '#80ff0000' }
+        Rectangle { height: 100; color: '#80ff0000' }
     }
 
     Component {
         id: contentDelegate2
-        Rectangle { color: '#8000ff00' }
+        Rectangle { height: 100; color: '#8000ff00' }
     }
 
     Component {
         id: contentDelegate3
-        Rectangle { color: '#800000ff' }
+        Rectangle { height: 100; color: '#800000ff' }
     }
 
     HusCollapse {
@@ -219,14 +230,6 @@ Column {
                 contentDelegate: contentDelegate3
             },
         ]
-        contentDelegate: Item {
-            height: 100
-
-            Loader {
-                anchors.fill: parent
-                sourceComponent: model.contentDelegate
-            }
-        }
     }
 }
 ```
@@ -246,56 +249,36 @@ Column {
     width: parent.width
     spacing: 10
 
+    Component {
+        id: customContentDelegate
+
+        Item {
+            height: innerCollapse.height + 20
+
+            HusCollapse {
+                id: innerCollapse
+                width: parent.width - 20
+                anchors.centerIn: parent
+                initModel: [
+                    {
+                        key: '1-1',
+                        title: 'This is panel header 1-1',
+                        content: 'A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.'
+                    }
+                ]
+                defaultActiveKey: ['1-1']
+            }
+        }
+    }
+
     HusCollapse {
         id: collapse
         width: parent.width
-        contentDelegate: Item {
-            height: hasChildren ? childrenLoader.implicitHeight + 20 : defaultLoader.implicitHeight
-
-            property var __model: model
-            property var __children: model?.children?.initModel
-            property bool hasChildren: __children !== undefined
-
-            Loader {
-                id: defaultLoader
-                active: !hasChildren
-                width: parent.width
-                sourceComponent: HusCopyableText {
-                    padding: 16
-                    topPadding: 8
-                    bottomPadding: 8
-                    text: __model.content
-                    font: collapse.contentFont
-                    wrapMode: Text.WordWrap
-                    color: collapse.colorContent
-                }
-            }
-
-            Loader {
-                id: childrenLoader
-                active: hasChildren
-                width: parent.width - 20
-                anchors.centerIn: parent
-                sourceComponent: HusCollapse {
-                    initModel: __children
-                    defaultActiveKey: ['1-1']
-                }
-            }
-        }
         initModel: [
             {
                 key: '1',
                 title: 'This is panel header 1',
-                content: 'A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.',
-                children: {
-                    initModel: [
-                        {
-                            key: '1-1',
-                            title: 'This is panel header 1-1',
-                            content: 'A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.'
-                        }
-                    ]
-                }
+                contentDelegate: customContentDelegate,
             },
             {
                 key: '2',

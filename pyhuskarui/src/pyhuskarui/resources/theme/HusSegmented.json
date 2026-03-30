@@ -1,0 +1,17 @@
+{
+    "__style__": {
+        "fontFamily": "@fontPrimaryFamily",
+        "fontSize": "@fontPrimarySize",
+        "colorBg": "@colorBgLayout",
+        "colorBgDark": "black",
+        "colorBorder": "transparent",
+        "colorIndicatorBg": "@colorBgBase",
+        "colorTextDisabled": "@colorTextDisabled",
+        "colorText": "@colorTextPrimary",
+        "colorTextSelected": "@colorTextBase",
+        "colorItemBg": "$alpha(@colorTextBase, 0)",
+        "colorItemBgHover": "@colorFillSecondary",
+        "colorItemBgActive": "@colorFill",
+        "radiusBg": "@radiusPrimary"
+    }
+}

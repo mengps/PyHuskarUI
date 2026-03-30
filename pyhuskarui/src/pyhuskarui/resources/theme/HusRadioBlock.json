@@ -6,7 +6,7 @@
         "colorText": "@colorTextBase",
         "colorTextFilledChecked": "#fff",
         "colorTextChecked": "@colorPrimary",
-        "colorTextDisabled": "@colorPrimaryTextDisabled",
+        "colorTextDisabled": "@colorTextDisabled",
         "colorBg": "@colorBgBase",
         "colorBgChecked": "@colorPrimary",
         "colorBgHover": "@colorPrimaryContainerBgHover",

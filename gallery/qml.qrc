@@ -21,6 +21,7 @@
         <file>qml/Examples/DataDisplay/ExpImage.qml</file>
         <file>qml/Examples/DataDisplay/ExpImagePreview.qml</file>
         <file>qml/Examples/DataDisplay/ExpQrCode.qml</file>
+        <file>qml/Examples/DataDisplay/ExpSegmented.qml</file>
         <file>qml/Examples/DataDisplay/ExpTableView.qml</file>
         <file>qml/Examples/DataDisplay/ExpTabView.qml</file>
         <file>qml/Examples/DataDisplay/ExpTag.qml</file>

@@ -4,7 +4,7 @@
         "fontSize": "@fontPrimarySize",
         "colorButtonText": "@colorTextBase",
         "colorButtonTextActive": "@colorPrimaryTextActive",
-        "colorButtonTextDisabled": "@colorPrimaryTextDisabled",
+        "colorButtonTextDisabled": "@colorTextDisabled",
         "colorButtonBg": "@colorBgBase",
         "colorButtonBgHover": "$onBackground(@colorFillSecondary, @colorBgBase)",
         "colorButtonBgActive": "$onBackground(@colorFill, @colorBgBase)",

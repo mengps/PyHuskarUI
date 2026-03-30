@@ -106,11 +106,11 @@ bgDelegate | var | 可选 | 本菜单项背景代理(将覆盖menuBgDelegate)
 
   - iconSpacing: int 图标间隔
 
-  - expanded: int 是否展开
+  - expanded: bool 是否展开
 
-  - isCurrent: int 是否为当前选择菜单
+  - isCurrent: bool 是否为当前选择菜单
 
-  - isGroup: int 是否为组菜单
+  - isGroup: bool 是否为组菜单
 
 
 <br/>

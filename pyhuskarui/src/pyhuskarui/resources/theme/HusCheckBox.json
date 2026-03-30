@@ -3,7 +3,7 @@
         "fontFamily": "@fontPrimaryFamily",
         "fontSize": "@fontPrimarySize",
         "colorText": "@colorTextBase",
-        "colorTextDisabled": "@colorPrimaryTextDisabled",
+        "colorTextDisabled": "@colorTextDisabled",
         "colorIndicator": "@colorBgBase",
         "colorIndicatorChecked": "@colorPrimary",
         "colorIndicatorCheckedHover": "@colorPrimaryHover",

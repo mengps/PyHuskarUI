@@ -6,7 +6,7 @@
         "fontFamily": "@fontPrimaryFamily",
         "fontSize": "@fontPrimarySize",
         "colorItemText": "@colorTextBase",
-        "colorItemTextDisabled": "@colorPrimaryTextDisabled",
+        "colorItemTextDisabled": "@colorTextDisabled",
         "colorItemBg": "@colorBgBase",
         "colorItemBgHover": "$onBackground(@colorFillSecondary, @colorBgBase)",
         "colorItemBgActive": "@colorPrimaryBase-1",

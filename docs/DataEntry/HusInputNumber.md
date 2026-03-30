@@ -29,7 +29,7 @@
 
 属性名 | 类型 | 默认值 | 描述
 ------ | --- | :---: | ---
-animationEnabled | bool | true | 是否开启动画
+animationEnabled | bool | HusTheme.animationEnabled | 是否开启动画
 active | bool | - | 是否处于激活状态
 showShadow | bool | false | 是否显示阴影
 type | enum | HusInput.Type_Outlined | 输入框形态类型(来自 HusInput)
@@ -103,9 +103,9 @@ input | [HusInput](./HusInput.md) | - | 访问内部输入框
 
 - `select(start: int, end: int)` 
 
-- `selectAll(start: int, end: int)` 
+- `selectAll()` 
 
-- `selectWord(start: int, end: int)` 
+- `selectWord()` 
 
 - `clear()` 
 

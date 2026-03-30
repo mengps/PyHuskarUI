@@ -40,14 +40,22 @@ currentIndex | int | true | 当前标签页索引(更改该值可切换页)
 tabType | enum | HusTabView.Type_Default | 标签类型(来自 HusTabView)
 tabSize | enum | HusTabView.Size_Auto | 标签大小(来自 HusTabView)
 tabPosition | enum | HusTabView.Position_Top | 标签位置(来自 HusTabView)
+tabAlign | enum | HusTabView.Align_Left | 标签文本对齐(来自 HusTabView)
 tabAddable | bool | false | 标签是否可新增
 tabCentered | bool | false | 标签是否居中
 tabCardMovable | bool | true | 标签卡片是否可移动(tabType == Type_Card*生效)
 defaultTabWidth | int | 80 | 默认标签宽度
 defaultTabHeight | int | - | 默认标签高度
 defaultTabSpacing | int | 2 | 默认标签间隔
-defaultTabBgRadius | int | - | 默认标签背景半径(tabType == Type_Card*生效)
+defaultTabIconSpacing | int | 2 | 默认标签图标间隔
+defaultTabLeftPadding | int | 8 | 默认标签左填充
+defaultTabRightPadding | int | 8 | 默认标签右填充
 defaultHighlightWidth | int | 30丨20 | 默认高亮条宽度半径(tabType == Type_Default生效)
+colorTabCardBg | color | - | 卡片标签背景颜色
+colorTabCardBgActive | color | - | 卡片标签选中背景颜色
+colorTabCardBorder | color | - | 卡片标签边框颜色
+colorTabCardBorderActive | color | - | 卡片标签选中边框颜色
+radiusTabBg | [HusRadius](internal://HusRadius) | - | 标签背景圆角(tabType == Type_Card*生效)
 addTabCallback | function() | - | 添加标签回调(点击+按钮时调用)
 closeTabCallback | function(index, data) | - | 关闭标签回调(点击x按钮时调用)
 \n<br/>
@@ -62,6 +70,7 @@ iconSpacing | bool | 可选 | 本标签图标和文本的间隔
 tabWidth | int | 可选 | 本标签宽度
 tabHeight | int | 可选 | 本标签高度
 editable | bool | 可选 | 本标签是否可编辑
+contentDelegate | var | 可选 | 本菜单项内容代理(将覆盖contentDelegate)
 \n<br/>
 \n### 支持的函数：\n
 - \`flick(index: int)\` 等同于调用 \`Flickable.flick()\` \n
@@ -127,7 +136,6 @@ editable | bool | 可选 | 本标签是否可编辑
                 import HuskarUI.Basic
 
                 Column {
-                    width: parent.width
                     spacing: 10
 
                     HusRadioBlock {
@@ -351,7 +359,6 @@ editable | bool | 可选 | 本标签是否可编辑
                 import HuskarUI.Basic
 
                 Column {
-                    width: parent.width
                     spacing: 10
 
                     HusRadioBlock {
@@ -595,6 +602,165 @@ editable | bool | 可选 | 本标签是否可编辑
                             contentColor: '#600000ff'
                         }
                     ]
+                }
+            }
+        }
+
+        CodeBox {
+            width: parent.width
+            descTitle: qsTr(`高级定制`)
+            desc: qsTr(`
+通过 \`initModel.contentDelegate\` 属性设置单独的内容代理。\n
+                       `)
+            code: `
+                import QtQuick
+                import HuskarUI.Basic
+
+                Column {
+                    spacing: 10
+
+                    HusTabView {
+                        id: customTabView
+                        width: parent.width
+                        height: 220
+                        tabSize: HusTabView.Size_Auto
+                        tabType: HusTabView.Type_Card
+                        initModel: [
+                            {
+                                key: '1',
+                                iconSource: HusIcon.CreditCardOutlined,
+                                title: 'Tab CheckBoxes',
+                                contentDelegate: delegate1
+                            },
+                            {
+                                key: '2',
+                                editable: false,
+                                iconSource: HusIcon.CreditCardOutlined,
+                                title: 'Tab Inputs',
+                                contentDelegate: delegate2
+                            },
+                        ]
+
+                        Component {
+                            id: delegate1
+
+                            Rectangle {
+                                color: HusTheme.Primary.colorBgBase
+
+                                Column {
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 10
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 5
+
+                                    Repeater {
+                                        model: 6
+
+                                        HusCheckBox { text: 'CheckBox ' + (index + 1) }
+                                    }
+                                }
+                            }
+                        }
+
+                        Component {
+                            id: delegate2
+
+                            Rectangle {
+                                color: HusTheme.Primary.colorBgBase
+
+                                Column {
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 10
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 5
+
+                                    Repeater {
+                                        model: 5
+
+                                        Row {
+                                            spacing: 10
+
+                                            HusText { anchors.verticalCenter: parent.verticalCenter; text: 'Input ' + (index + 1) }
+                                            HusInput { width: 120 }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            `
+            exampleDelegate: Column {
+                spacing: 10
+
+                HusTabView {
+                    id: customTabView
+                    width: parent.width
+                    height: 220
+                    tabSize: HusTabView.Size_Auto
+                    tabType: HusTabView.Type_Card
+                    initModel: [
+                        {
+                            key: '1',
+                            iconSource: HusIcon.CreditCardOutlined,
+                            title: 'Tab CheckBoxes',
+                            contentDelegate: delegate1
+                        },
+                        {
+                            key: '2',
+                            editable: false,
+                            iconSource: HusIcon.CreditCardOutlined,
+                            title: 'Tab Inputs',
+                            contentDelegate: delegate2
+                        },
+                    ]
+
+                    Component {
+                        id: delegate1
+
+                        Rectangle {
+                            color: HusTheme.Primary.colorBgBase
+
+                            Column {
+                                anchors.left: parent.left
+                                anchors.leftMargin: 10
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: 5
+
+                                Repeater {
+                                    model: 6
+
+                                    HusCheckBox { text: 'CheckBox ' + (index + 1) }
+                                }
+                            }
+                        }
+                    }
+
+                    Component {
+                        id: delegate2
+
+                        Rectangle {
+                            color: HusTheme.Primary.colorBgBase
+
+                            Column {
+                                anchors.left: parent.left
+                                anchors.leftMargin: 10
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: 5
+
+                                Repeater {
+                                    model: 5
+
+                                    Row {
+                                        spacing: 10
+
+                                        HusText { anchors.verticalCenter: parent.verticalCenter; text: 'Input ' + (index + 1) }
+                                        HusInput { width: 120 }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

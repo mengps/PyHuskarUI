@@ -19,7 +19,6 @@ HusWindow {
     followThemeSwitch: true
     captionBar.visible: Qt.platform.os === 'windows' || Qt.platform.os === 'linux' || Qt.platform.os === 'osx'
     captionBar.height: captionBar.visible ? 30 : 0
-    captionBar.color: HusTheme.Primary.colorFillTertiary
     captionBar.showThemeButton: true
     captionBar.showTopButton: true
     captionBar.showWinIcon: Qt.platform.os !== 'osx'
@@ -290,8 +289,9 @@ HusWindow {
                 themeSwitchLoader.changeDark();
             }
             onAnimationFinished: {
-                if (galleryWindow.specialEffect === HusWindow.None)
+                if (galleryWindow.specialEffect === HusWindow.None) {
                     galleryWindow.color = HusTheme.Primary.colorBgBase;
+                }
                 themeSwitchLoader.active = false;
             }
             Component.onCompleted: {
@@ -594,8 +594,7 @@ HusWindow {
                 iconSource: HusIcon.PlusCircleOutlined
                 visible: HusApp.libName() === 'HuskarUI'
                 onClicked: {
-                    if (!creatorLoader.active)
-                        creatorLoader.active = true;
+                    if (!creatorLoader.active) creatorLoader.active = true;
                     creatorLoader.visible = !creatorLoader.visible;
                 }
 
@@ -617,8 +616,7 @@ HusWindow {
                 iconSize: galleryMenu.defaultMenuIconSize
                 iconSource: HusIcon.UserOutlined
                 onClicked: {
-                    if (!aboutLoader.active)
-                        aboutLoader.active = true;
+                    if (!aboutLoader.active) aboutLoader.active = true;
                     aboutLoader.visible = !aboutLoader.visible;
                 }
 
@@ -640,8 +638,7 @@ HusWindow {
                 iconSize: galleryMenu.defaultMenuIconSize
                 iconSource: HusIcon.SettingOutlined
                 onClicked: {
-                    if (!settingsLoader.active)
-                        settingsLoader.active = true;
+                    if (!settingsLoader.active) settingsLoader.active = true;
                     settingsLoader.visible = !settingsLoader.visible;
                 }
 

@@ -46,6 +46,7 @@
         "colorTextSecondary": "$alpha(@colorTextBase, 0.65)",
         "colorTextTertiary": "$alpha(@colorTextBase, 0.45)",
         "colorTextQuaternary": "$alpha(@colorTextBase, 0.25)",
+        "colorTextDisabled": "$alpha(@colorTextBase, 0.27)",
 
         "colorFill": "$alpha(@colorTextBase, 0.15)",
         "colorFillPrimary": "$alpha(@colorTextBase, 0.1)",
@@ -57,7 +58,7 @@
         "colorBgSolidHover": "$alpha(@colorTextBase, 0.75)",
         "colorBgSolidActive": "$alpha(@colorTextBase, 0.95)",
 
-        "colorBgLayout": "$darker(@colorBgBase, 107)",
+        "colorBgLayout": "$brightness(@colorBgBase, 107)",
         "colorBgContainer": "$darker(@colorBgBase, 0)",
         "colorBgElevated": "$darker(@colorBgBase, 0)",
         "colorBgSpotlight": "$alpha(@colorTextBase, 0.85)",
@@ -89,7 +90,6 @@
         "colorPrimaryContainerBgActive": "@colorPrimaryBase-7",
 
         "colorPrimaryContainerBgDisabled": "$alpha(@colorTextBase, 0.1)",
-        "colorPrimaryTextDisabled": "$alpha(@colorTextBase, 0.45)",
 
         "colorSuccessBg": "@colorSuccessBase-1",
         "colorSuccessBgHover": "@colorSuccessBase-2",
@@ -199,6 +199,7 @@
         "HusToolTip": ":/HuskarUI/resources/theme/HusToolTip.json",
         "HusTour": ":/HuskarUI/resources/theme/HusTour.json",
         "HusTransfer": ":/HuskarUI/resources/theme/HusTransfer.json",
-        "HusTreeView": ":/HuskarUI/resources/theme/HusTreeView.json"
+        "HusTreeView": ":/HuskarUI/resources/theme/HusTreeView.json",
+        "HusSegmented": ":/HuskarUI/resources/theme/HusSegmented.json"
     }
 }

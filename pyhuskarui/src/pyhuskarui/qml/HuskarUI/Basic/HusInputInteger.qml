@@ -199,12 +199,12 @@ T.SpinBox {
         __input.select(start, end);
     }
 
-    function selectAll(start: int, end: int) {
-        __input.selectAll(start, end);
+    function selectAll() {
+        __input.selectAll();
     }
 
-    function selectWord(start: int, end: int) {
-        __input.selectWord(start, end);
+    function selectWord() {
+        __input.selectWord();
     }
 
     function clear() {

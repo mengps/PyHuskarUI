@@ -4,7 +4,7 @@
     },
     "__style__": {
         "fontSize": "14",
-        "colorIconDisabled": "@colorPrimaryTextDisabled",
+        "colorIconDisabled": "@colorTextDisabled",
         "colorIcon": "@colorTextBase",
         "colorIconHover": "@colorTextBase",
         "colorIconActive": "@colorTextBase",

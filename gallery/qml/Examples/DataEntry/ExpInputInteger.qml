@@ -29,7 +29,7 @@ Flickable {
 \n### 支持的属性：\n
 属性名 | 类型 | 默认值 | 描述
 ------ | --- | :---: | ---
-animationEnabled | bool | true | 是否开启动画
+animationEnabled | bool | HusTheme.animationEnabled | 是否开启动画
 active | bool | - | 是否处于激活状态
 showShadow | bool | false | 是否显示阴影
 type | enum | HusInput.Type_Outlined | 输入框形态类型(来自 HusInput)
@@ -80,8 +80,8 @@ input | [HusInput](internal://HusInput) | - | 访问内部输入框
 - \`getFullText(): string\` 获取完整输入文本 \n
 以下函数来自 \`TextInput\`，具体请查阅官方文档：\n
 - \`select(start: int, end: int)\` \n
-- \`selectAll(start: int, end: int)\` \n
-- \`selectWord(start: int, end: int)\` \n
+- \`selectAll()\` \n
+- \`selectWord()\` \n
 - \`clear()\` \n
 - \`copy()\` \n
 - \`cut()\` \n
