@@ -6,7 +6,8 @@ import QtQuick.Layouts
 import HuskarUI.Basic
 import Gallery
 
-import './Home'
+import 'Home'
+import 'Controls'
 
 HusWindow {
     id: galleryWindow
@@ -178,21 +179,9 @@ HusWindow {
             iconSize: 14
             iconSource: HusIcon.BookOutlined
             background: Item {
-                ShaderEffect {
+                GradientFlowEffect {
                     anchors.fill: parent
-                    vertexShader: 'qrc:/Gallery/shaders/effect2.vert.qsb'
-                    fragmentShader: 'qrc:/Gallery/shaders/effect2.frag.qsb'
                     opacity: wikiButton.hovered ? 0.4 : 0.25
-
-                    property vector3d iResolution: Qt.vector3d(width, height, 0)
-                    property real iTime: 0
-
-                    Timer {
-                        running: true
-                        repeat: true
-                        interval: 16
-                        onTriggered: parent.iTime += 0.03;
-                    }
                 }
             }
             onClicked: {
@@ -269,7 +258,6 @@ HusWindow {
                 containerLoader.version = data.addVersion || data.updateVersion || '';
                 containerLoader.desc = data.desc || '';
                 containerLoader.tagState = data.state || '';
-                galleryMenu.gotoMenu(data.key);
                 gallerySwitchEffect.switchToSource(data.source);
             }
         }

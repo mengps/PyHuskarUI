@@ -154,6 +154,13 @@ QtObject {
                     addVersion: '0.5.6.0',
                     desc: qsTr('布局并设置组件之间的间距/圆角。')
                 },
+                {
+                    key: 'HusGroupBox',
+                    label: qsTr('HusGroupBox 分组框'),
+                    source: './Examples/Layout/ExpGroupBox.qml',
+                    addVersion: '0.6.0',
+                    desc: qsTr('在一个有标题的视觉框架内将一组逻辑控件布局在一起。')
+                },
             ]
         },
         {
@@ -178,8 +185,8 @@ QtObject {
                     key: 'HusPagination',
                     label: qsTr('HusPagination 分页'),
                     source: './Examples/Navigation/ExpPagination.qml',
-                    updateVersion: '0.5.4.1',
-                    desc: qsTr('新增 sizeHint 尺寸提示。')
+                    updateVersion: '0.6.0',
+                    desc: qsTr('defaultButton[Width/Height]支持自动宽高。\n拼写变化: [prev/next]ButtonTooltip->[prev/next]ButtonToolTip。')
                 },
                 {
                     key: 'HusContextMenu',
@@ -329,6 +336,13 @@ QtObject {
                     addVersion: '0.5.7',
                     desc: qsTr('双栏穿梭选择框。')
                 },
+                {
+                    key: 'HusMultiCheckBox',
+                    label: qsTr('HusMultiCheckBox 多复选框选择器'),
+                    source: './Examples/DataEntry/ExpMultiCheckBox.qml',
+                    addVersion: '0.6.0',
+                    desc: qsTr('下拉多复选框选择器。'),
+                },
             ]
         },
         {
@@ -399,8 +413,8 @@ QtObject {
                     key: 'HusTableView',
                     label: qsTr('HusTableView 表格'),
                     source: './Examples/DataDisplay/ExpTableView.qml',
-                    updateVersion: '0.5.8.1',
-                    desc: qsTr('新增 selectionType(radio 单选框)支持。')
+                    updateVersion: '0.6.0',
+                    desc: qsTr('新增 setColumnVisible() 设置指定列是否可见。')
                 },
                 {
                     key: 'HusBadge',

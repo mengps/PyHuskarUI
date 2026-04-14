@@ -18,7 +18,7 @@
         "colorSelection": "$alpha(@colorPrimary, 0.6)",
         "colorBorder": "$onBackground(@colorBorder, @colorBgBase)",
         "colorBorderHover": "@colorPrimary",
-        "colorBorderDisabled": "$onBackground(@colorFill, @colorBgBase)",
+        "colorBorderDisabled": "$onBackground(@colorBorderDisabled, @colorBgBase)",
         "colorBg": "@colorBgBase",
         "colorBgFilled": "@colorFillPrimary",
         "colorBgDisabled": "$onBackground(@colorFillPrimary, @colorBgBase)",

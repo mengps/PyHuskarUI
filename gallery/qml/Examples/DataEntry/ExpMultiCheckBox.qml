@@ -15,8 +15,8 @@ Flickable {
 
         DocDescription {
             desc: qsTr(`
-# HusMultiSelect 多选器 \n
-下拉多选器。\n
+# HusMultiCheckBox 多复选框选择器 \n
+下拉多复选框选择器。\n
 * **模块 { HuskarUI.Basic }**\n
 * **继承自 { [HusSelect](internal://HusSelect) }**\n
 \n<br/>
@@ -87,8 +87,8 @@ enabled | bool | 可选 | 本选择项是否启用
         }
 
         ThemeToken {
-            source: 'HusMultiSelect'
-            historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/imports/HusMultiSelect.qml'
+            source: 'HusMultiCheckBox'
+            historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/imports/HusMultiCheckBox.qml'
         }
 
         Description {
@@ -120,7 +120,7 @@ enabled | bool | 可选 | 本选择项是否启用
                         ]
                     }
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         sizeHint: sizeHintRadio.currentCheckedValue
                         filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1
@@ -150,7 +150,7 @@ enabled | bool | 可选 | 本选择项是否启用
                     ]
                 }
 
-                HusMultiSelect {
+                HusMultiCheckBox {
                     width: 200
                     sizeHint: sizeHintRadio.currentCheckedValue
                     filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1
@@ -184,8 +184,9 @@ enabled | bool | 可选 | 本选择项是否启用
                     width: parent.width
                     spacing: 10
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
+                        itemWidth: width
                         textRole: 'desc'
                         searchEnabled: false
                         placeholderText: 'select one country'
@@ -217,8 +218,9 @@ enabled | bool | 可选 | 本选择项是否启用
             exampleDelegate: Row {
                 spacing: 10
 
-                HusMultiSelect {
+                HusMultiCheckBox {
                     width: 200
+                    itemWidth: width
                     textRole: 'desc'
                     searchEnabled: false
                     placeholderText: 'select one country'
@@ -265,7 +267,7 @@ enabled | bool | 可选 | 本选择项是否启用
                     width: parent.width
                     spacing: 10
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         prefix: 'User'
                         options: [
@@ -276,7 +278,7 @@ enabled | bool | 可选 | 本选择项是否启用
                         ]
                     }
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         prefixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }
                         options: [
@@ -287,7 +289,7 @@ enabled | bool | 可选 | 本选择项是否启用
                         ]
                     }
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         suffix: 'User'
                         options: [
@@ -298,7 +300,7 @@ enabled | bool | 可选 | 本选择项是否启用
                         ]
                     }
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         suffixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }
                         options: [
@@ -316,7 +318,7 @@ enabled | bool | 可选 | 本选择项是否启用
                 Row {
                     spacing: 10
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         prefix: 'User'
                         options: [
@@ -327,7 +329,7 @@ enabled | bool | 可选 | 本选择项是否启用
                         ]
                     }
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         suffix: 'User'
                         options: [
@@ -342,7 +344,7 @@ enabled | bool | 可选 | 本选择项是否启用
                 Row {
                     spacing: 10
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         prefixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }
                         options: [
@@ -353,7 +355,7 @@ enabled | bool | 可选 | 本选择项是否启用
                         ]
                     }
 
-                    HusMultiSelect {
+                    HusMultiCheckBox {
                         width: 200
                         suffixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }
                         options: [
@@ -377,7 +379,7 @@ enabled | bool | 可选 | 本选择项是否启用
                 import QtQuick
                 import HuskarUI.Basic
 
-                HusMultiSelect {
+                HusMultiCheckBox {
                     width: 500
                     filterOption:
                         (input, option) => {
@@ -400,7 +402,7 @@ enabled | bool | 可选 | 本选择项是否启用
             exampleDelegate: Row {
                 spacing: 10
 
-                HusMultiSelect {
+                HusMultiCheckBox {
                     width: 500
                     filterOption:
                         (input, option) => {
@@ -433,7 +435,7 @@ enabled | bool | 可选 | 本选择项是否启用
                 import QtQuick
                 import HuskarUI.Basic
 
-                HusMultiSelect {
+                HusMultiCheckBox {
                     id: customTag
                     width: 500
                     tagDelegate: HusTag {
@@ -454,7 +456,7 @@ enabled | bool | 可选 | 本选择项是否启用
             exampleDelegate: Row {
                 spacing: 10
 
-                HusMultiSelect {
+                HusMultiCheckBox {
                     id: customTag
                     width: 500
                     tagDelegate: HusTag {
@@ -484,7 +486,7 @@ enabled | bool | 可选 | 本选择项是否启用
                 import QtQuick
                 import HuskarUI.Basic
 
-                HusMultiSelect {
+                HusMultiCheckBox {
                     width: 500
                     maxTagCount: 3
                     suffix: \`\${tagCount}/\${maxTagCount}\`
@@ -504,7 +506,7 @@ enabled | bool | 可选 | 本选择项是否启用
             exampleDelegate: Row {
                 spacing: 10
 
-                HusMultiSelect {
+                HusMultiCheckBox {
                     width: 500
                     maxTagCount: 3
                     suffix: `${tagCount}/${maxTagCount}`
@@ -535,7 +537,7 @@ enabled | bool | 可选 | 本选择项是否启用
 
                 Loader {
                     asynchronous: true
-                    sourceComponent: HusMultiSelect {
+                    sourceComponent: HusMultiCheckBox {
                         width: 500
                         genDefaultKey: false
                         filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1
@@ -555,7 +557,7 @@ enabled | bool | 可选 | 本选择项是否启用
 
                 Loader {
                     asynchronous: true
-                    sourceComponent: HusMultiSelect {
+                    sourceComponent: HusMultiCheckBox {
                         width: 500
                         genDefaultKey: false
                         filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1

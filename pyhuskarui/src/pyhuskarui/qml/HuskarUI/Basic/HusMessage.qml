@@ -243,8 +243,8 @@ Item {
                         running: false
                         interval: control.animationEnabled ? HusTheme.Primary.durationMid : 0
                         onTriggered: {
-                            control.closed(__rootItem.key);
                             __listModel.remove(__rootItem.index);
+                            control.closed(__rootItem.key);
                         }
                     }
 

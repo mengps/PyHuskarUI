@@ -26,6 +26,7 @@ HusDivider 1.0 qml/HuskarUI/Basic/HusDivider.qml
 HusDrawer 1.0 qml/HuskarUI/Basic/HusDrawer.qml
 HusEmpty 1.0 qml/HuskarUI/Basic/HusEmpty.qml
 HusFrame 1.0 qml/HuskarUI/Basic/HusFrame.qml
+HusGroupBox 1.0 qml/HuskarUI/Basic/HusGroupBox.qml
 HusIconButton 1.0 qml/HuskarUI/Basic/HusIconButton.qml
 HusIconText 1.0 qml/HuskarUI/Basic/HusIconText.qml
 HusImage 1.0 qml/HuskarUI/Basic/HusImage.qml
@@ -39,6 +40,7 @@ HusMenu 1.0 qml/HuskarUI/Basic/HusMenu.qml
 HusMessage 1.0 qml/HuskarUI/Basic/HusMessage.qml
 HusModal 1.0 qml/HuskarUI/Basic/HusModal.qml
 HusMoveMouseArea 1.0 qml/HuskarUI/Basic/HusMoveMouseArea.qml
+HusMultiCheckBox 1.0 qml/HuskarUI/Basic/HusMultiCheckBox.qml
 HusMultiSelect 1.0 qml/HuskarUI/Basic/HusMultiSelect.qml
 HusNotification 1.0 qml/HuskarUI/Basic/HusNotification.qml
 HusOTPInput 1.0 qml/HuskarUI/Basic/HusOTPInput.qml

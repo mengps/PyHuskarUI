@@ -13,6 +13,7 @@ DataEntry分类包含以下组件：
 - [HusInput 输入框 ](./HusInput.md)
 - [HusInputInteger 整数输入框 ](./HusInputInteger.md)
 - [HusInputNumber 数字输入框 ](./HusInputNumber.md)
+- [HusMultiCheckBox 多复选框选择器 ](./HusMultiCheckBox.md)
 - [HusMultiSelect 多选器 ](./HusMultiSelect.md)
 - [HusOTPInput 一次性口令输入框 ](./HusOTPInput.md)
 - [HusRadio 单选框 ](./HusRadio.md)

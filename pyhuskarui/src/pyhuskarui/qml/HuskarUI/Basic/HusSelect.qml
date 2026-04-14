@@ -110,6 +110,13 @@ T.ComboBox {
             property bool hovered: false
         }
     }
+    property Component toolTipDelegate: HusToolTip {
+        showArrow: false
+        visible: hovered
+        animationEnabled: control.animationEnabled
+        text: model[control.textRole]
+        position: HusToolTip.Position_Bottom
+    }
 
     Behavior on colorText { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
     Behavior on colorBorder { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
@@ -305,13 +312,11 @@ T.ComboBox {
                     y: __popupDelegate.height
                     anchors.horizontalCenter: parent.horizontalCenter
                     active: control.showToolTip
-                    sourceComponent: HusToolTip {
-                        showArrow: false
-                        visible: __popupDelegate.hovered
-                        animationEnabled: control.animationEnabled
-                        text: __popupDelegate.model[control.textRole]
-                        position: HusToolTip.Position_Bottom
-                    }
+                    sourceComponent: control.toolTipDelegate
+                    property alias index: __popupDelegate.index
+                    property alias model: __popupDelegate.model
+                    property alias hovered: __popupDelegate.hovered
+                    property alias pressed: __popupDelegate.pressed
                 }
             }
             T.ScrollBar.vertical: HusScrollBar {

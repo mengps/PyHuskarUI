@@ -18,7 +18,6 @@
  */
 
 import QtQuick
-import QtQuick.Controls.Basic
 import QtQuick.Templates as T
 import HuskarUI.Basic
 
@@ -61,10 +60,11 @@ T.CheckBox {
     }
     spacing: 6 * sizeRatio
     indicator: Item {
-        x: control.leftPadding
+        x: control.text ? (control.mirrored ? control.width - width - control.rightPadding : control.leftPadding) :
+                          control.leftPadding + (control.availableWidth - width) / 2
+        y: control.topPadding + (control.availableHeight - height) / 2
         implicitWidth: __bg.width
         implicitHeight: __bg.height
-        anchors.verticalCenter: parent.verticalCenter
 
         HusRectangleInternal {
             id: __effect
@@ -121,7 +121,7 @@ T.CheckBox {
             topRightRadius: control.radiusIndicator.topRight
             bottomLeftRadius: control.radiusIndicator.bottomLeft
             bottomRightRadius: control.radiusIndicator.bottomRight
-            color: 'transparent'
+            color: enabled ? control.colorIndicator : 'transparent'
             border.color: control.colorIndicatorBorder
             border.width: 1
             anchors.centerIn: parent
@@ -246,19 +246,14 @@ T.CheckBox {
         }
     }
     contentItem: HusText {
-        leftPadding: control.indicator && !control.mirrored ? control.indicator.width + spacing : 0
-        rightPadding: control.indicator && control.mirrored ? control.indicator.width + spacing : 0
+        leftPadding: control.indicator && !control.mirrored ? (control.indicator.width + spacing) : 0
+        rightPadding: control.indicator && control.mirrored ? (control.indicator.width + spacing) : 0
         text: control.text
         font: control.font
         color: control.colorText
-        verticalAlignment: Text.AlignVCenter
         elide: control.elide
+        verticalAlignment: Text.AlignVCenter
         property real spacing: (text.length > 0 ? control.spacing : 0)
-
-        Behavior on color {
-            enabled: control.animationEnabled
-            ColorAnimation { duration: HusTheme.Primary.durationMid }
-        }
     }
 
     HoverHandler {

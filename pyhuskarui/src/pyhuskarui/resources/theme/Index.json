@@ -67,6 +67,7 @@
 
         "//colorBorder": "$brightness(@colorBgBase, 115, 126)",
         "colorBorder": "$alpha(@colorTextBase, 0.15)",
+        "colorBorderDisabled": "$alpha(@colorTextBase, 0.1)",
         "colorBorderSecondary": "$brightness(@colorBgBase, 106, 119)",
 
         "//colorSplit": "$brightness(@colorBgBase, 106, 119)",
@@ -169,6 +170,7 @@
         "HusDivider": ":/HuskarUI/resources/theme/HusDivider.json",
         "HusDrawer": ":/HuskarUI/resources/theme/HusDrawer.json",
         "HusEmpty": ":/HuskarUI/resources/theme/HusEmpty.json",
+        "HusGroupBox": ":/HuskarUI/resources/theme/HusGroupBox.json",
         "HusIconText": ":/HuskarUI/resources/theme/HusIconText.json",
         "HusImage": ":/HuskarUI/resources/theme/HusImage.json",
         "HusInput": ":/HuskarUI/resources/theme/HusInput.json",
@@ -176,6 +178,7 @@
         "HusMenu": ":/HuskarUI/resources/theme/HusMenu.json",
         "HusMessage": ":/HuskarUI/resources/theme/HusMessage.json",
         "HusModal": ":/HuskarUI/resources/theme/HusModal.json",
+        "HusMultiCheckBox": ":/HuskarUI/resources/theme/HusMultiCheckBox.json",
         "HusMultiSelect": ":/HuskarUI/resources/theme/HusMultiSelect.json",
         "HusNotification": ":/HuskarUI/resources/theme/HusNotification.json",
         "HusPagination": ":/HuskarUI/resources/theme/HusPagination.json",
@@ -191,6 +194,7 @@
         "HusSlider": ":/HuskarUI/resources/theme/HusSlider.json",
         "HusSpin": ":/HuskarUI/resources/theme/HusSpin.json",
         "HusSwitch": ":/HuskarUI/resources/theme/HusSwitch.json",
+        "HusSegmented": ":/HuskarUI/resources/theme/HusSegmented.json",
         "HusTabView": ":/HuskarUI/resources/theme/HusTabView.json",
         "HusTableView": ":/HuskarUI/resources/theme/HusTableView.json",
         "HusTag": ":/HuskarUI/resources/theme/HusTag.json",
@@ -199,7 +203,6 @@
         "HusToolTip": ":/HuskarUI/resources/theme/HusToolTip.json",
         "HusTour": ":/HuskarUI/resources/theme/HusTour.json",
         "HusTransfer": ":/HuskarUI/resources/theme/HusTransfer.json",
-        "HusTreeView": ":/HuskarUI/resources/theme/HusTreeView.json",
-        "HusSegmented": ":/HuskarUI/resources/theme/HusSegmented.json"
+        "HusTreeView": ":/HuskarUI/resources/theme/HusTreeView.json"
     }
 }

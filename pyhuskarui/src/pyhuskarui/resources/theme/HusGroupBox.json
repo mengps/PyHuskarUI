@@ -1,0 +1,11 @@
+{
+    "__style__": {
+        "fontFamily": "@fontPrimaryFamily",
+        "fontSize": "@fontPrimarySize",
+        "colorTitle": "@colorTextBase",
+        "colorTitleDisabled": "@colorTextDisabled",
+        "colorBorder": "@colorBorder",
+        "colorBorderDisabled": "@colorBorderDisabled",
+        "radiusBg": "@radiusPrimary"
+    }
+}

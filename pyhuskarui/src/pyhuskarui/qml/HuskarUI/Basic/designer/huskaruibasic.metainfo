@@ -304,6 +304,16 @@ MetaInfo {
     }
 
     Type {
+        name: "HuskarUI.Basic.HusMultiCheckBox"
+        ItemLibraryEntry {
+            name: "MultiCheckBox"
+            category: "DataEntry"
+            version: "1.0"
+            requiredImport: "HuskarUI.Basic"
+        }
+    }
+
+    Type {
         name: "HuskarUI.Basic.HusMultiSelect"
         ItemLibraryEntry {
             name: "MultiSelect"
@@ -429,6 +439,18 @@ MetaInfo {
             category: "Layout"
             version: "1.0"
             requiredImport: "HuskarUI.Basic"
+        }
+    }
+
+    Type {
+        name: "HuskarUI.Basic.HusGroupBox"
+        ItemLibraryEntry {
+            name: "GroupBox"
+            category: "Layout"
+            version: "1.0"
+            requiredImport: "HuskarUI.Basic"
+            Property { name: "width"; type: "int"; value: 100 }
+            Property { name: "height"; type: "int"; value: 100 }
         }
     }
 

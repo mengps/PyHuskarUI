@@ -114,7 +114,6 @@ radiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角
                     padding: 20
 
                     HusSpace {
-                        anchors.fill: parent
                         layout: 'ColumnLayout'
                         spacing: 10
 
@@ -128,7 +127,6 @@ radiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角
                     padding: 20
 
                     HusSpace {
-                        anchors.fill: parent
                         layout: 'ColumnLayout'
 
                         HusCard {

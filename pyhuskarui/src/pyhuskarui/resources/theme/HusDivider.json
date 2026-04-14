@@ -3,6 +3,7 @@
         "fontFamily": "@fontPrimaryFamily",
         "fontSize": "@fontPrimarySize",
         "colorText": "@colorTextBase",
+        "colorTextDisabled": "@colorTextDisabled",
         "colorSplit": "@colorSplit"
     }
 }

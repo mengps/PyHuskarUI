@@ -29,8 +29,8 @@ Flickable {
 属性名 | 类型 | 默认值 | 描述
 ------ | --- | :---: | ---
 animationEnabled | bool | HusTheme.animationEnabled | 是否开启动画
-defaultButtonWidth | int | 32 | 按钮宽度
-defaultButtonHeight | int | 32 | 按钮高度
+defaultButtonWidth | real丨'auto' | 32 | 按钮宽度,为'auto'时自动计算
+defaultButtonHeight | real丨'auto' | 30 | 按钮高度,为'auto'时自动计算
 defaultButtonSpacing | int | 8 | 按钮间隔
 showQuickJumper | bool | false | 是否显示快速跳转
 currentPageIndex | int | 0 | 当前页索引
@@ -39,8 +39,8 @@ pageTotal | int(readonly) | - | 页总数(自动计算)
 pageButtonMaxCount | int | 7 | 最大页按钮数量
 pageSize | int | 10 | 每页数量
 pageSizeModel | array | [] | 每页数量模型
-prevButtonTooltip | string | '上一页' | 上一页按钮的提示文本(为空不显示)
-nextButtonTooltip | string | '下一页' | 下一页按钮的提示文本(为空不显示)
+prevButtonToolTip | string | '上一页' | 上一页按钮的提示文本(为空不显示)
+nextButtonToolTip | string | '下一页' | 下一页按钮的提示文本(为空不显示)
 sizeHint | string | 'normal' | 尺寸提示
 \n<br/>
 \n### 支持的函数：\n
@@ -87,6 +87,28 @@ sizeHint | string | 'normal' | 尺寸提示
             exampleDelegate: HusPagination {
                 currentPageIndex: 0
                 total: 50
+            }
+        }
+        CodeBox {
+            width: parent.width
+            descTitle: qsTr('自动计算按钮宽高')
+            desc: qsTr(`
+通过 \`defaultButtonWidth/defaultButtonHeight\` 设置为 'auto' 自动计算宽高，这对页面数大于 1000 很有用。\n
+                       `)
+            code: `
+                import QtQuick
+                import HuskarUI.Basic
+
+                HusPagination {
+                    defaultButtonWidth: 'auto'
+                    defaultButtonHeight: 'auto'
+                    total: 50000
+                }
+            `
+            exampleDelegate: HusPagination {
+                defaultButtonWidth: 'auto'
+                defaultButtonHeight: 'auto'
+                total: 50000
             }
         }
 

@@ -25,8 +25,8 @@ T.Control {
     id: control
 
     property bool animationEnabled: HusTheme.animationEnabled
-    property int defaultButtonWidth: 32 * sizeRatio
-    property int defaultButtonHeight: 32 * sizeRatio
+    property var defaultButtonWidth: 32 * sizeRatio ?? ''
+    property var defaultButtonHeight: 30 * sizeRatio ?? ''
     property alias defaultButtonSpacing: control.spacing
     property bool showQuickJumper: false
     property int currentPageIndex: 0
@@ -35,21 +35,21 @@ T.Control {
     property int pageButtonMaxCount: 7
     property int pageSize: 10
     property var pageSizeModel: []
-    property string prevButtonTooltip: qsTr('上一页')
-    property string nextButtonTooltip: qsTr('下一页')
+    property string prevButtonToolTip: qsTr('上一页')
+    property string nextButtonToolTip: qsTr('下一页')
     property string sizeHint: 'normal'
     property real sizeRatio: HusTheme.sizeHint[sizeHint]
     property var themeSource: HusTheme.HusPagination
 
     property Component prevButtonDelegate: ActionButton {
         iconSource: HusIcon.LeftOutlined
-        tooltipText: control.prevButtonTooltip
+        toolTipText: control.prevButtonToolTip
         disabled: control.currentPageIndex === 0
         onClicked: control.gotoPrevPage();
     }
     property Component nextButtonDelegate: ActionButton {
         iconSource: HusIcon.RightOutlined
-        tooltipText: control.nextButtonTooltip
+        toolTipText: control.nextButtonToolTip
         disabled: control.currentPageIndex === (control.pageTotal - 1)
         onClicked: control.gotoNextPage();
     }
@@ -152,13 +152,15 @@ T.Control {
         }
 
         PaginationButton {
+            anchors.verticalCenter: parent.verticalCenter
             pageIndex: 0
             visible: control.pageTotal > 0
         }
 
         PaginationMoreButton {
+            anchors.verticalCenter: parent.verticalCenter
             isPrev: true
-            tooltipText: qsTr('向前5页')
+            toolTipText: qsTr('向前5页')
             visible: control.pageTotal > control.pageButtonMaxCount && (control.currentPageIndex + 1) > __private.pageButtonHalfCount
             onClicked: control.gotoPrev5Page();
         }
@@ -170,6 +172,7 @@ T.Control {
                                                                                                  (control.pageTotal - 2)
             delegate: Loader {
                 sourceComponent: PaginationButton {
+                    anchors.verticalCenter: parent.verticalCenter
                     pageIndex: {
                         if ((control.currentPageIndex + 1) <= __private.pageButtonHalfCount)
                             return index + 1;
@@ -184,14 +187,16 @@ T.Control {
         }
 
         PaginationMoreButton {
+            anchors.verticalCenter: parent.verticalCenter
             isPrev: false
-            tooltipText: qsTr('向后5页')
+            toolTipText: qsTr('向后5页')
             visible: control.pageTotal > control.pageButtonMaxCount &&
                      (control.pageTotal - (control.currentPageIndex + 1) > (control.pageButtonMaxCount - __private.pageButtonHalfCount))
             onClicked: control.gotoNext5Page();
         }
 
         PaginationButton {
+            anchors.verticalCenter: parent.verticalCenter
             pageIndex: control.pageTotal - 1
             visible: control.pageTotal > 1
         }
@@ -222,9 +227,10 @@ T.Control {
     }
 
     component PaginationButton: HusButton {
-        padding: 0
-        width: control.defaultButtonWidth
-        height: control.defaultButtonHeight
+        width: __private.widthIsAuto ? Math.max(implicitWidth, 32 * control.sizeRatio) : control.defaultButtonWidth
+        height: __private.heightIsAuto ? Math.max(implicitHeight, 30 * control.sizeRatio) : control.defaultButtonHeight
+        leftPadding: __private.widthIsAuto ? 10 * control.sizeRatio : 0
+        rightPadding: __private.widthIsAuto ? 10 * control.sizeRatio : 0
         animationEnabled: false
         effectEnabled: false
         enabled: control.enabled
@@ -273,9 +279,10 @@ T.Control {
 
     component PaginationMoreButton: HusIconButton {
         id: __moreRoot
-        padding: 0
-        width: control.defaultButtonWidth
-        height: control.defaultButtonHeight
+        width: __private.widthIsAuto ? Math.max(implicitWidth, 32 * control.sizeRatio) : control.defaultButtonWidth
+        height: __private.heightIsAuto ? Math.max(implicitHeight, 30 * control.sizeRatio) : control.defaultButtonHeight
+        leftPadding: 0
+        rightPadding: 0
         animationEnabled: false
         effectEnabled: false
         enabled: control.enabled
@@ -286,7 +293,7 @@ T.Control {
 
         property bool showIcon: (enabled && (down || hovered))
         property bool isPrev: false
-        property alias tooltipText: __moreTooltip.text
+        property alias toolTipText: __moreToolTip.text
 
         onShowIconChanged: __seqAnimation.restart();
 
@@ -314,7 +321,7 @@ T.Control {
         }
 
         HusToolTip {
-            id: __moreTooltip
+            id: __moreToolTip
             visible: parent.enabled && parent.hovered && text !== ''
             animationEnabled: control.animationEnabled
         }
@@ -328,13 +335,14 @@ T.Control {
         signal clicked()
         property bool disabled: false
         property alias iconSource: __actionButton.iconSource
-        property alias tooltipText: __tooltip.text
+        property alias toolTipText: __ToolTip.text
 
         HusIconButton {
             id: __actionButton
-            padding: 0
-            width: control.defaultButtonWidth
-            height: control.defaultButtonHeight
+            width: __private.widthIsAuto ? Math.max(implicitWidth, 32 * control.sizeRatio) : control.defaultButtonWidth
+            height: __private.heightIsAuto ? Math.max(implicitHeight, 30 * control.sizeRatio) : control.defaultButtonHeight
+            leftPadding: __private.widthIsAuto ? 10 * control.sizeRatio : 0
+            rightPadding: __private.widthIsAuto ? 10 * control.sizeRatio : 0
             animationEnabled: control.animationEnabled
             enabled: control.enabled && !__actionRoot.disabled
             effectEnabled: false
@@ -347,7 +355,7 @@ T.Control {
             onClicked: __actionRoot.clicked();
 
             HusToolTip {
-                id: __tooltip
+                id: __ToolTip
                 visible: parent.hovered && parent.enabled && text !== ''
                 animationEnabled: control.animationEnabled
             }
@@ -361,6 +369,8 @@ T.Control {
 
     QtObject {
         id: __private
+        property bool widthIsAuto: control.defaultButtonWidth === 'auto'
+        property bool heightIsAuto: control.defaultButtonHeight === 'auto'
         property int pageButtonHalfCount: Math.ceil(control.pageButtonMaxCount * 0.5)
     }
 }

@@ -1,20 +1,24 @@
 /*
- * PyHuskarUI
+ * HuskarUI
  *
- * Copyright (C) 2025 mengps (MenPenS)
- * https://github.com/mengps/PyHuskarUI
+ * Copyright (C) mengps (MenPenS) (MIT License)
+ * https://github.com/mengps/HuskarUI
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the 'Software'), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * - The above copyright notice and this permission notice shall be included in
+ *   all copies or substantial portions of the Software.
+ * - The Software is provided 'as is', without warranty of any kind, express or
+ *   implied, including but not limited to the warranties of merchantability,
+ *   fitness for a particular purpose and noninfringement. In no event shall the
+ *   authors or copyright holders be liable for any claim, damages or other
+ *   liability, whether in an action of contract, tort or otherwise, arising from,
+ *   out of or in connection with the Software or the use or other dealings in the
+ *   Software.
  */
 
 import QtQuick
@@ -82,6 +86,7 @@ T.Control {
         }
     }
     property Component searchInputDelegate: HusInput {
+        animationEnabled: control.animationEnabled
         iconSource: HusIcon.SearchOutlined
         placeholderText: control.searchPlaceholder
         clearEnabled: true
@@ -91,6 +96,7 @@ T.Control {
         padding: 8 * sizeRatio
         topPadding: 4 * sizeRatio
         bottomPadding: 4 * sizeRatio
+        animationEnabled: control.animationEnabled
         text: control.operations[0]
         type: HusButton.Type_Primary
         enabled: control.sourceCheckedKeys.length > 0 && control.enabled
@@ -104,6 +110,7 @@ T.Control {
         padding: 8 * sizeRatio
         topPadding: 4 * sizeRatio
         bottomPadding: 4 * sizeRatio
+        animationEnabled: control.animationEnabled
         text: control.operations[1]
         type: HusButton.Type_Primary
         enabled: control.targetCheckedKeys.length > 0 && control.enabled && !control.oneWay
@@ -344,6 +351,7 @@ T.Control {
                 clip: true
                 visible: typeof control.pagination === 'object'
                 sizeHint: 'small'
+                animationEnabled: control.animationEnabled
                 total: __transferListRoot.filteredData.length
                 pageSize: control.pagination?.pageSize ?? 10
                 pageButtonMaxCount: control.pagination?.pageButtonMaxCount ?? 7

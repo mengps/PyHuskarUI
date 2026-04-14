@@ -341,6 +341,17 @@ HusRectangleInternal {
         }
     }
 
+    function setColumnVisible(dataIndex: string, visible: bool) {
+        const filter = (item, column) => {
+            if (item.dataIndex === dataIndex) {
+                columns[column].visible = visible;
+                __private.columnVisibleChanged(dataIndex, visible);
+                return true;
+            }
+        }
+        columns.some(filter);
+    }
+
     function checkForRows(rows: var) {
         if (rows.length <= 0) return;
 
@@ -538,20 +549,20 @@ HusRectangleInternal {
         __private.updateRowHeader();
     }
 
-    function getRow(rowIndex) {
+    function getRow(rowIndex: int) {
         if (rowIndex >= 0 && rowIndex < __private.model.length) {
             return __private.model[rowIndex];
         }
         return undefined;
     }
 
-    function insertRow(rowIndex, object: var) {
+    function insertRow(rowIndex: int, object: var) {
         __cellModel.insertRow(rowIndex, __private.toCellObject(object));
         __private.model.splice(rowIndex, 0, object);
         __private.updateRowHeader();
     }
 
-    function moveRow(fromRowIndex, toRowIndex, count = 1) {
+    function moveRow(fromRowIndex: int, toRowIndex: int, count = 1) {
         if (fromRowIndex >= 0 && fromRowIndex < __private.model.length &&
                 toRowIndex >= 0 && toRowIndex < __private.model.length) {
             __cellModel.moveRow(fromRowIndex, toRowIndex, count);
@@ -561,7 +572,7 @@ HusRectangleInternal {
         }
     }
 
-    function removeRow(rowIndex, count = 1) {
+    function removeRow(rowIndex: int, count = 1) {
         if (rowIndex >= 0 && rowIndex < __private.model.length) {
             __cellModel.removeRow(rowIndex, count);
             __private.model.splice(rowIndex, count);
@@ -569,7 +580,7 @@ HusRectangleInternal {
         }
     }
 
-    function setRow(rowIndex, object: var) {
+    function setRow(rowIndex: int, object: var) {
         if (rowIndex >= 0 && rowIndex < __private.model.length) {
             __cellModel.setRow(rowIndex, __private.toCellObject(object));
             __private.model[rowIndex] = object;
@@ -577,7 +588,7 @@ HusRectangleInternal {
         }
     }
 
-    function getCellData(rowIndex, columnIndex) {
+    function getCellData(rowIndex: int, columnIndex: int) {
         if (rowIndex >= 0 && rowIndex < __private.model.length
                 && columnIndex >= 0 && columnIndex < columns.length) {
             return __cellModel.data(__cellModel.index(rowIndex, columnIndex), 'display');
@@ -585,7 +596,7 @@ HusRectangleInternal {
         return undefined;
     }
 
-    function setCellData(rowIndex, columnIndex, data: var) {
+    function setCellData(rowIndex: int, columnIndex: int, data: var) {
         if (rowIndex >= 0 && rowIndex < __private.model.length
                 && columnIndex >= 0 && columnIndex < columns.length) {
             __cellModel.setData(__cellModel.index(rowIndex, columnIndex), 'display', data);
@@ -603,8 +614,8 @@ HusRectangleInternal {
             headerRow[object.dataIndex] = object;
         }
 
-        __columnHeaderModel.clear();
         if (showColumnHeader) {
+            __columnHeaderModel.clear();
             __columnHeaderModel.columns = headerColumns;
             __columnHeaderModel.rows = [headerRow];
         }
@@ -700,6 +711,8 @@ HusRectangleInternal {
 
     QtObject {
         id: __private
+
+        signal columnVisibleChanged(dataIndex: string, visible: bool)
 
         property var model: []
         property int parentCheckState: Qt.Unchecked
@@ -803,11 +816,13 @@ HusRectangleInternal {
 
                 required property var model
                 required property var display
+                property bool isVisible: true
                 property int row: model.row
                 property int column: model.column
                 property string selectionType: display.selectionType ?? ''
                 property bool editable: display.editable ?? false
                 property var sorter: display.sorter
+                property real lastWidth: implicitWidth
                 property real minimumWidth: display.minimumWidth ?? 40
                 property real maximumWidth: display.maximumWidth ?? Number.MAX_VALUE
 
@@ -832,7 +847,24 @@ HusRectangleInternal {
                     }
                 }
 
+                Connections{
+                    target: __private
+
+                    function onColumnVisibleChanged(dataIndex, visible) {
+                        if (__columnHeaderItem.display.dataIndex === dataIndex) {
+                            __columnHeaderItem.isVisible = visible;
+                            if (visible) {
+                                __columnHeaderView.setColumnWidth(__columnHeaderItem.column, __columnHeaderItem.lastWidth);
+                            } else {
+                                __columnHeaderItem.lastWidth = __columnHeaderView.columnWidth(__columnHeaderItem.column);
+                                __columnHeaderView.setColumnWidth(__columnHeaderItem.column, 0.01);
+                            }
+                        }
+                    }
+                }
+
                 Loader {
+                    active: __columnHeaderItem.isVisible
                     anchors.fill: parent
                     sourceComponent: control.columnHeaderDelegate
                     property alias model: __columnHeaderItem.model
@@ -847,7 +879,7 @@ HusRectangleInternal {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     color: control.colorGridLine
-                    visible: control.columnResizable
+                    visible: __columnHeaderItem.isVisible && control.columnResizable
                 }
 
                 ResizeArea {
@@ -857,7 +889,7 @@ HusRectangleInternal {
                     maximumWidth: __columnHeaderItem.maximumWidth
                     anchors.right: parent.right
                     anchors.rightMargin: -width * 0.5
-                    visible: control.columnResizable
+                    visible: __columnHeaderItem.isVisible && control.columnResizable
                     enabled: visible
                     target: __columnHeaderItem
                     isHorizontal: true
@@ -970,7 +1002,7 @@ HusRectangleInternal {
                 id: __rootItem
                 implicitWidth: control.columns[column].width
                 implicitHeight: Math.max(control.minimumRowHeight, Math.min(control.rowHeightProvider(row, key), control.maximumRowHeight))
-                visible: implicitHeight >= 0
+                visible: isHide ? false : implicitHeight >= 0
                 enabled: isEnabled
                 clip: true
                 color: {
@@ -1008,6 +1040,7 @@ HusRectangleInternal {
                 required property bool selected
 
                 property bool isEnabled: __private.model[row]?.enabled ?? true
+                property bool isHide: width === 1 && (control.columns[column].visible ?? true) === false
                 property string key: __private.model[row]?.key ?? ''
                 property string selectionType: control.columns[column].selectionType ?? ''
                 property string dataIndex: control.columns[column].dataIndex ?? ''

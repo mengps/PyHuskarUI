@@ -15,7 +15,7 @@
         "colorBgDisabled": "@colorPrimaryContainerBgDisabled",
         "colorBorder": "@colorBorder",
         "colorBorderHover": "@colorPrimary",
-        "colorBorderDisabled": "@colorTextQuaternary",
+        "colorBorderDisabled": "@colorBorderDisabled",
         "colorPresetIcon": "@colorTextTertiary",
         "colorPresetText": "@colorTextPrimary",
         "radiusBg": "@radiusPrimary",

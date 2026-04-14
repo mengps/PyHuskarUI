@@ -11,8 +11,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusAnimatedImage.qml"
-    ]
+      "src/imports/HusAnimatedImage.qml"
+    ],
+    "title": "HusAnimatedImage 动态图片"
   },
   {
     "name": "HusAvatar",
@@ -36,8 +37,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusAvatar.qml"
-    ]
+      "src/imports/HusAvatar.qml"
+    ],
+    "title": "HusAvatar 头像"
   },
   {
     "name": "HusBadge",
@@ -81,8 +83,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusBadge.qml"
-    ]
+      "src/imports/HusBadge.qml"
+    ],
+    "title": "HusBadge 徽标数"
   },
   {
     "name": "HusCard",
@@ -106,8 +109,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCard.qml"
-    ]
+      "src/imports/HusCard.qml"
+    ],
+    "title": "HusCard 卡片"
   },
   {
     "name": "HusCarousel",
@@ -136,8 +140,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCarousel.qml"
-    ]
+      "src/imports/HusCarousel.qml"
+    ],
+    "title": "HusCarousel 走马灯"
   },
   {
     "name": "HusCheckerBoard",
@@ -151,8 +156,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCheckerBoard.qml"
-    ]
+      "src/imports/HusCheckerBoard.qml"
+    ],
+    "title": "HusCheckerBoard 棋盘格"
   },
   {
     "name": "HusCollapse",
@@ -191,8 +197,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCollapse.qml"
-    ]
+      "src/imports/HusCollapse.qml"
+    ],
+    "title": "HusCollapse 折叠面板"
   },
   {
     "name": "HusEmpty",
@@ -206,8 +213,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusEmpty.qml"
-    ]
+      "src/imports/HusEmpty.qml"
+    ],
+    "title": "HusEmpty 空状态"
   },
   {
     "name": "HusImage",
@@ -251,8 +259,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusImage.qml"
-    ]
+      "src/imports/HusImage.qml"
+    ],
+    "title": "HusImage 图片"
   },
   {
     "name": "HusImagePreview",
@@ -271,8 +280,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusImagePreview.qml"
-    ]
+      "src/imports/HusImagePreview.qml"
+    ],
+    "title": "HusImagePreview 图片预览"
   },
   {
     "name": "HusQrCode",
@@ -306,8 +316,10 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/controls/husqrcode.py"
-    ]
+      "src/cpp/controls/husqrcode.h",
+      "src/cpp/controls/husqrcode.cpp"
+    ],
+    "title": "HusQrCode 二维码"
   },
   {
     "name": "HusSegmented",
@@ -345,17 +357,25 @@
         "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    spacing: 10\n\n                    HusSegmented {\n                        options: ['small', 'middle', 'large']\n                    }\n\n                    HusSegmented {\n                        options: [\n                            { iconSource: HusIcon.SunOutlined },\n                            { iconSource: HusIcon.MoonOutlined },\n                        ]\n                        radiusBg.all: height * 0.5\n                    }\n                }"
       }
     ],
-    "sources": []
+    "sources": [
+      "src/imports/HusSegmented.qml"
+    ],
+    "title": "HusSegmented 分段控制器"
   },
   {
     "name": "HusTableView",
-    "doc": "# HusTableView 表格\n\n展示行列数据。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { HusRectangle }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **columnHeaderDelegate: Component** 列头代理，代理可访问属性：\n\n  - `model: var` 列模型数据\n\n  - `headerData: var` 列描述数据(即columns[column])\n\n  - `column: int` 列索引\n\n- **rowHeaderDelegate: Component** 行头代理，代理可访问属性：\n\n  - `model: var` 行模型数据\n\n  - `row: int` 行索引\n\n- **columnHeaderTitleDelegate: Component** 列头标题代理，代理可访问属性：\n\n  - `align: string` 该列标题的对齐\n\n  - `headerData: var` 列描述数据(即columns[column])\n\n  - `column: int` 列索引\n\n- **columnHeaderSorterIconDelegate: Component** 列头搜索器图标代理，代理可访问属性：\n\n  - `sorter: var` 该列的搜索器\n\n  - `sortDirections: list` 该列的搜索方向数组\n\n  - `column: int` 列索引\n\n- **columnHeaderFilterIconDelegate: Component** 列头过滤器图标代理，代理可访问属性：\n\n  - `onFilter: var` 该列的过滤器\n\n  - `column: int` 列索引\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\nreuseItems | bool | false | 是否重用项目(具体参考官方文档)\npropagateWheelEvent | bool | false | 是否传播鼠标滚轮事件\nalternatingRow | bool | false | 是否交替显示行背景\ndefaultColumnHeaderHeight | int | 40 | 默认列头高度\ndefaultRowHeaderWidth | int | 40 | 默认行头宽度\nshowColumnGrid | bool | false | 是否显示列网格线\nshowRowGrid | bool | false | 是否显示行网格线\ncolumnResizable | bool | true | 是否可调整列大小\nrowResizable | bool | true | 是否可调整行大小\nrowHeightProvider | function(row, key) | minimumRowHeight | 行高提供函数\nminimumRowHeight | int | 40 | 最小行高\nmaximumRowHeight | int | Number.MAX_VALUE | 最大行高\ninitModel | array | [] | 表格初始数据模型\nrowCount | int | 0 | 当前模型行数\ncolumns | array | [] | 列描述对象数组\ndefaultCheckedKeys | array | [] | 默认选中的键列表\ncheckedKeys | array | [] | 选中行的键列表\ncolorGridLine | color | - | 网格线颜色\nshowColumnHeader | bool | true | 是否显示列头\ncolumnHeaderTitleFont | font | - | 列头标题字体\ncolorColumnHeaderTitle | color | - | 列头标题颜色\ncolorColumnHeaderBg | color | - |  列头背景颜色\nshowRowHeader | bool | true | 是否显示行头\nrowHeaderTitleFont | font | - | 行头标题字体\ncolorRowHeaderTitle | color | - | 行头标题颜色\ncolorRowHeaderBg | color | - | 行头背景颜色\ncolorResizeBlockBg | color | - | 调整头大小块(左上角方块)背景色\nradiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角\nverScrollBar | [HusScrollBar](internal://HusScrollBar) | - | 访问内部垂直滚动条\nhorScrollBar | [HusScrollBar](internal://HusScrollBar) | - | 访问内部水平滚动条\ntableView | TableView | - | 访问内部表格视图\ntableModel | TableModel | - | 访问内部表格模型\n\n<br/>\n\n### {initModel}支持的属性：\n\n属性名 | 类型 | 可选/必选 | 描述\n------ | --- | :---: | ---\nkey | string | 可选 | 本行数据键\nenabled | bool | 可选 | 本行是否禁用\n\n<br/>\n\n### {columns}支持的属性：\n\n属性名 | 类型 | 可选/必选 | 描述\n------ | --- | :---: | ---\ntitle | string | 必选 | 标题\ndataIndex | string | 必选 | 数据索引\ndelegate | var | 必选 | 该列的单元格代理\nwidth | int | 必选 | 该列初始宽度\nminimumWidth | int | 可选 | 该列最小宽度\nmaximumWidth | int | 可选 | 该列最大宽度\neditable | bool | 可选 | 列头标题是否可编辑\nalign | string | 可选 | 列头标题对齐方式, 支持 'center'丨'left'丨'right'\nselectionType | string | 可选 | 该列选择类型, 支持 'checkbox'丨'radio'\nsorter | var | 可选 | 该列排序器\nsortDirections | array | 可选 | 该列排序方向, 支持 'false'丨'ascend'丨'descend'\nonFilter | var | 可选 | 该列过滤器\nfilterInput | string | 可选 | 该列过滤输入\n\n<br/>\n\n### {columns.delegate}可访问属性：\n\n属性名 | 类型 | 描述\n------ | --- | ---\nrow | int | 行索引\ncolumn | int | 列索引\ncellData | var | 单元格数据\ncellIndex | int | 单元格索引\ndataIndex | string | 数据索引\nfilterInput | string | 单元格的过滤输入\n\n<br/>\n\n### 支持的函数：\n\n- `checkForRows(rows: Array)` 选中 `rows` 提供的行列表。\n\n- `checkForKeys(keys: Array)` 选中 `keys` 提供的键列表。\n\n- `toggleForRows(rows: Array)` 切换 `rows` 提供的行列表的选中状态。\n\n- `toggleForKeys(keys: Array)` 切换 `keys` 提供的键列表的选中状态。\n\n- `Array getCheckedKeys()` 获取选中的键列表。\n\n- `clearAllCheckedKeys()` 清除所有选中的键。\n\n- `scrollToRow(row: int)` 滚动到 `row` 指定的行。\n\n- `sort(column: int)` 排序 `column` 指定的列(该列的描述对象需要具有 `sorter` 和 `sortDirections`)。\n\n- `clearSort()` 清除所有排序(即还原为初始状态)。\n\n- `filter()` 使用提供的(如果有，可以多列) `onFilter` 过滤整个模型，**注意** 此函数还会确定应用了排序的列并自动进行重排。\n\n- `clearFilter()` 清除所有过滤(即还原为初始状态)。\n\n- `clear()` 清空所有模型数据、排序和过滤。\n\n**注意** 以下函数仅作用于当前(排序&过滤后)的数据，不会更改 `initModel`，并且，为了最佳的性能，\n\n需要用户自行判断是否应该重新排序&过滤(调用 `filter()` 即可)\n。\n- `appendRow(object: var)` 在当前模型末尾添加 `object` 行, 不会更改 `initModel`。\n\n- `getRow(rowIndex: int): var` 获取当前模型 `rowIndex` 处的行数据。\n\n- `setRow(rowIndex: int, object: var)` 设置当前模型 `rowIndex` 处行数据为 `object`, 不会更改 `initModel`。\n\n- `insertRow(rowIndex: int, object: var)` 在当前模型插入行数据 `object` 到 `rowIndex` 处, 不会更改 `initModel`。\n\n- `moveRow(fromRowIndex: int, toRowIndex: int, count: int = 1)`将 `count` 个模型数据从 `from` 位置移动到 `to` 位置, 不会更改 `initModel`。\n\n- `removeRow(rowIndex: int, count: int = 1)` 删除当前模型 `rowIndex` 处的 `count` 条行数据, 不会更改 `initModel`。\n\n- `getCellData(rowIndex: int, columnIndex: int): var` 获取当前模型 `(rowIndex, columnIndex)` 处的单元数据。\n\n- `setCellData(rowIndex: int, columnIndex: int, data: var)` 设置当前模型 `(rowIndex, columnIndex)` 处的单元数据为 `data`, 不会更改 `initModel`。\n\n- `getTableModel(): Array` 获取当前表格模型(排序&过滤后的数据)。\n\n- `rowCount(): int` 获取当前模型的行数(排序&过滤后的数据)。\n\n- `columnCount(): int` 获取当前模型的列数(排序&过滤后的数据)。\n",
+    "doc": "# HusTableView 表格\n\n展示行列数据。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { HusRectangle }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **columnHeaderDelegate: Component** 列头代理，代理可访问属性：\n\n  - `model: var` 列模型数据\n\n  - `headerData: var` 列描述数据(即columns[column])\n\n  - `column: int` 列索引\n\n- **rowHeaderDelegate: Component** 行头代理，代理可访问属性：\n\n  - `model: var` 行模型数据\n\n  - `row: int` 行索引\n\n- **columnHeaderTitleDelegate: Component** 列头标题代理，代理可访问属性：\n\n  - `align: string` 该列标题的对齐\n\n  - `headerData: var` 列描述数据(即columns[column])\n\n  - `column: int` 列索引\n\n- **columnHeaderSorterIconDelegate: Component** 列头搜索器图标代理，代理可访问属性：\n\n  - `sorter: var` 该列的搜索器\n\n  - `sortDirections: list` 该列的搜索方向数组\n\n  - `column: int` 列索引\n\n- **columnHeaderFilterIconDelegate: Component** 列头过滤器图标代理，代理可访问属性：\n\n  - `onFilter: var` 该列的过滤器\n\n  - `column: int` 列索引\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\nreuseItems | bool | false | 是否重用项目(具体参考官方文档)\npropagateWheelEvent | bool | false | 是否传播鼠标滚轮事件\nalternatingRow | bool | false | 是否交替显示行背景\ndefaultColumnHeaderHeight | int | 40 | 默认列头高度\ndefaultRowHeaderWidth | int | 40 | 默认行头宽度\nshowColumnGrid | bool | false | 是否显示列网格线\nshowRowGrid | bool | false | 是否显示行网格线\ncolumnResizable | bool | true | 是否可调整列大小\nrowResizable | bool | true | 是否可调整行大小\nrowHeightProvider | function(row, key) | minimumRowHeight | 行高提供函数\nminimumRowHeight | int | 40 | 最小行高\nmaximumRowHeight | int | Number.MAX_VALUE | 最大行高\ninitModel | array | [] | 表格初始数据模型\nrowCount | int | 0 | 当前模型行数\ncolumns | array | [] | 列描述对象数组\ndefaultCheckedKeys | array | [] | 默认选中的键列表\ncheckedKeys | array | [] | 选中行的键列表\ncolorGridLine | color | - | 网格线颜色\nshowColumnHeader | bool | true | 是否显示列头\ncolumnHeaderTitleFont | font | - | 列头标题字体\ncolorColumnHeaderTitle | color | - | 列头标题颜色\ncolorColumnHeaderBg | color | - |  列头背景颜色\nshowRowHeader | bool | true | 是否显示行头\nrowHeaderTitleFont | font | - | 行头标题字体\ncolorRowHeaderTitle | color | - | 行头标题颜色\ncolorRowHeaderBg | color | - | 行头背景颜色\ncolorResizeBlockBg | color | - | 调整头大小块(左上角方块)背景色\nradiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角\nverScrollBar | [HusScrollBar](internal://HusScrollBar) | - | 访问内部垂直滚动条\nhorScrollBar | [HusScrollBar](internal://HusScrollBar) | - | 访问内部水平滚动条\ntableView | TableView | - | 访问内部表格视图\ntableModel | TableModel | - | 访问内部表格模型\n\n<br/>\n\n### {initModel}支持的属性：\n\n属性名 | 类型 | 可选/必选 | 描述\n------ | --- | :---: | ---\nkey | string | 可选 | 本行数据键\nenabled | bool | 可选 | 本行是否禁用\n\n<br/>\n\n### {columns}支持的属性：\n\n属性名 | 类型 | 可选/必选 | 描述\n------ | --- | :---: | ---\ntitle | string | 必选 | 标题\ndataIndex | string | 必选 | 数据索引\ndelegate | var | 必选 | 该列的单元格代理\nwidth | int | 必选 | 该列初始宽度\nminimumWidth | int | 可选 | 该列最小宽度\nmaximumWidth | int | 可选 | 该列最大宽度\neditable | bool | 可选 | 列头标题是否可编辑\nalign | string | 可选 | 列头标题对齐方式, 支持 'center'丨'left'丨'right'\nselectionType | string | 可选 | 该列选择类型, 支持 'checkbox'丨'radio'\nsorter | var | 可选 | 该列排序器\nsortDirections | array | 可选 | 该列排序方向, 支持 'false'丨'ascend'丨'descend'\nonFilter | var | 可选 | 该列过滤器\nfilterInput | string | 可选 | 该列过滤输入\n\n<br/>\n\n### {columns.delegate}可访问属性：\n\n属性名 | 类型 | 描述\n------ | --- | ---\nrow | int | 行索引\ncolumn | int | 列索引\ncellData | var | 单元格数据\ncellIndex | int | 单元格索引\ndataIndex | string | 数据索引\nfilterInput | string | 单元格的过滤输入\n\n<br/>\n\n### 支持的函数：\n\n- `setColumnVisible(dataIndex: string, visible: bool)` 设置 `dataIndex` 对应列的可见为 `visible`。\n\n- `checkForRows(rows: Array)` 选中 `rows` 提供的行列表。\n\n- `checkForKeys(keys: Array)` 选中 `keys` 提供的键列表。\n\n- `toggleForRows(rows: Array)` 切换 `rows` 提供的行列表的选中状态。\n\n- `toggleForKeys(keys: Array)` 切换 `keys` 提供的键列表的选中状态。\n\n- `Array getCheckedKeys()` 获取选中的键列表。\n\n- `clearAllCheckedKeys()` 清除所有选中的键。\n\n- `scrollToRow(row: int)` 滚动到 `row` 指定的行。\n\n- `sort(column: int)` 排序 `column` 指定的列(该列的描述对象需要具有 `sorter` 和 `sortDirections`)。\n\n- `clearSort()` 清除所有排序(即还原为初始状态)。\n\n- `filter()` 使用提供的(如果有，可以多列) `onFilter` 过滤整个模型，**注意** 此函数还会确定应用了排序的列并自动进行重排。\n\n- `clearFilter()` 清除所有过滤(即还原为初始状态)。\n\n- `clear()` 清空所有模型数据、排序和过滤。\n\n**注意** 以下函数仅作用于当前(排序&过滤后)的数据，不会更改 `initModel`，并且，为了最佳的性能，\n\n需要用户自行判断是否应该重新排序&过滤(调用 `filter()` 即可)\n。\n- `appendRow(object: var)` 在当前模型末尾添加 `object` 行, 不会更改 `initModel`。\n\n- `getRow(rowIndex: int): var` 获取当前模型 `rowIndex` 处的行数据。\n\n- `setRow(rowIndex: int, object: var)` 设置当前模型 `rowIndex` 处行数据为 `object`, 不会更改 `initModel`。\n\n- `insertRow(rowIndex: int, object: var)` 在当前模型插入行数据 `object` 到 `rowIndex` 处, 不会更改 `initModel`。\n\n- `moveRow(fromRowIndex: int, toRowIndex: int, count: int = 1)`将 `count` 个模型数据从 `from` 位置移动到 `to` 位置, 不会更改 `initModel`。\n\n- `removeRow(rowIndex: int, count: int = 1)` 删除当前模型 `rowIndex` 处的 `count` 条行数据, 不会更改 `initModel`。\n\n- `getCellData(rowIndex: int, columnIndex: int): var` 获取当前模型 `(rowIndex, columnIndex)` 处的单元数据。\n\n- `setCellData(rowIndex: int, columnIndex: int, data: var)` 设置当前模型 `(rowIndex, columnIndex)` 处的单元数据为 `data`, 不会更改 `initModel`。\n\n- `getTableModel(): Array` 获取当前表格模型(排序&过滤后的数据)。\n\n- `rowCount(): int` 获取当前模型的行数(排序&过滤后的数据)。\n\n- `columnCount(): int` 获取当前模型的列数(排序&过滤后的数据)。\n",
     "docPath": "gallery/qml/Examples/DataDisplay/ExpTableView.qml",
     "examples": [
       {
         "title": "基本用法",
         "description": "简单的表格，最后一列是各种操作。\n",
         "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    width: parent.width\n                    spacing: 10\n\n                    HusTableView {\n                        width: parent.width\n                        height: 200\n                        columns: [\n                            {\n                                title: 'Name',\n                                dataIndex: 'name',\n                                delegate: textDelegate,\n                                width: 200\n                            },\n                            {\n                                title: 'Age',\n                                dataIndex: 'age',\n                                delegate: textDelegate,\n                                width: 100\n                            },\n                            {\n                                title: 'Address',\n                                dataIndex: 'address',\n                                delegate: textDelegate,\n                                width: 300\n                            },\n                            {\n                                title: 'Tags',\n                                dataIndex: 'tags',\n                                delegate: tagsDelegate,\n                                width: 200\n                            },\n                            {\n                                title: 'Action',\n                                dataIndex: 'action',\n                                delegate: actionDelegate,\n                                width: 300\n                            }\n                        ]\n                        initModel: [\n                            {\n                                key: '1',\n                                name: 'John Brown',\n                                age: 32,\n                                address: 'New York No. 1 Lake Park',\n                                tags: ['nice', 'developer'],\n                            },\n                            {\n                                key: '2',\n                                name: 'Jim Green',\n                                age: 42,\n                                address: 'London No. 1 Lake Park',\n                                tags: ['loser'],\n                            },\n                            {\n                                key: '3',\n                                name: 'Joe Black',\n                                age: 32,\n                                address: 'Sydney No. 1 Lake Park',\n                                tags: ['cool', 'teacher'],\n                            }\n                        ]\n                    }\n                }"
+      },
+      {
+        "title": "显示/隐藏指定行",
+        "description": "通过 `setColumnVisible(dataIndex: string, visible: bool)` 来切换显示指定行。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    width: parent.width\n                    spacing: 10\n\n                    HusGroupBox {\n                        title: 'Check to column visible'\n                        padding: 20\n\n                        Row {\n                            spacing: 10\n\n                            HusCheckBox { checked: true; text: 'Name'; onToggled: columnVisibleTable.setColumnVisible('name', checked); }\n                            HusCheckBox { checked: true; text: 'Age'; onToggled: columnVisibleTable.setColumnVisible('age', checked); }\n                            HusCheckBox { checked: true; text: 'Address'; onToggled: columnVisibleTable.setColumnVisible('address', checked); }\n                            HusCheckBox { checked: true; text: 'Tags'; onToggled: columnVisibleTable.setColumnVisible('tags', checked); }\n                            HusCheckBox { checked: true; text: 'Action'; onToggled: columnVisibleTable.setColumnVisible('action', checked); }\n                        }\n                    }\n\n                    HusTableView {\n                        id: columnVisibleTable\n                        width: parent.width\n                        height: 200\n                        columns: [\n                            {\n                                title: 'Name',\n                                dataIndex: 'name',\n                                delegate: textDelegate,\n                                width: 200\n                            },\n                            {\n                                title: 'Age',\n                                dataIndex: 'age',\n                                delegate: textDelegate,\n                                width: 100\n                            },\n                            {\n                                title: 'Address',\n                                dataIndex: 'address',\n                                delegate: textDelegate,\n                                width: 300\n                            },\n                            {\n                                title: 'Tags',\n                                dataIndex: 'tags',\n                                delegate: tagsDelegate,\n                                width: 200\n                            },\n                            {\n                                title: 'Action',\n                                dataIndex: 'action',\n                                delegate: actionDelegate,\n                                width: 300\n                            }\n                        ]\n                        initModel: [\n                            {\n                                key: '1',\n                                name: 'John Brown',\n                                age: 32,\n                                address: 'New York No. 1 Lake Park',\n                                tags: ['nice', 'developer'],\n                            },\n                            {\n                                key: '2',\n                                name: 'Jim Green',\n                                age: 42,\n                                address: 'London No. 1 Lake Park',\n                                tags: ['loser'],\n                            },\n                            {\n                                key: '3',\n                                name: 'Joe Black',\n                                age: 32,\n                                address: 'Sydney No. 1 Lake Park',\n                                tags: ['cool', 'teacher'],\n                            }\n                        ]\n                    }\n                }"
       },
       {
         "title": "自定义选择项",
@@ -374,8 +394,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTableView.qml"
-    ]
+      "src/imports/HusTableView.qml"
+    ],
+    "title": "HusTableView 表格"
   },
   {
     "name": "HusTabView",
@@ -399,8 +420,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTabView.qml"
-    ]
+      "src/imports/HusTabView.qml"
+    ],
+    "title": "HusTabView 标签页"
   },
   {
     "name": "HusTag",
@@ -434,8 +456,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTag.qml"
-    ]
+      "src/imports/HusTag.qml"
+    ],
+    "title": "HusTag 标签"
   },
   {
     "name": "HusTimeline",
@@ -469,8 +492,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTimeline.qml"
-    ]
+      "src/imports/HusTimeline.qml"
+    ],
+    "title": "HusTimeline 时间轴"
   },
   {
     "name": "HusToolTip",
@@ -484,8 +508,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusToolTip.qml"
-    ]
+      "src/imports/HusToolTip.qml"
+    ],
+    "title": "HusToolTip 文字提示"
   },
   {
     "name": "HusTourFocus",
@@ -504,8 +529,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTourFocus.qml"
-    ]
+      "src/imports/HusTourFocus.qml"
+    ],
+    "title": "HusTourFocus 漫游焦点"
   },
   {
     "name": "HusTourStep",
@@ -524,8 +550,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTourStep.qml"
-    ]
+      "src/imports/HusTourStep.qml"
+    ],
+    "title": "HusTourStep 漫游式引导"
   },
   {
     "name": "HusTreeView",
@@ -559,8 +586,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTreeView.qml"
-    ]
+      "src/imports/HusTreeView.qml"
+    ],
+    "title": "HusTreeView 树视图"
   },
   {
     "name": "HusAutoComplete",
@@ -599,8 +627,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusAutoComplete.qml"
-    ]
+      "src/imports/HusAutoComplete.qml"
+    ],
+    "title": "HusAutoComplete 自动完成"
   },
   {
     "name": "HusCheckBox",
@@ -619,8 +648,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCheckBox.qml"
-    ]
+      "src/imports/HusCheckBox.qml"
+    ],
+    "title": "HusCheckBox 多选框"
   },
   {
     "name": "HusColorPicker",
@@ -664,8 +694,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusColorPicker.qml"
-    ]
+      "src/imports/HusColorPicker.qml"
+    ],
+    "title": "HusColorPicker 颜色选择器"
   },
   {
     "name": "HusColorPickerPanel",
@@ -679,8 +710,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusColorPickerPanel.qml"
-    ]
+      "src/imports/HusColorPickerPanel.qml"
+    ],
+    "title": "HusColorPickerPanel 颜色选择器面板"
   },
   {
     "name": "HusDateTimePicker",
@@ -704,8 +736,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusDateTimePicker.qml"
-    ]
+      "src/imports/HusDateTimePicker.qml"
+    ],
+    "title": "HusDateTimePicker 日期选择框"
   },
   {
     "name": "HusDateTimePickerPanel",
@@ -724,8 +757,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusDateTimePickerPanel.qml"
-    ]
+      "src/imports/HusDateTimePickerPanel.qml"
+    ],
+    "title": "HusDateTimePickerPanel 日期选择面板"
   },
   {
     "name": "HusInput",
@@ -754,8 +788,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusInput.qml"
-    ]
+      "src/imports/HusInput.qml"
+    ],
+    "title": "HusInput 输入框"
   },
   {
     "name": "HusInputInteger",
@@ -794,8 +829,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusInputInteger.qml"
-    ]
+      "src/imports/HusInputInteger.qml"
+    ],
+    "title": "HusInputInteger 整数输入框"
   },
   {
     "name": "HusInputNumber",
@@ -839,12 +875,59 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusInputNumber.qml"
-    ]
+      "src/imports/HusInputNumber.qml"
+    ],
+    "title": "HusInputNumber 数字输入框"
+  },
+  {
+    "name": "HusMultiCheckBox",
+    "doc": "# HusMultiCheckBox 多复选框选择器 \n\n下拉多复选框选择器。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { [HusSelect](internal://HusSelect) }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **prefixDelegate: Component** 前缀代理\n\n- **suffixDelegate: Component** 后缀代理\n\n- **tagDelegate: Component** 标签代理，代理可访问属性：\n\n  - `index: var` 标签索引\n\n  - `tagData: var` 标签数据\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\noptions | array | [] | 选项模型列表\nfilterOption | function | - | 输入项将使用该函数进行筛选\ntext | string | '' | 当前输入文本\nprefix | string | '' | 前缀文本\nsuffix | string | '' | 后缀文本\ngenDefaultKey | bool | true | 是否生成默认键(如果没有给定key则为label)\ndefaultSelectedKeys | array | [] | 默认选中的键数组\nselectedKeys | array | [] | 选中项的键\nsearchEnabled | bool | true | 是否启用搜索\ntagCount | int(readonly) | 0 | 当前(选择)标签数量\nmaxTagCount | int | -1 | 最多显示多少个标签(-1无限制)\ntagSpacing | int | 5 | 标签间隔\ncolorTagText | color | - | 标签文本颜色\ncolorTagBg | color | - | 标签背景颜色\nradiusTagBg | [HusRadius](internal://HusRadius) | - | 标签圆角\n\n<br/>\n\n### 模型{options}支持的属性：\n\n属性名 | 类型 | 可选/必选 | 描述\n------ | --- | :---: | ---\nlabel | string | 必选 | 本选择项的标签\nvalue | var | 可选 | 本选择项的值\nenabled | bool | 可选 | 本选择项是否启用\n\n<br/>\n\n### 支持的函数：\n\n- `findKey(key: string): var` 查找 `key` 处的选项数据 \n\n- `filter()` 过滤选项列表 \n\n- `insertTag(index: int, key: string)` 插入键为 `key` 的标签到 `index` 处(必须是 `options` 中的数据) \n\n- `appendTag(key: string)` 在末尾添加键为 `key` 的标签(必须是 `options` 中的数据) \n\n- `removeTagAtKey(key: string)` 删除 `key` 处的标签 \n\n- `removeTagAtIndex(index: int)` 删除 `index` 处的标签 \n\n- `clearTag()` 清空标签 \n\n- `clearInput()` 清空输入 \n\n- `openPopup()` 打开弹出框 \n\n- `closePopup()` 关闭弹出框 \n\n\n<br/>\n\n### 支持的信号：\n\n- `search(input: string)` 搜索补全项的时发出\n\n  - `input` 输入文本\n\n- `select(option: var)` 选择标签项时发出\n\n  - `option` 选择的选项\n\n- `deselect(option: var)` 删除标签项时发出\n\n  - `option` 删除的选项\n\n\n<br/>\n\n### 注意事项：\n\n`options` 列表通常需要 `key` 属性，如果未给出将使用 `label` 作为 `key`",
+    "docPath": "gallery/qml/Examples/DataEntry/ExpMultiCheckBox.qml",
+    "examples": [
+      {
+        "title": "基本使用",
+        "description": "通过 `options` 设置数据源。\n\n通过 `filterOption` 设置过滤选项，它是形如：`function(input: string, option: var): bool { }` 的函数。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    width: parent.width\n                    spacing: 10\n\n                    HusRadioBlock {\n                        id: sizeHintRadio\n                        initCheckedIndex: 1\n                        model: [\n                            { label: 'Small', value: 'small' },\n                            { label: 'Normal', value: 'normal' },\n                            { label: 'Large', value: 'large' },\n                        ]\n                    }\n\n                    HusMultiCheckBox {\n                        width: 200\n                        sizeHint: sizeHintRadio.currentCheckedValue\n                        filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1\n                        Component.onCompleted: {\n                            const list = [];\n                            for (let i = 10; i < 36; i++) {\n                                list.push({\n                                              label: i.toString(36) + i,\n                                              value: i.toString(36) + i,\n                                          });\n                            }\n                            options = list;\n                        }\n                    }\n                }"
+      },
+      {
+        "title": "自定义下拉文本",
+        "description": "通过 `textRole` 设置弹窗显示的文本角色。\n\n通过 `searchEnabled` 设置是否启用搜索。\n\n通过 `placeholderText` 设置占位符文本。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Row {\n                    width: parent.width\n                    spacing: 10\n\n                    HusMultiCheckBox {\n                        width: 200\n                        itemWidth: width\n                        textRole: 'desc'\n                        searchEnabled: false\n                        placeholderText: 'select one country'\n                        options: [\n                            {\n                                label: 'China',\n                                value: 'china',"
+      },
+      {
+        "title": "前缀和后缀",
+        "description": "通过 `prefix` 设置前缀文本。\n\n通过 `suffix` 设置后缀文本。\n\n通过 `prefixDelegate` 设置前缀代理。\n\n通过 `suffixDelegate` 设置后缀代理。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Row {\n                    width: parent.width\n                    spacing: 10\n\n                    HusMultiCheckBox {\n                        width: 200\n                        prefix: 'User'\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', enabled: false },\n                        ]\n                    }\n\n                    HusMultiCheckBox {\n                        width: 200\n                        prefixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', enabled: false },\n                        ]\n                    }\n\n                    HusMultiCheckBox {\n                        width: 200\n                        suffix: 'User'\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', enabled: false },\n                        ]\n                    }\n\n                    HusMultiCheckBox {\n                        width: 200\n                        suffixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', enabled: false },\n                        ]\n                    }\n                }"
+      },
+      {
+        "title": "隐藏已选择选项",
+        "description": "隐藏下拉列表中已选择的选项。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                HusMultiCheckBox {\n                    width: 500\n                    filterOption:\n                        (input, option) => {\n                            filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                            return filteredOptions.indexOf(option.label) != -1;\n                        }\n                    onSelect: {\n                        filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                        options = filteredOptions.map((item) => ({ label: item }));\n                    }\n                    onDeselect: {\n                        filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                        options = filteredOptions.map((item) => ({ label: item }));\n                    }\n                    Component.onCompleted: options = theOptions.map((item) => ({ label: item }));\n                    property var theOptions: ['Apples', 'Nails', 'Bananas', 'Helicopters']\n                    property var filteredOptions: []\n                }"
+      },
+      {
+        "title": "自定义选择标签",
+        "description": "允许自定义选择标签的样式。\n\n通过 `tagDelegate` 设置标签代理。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                HusMultiCheckBox {\n                    id: customTag\n                    width: 500\n                    tagDelegate: HusTag {\n                        text: tagData.label\n                        presetColor: tagData.value\n                        closeIconSource: HusIcon.CloseOutlined\n                        closeIconSize: 12\n                        onClose: customTag.removeTagAtIndex(index);\n                    }\n                    options: [\n                        { label: 'gold', value: 'gold' },\n                        { label: 'lime', value: 'lime' },\n                        { label: 'green', value: 'green' },\n                        { label: 'cyan', value: 'cyan' },\n                    ]\n                }"
+      },
+      {
+        "title": "最大选中数量",
+        "description": "通过设置 `maxTagCount` 约束最多可选中的数量，当超出限制时会变成禁止选中状态。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                HusMultiCheckBox {\n                    width: 500\n                    maxTagCount: 3\n                    suffix: `\\${tagCount}/\\${maxTagCount}`\n                    options: [\n                        { value: 'Ava Swift', label: 'Ava Swift' },\n                        { value: 'Cole Reed', label: 'Cole Reed' },\n                        { value: 'Mia Blake', label: 'Mia Blake' },\n                        { value: 'Jake Stone', label: 'Jake Stone' },\n                        { value: 'Lily Lane', label: 'Lily Lane' },\n                        { value: 'Ryan Chase', label: 'Ryan Chase' },\n                        { value: 'Zoe Fox', label: 'Zoe Fox' },\n                        { value: 'Alex Grey', label: 'Alex Grey' },\n                        { value: 'Elle Blair', label: 'Elle Blair' },\n                    ]\n                }"
+      },
+      {
+        "title": "大数据",
+        "description": "100000 选择项。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Loader {\n                    asynchronous: true\n                    sourceComponent: HusMultiCheckBox {\n                        width: 500\n                        genDefaultKey: false\n                        filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1\n                        Component.onCompleted: {\n                            const list = [];\n                            for (let i = 0; i < 100000; i++) {\n                                const label = `\\${i.toString(36)}\\${i}`;\n                                list.push({ key: label, label: label, enabled: i % 10 !== 0 });\n                            }\n                            options = list;\n                        }\n                    }\n                }"
+      }
+    ],
+    "sources": [
+      "src/imports/HusMultiCheckBox.qml"
+    ],
+    "title": "HusMultiCheckBox 多复选框选择器"
   },
   {
     "name": "HusMultiSelect",
-    "doc": "# HusMultiSelect 多选器 \n\n下拉多选器。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { [HusSelect](internal://HusSelect) }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **prefixDelegate: Component** 前缀代理\n\n- **suffixDelegate: Component** 后缀代理\n\n- **tagDelegate: Component** 标签代理，代理可访问属性：\n\n  - `index: var` 标签索引\n\n  - `tagData: var` 标签数据\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\noptions | array | [] | 选项模型列表\nfilterOption | function | - | 输入项将使用该函数进行筛选\ntext | string | '' | 当前输入文本\nprefix | string | '' | 前缀文本\nsuffix | string | '' | 后缀文本\ngenDefaultKey | bool | true | 是否生成默认键(如果没有给定key则为label)\ndefaultSelectedKeys | array | [] | 默认选中的键数组\nselectedKeys | array | [] | 选中项的键\nsearchEnabled | bool | true | 是否启用搜索\ntagCount | int(readonly) | 0 | 当前(选择)标签数量\nmaxTagCount | int | -1 | 最多显示多少个标签(-1无限制)\ntagSpacing | int | 5 | 标签间隔\ncolorTagText | color | - | 标签文本颜色\ncolorTagBg | color | - | 标签背景颜色\nradiusTagBg | [HusRadius](internal://HusRadius) | - | 标签圆角\n\n<br/>\n\n### 支持的函数：\n\n- `findKey(key: string): var` 查找 `key` 处的选项数据 \n\n- `filter()` 过滤选项列表 \n\n- `insertTag(index: int, key: string)` 插入键为 `key` 的标签到 `index` 处(必须是 `options` 中的数据) \n\n- `appendTag(key: string)` 在末尾添加键为 `key` 的标签(必须是 `options` 中的数据) \n\n- `removeTagAtKey(key: string)` 删除 `key` 处的标签 \n\n- `removeTagAtIndex(index: int)` 删除 `index` 处的标签 \n\n- `clearTag()` 清空标签 \n\n- `clearInput()` 清空输入 \n\n- `openPopup()` 打开弹出框 \n\n- `closePopup()` 关闭弹出框 \n\n\n<br/>\n\n### 支持的信号：\n\n- `search(input: string)` 搜索补全项的时发出\n\n  - `input` 输入文本\n\n- `select(option: var)` 选择补全项时发出\n\n  - `option` 选择的选项\n\n- `removeTag(option: var)` 删除标签项时发出\n\n  - `option` 删除的选项\n\n\n<br/>\n\n### 注意事项：\n\n`options` 列表通常需要 `key` 属性，如果未给出将使用 `label` 作为 `key`",
+    "doc": "# HusMultiSelect 多选器 \n\n下拉多选器。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { [HusSelect](internal://HusSelect) }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **prefixDelegate: Component** 前缀代理\n\n- **suffixDelegate: Component** 后缀代理\n\n- **tagDelegate: Component** 标签代理，代理可访问属性：\n\n  - `index: var` 标签索引\n\n  - `tagData: var` 标签数据\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\noptions | array | [] | 选项模型列表\nfilterOption | function | - | 输入项将使用该函数进行筛选\ntext | string | '' | 当前输入文本\nprefix | string | '' | 前缀文本\nsuffix | string | '' | 后缀文本\ngenDefaultKey | bool | true | 是否生成默认键(如果没有给定key则为label)\ndefaultSelectedKeys | array | [] | 默认选中的键数组\nselectedKeys | array | [] | 选中项的键\nsearchEnabled | bool | true | 是否启用搜索\ntagCount | int(readonly) | 0 | 当前(选择)标签数量\nmaxTagCount | int | -1 | 最多显示多少个标签(-1无限制)\ntagSpacing | int | 5 | 标签间隔\ncolorTagText | color | - | 标签文本颜色\ncolorTagBg | color | - | 标签背景颜色\nradiusTagBg | [HusRadius](internal://HusRadius) | - | 标签圆角\n\n<br/>\n\n### 模型{options}支持的属性：\n\n属性名 | 类型 | 可选/必选 | 描述\n------ | --- | :---: | ---\nlabel | string | 必选 | 本选择项的标签\nvalue | var | 可选 | 本选择项的值\nenabled | bool | 可选 | 本选择项是否启用\n\n<br/>\n\n### 支持的函数：\n\n- `findKey(key: string): var` 查找 `key` 处的选项数据 \n\n- `filter()` 过滤选项列表 \n\n- `insertTag(index: int, key: string)` 插入键为 `key` 的标签到 `index` 处(必须是 `options` 中的数据) \n\n- `appendTag(key: string)` 在末尾添加键为 `key` 的标签(必须是 `options` 中的数据) \n\n- `removeTagAtKey(key: string)` 删除 `key` 处的标签 \n\n- `removeTagAtIndex(index: int)` 删除 `index` 处的标签 \n\n- `clearTag()` 清空标签 \n\n- `clearInput()` 清空输入 \n\n- `openPopup()` 打开弹出框 \n\n- `closePopup()` 关闭弹出框 \n\n\n<br/>\n\n### 支持的信号：\n\n- `search(input: string)` 搜索补全项的时发出\n\n  - `input` 输入文本\n\n- `select(option: var)` 选择标签项时发出\n\n  - `option` 选择的选项\n\n- `deselect(option: var)` 删除标签项时发出\n\n  - `option` 删除的选项\n\n\n<br/>\n\n### 注意事项：\n\n`options` 列表通常需要 `key` 属性，如果未给出将使用 `label` 作为 `key`",
     "docPath": "gallery/qml/Examples/DataEntry/ExpMultiSelect.qml",
     "examples": [
       {
@@ -860,12 +943,12 @@
       {
         "title": "前缀和后缀",
         "description": "通过 `prefix` 设置前缀文本。\n\n通过 `suffix` 设置后缀文本。\n\n通过 `prefixDelegate` 设置前缀代理。\n\n通过 `suffixDelegate` 设置后缀代理。\n",
-        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Row {\n                    width: parent.width\n                    spacing: 10\n\n                    HusMultiSelect {\n                        width: 200\n                        prefix: 'User'\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', disabled: true },\n                        ]\n                    }\n\n                    HusMultiSelect {\n                        width: 200\n                        prefixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', disabled: true },\n                        ]\n                    }\n\n                    HusMultiSelect {\n                        width: 200\n                        suffix: 'User'\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', disabled: true },\n                        ]\n                    }\n\n                    HusMultiSelect {\n                        width: 200\n                        suffixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', disabled: true },\n                        ]\n                    }\n                }"
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Row {\n                    width: parent.width\n                    spacing: 10\n\n                    HusMultiSelect {\n                        width: 200\n                        prefix: 'User'\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', enabled: false },\n                        ]\n                    }\n\n                    HusMultiSelect {\n                        width: 200\n                        prefixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', enabled: false },\n                        ]\n                    }\n\n                    HusMultiSelect {\n                        width: 200\n                        suffix: 'User'\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', enabled: false },\n                        ]\n                    }\n\n                    HusMultiSelect {\n                        width: 200\n                        suffixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }\n                        options: [\n                            { value: 'jack', label: 'Jack' },\n                            { value: 'lucy', label: 'Lucy' },\n                            { value: 'Yiminghe', label: 'yiminghe' },\n                            { value: 'disabled', label: 'Disabled', enabled: false },\n                        ]\n                    }\n                }"
       },
       {
         "title": "隐藏已选择选项",
         "description": "隐藏下拉列表中已选择的选项。\n",
-        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                HusMultiSelect {\n                    width: 500\n                    filterOption:\n                        (input, option) => {\n                            filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                            return filteredOptions.indexOf(option.label) != -1;\n                        }\n                    onSelect: {\n                        filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                        options = filteredOptions.map((item) => ({ label: item }));\n                    }\n                    onRemoveTag: {\n                        filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                        options = filteredOptions.map((item) => ({ label: item }));\n                    }\n                    Component.onCompleted: options = theOptions.map((item) => ({ label: item }));\n                    property var theOptions: ['Apples', 'Nails', 'Bananas', 'Helicopters']\n                    property var filteredOptions: []\n                }"
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                HusMultiSelect {\n                    width: 500\n                    filterOption:\n                        (input, option) => {\n                            filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                            return filteredOptions.indexOf(option.label) != -1;\n                        }\n                    onSelect: {\n                        filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                        options = filteredOptions.map((item) => ({ label: item }));\n                    }\n                    onDeselect: {\n                        filteredOptions = theOptions.filter((o) => !selectedKeys.includes(o));\n                        options = filteredOptions.map((item) => ({ label: item }));\n                    }\n                    Component.onCompleted: options = theOptions.map((item) => ({ label: item }));\n                    property var theOptions: ['Apples', 'Nails', 'Bananas', 'Helicopters']\n                    property var filteredOptions: []\n                }"
       },
       {
         "title": "自定义选择标签",
@@ -880,12 +963,13 @@
       {
         "title": "大数据",
         "description": "100000 选择项。\n",
-        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Loader {\n                    asynchronous: true\n                    sourceComponent: HusMultiSelect {\n                        width: 500\n                        genDefaultKey: false\n                        filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1\n                        Component.onCompleted: {\n                            const list = [];\n                            for (let i = 0; i < 100000; i++) {\n                                const label = `\\${i.toString(36)}\\${i}`;\n                                list.push({ key: label, label: label, disabled: i === 10 });\n                            }\n                            options = list;\n                        }\n                    }\n                }"
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Loader {\n                    asynchronous: true\n                    sourceComponent: HusMultiSelect {\n                        width: 500\n                        genDefaultKey: false\n                        filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1\n                        Component.onCompleted: {\n                            const list = [];\n                            for (let i = 0; i < 100000; i++) {\n                                const label = `\\${i.toString(36)}\\${i}`;\n                                list.push({ key: label, label: label, enabled: i % 10 !== 0 });\n                            }\n                            options = list;\n                        }\n                    }\n                }"
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMultiSelect.qml"
-    ]
+      "src/imports/HusMultiSelect.qml"
+    ],
+    "title": "HusMultiSelect 多选器"
   },
   {
     "name": "HusOTPInput",
@@ -914,8 +998,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusOTPInput.qml"
-    ]
+      "src/imports/HusOTPInput.qml"
+    ],
+    "title": "HusOTPInput 一次性口令输入框"
   },
   {
     "name": "HusRadio",
@@ -939,8 +1024,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusRadio.qml"
-    ]
+      "src/imports/HusRadio.qml"
+    ],
+    "title": "HusRadio 单选框"
   },
   {
     "name": "HusRadioBlock",
@@ -959,8 +1045,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusRadioBlock.qml"
-    ]
+      "src/imports/HusRadioBlock.qml"
+    ],
+    "title": "HusRadioBlock 单选块(HusRadio变种)"
   },
   {
     "name": "HusRate",
@@ -994,12 +1081,13 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusRate.qml"
-    ]
+      "src/imports/HusRate.qml"
+    ],
+    "title": "HusRate 评分"
   },
   {
     "name": "HusSelect",
-    "doc": "# HusSelect 选择器 \n\n下拉选择器。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { ComboBox }**\n\n* **继承此 { [HusMultiSelect](internal://HusMultiSelect) }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **indicatorDelegate: Component** 右侧指示器代理\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\nactive | bool | - | 是否处于激活状态\nhoverCursorShape | enum | Qt.PointingHandCursor | 悬浮时鼠标形状(来自 Qt.*Cursor)\nclearEnabled | bool | true | 是否启用清除按钮\nclearIconSource | int丨string | HusIcon.CloseCircleFilled | 清除图标源(来自 HusIcon)或图标链接\nshowToolTip | bool | false | 是否显示文字提示\nloading | bool | false | 是否在加载中\nplaceholderText | string | '' | 占位符文本\ndefaultPopupMaxHeight | int | 240 | 默认弹窗最大高度\ncolorText | color | - | 文本颜色\ncolorBorder | color | - | 边框颜色\ncolorBg | color | - | 背景颜色\nradiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角\nradiusItemBg | [HusRadius](internal://HusRadius) | - | 选项背景圆角\nradiusPopupBg | [HusRadius](internal://HusRadius) | - | 弹窗背景圆角\nsizeHint | string | 'normal' | 尺寸提示\ncontentDescription | string | '' | 内容描述(提高可用性)\n\n<br/>\n\n### 支持的信号：\n\n- `clickClear()` 点击清除图标时发出\n",
+    "doc": "# HusSelect 选择器 \n\n下拉选择器。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { ComboBox }**\n\n* **继承此 { [HusMultiSelect](internal://HusMultiSelect), [HusMultiCheckBox](internal://HusMultiCheckBox) }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **indicatorDelegate: Component** 右侧指示器代理\n    \n- **toolTipDelegate: Component** 文本提示代理，代理可访问属性：\n\n  - `index: int` 选项数据索引\n\n  - `model: var` 选项数据\n\n  - `pressed: bool` 是否按下\n\n  - `hovered: bool` 是否悬浮\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\nactive | bool | - | 是否处于激活状态\nhoverCursorShape | enum | Qt.PointingHandCursor | 悬浮时鼠标形状(来自 Qt.*Cursor)\nclearEnabled | bool | true | 是否启用清除按钮\nclearIconSource | int丨string | HusIcon.CloseCircleFilled | 清除图标源(来自 HusIcon)或图标链接\nshowToolTip | bool | false | 是否显示文字提示\nloading | bool | false | 是否在加载中\nplaceholderText | string | '' | 占位符文本\ndefaultPopupMaxHeight | int | 240 | 默认弹窗最大高度\ncolorText | color | - | 文本颜色\ncolorBorder | color | - | 边框颜色\ncolorBg | color | - | 背景颜色\nradiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角\nradiusItemBg | [HusRadius](internal://HusRadius) | - | 选项背景圆角\nradiusPopupBg | [HusRadius](internal://HusRadius) | - | 弹窗背景圆角\nsizeHint | string | 'normal' | 尺寸提示\ncontentDescription | string | '' | 内容描述(提高可用性)\n\n<br/>\n\n### 模型{model}支持的属性：\n\n属性名 | 类型 | 可选/必选 | 描述\n------ | --- | :---: | ---\nlabel | string | 必选 | 本选择项的标签\nvalue | var | 可选 | 本选择项的值\nenabled | bool | 可选 | 本选择项是否启用\n\n<br/>\n\n### 支持的信号：\n\n- `clickClear()` 点击清除图标时发出\n",
     "docPath": "gallery/qml/Examples/DataEntry/ExpSelect.qml",
     "examples": [
       {
@@ -1009,8 +1097,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSelect.qml"
-    ]
+      "src/imports/HusSelect.qml"
+    ],
+    "title": "HusSelect 选择器"
   },
   {
     "name": "HusSlider",
@@ -1034,8 +1123,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSlider.qml"
-    ]
+      "src/imports/HusSlider.qml"
+    ],
+    "title": "HusSlider 滑动输入条"
   },
   {
     "name": "HusSwitch",
@@ -1069,8 +1159,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSwitch.qml"
-    ]
+      "src/imports/HusSwitch.qml"
+    ],
+    "title": "HusSwitch 开关"
   },
   {
     "name": "HusTextArea",
@@ -1094,8 +1185,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTextArea.qml"
-    ]
+      "src/imports/HusTextArea.qml"
+    ],
+    "title": "HusTextArea 文本域"
   },
   {
     "name": "HusTransfer",
@@ -1119,8 +1211,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTransfer.qml"
-    ]
+      "src/imports/HusTransfer.qml"
+    ],
+    "title": "HusTransfer 穿梭框"
   },
   {
     "name": "HusAcrylic",
@@ -1134,8 +1227,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusAcrylic.qml"
-    ]
+      "src/imports/HusAcrylic.qml"
+    ],
+    "title": "HusAcrylic 亚克力"
   },
   {
     "name": "HusLiquidGlass",
@@ -1148,7 +1242,10 @@
         "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n\n                    HusSlider {\n                        id: refractionSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 0.1; stepSize: 0.01; value: 0.1\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('折射: ') + parent.currentValue.toFixed(3)\n                        }\n                    }\n\n                    HusSlider {\n                        id: frostSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 10.0; stepSize: 0.1; value: 0.2\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('磨砂: ') + parent.currentValue.toFixed(1)\n                        }\n                    }\n\n                    HusSlider {\n                        id: bevelDepthSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 0.5; stepSize: 0.01; value: 0.1\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('斜面深度: ') + parent.currentValue.toFixed(2)\n                        }\n                    }\n\n                    HusSlider {\n                        id: bevelWidthSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 0.5; stepSize: 0.01; value: 0.1\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('斜面宽度: ') + parent.currentValue.toFixed(2)\n                        }\n                    }\n\n                    HusSlider {\n                        id: specularSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 2.0; stepSize: 0.1; value: 1.0\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('高光: ') + parent.currentValue.toFixed(1)\n                        }\n                    }\n\n                    HusSlider {\n                        id: radiusSlider\n                        width: 200; height: 30\n                        min: 0; max: 80; stepSize: 1; value: 30\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('圆角: ') + parent.currentValue.toFixed(0)\n                        }\n                    }\n\n                    HusSlider {\n                        id: tiltXSlider\n                        width: 200; height: 30\n                        min: -45; max: 45; stepSize: 1; value: 0\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('水平倾斜: ') + parent.currentValue.toFixed(0) + '°'\n                        }\n                    }\n\n                    HusSlider {\n                        id: tiltYSlider\n                        width: 200; height: 30\n                        min: -45; max: 45; stepSize: 1; value: 0\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('垂直倾斜: ') + parent.currentValue.toFixed(0) + '°'\n                        }\n                    }\n\n                    HusSlider {\n                        id: magnifySlider\n                        width: 200; height: 30\n                        min: 0.5; max: 3.0; stepSize: 0.05; value: 1.25\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('放大: ') + parent.currentValue.toFixed(2) + 'x'\n                        }\n                    }\n\n                    Rectangle {\n                        width: 600; height: 400\n                        anchors.horizontalCenter: parent.horizontalCenter\n                        color: 'transparent'\n                        border.color: HusTheme.Primary.colorTextBase\n\n                        Image {\n                            id: source\n                            anchors.fill: parent\n                            source: 'qrc:/Gallery/images/switch_effect1.jpg'\n                            fillMode: Image.PreserveAspectCrop\n                        }\n\n                        HusLiquidGlass {\n                            x: (source.width - width) * 0.5\n                            y: (source.height - height) * 0.5\n                            width: 200; height: 200\n                            sourceItem: source\n                            refraction: refractionSlider.currentValue\n                            frost: frostSlider.currentValue\n                            bevelDepth: bevelDepthSlider.currentValue\n                            bevelWidth: bevelWidthSlider.currentValue\n                            radiusBg: HusRadius { all: radiusSlider.currentValue }\n                            tiltX: tiltXSlider.currentValue\n                            tiltY: tiltYSlider.currentValue\n                            magnify: magnifySlider.currentValue\n\n                            HusResizeMouseArea {\n                                target: parent\n                                movable: true\n                                preventStealing: true\n                                minimumWidth: 100\n                                minimumHeight: 30\n                                minimumX: source.x\n                                maximumX: source.x + source.width - parent.width\n                                minimumY: source.y\n                                maximumY: source.y + source.height - parent.height\n                            }\n                        }\n                    }\n                }"
       }
     ],
-    "sources": []
+    "sources": [
+      "src/imports/HusLiquidGlass.qml"
+    ],
+    "title": "HusLiquidGlass 液态玻璃"
   },
   {
     "name": "HusShadow",
@@ -1162,8 +1259,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusShadow.qml"
-    ]
+      "src/imports/HusShadow.qml"
+    ],
+    "title": "HusShadow 阴影"
   },
   {
     "name": "HusSwitchEffect",
@@ -1177,8 +1275,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSwitchEffect.qml"
-    ]
+      "src/imports/HusSwitchEffect.qml"
+    ],
+    "title": "HusSwitchEffect 切换效果"
   },
   {
     "name": "HusDrawer",
@@ -1197,8 +1296,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusDrawer.qml"
-    ]
+      "src/imports/HusDrawer.qml"
+    ],
+    "title": "HusDrawer 抽屉"
   },
   {
     "name": "HusMessage",
@@ -1232,8 +1332,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMessage.qml"
-    ]
+      "src/imports/HusMessage.qml"
+    ],
+    "title": "HusMessage 消息提示"
   },
   {
     "name": "HusModal",
@@ -1262,8 +1363,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusModal.qml"
-    ]
+      "src/imports/HusModal.qml"
+    ],
+    "title": "HusModal 对话框"
   },
   {
     "name": "HusNotification",
@@ -1297,8 +1399,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusNotification.qml"
-    ]
+      "src/imports/HusNotification.qml"
+    ],
+    "title": "HusNotification 通知提醒框"
   },
   {
     "name": "HusPopconfirm",
@@ -1322,8 +1425,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPopconfirm.qml"
-    ]
+      "src/imports/HusPopconfirm.qml"
+    ],
+    "title": "HusPopconfirm 气泡确认框"
   },
   {
     "name": "HusPopover",
@@ -1337,8 +1441,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPopover.qml"
-    ]
+      "src/imports/HusPopover.qml"
+    ],
+    "title": "HusPopover 气泡显示框"
   },
   {
     "name": "HusProgress",
@@ -1382,8 +1487,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusProgress.qml"
-    ]
+      "src/imports/HusProgress.qml"
+    ],
+    "title": "HusProgress 进度条"
   },
   {
     "name": "HusSpin",
@@ -1427,8 +1533,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSpin.qml"
-    ]
+      "src/imports/HusSpin.qml"
+    ],
+    "title": "HusSpin 加载中"
   },
   {
     "name": "HusWatermark",
@@ -1447,8 +1554,10 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/controls/huswatermark.py"
-    ]
+      "src/cpp/controls/huswatermark.h",
+      "src/cpp/controls/huswatermark.cpp"
+    ],
+    "title": "HusWatermark 水印"
   },
   {
     "name": "HusApi",
@@ -1456,8 +1565,10 @@
     "docPath": "gallery/qml/Examples/Functions/ExpApi.qml",
     "examples": [],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/utils/husapi.py"
-    ]
+      "src/cpp/utils/husapi.h",
+      "src/cpp/utils/husapi.cpp"
+    ],
+    "title": "HusApi 内置API"
   },
   {
     "name": "HusButton",
@@ -1481,8 +1592,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusButton.qml"
-    ]
+      "src/imports/HusButton.qml"
+    ],
+    "title": "HusButton 按钮"
   },
   {
     "name": "HusButtonBlock",
@@ -1501,8 +1613,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusButtonBlock.qml"
-    ]
+      "src/imports/HusButtonBlock.qml"
+    ],
+    "title": "HusButtonBlock 按钮块(HusIconButton变种)"
   },
   {
     "name": "HusCaptionBar",
@@ -1510,8 +1623,9 @@
     "docPath": "gallery/qml/Examples/General/ExpCaptionBar.qml",
     "examples": [],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCaptionBar.qml"
-    ]
+      "src/imports/HusCaptionBar.qml"
+    ],
+    "title": "HusCaptionBar 标题栏"
   },
   {
     "name": "HusCaptionButton",
@@ -1525,8 +1639,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCaptionButton.qml"
-    ]
+      "src/imports/HusCaptionButton.qml"
+    ],
+    "title": "HusCaptionButton 标题按钮"
   },
   {
     "name": "HusCopyableText",
@@ -1540,8 +1655,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCopyableText.qml"
-    ]
+      "src/imports/HusCopyableText.qml"
+    ],
+    "title": "HusCopyableText 可复制文本"
   },
   {
     "name": "HusFrame",
@@ -1554,7 +1670,10 @@
         "code": "import QtQuick\n                import QtQuick.Layouts\n                import HuskarUI.Basic\n\n                Column {\n                    spacing: 15\n\n                    HusFrame {\n                        padding: 20\n\n                        HusSpace {\n                            anchors.fill: parent\n                            layout: 'ColumnLayout'\n                            spacing: 10\n\n                            HusCheckBox { text: 'E-mail '}\n                            HusCheckBox { text: 'Calendar' }\n                            HusCheckBox { text: 'Contacts' }\n                        }\n                    }\n\n                    HusFrame {\n                        padding: 20\n\n                        HusSpace {\n                            anchors.fill: parent\n                            layout: 'ColumnLayout'\n\n                            HusCard {\n                                Layout.fillWidth: true\n                                title: 'Card title'\n                                extraDelegate: HusButton { type: HusButton.Type_Link; text: 'More' }\n                                bodyDescription: 'Card content\\nCard content\\nCard content'\n                            }\n                            HusSpace {\n                                Layout.fillWidth: true\n                                layout: 'RowLayout'\n\n                                HusInput { text: 'https://github.com/mengps/HuskarUI' }\n                                HusButton { Layout.preferredWidth: 80; type: HusButton.Type_Primary; text: 'Submit' }\n                            }\n                            HusSpace {\n                                Layout.fillWidth: true\n                                layout: 'RowLayout'\n\n                                HusInput { text: 'https://github.com/mengps/HuskarUI' }\n                                HusIconButton { Layout.preferredWidth: 80; iconSource: HusIcon.CopyOutlined }\n                            }\n                        }\n                    }\n                }"
       }
     ],
-    "sources": []
+    "sources": [
+      "src/imports/HusFrame.qml"
+    ],
+    "title": "HusFrame 框架"
   },
   {
     "name": "HusIconButton",
@@ -1568,8 +1687,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusIconButton.qml"
-    ]
+      "src/imports/HusIconButton.qml"
+    ],
+    "title": "HusIconButton 图标按钮"
   },
   {
     "name": "HusIconText",
@@ -1577,8 +1697,9 @@
     "docPath": "gallery/qml/Examples/General/ExpIconText.qml",
     "examples": [],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusIconText.qml"
-    ]
+      "src/imports/HusIconText.qml"
+    ],
+    "title": "HusIconText 图标文本"
   },
   {
     "name": "HusLabel",
@@ -1592,8 +1713,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusLabel.qml"
-    ]
+      "src/imports/HusLabel.qml"
+    ],
+    "title": "HusLabel 文本标签"
   },
   {
     "name": "HusMoveMouseArea",
@@ -1607,8 +1729,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMoveMouseArea.qml"
-    ]
+      "src/imports/HusMoveMouseArea.qml"
+    ],
+    "title": "HusMoveMouseArea 移动鼠标区域"
   },
   {
     "name": "HusPage",
@@ -1621,7 +1744,10 @@
         "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    spacing: 15\n\n                    HusTabView {\n                        width: parent.width\n                        height: 200\n                        contentDelegate: HusPage {\n                            header: HusText {\n                                width: parent.width\n                                padding: 5\n                                font.pixelSize: HusTheme.Primary.fontPrimarySizeHeading4\n                                horizontalAlignment: Text.AlignHCenter\n                                text: 'Title - Page ' + (index + 1)\n                            }\n                            contentItem: Item {\n                                width: parent.width\n\n                                HusDivider {\n                                    anchors.top: parent.top\n                                    width: parent.width\n                                }\n\n                                HusText {\n                                    anchors.centerIn: parent\n                                    text: model.content + (index + 1)\n                                }\n\n                                HusDivider {\n                                    anchors.bottom: parent.bottom\n                                    width: parent.width\n                                }\n                            }\n                            footer: HusText {\n                                width: parent.width\n                                padding: 5\n                                horizontalAlignment: Text.AlignHCenter\n                                text: '(' + (index + 1) + ')'\n                            }\n                        }\n                        initModel: [\n                            {\n                                iconSource: HusIcon.CreditCardOutlined,\n                                title: 'Tab 1',\n                                content: 'Content of page ',\n                            },\n                            {\n                                iconSource: HusIcon.CreditCardOutlined,\n                                title: 'Tab 2',\n                                content: 'Content of page ',\n                            },\n                            {\n                                iconSource: HusIcon.CreditCardOutlined,\n                                title: 'Tab 3',\n                                content: 'Content of page ',\n                            }\n                        ]\n                    }\n                }"
       }
     ],
-    "sources": []
+    "sources": [
+      "src/imports/HusPage.qml"
+    ],
+    "title": "HusPage 页面"
   },
   {
     "name": "HusPopup",
@@ -1635,8 +1761,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPopup.qml"
-    ]
+      "src/imports/HusPopup.qml"
+    ],
+    "title": "HusPopup 弹窗"
   },
   {
     "name": "HusRadius",
@@ -1644,8 +1771,10 @@
     "docPath": "gallery/qml/Examples/General/ExpRadius.qml",
     "examples": [],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/controls/husrectangle.py"
-    ]
+      "src/cpp/controls/husrectangle.h",
+      "src/cpp/controls/husrectangle.cpp"
+    ],
+    "title": "HusRadius 圆角半径"
   },
   {
     "name": "HusRectangle",
@@ -1659,8 +1788,10 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/controls/husrectangle.py"
-    ]
+      "src/cpp/controls/husrectangle.h",
+      "src/cpp/controls/husrectangle.cpp"
+    ],
+    "title": "HusRectangle 圆角矩形"
   },
   {
     "name": "HusResizeMouseArea",
@@ -1674,8 +1805,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusResizeMouseArea.qml"
-    ]
+      "src/imports/HusResizeMouseArea.qml"
+    ],
+    "title": "HusResizeMouseArea 改变大小鼠标区域"
   },
   {
     "name": "HusText",
@@ -1689,8 +1821,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusText.qml"
-    ]
+      "src/imports/HusText.qml"
+    ],
+    "title": "HusText 文本"
   },
   {
     "name": "HusWindow",
@@ -1704,8 +1837,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusWindow.qml"
-    ]
+      "src/imports/HusWindow.qml"
+    ],
+    "title": "HusWindow 无边框窗口"
   },
   {
     "name": "HusDivider",
@@ -1729,8 +1863,25 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusDivider.qml"
-    ]
+      "src/imports/HusDivider.qml"
+    ],
+    "title": "HusDivider 分割线"
+  },
+  {
+    "name": "HusGroupBox",
+    "doc": "# HusGroupBox 分组框 \n\n在一个有标题的视觉框架内将一组逻辑控件布局在一起。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { GroupBox }**\n\n\n<br/>\n\n### 支持的代理：\n\n- 无\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nborderWidth | real | 1 | 边框线宽\ncolorTitle | color | - | 标题颜色\ncolorBg | color | - | 背景颜色\ncolorBorder | color | - | 边框颜色\nradiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角\nsizeHint | string | 'normal' | 尺寸提示\n\n<br/>",
+    "docPath": "gallery/qml/Examples/Layout/ExpGroupBox.qml",
+    "examples": [
+      {
+        "title": "基本用法",
+        "description": "最简单的用法。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    spacing: 10\n    \n                    HusCheckBox {\n                        id: enabledCheckBox\n                        text: 'Enabled'\n                        checked: true\n                    }\n\n                    HusRadioBlock {\n                        id: sizeHintRadio\n                        initCheckedIndex: 1\n                        model: [\n                            { label: 'Small', value: 'small' },\n                            { label: 'Normal', value: 'normal' },\n                            { label: 'Large', value: 'large' },\n                        ]\n                    }\n\n                    HusGroupBox {\n                        padding: 20 * sizeRatio\n                        title: 'GroupBox'\n                        enabled: enabledCheckBox.checked\n                        sizeHint: sizeHintRadio.currentCheckedValue\n\n                        HusSpace {\n                            layout: 'ColumnLayout'\n                            spacing: 10\n\n                            HusCheckBox { text: 'E-mail '; sizeHint: sizeHintRadio.currentCheckedValue }\n                            HusCheckBox { text: 'Calendar'; sizeHint: sizeHintRadio.currentCheckedValue }\n                            HusCheckBox { text: 'Contacts'; sizeHint: sizeHintRadio.currentCheckedValue }\n                        }\n                    }\n                }"
+      }
+    ],
+    "sources": [
+      "src/imports/HusGroupBox.qml"
+    ],
+    "title": "HusGroupBox 分组框"
   },
   {
     "name": "HusSpace",
@@ -1759,8 +1910,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSpace.qml"
-    ]
+      "src/imports/HusSpace.qml"
+    ],
+    "title": "HusSpace 间距"
   },
   {
     "name": "HusBreadcrumb",
@@ -1794,8 +1946,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusBreadcrumb.qml"
-    ]
+      "src/imports/HusBreadcrumb.qml"
+    ],
+    "title": "HusBreadcrumb 面包屑"
   },
   {
     "name": "HusContextMenu",
@@ -1814,8 +1967,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusContextMenu.qml"
-    ]
+      "src/imports/HusContextMenu.qml"
+    ],
+    "title": "HusContextMenu 上下文菜单"
   },
   {
     "name": "HusMenu",
@@ -1839,18 +1993,24 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMenu.qml"
-    ]
+      "src/imports/HusMenu.qml"
+    ],
+    "title": "HusMenu 菜单"
   },
   {
     "name": "HusPagination",
-    "doc": "# HusPagination 分页\n\n分页器用于分隔长列表，每次只加载一个页面。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { Control }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **prevButtonDelegate: Component** 上一页按钮代理\n\n- **nextButtonDelegate: Component** 下一页按钮代理\n\n- **quickJumperDelegate: Component** 快速跳转代理\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\ndefaultButtonWidth | int | 32 | 按钮宽度\ndefaultButtonHeight | int | 32 | 按钮高度\ndefaultButtonSpacing | int | 8 | 按钮间隔\nshowQuickJumper | bool | false | 是否显示快速跳转\ncurrentPageIndex | int | 0 | 当前页索引\ntotal | int | 0 | 数据项总数\npageTotal | int(readonly) | - | 页总数(自动计算)\npageButtonMaxCount | int | 7 | 最大页按钮数量\npageSize | int | 10 | 每页数量\npageSizeModel | array | [] | 每页数量模型\nprevButtonTooltip | string | '上一页' | 上一页按钮的提示文本(为空不显示)\nnextButtonTooltip | string | '下一页' | 下一页按钮的提示文本(为空不显示)\nsizeHint | string | 'normal' | 尺寸提示\n\n<br/>\n\n### 支持的函数：\n\n- `gotoPageIndex(index: int)` 跳转到`index` 处的页 \n\n- `gotoPrevPage()` 跳转到前一页 \n\n- `gotoPrev5Page()` 跳转到前五页 \n\n- `gotoNextPage()` 跳转到后一页 \n\n- `gotoNext5Page()` 跳转到后五页 \n",
+    "doc": "# HusPagination 分页\n\n分页器用于分隔长列表，每次只加载一个页面。\n\n* **模块 { HuskarUI.Basic }**\n\n* **继承自 { Control }**\n\n\n<br/>\n\n### 支持的代理：\n\n- **prevButtonDelegate: Component** 上一页按钮代理\n\n- **nextButtonDelegate: Component** 下一页按钮代理\n\n- **quickJumperDelegate: Component** 快速跳转代理\n\n\n<br/>\n\n### 支持的属性：\n\n属性名 | 类型 | 默认值 | 描述\n------ | --- | :---: | ---\nanimationEnabled | bool | HusTheme.animationEnabled | 是否开启动画\ndefaultButtonWidth | real丨'auto' | 32 | 按钮宽度,为'auto'时自动计算\ndefaultButtonHeight | real丨'auto' | 30 | 按钮高度,为'auto'时自动计算\ndefaultButtonSpacing | int | 8 | 按钮间隔\nshowQuickJumper | bool | false | 是否显示快速跳转\ncurrentPageIndex | int | 0 | 当前页索引\ntotal | int | 0 | 数据项总数\npageTotal | int(readonly) | - | 页总数(自动计算)\npageButtonMaxCount | int | 7 | 最大页按钮数量\npageSize | int | 10 | 每页数量\npageSizeModel | array | [] | 每页数量模型\nprevButtonToolTip | string | '上一页' | 上一页按钮的提示文本(为空不显示)\nnextButtonToolTip | string | '下一页' | 下一页按钮的提示文本(为空不显示)\nsizeHint | string | 'normal' | 尺寸提示\n\n<br/>\n\n### 支持的函数：\n\n- `gotoPageIndex(index: int)` 跳转到`index` 处的页 \n\n- `gotoPrevPage()` 跳转到前一页 \n\n- `gotoPrev5Page()` 跳转到前五页 \n\n- `gotoNextPage()` 跳转到后一页 \n\n- `gotoNext5Page()` 跳转到后五页 \n",
     "docPath": "gallery/qml/Examples/Navigation/ExpPagination.qml",
     "examples": [
       {
         "title": "基础",
         "description": "基础分页，通过 `currentPageIndex` 设置当前页索引。\n",
         "code": "import QtQuick\n                import HuskarUI.Basic\n\n                HusPagination {\n                    currentPageIndex: 0\n                    total: 50\n                }"
+      },
+      {
+        "title": "自动计算按钮宽高",
+        "description": "通过 `defaultButtonWidth/defaultButtonHeight` 设置为 'auto' 自动计算宽高，这对页面数大于 1000 很有用。\n",
+        "code": "import QtQuick\n                import HuskarUI.Basic\n\n                HusPagination {\n                    defaultButtonWidth: 'auto'\n                    defaultButtonHeight: 'auto'\n                    total: 50000\n                }"
       },
       {
         "title": "更多",
@@ -1869,8 +2029,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPagination.qml"
-    ]
+      "src/imports/HusPagination.qml"
+    ],
+    "title": "HusPagination 分页"
   },
   {
     "name": "HusScrollBar",
@@ -1884,8 +2045,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusScrollBar.qml"
-    ]
+      "src/imports/HusScrollBar.qml"
+    ],
+    "title": "HusScrollBar 滚动条"
   },
   {
     "name": "HusTheme",
@@ -1929,8 +2091,11 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/theme/hustheme.py"
-    ]
+      "src/cpp/theme/hustheme.h",
+      "src/cpp/theme/hustheme_p.h",
+      "src/cpp/theme/hustheme.cpp"
+    ],
+    "title": "HusTheme"
   },
   {
     "name": "HusAsyncHasher",
@@ -1944,8 +2109,10 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/utils/husasynchasher.py"
-    ]
+      "src/cpp/utils/husasynchasher.h",
+      "src/cpp/utils/husasynchasher.cpp"
+    ],
+    "title": "HusAsyncHasher 异步散列器"
   },
   {
     "name": "HusRouter",
@@ -1959,7 +2126,9 @@
       }
     ],
     "sources": [
-      "pyhuskarui/src/pyhuskarui/utils/husrouter.py"
-    ]
+      "src/cpp/utils/husrouter.h",
+      "src/cpp/utils/husrouter.cpp"
+    ],
+    "title": "HusRouter 路由"
   }
 ]

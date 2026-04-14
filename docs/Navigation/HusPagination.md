@@ -30,8 +30,8 @@
 属性名 | 类型 | 默认值 | 描述
 ------ | --- | :---: | ---
 animationEnabled | bool | HusTheme.animationEnabled | 是否开启动画
-defaultButtonWidth | int | 32 | 按钮宽度
-defaultButtonHeight | int | 32 | 按钮高度
+defaultButtonWidth | real丨'auto' | 32 | 按钮宽度,为'auto'时自动计算
+defaultButtonHeight | real丨'auto' | 30 | 按钮高度,为'auto'时自动计算
 defaultButtonSpacing | int | 8 | 按钮间隔
 showQuickJumper | bool | false | 是否显示快速跳转
 currentPageIndex | int | 0 | 当前页索引
@@ -40,8 +40,8 @@ pageTotal | int(readonly) | - | 页总数(自动计算)
 pageButtonMaxCount | int | 7 | 最大页按钮数量
 pageSize | int | 10 | 每页数量
 pageSizeModel | array | [] | 每页数量模型
-prevButtonTooltip | string | '上一页' | 上一页按钮的提示文本(为空不显示)
-nextButtonTooltip | string | '下一页' | 下一页按钮的提示文本(为空不显示)
+prevButtonToolTip | string | '上一页' | 上一页按钮的提示文本(为空不显示)
+nextButtonToolTip | string | '下一页' | 下一页按钮的提示文本(为空不显示)
 sizeHint | string | 'normal' | 尺寸提示
 
 <br/>
@@ -80,7 +80,25 @@ HusPagination {
 
 ---
 
-### 示例 2 - 更多
+### 示例 2 - 自动计算按钮宽高
+
+通过 `defaultButtonWidth/defaultButtonHeight` 设置为 'auto' 自动计算宽高，这对页面数大于 1000 很有用。
+
+
+```qml
+import QtQuick
+import HuskarUI.Basic
+
+HusPagination {
+    defaultButtonWidth: 'auto'
+    defaultButtonHeight: 'auto'
+    total: 50000
+}
+```
+
+---
+
+### 示例 3 - 更多
 
 通过 `enabled` 设置是否启用。
 
@@ -127,7 +145,7 @@ Column {
 
 ---
 
-### 示例 3 - 跳转
+### 示例 4 - 跳转
 
 通过 `showQuickJumper` 显示快速跳转项，可通过 `quickJumperDelegate` 自定义。
 
@@ -179,7 +197,7 @@ Column {
 
 ---
 
-### 示例 4 - 上一步和下一步
+### 示例 5 - 上一步和下一步
 
 通过 `prevButtonDelegate` 和 `nextButtonDelegate` 自定义上一步和下一步按钮。
 

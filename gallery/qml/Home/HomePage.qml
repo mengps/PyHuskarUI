@@ -4,400 +4,812 @@ import QtQuick.Controls.Basic
 import QtQuick.Effects
 import HuskarUI.Basic
 
-Rectangle {
-    color: '#80000000'
+import '../Controls'
 
-    ShaderEffect {
+Item {
+    id: root
+
+    property int sidePadding: Math.max(32, width * 0.06)
+    property int contentMaxWidth: 1220
+    property int contentWidth: Math.min(width - sidePadding * 2, contentMaxWidth)
+    property int selectedCategoryIndex: 1
+    property var accentPalette: [
+        HusTheme.Primary.colorInfo,
+        HusTheme.Primary.colorError,
+        HusTheme.Primary.colorSuccess,
+        HusTheme.Primary.colorWarning
+    ]
+    property var categoryOptions: buildCategoryOptions()
+    property string currentCategoryKey: categoryOptions.length > 0
+                                        ? categoryOptions[Math.min(selectedCategoryIndex, categoryOptions.length - 1)].value
+                                        : 'all'
+    property var componentItems: buildComponentItems()
+    property var filteredComponentItems: buildFilteredComponentItems()
+
+    function currentMinorVersionPrefix() {
+        const parts = `${HusApp.libVersion()}`.split('.');
+        if (parts.length < 2 || !parts[0] || !parts[1]) {
+            return '';
+        }
+        return `${parts[0]}.${parts[1]}`;
+    }
+
+    function isCurrentMinorVersion(version) {
+        const currentPrefix = currentMinorVersionPrefix();
+        if (!currentPrefix || !version) {
+            return false;
+        }
+        const versionParts = `${version}`.split('.');
+        return versionParts.length >= 2
+                && versionParts[0] === currentPrefix.split('.')[0]
+                && versionParts[1] === currentPrefix.split('.')[1];
+    }
+
+    function compareComponentItems(a, b) {
+        const priorityMap = {
+            'new': 0,
+            'update': 1,
+            '': 2,
+        };
+        const leftVersionParts = `${a.version || ''}`.split('.').map(part => Number(part) || 0);
+        const rightVersionParts = `${b.version || ''}`.split('.').map(part => Number(part) || 0);
+        const maxLength = Math.max(leftVersionParts.length, rightVersionParts.length);
+        for (let i = 0; i < maxLength; ++i) {
+            const leftPart = i < leftVersionParts.length ? leftVersionParts[i] : 0;
+            const rightPart = i < rightVersionParts.length ? rightVersionParts[i] : 0;
+            if (leftPart !== rightPart) {
+                return rightPart - leftPart;
+            }
+        }
+        const leftPriority = Object.prototype.hasOwnProperty.call(priorityMap, a.tagType) ? priorityMap[a.tagType] : 2;
+        const rightPriority = Object.prototype.hasOwnProperty.call(priorityMap, b.tagType) ? priorityMap[b.tagType] : 2;
+        if (leftPriority !== rightPriority) {
+            return leftPriority - rightPriority;
+        }
+        return a.title.localeCompare(b.title);
+    }
+
+    function buildCategoryOptions() {
+        const result = [
+                         { label: qsTr('最新'), value: 'latest' },
+                         { label: qsTr('全部'), value: 'all' },
+                     ];
+        const source = galleryGlobal.galleryModel || [];
+        for (let i = 0; i < source.length; ++i) {
+            const section = source[i];
+            if (section.menuChildren && section.menuChildren.length > 0) {
+                result.push({
+                                label: section.label,
+                                value: section.key,
+                            });
+            }
+        }
+        return result;
+    }
+
+    function buildComponentItems() {
+        const result = [];
+        const source = galleryGlobal.galleryModel || [];
+        for (let i = 0; i < source.length; ++i) {
+            const section = source[i];
+            if (!section.menuChildren || section.menuChildren.length === 0) {
+                continue;
+            }
+            for (let j = 0; j < section.menuChildren.length; ++j) {
+                const entry = section.menuChildren[j];
+                result.push({
+                                categoryKey: section.key,
+                                categoryLabel: section.label,
+                                iconSource: section.iconSource,
+                                key: entry.key,
+                                title: entry.key,
+                                desc: entry.desc || '',
+                                tagText: entry.addVersion ? 'NEW' : (entry.updateVersion ? 'HOT' : ''),
+                                tagType: entry.addVersion ? 'new' : (entry.updateVersion ? 'update' : ''),
+                                version: entry.addVersion || entry.updateVersion || '',
+                            });
+            }
+        }
+        result.sort(compareComponentItems);
+
+        return result;
+    }
+
+    function buildFilteredComponentItems() {
+        const result = [];
+        for (let i = 0; i < componentItems.length; ++i) {
+            const item = componentItems[i];
+            if (currentCategoryKey === 'all'
+                    || (currentCategoryKey === 'latest' && isCurrentMinorVersion(item.version))
+                    || item.categoryKey === currentCategoryKey) {
+                result.push(item);
+            }
+        }
+        result.sort(compareComponentItems);
+        return result;
+    }
+
+    function openLink(link) {
+        if (link && link.length > 0) {
+            Qt.openUrlExternally(link);
+        }
+    }
+
+    function openMenu(key) {
+        if (key && key.length > 0) {
+            galleryMenu.gotoMenu(key);
+        }
+    }
+
+    component DropShadow: MultiEffect {
+        shadowEnabled: true
+        shadowBlur: 0.8
+        shadowColor: color
+        shadowScale: 1.02
+        autoPaddingEnabled: true
+        property color color
+    }
+
+    component SectionTitle: Column {
+        width: parent.width
+        spacing: 10
+
+        property string title: ''
+        property string subtitle: ''
+
+        HusText {
+            width: parent.width
+            text: parent.title
+            font {
+                family: HusTheme.Primary.fontPrimaryFamily
+                pixelSize: HusTheme.Primary.fontPrimarySizeHeading3
+                bold: true
+            }
+            color: HusTheme.Primary.colorTextPrimary
+        }
+
+        HusText {
+            width: parent.width
+            text: parent.subtitle
+            wrapMode: Text.Wrap
+            color: HusTheme.Primary.colorTextSecondary
+        }
+    }
+
+    component HeroCard: Item {
+        id: heroCard
+        width: (root.contentWidth - 24) * 0.5
+        height: 260
+        scale: hovered ? 1.04 : 1.0
+
+        property string eyebrow: ''
+        property string title: ''
+        property string desc: ''
+        property string primaryText: ''
+        property string secondaryText: ''
+        property string primaryLink: ''
+        property string secondaryLink: ''
+        property int iconSource: 0
+        property color accentColor: HusTheme.Primary.colorPrimary
+        property color secondAccentColor: HusTheme.Primary.colorInfo
+        property bool hovered: heroHoverHandler.hovered
+        property color hoverTint: HusThemeFunctions.alpha(heroCard.secondAccentColor, 0.08)
+
+        Behavior on scale {
+            NumberAnimation {
+                easing.type: Easing.OutBack
+                duration: HusTheme.Primary.durationSlow
+            }
+        }
+
+        Rectangle {
+            id: shaderMask
+            anchors.fill: parent
+            radius: HusTheme.Primary.radiusPrimary
+            layer.enabled: true
+            visible: false
+        }
+
+        GradientFlowEffect {
+            id: shaderSource
+            anchors.fill: parent
+            visible: false
+        }
+
+        ShaderEffectSource {
+            id: shaderTexture
+            anchors.fill: parent
+            sourceItem: shaderSource
+            hideSource: true
+            live: true
+            recursive: true
+            visible: false
+        }
+
+        MultiEffect {
+            anchors.fill: parent
+            maskEnabled: true
+            maskSource: shaderMask
+            source: shaderTexture
+            opacity: 0.2
+        }
+
+        HoverHandler {
+            id: heroHoverHandler
+            cursorShape: Qt.PointingHandCursor
+        }
+
+        HusCard {
+            anchors.fill: parent
+            showShadow: true
+            colorShadow: HusThemeFunctions.alpha(heroCard.accentColor, hovered ? 0.38 : 0.28)
+            titleDelegate: null
+            coverDelegate: null
+            actionDelegate: null
+            bgDelegate: Item {
+                Rectangle {
+                    width: parent.width * 0.55
+                    height: width
+                    radius: width * 0.5
+                    anchors.right: parent.right
+                    anchors.rightMargin: -width * 0.2
+                    anchors.top: parent.top
+                    anchors.topMargin: -height * 0.15
+                    color: HusThemeFunctions.alpha(HusTheme.Primary['colorMain-1'], 0.12)
+                }
+
+                Rectangle {
+                    width: parent.width * 0.5
+                    height: 12
+                    radius: height * 0.5
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 34
+                    anchors.rightMargin: -parent.width * 0.12
+                    rotation: -28
+                    color: HusThemeFunctions.alpha(heroCard.accentColor, 0.45)
+                }
+
+                Rectangle {
+                    width: parent.width * 0.4
+                    height: 8
+                    radius: height * 0.5
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 62
+                    anchors.rightMargin: -parent.width * 0.04
+                    rotation: -18
+                    color: HusThemeFunctions.alpha(HusTheme.Primary['colorMain-1'], 0.12)
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: heroCard.hoverTint
+                    radius: HusTheme.Primary.radiusPrimary
+
+                    Behavior on opacity { NumberAnimation { duration: HusTheme.Primary.durationFast } }
+                }
+            }
+            bodyDelegate: Item {
+                implicitHeight: heroCard.height
+
+                Column {
+                    width: parent.width - 56
+                    anchors.left: parent.left
+                    anchors.leftMargin: 28
+                    anchors.right: parent.right
+                    anchors.rightMargin: 28
+                    anchors.top: parent.top
+                    anchors.topMargin: 24
+                    spacing: 14
+
+                    HusLabel {
+                        text: heroCard.eyebrow
+                        leftPadding: 10
+                        rightPadding: 10
+                        topPadding: 4
+                        bottomPadding: 4
+                        borderWidth: 0
+                        radiusBg.all: height * 0.5
+                        colorBg: HusThemeFunctions.alpha(HusTheme.Primary['colorMain-1'], 0.12)
+                    }
+
+                    HusText {
+                        width: parent.width - 60
+                        text: heroCard.title
+                        wrapMode: Text.Wrap
+                        font {
+                            pixelSize: HusTheme.Primary.fontPrimarySizeHeading3
+                            bold: true
+                        }
+                    }
+
+                    HusText {
+                        width: parent.width - 72
+                        text: heroCard.desc
+                        wrapMode: Text.Wrap
+                    }
+                }
+
+                HusIconText {
+                    anchors.right: parent.right
+                    anchors.rightMargin: 28
+                    anchors.top: parent.top
+                    anchors.topMargin: 24
+                    iconSource: heroCard.iconSource
+                    iconSize: 24
+                    colorIcon: HusThemeFunctions.alpha(HusTheme.Primary['colorMain-1'], 0.88)
+                }
+
+                Row {
+                    anchors.left: parent.left
+                    anchors.leftMargin: 28
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 26
+                    spacing: 12
+
+                    HusButton {
+                        text: heroCard.primaryText
+                        type: HusButton.Type_Primary
+                        onClicked: root.openLink(heroCard.primaryLink);
+                    }
+
+                    HusButton {
+                        visible: heroCard.secondaryText !== ''
+                        text: heroCard.secondaryText
+                        type: HusButton.Type_Default
+                        onClicked: root.openLink(heroCard.secondaryLink);
+                    }
+                }
+            }
+        }
+    }
+
+    component ComponentCard: Item {
+        id: componentCard
+        width: 236
+        height: 248
+        scale: hovered ? 1.04 : 1.0
+
+        property var itemData
+        property color accentColor: HusTheme.Primary.colorPrimary
+        property alias hovered: componentHover.hovered
+        property color borderColor: hovered
+                                    ? HusThemeFunctions.alpha(componentCard.accentColor, 0.22)
+                                    : HusTheme.Primary.colorBorderSecondary
+        property color badgeBg: itemData && itemData.tagType === 'new'
+                                ? HusTheme.Primary.colorInfoBg
+                                : HusTheme.Primary.colorErrorBg
+        property color badgeText: itemData && itemData.tagType === 'new'
+                                  ? HusTheme.Primary.colorInfoText
+                                  : HusTheme.Primary.colorErrorText
+
+        Behavior on scale {
+            NumberAnimation {
+                easing.type: Easing.OutBack
+                duration: HusTheme.Primary.durationSlow
+            }
+        }
+
+        HoverHandler {
+            id: componentHover
+            cursorShape: Qt.PointingHandCursor
+        }
+
+        TapHandler {
+            onTapped: {
+                root.openMenu(componentCard.itemData.key);
+            }
+        }
+
+        HusCard {
+            anchors.fill: parent
+            showShadow: true
+            colorBg: HusThemeFunctions.alpha(HusTheme.Primary.colorBgBase, 0.7)
+            colorShadow: componentCard.accentColor
+            colorBorder: componentCard.borderColor
+            titleDelegate: Item { implicitHeight: 0 }
+            coverDelegate: Item { height: 0 }
+            actionDelegate: Item { height: 0 }
+            bodyDelegate: Item {
+                implicitHeight: componentCard.height
+
+                Rectangle {
+                    anchors.fill: parent
+                    radius: HusTheme.Primary.radiusPrimary
+                    color: HusThemeFunctions.alpha(componentCard.accentColor, 0.03)
+                    opacity: hovered ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: HusTheme.Primary.durationFast } }
+                }
+
+                Rectangle {
+                    width: 52
+                    height: 52
+                    radius: width * 0.5
+                    anchors.left: parent.left
+                    anchors.leftMargin: 22
+                    anchors.top: parent.top
+                    anchors.topMargin: 22
+                    color: HusThemeFunctions.alpha(componentCard.accentColor, 0.14)
+
+                    HusIconText {
+                        anchors.centerIn: parent
+                        iconSource: componentCard.itemData.iconSource
+                        iconSize: 20
+                        colorIcon: componentCard.accentColor
+                    }
+                }
+
+                Row {
+                    anchors.right: parent.right
+                    anchors.rightMargin: 18
+                    anchors.top: parent.top
+                    anchors.topMargin: 18
+                    spacing: 8
+
+                    HusLabel {
+                        leftPadding: 8
+                        rightPadding: 8
+                        topPadding: 2
+                        bottomPadding: 2
+                        borderWidth: 0
+                        radiusBg.all: height * 0.5
+                        visible: componentCard.itemData.version !== ''
+                        text: componentCard.itemData.version
+                        colorBg: HusThemeFunctions.alpha(componentCard.accentColor, 0.14)
+                        colorText: componentCard.accentColor
+                    }
+
+                    HusLabel {
+                        leftPadding: 8
+                        rightPadding: 8
+                        topPadding: 2
+                        bottomPadding: 2
+                        borderWidth: 0
+                        radiusBg.all: height * 0.5
+                        visible: componentCard.itemData.tagText !== ''
+                        text: componentCard.itemData.tagText
+                        colorBg: componentCard.badgeBg
+                        colorText: componentCard.badgeText
+                    }
+                }
+
+                Column {
+                    width: parent.width - 40
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
+                    anchors.right: parent.right
+                    anchors.rightMargin: 20
+                    anchors.top: parent.top
+                    anchors.topMargin: 94
+                    spacing: 10
+
+                    HusText {
+                        width: parent.width
+                        text: componentCard.itemData.title
+                        wrapMode: Text.Wrap
+                        font {
+                            pixelSize: HusTheme.Primary.fontPrimarySizeHeading5
+                            bold: true
+                        }
+                        color: HusTheme.Primary.colorTextPrimary
+                    }
+
+                    HusText {
+                        width: parent.width
+                        text: componentCard.itemData.desc
+                        wrapMode: Text.Wrap
+                        color: HusTheme.Primary.colorTextSecondary
+                    }
+                }
+
+                Rectangle {
+                    width: parent.width - 40
+                    height: 6
+                    radius: height * 0.5
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 18
+                    color: HusTheme.Primary.colorFillSecondary
+
+                    Rectangle {
+                        width: hovered ? Math.max(parent.width * 0.44, 96) : Math.max(parent.width * 0.35, 72)
+                        height: parent.height
+                        radius: parent.radius
+                        color: componentCard.accentColor
+                        Behavior on width { NumberAnimation { duration: HusTheme.Primary.durationFast } }
+                    }
+                }
+            }
+        }
+    }
+
+    Item {
+        id: background
         anchors.fill: parent
-        vertexShader: 'qrc:/Gallery/shaders/effect1.vert.qsb'
-        fragmentShader: 'qrc:/Gallery/shaders/effect1.frag.qsb'
-        opacity: 0.5
 
-        property vector3d iResolution: Qt.vector3d(width, height, 0)
-        property real iTime: 0
+        Rectangle {
+            width: root.width * 0.34
+            height: width
+            radius: width * 0.5
+            anchors.left: parent.left
+            anchors.leftMargin: -width * 0.25
+            anchors.top: parent.top
+            anchors.topMargin: -height * 0.18
+            color: HusThemeFunctions.alpha(HusTheme.Primary.colorPrimary, 0.08)
+        }
 
-        Timer {
-            running: true
-            repeat: true
-            interval: 16
-            onTriggered: parent.iTime += 0.01;
+        Rectangle {
+            width: root.width * 0.28
+            height: width
+            radius: width * 0.5
+            anchors.right: parent.right
+            anchors.rightMargin: -width * 0.2
+            anchors.top: parent.top
+            anchors.topMargin: 80
+            color: HusThemeFunctions.alpha(HusTheme.Primary.colorInfo, 0.06)
         }
     }
 
     Flickable {
         anchors.fill: parent
-        contentHeight: column.height + 20
+        contentHeight: contentColumn.height
+        clip: true
         ScrollBar.vertical: HusScrollBar { }
 
-        component DropShadow: MultiEffect {
-            anchors.fill: __rect
-            source: __rect
-            shadowEnabled: true
-            shadowBlur: 0.8
-            shadowColor: color
-            shadowScale: 1.02
-            autoPaddingEnabled: true
-            property color color
-        }
+        Column {
+            id: contentColumn
+            width: parent.width - 80
+            anchors.horizontalCenter: parent.horizontalCenter
+            topPadding: 10
+            bottomPadding: 10
+            spacing: 40
 
-        component Card: MouseArea {
-            id: __cardComp
-            width: 300
-            height: 200
-            scale: hovered ? 1.01 : 1
-            hoverEnabled: true
-            onEntered: hovered = true;
-            onExited: hovered = false;
-            onClicked: {
-                if (__cardComp.link.length != 0)
-                    Qt.openUrlExternally(link);
-            }
-
-            property bool hovered: false
-            property alias icon: __icon
-            property alias title: __title
-            property alias desc: __desc
-            property alias linkIcon: __linkIcon
-            property string link: ''
-            property string tagState: ''
-            property string version: ''
-
-            Behavior on scale { NumberAnimation { duration: HusTheme.Primary.durationFast } }
-
-            DropShadow {
-                anchors.fill: __rect
-                color: HusTheme.Primary.colorTextBase
-                source: __rect
-                opacity: parent.hovered ? 0.8 : 0.4
-
-                Behavior on color { ColorAnimation { duration: HusTheme.Primary.durationMid } }
-                Behavior on opacity { NumberAnimation { duration: HusTheme.Primary.durationMid } }
-            }
-
-            Rectangle {
-                id: __rect
-                anchors.fill: parent
-                color: HusThemeFunctions.alpha(HusTheme.Primary.colorBgBase, 0.8)
-                radius: 6
-                border.color: HusThemeFunctions.alpha(HusTheme.Primary.colorTextBase, 0.2)
-
-                Behavior on color { ColorAnimation { duration: HusTheme.Primary.durationMid } }
-            }
-
-            ColumnLayout {
+            Column {
                 width: parent.width
-                anchors.top: parent.top
-                anchors.topMargin: 5
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 10
-                spacing: 10
+                spacing: 16
 
-                HusIconText {
-                    id: __icon
-                    Layout.preferredWidth: width
-                    Layout.preferredHeight: empty ? 0 : height
-                    Layout.alignment: Qt.AlignHCenter
-                    iconSize: 60
+                Row {
+                    spacing: 20
+
+                    Item {
+                        width: HusTheme.Primary.fontPrimarySize + 42
+                        height: width
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Image {
+                            id: huskaruiIcon
+                            width: parent.width
+                            height: width
+                            anchors.centerIn: parent
+                            source: 'qrc:/Gallery/images/huskarui_new_square.svg'
+                        }
+                    }
+
+                    Item {
+                        width: huskaruiTitle.width
+                        height: huskaruiTitle.height
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        HusText {
+                            id: huskaruiTitle
+                            text: HusApp.libName()
+                            font.pixelSize: HusTheme.Primary.fontPrimarySize + 42
+                        }
+
+                        DropShadow {
+                            anchors.fill: huskaruiTitle
+                            shadowHorizontalOffset: 4
+                            shadowVerticalOffset: 4
+                            color: huskaruiTitle.color
+                            source: huskaruiTitle
+                            opacity: 0.6
+
+                            Behavior on color { ColorAnimation { duration: HusTheme.Primary.durationMid } }
+                            Behavior on opacity { NumberAnimation { duration: HusTheme.Primary.durationMid } }
+                        }
+                    }
                 }
 
                 HusText {
-                    id: __title
-                    Layout.preferredWidth: parent.width - 10
-                    Layout.preferredHeight: height
-                    Layout.alignment: Qt.AlignHCenter
-                    font {
-                        family: HusTheme.Primary.fontPrimaryFamily
-                        pixelSize: HusTheme.Primary.fontPrimarySizeHeading4
-                        bold: true
-                    }
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.WrapAnywhere
-                }
-
-                Flickable {
-                    Layout.preferredWidth: parent.width - 50
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignHCenter
-                    contentHeight: __desc.contentHeight
-                    ScrollBar.vertical: HusScrollBar { }
-                    clip: true
-                    interactive: false
-
-                    HusText {
-                        id: __desc
-                        width: parent.width - 10
-                        font {
-                            family: HusTheme.Primary.fontPrimaryFamily
-                            pixelSize: HusTheme.Primary.fontPrimarySize
-                        }
-                        wrapMode: Text.WrapAnywhere
-                    }
+                    width: parent.width * 0.62
+                    text: qsTr('面向现代 Qt 创作者的现代UI框架，采用完全 HusTheme 主题系统驱动的的组件。')
+                    wrapMode: Text.Wrap
+                    color: HusTheme.Primary.colorTextSecondary
+                    font.pixelSize: HusTheme.Primary.fontPrimarySizeHeading5
                 }
             }
 
-            DropShadow {
-                anchors.fill: __new
-                shadowHorizontalOffset: 4
-                shadowVerticalOffset: 4
-                color: __new.color
-                source: __new
-                opacity: 0.6
-                visible: __new.visible
+            Flow {
+                width: parent.width
+                spacing: 32
+
+                HeroCard {
+                    width: Math.max((parent.width - parent.spacing) * 0.5, 360)
+                    eyebrow: qsTr('OFFICIAL REPOSITORY')
+                    title: qsTr(`${HusApp.libName()} Github`)
+                    desc: qsTr('探索源代码，关注版本发布和问题修复，并将最新的 HuskarUI 组件直接集成到您的 QtQuick 项目中。')
+                    primaryText: qsTr('View Source')
+                    secondaryText: qsTr('Star on Github')
+                    primaryLink: `https://github.com/mengps/${HusApp.libName()}`
+                    secondaryLink: `https://github.com/mengps/${HusApp.libName()}`
+                    iconSource: HusIcon.GithubOutlined
+                    accentColor: HusTheme.Primary.colorPrimary
+                    secondAccentColor: HusTheme.Primary.colorInfo
+                }
+
+                HeroCard {
+                    width: Math.max((parent.width - parent.spacing) * 0.5, 360)
+                    eyebrow: qsTr('VISUAL TOOLS')
+                    title: qsTr('HuskarUI-ThemeDesigner')
+                    desc: qsTr('基于 HusTheme 创建自定义设计令牌、导出组件主题并实时预览您的品牌语言。')
+                    primaryText: qsTr('Launch Editor')
+                    secondaryText: qsTr('Documentation')
+                    primaryLink: 'https://github.com/mengps/HuskarUI-ThemeDesigner'
+                    secondaryLink: 'https://github.com/mengps/HuskarUI-ThemeDesigner'
+                    iconSource: HusIcon.SkinOutlined
+                    accentColor: HusTheme.Primary.colorInfo
+                    secondAccentColor: HusTheme.Primary.colorPrimary
+                }
+            }
+
+            SectionTitle {
+                width: parent.width
+                title: qsTr('Components')
+                subtitle: qsTr('按分类快速浏览 HuskarUI 组件，卡片样式与色彩全部接入 HusTheme 主题令牌。')
+            }
+
+            RowLayout {
+                width: parent.width
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                HusSegmented {
+                    id: categorySegmented
+                    Layout.alignment: Qt.AlignRight
+                    colorBg: HusThemeFunctions.alpha(HusTheme.Primary.colorBgBase, 0.5)
+                    colorIndicatorBg: HusThemeFunctions.alpha(HusTheme.Primary.colorPrimary, 0.5)
+                    options: root.categoryOptions
+                    spacing: 5
+                    currentIndex: root.selectedCategoryIndex
+                    onCurrentIndexChanged: root.selectedCategoryIndex = currentIndex
+                }
+            }
+
+            Flickable {
+                width: parent.width + 40
+                height: 540
+                anchors.horizontalCenter: parent.horizontalCenter
+                topMargin: 10
+                bottomMargin: 10
+                contentHeight: componentFlow.height
+                clip: true
+                ScrollBar.vertical: HusScrollBar { }
+
+                GridLayout {
+                    id: componentFlow
+                    width: parent.width - 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    columns: 4
+                    columnSpacing: 24
+                    rowSpacing: 24
+
+                    Repeater {
+                        model: root.filteredComponentItems
+
+                        delegate: ComponentCard {
+                            Layout.fillWidth: true
+                            itemData: modelData
+                            accentColor: root.accentPalette[index % root.accentPalette.length]
+                        }
+                    }
+                }
             }
 
             Rectangle {
-                id: __new
-                width: __column.width + 12
-                height: __column.height + 6
-                anchors.right: parent.right
-                anchors.rightMargin: -width * 0.2
-                anchors.top: parent.top
-                anchors.topMargin: 5
-                radius: 2
-                visible: __cardComp.tagState !== ''
-                color: {
-                    if (__cardComp.tagState === 'New')
-                        return HusTheme.Primary.colorError;
-                    else if (__cardComp.tagState === 'Update')
-                        HusTheme.Primary.colorSuccess;
-                    else
-                        return 'transparent';
+                id: ctaCard
+                width: parent.width
+                height: ctaColumn.height + 48
+                radius: HusTheme.Primary.radiusPrimary
+                color: HusThemeFunctions.alpha(HusTheme.Primary.colorPrimary, 0.08)
+                scale: ctaHoverHandler.hovered ? 1.02 : 1.0
+
+                Behavior on scale {
+                    NumberAnimation {
+                        easing.type: Easing.OutBack
+                        duration: HusTheme.Primary.durationSlow
+                    }
+                }
+
+                HoverHandler {
+                    id: ctaHoverHandler
+                    cursorShape: Qt.PointingHandCursor
                 }
 
                 Column {
-                    id: __column
-                    anchors.centerIn: parent
+                    id: ctaColumn
+                    width: parent.width - 64
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    topPadding: 24
+                    spacing: 14
 
-                    Row {
-                        HusIconText {
-                            anchors.verticalCenter: parent.verticalCenter
-                            iconSize: HusTheme.Primary.fontPrimarySize
-                            iconSource: HusIcon.FireFilled
-                            color: 'white'
+                    HusText {
+                        width: parent.width
+                        text: qsTr('Built on HusTheme, ready for custom brands')
+                        font {
+                            pixelSize: HusTheme.Primary.fontPrimarySizeHeading4
+                            bold: true
                         }
-
-                        HusText {
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: __cardComp.tagState.toUpperCase()
-                            font {
-                                family: HusTheme.Primary.fontPrimaryFamily
-                                pixelSize: HusTheme.Primary.fontPrimarySize
-                            }
-                            color: 'white'
-                        }
+                        color: HusTheme.Primary.colorTextPrimary
                     }
 
                     HusText {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: 'v' + __cardComp.version
-                        font {
-                            family: HusTheme.Primary.fontPrimaryFamily
-                            pixelSize: HusTheme.Primary.fontPrimarySize
-                        }
-                        color: 'white'
-                    }
-                }
-            }
-
-            HusIconText {
-                id: __linkIcon
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.margins: 10
-                iconSize: 20
-                iconSource: HusIcon.LinkOutlined
-            }
-        }
-
-        component MyText: HusText {
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-
-        Column {
-            id: column
-            width: parent.width
-            anchors.top: parent.top
-            anchors.topMargin: 20
-            spacing: 30
-
-            Row {
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 20
-
-                Item {
-                    width: HusTheme.Primary.fontPrimarySize + 42
-                    height: width
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    Image {
-                        id: huskaruiIcon
                         width: parent.width
-                        height: width
-                        anchors.centerIn: parent
-                        source: 'qrc:/Gallery/images/huskarui_new_square.svg'
+                        text: qsTr('首页中的背景、卡片、徽标、分段选择与按钮全部从 HusTheme 取色，切换主题后页面会自动同步视觉风格。')
+                        wrapMode: Text.Wrap
+                        color: HusTheme.Primary.colorTextSecondary
                     }
+
+                    Row {
+                        spacing: 12
+
+                        HusButton {
+                            text: qsTr('打开主题设计器')
+                            type: HusButton.Type_Primary
+                            onClicked: root.openLink('https://github.com/mengps/HuskarUI-ThemeDesigner');
+                        }
+                    }
+                }
+            }
+
+            RowLayout {
+                width: parent.width
+                spacing: 16
+
+                HusText {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: HusApp.libName()
+                    color: HusTheme.Primary.colorPrimary
+                    font.bold: true
+                }
+
+                HusButton {
+                    text: qsTr('Documentation')
+                    type: HusButton.Type_Link
+                    onClicked: root.openLink(`https://github.com/mengps/${HusApp.libName()}`);
+                }
+
+                HusButton {
+                    text: qsTr('Components')
+                    type: HusButton.Type_Link
+                    onClicked: root.openMenu('HusButton');
+                }
+
+                HusButton {
+                    text: qsTr('Changelog')
+                    type: HusButton.Type_Link
+                    onClicked: root.openMenu('HomePage');
+                }
+
+                HusButton {
+                    text: qsTr('License')
+                    type: HusButton.Type_Link
+                    onClicked: root.openLink(`https://github.com/mengps/${HusApp.libName()}/blob/master/LICENSE`);
                 }
 
                 Item {
-                    width: huskaruiTitle.width
-                    height: huskaruiTitle.height
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    MyText {
-                        id: huskaruiTitle
-                        text: HusApp.libName()
-                        font.pixelSize: HusTheme.Primary.fontPrimarySize + 42
-                    }
-
-                    DropShadow {
-                        anchors.fill: huskaruiTitle
-                        shadowHorizontalOffset: 4
-                        shadowVerticalOffset: 4
-                        color: huskaruiTitle.color
-                        source: huskaruiTitle
-                        opacity: 0.6
-
-                        Behavior on color { ColorAnimation { duration: HusTheme.Primary.durationMid } }
-                        Behavior on opacity { NumberAnimation { duration: HusTheme.Primary.durationMid } }
-                    }
-                }
-            }
-
-            MyText {
-                text: qsTr('助力开发者「更灵活」地搭建出「更美」的产品，让用户「快乐工作」～')
-            }
-
-            Row {
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 20
-
-                Card {
-                    icon.iconSource: HusIcon.GithubOutlined
-                    title.text: qsTr(`${HusApp.libName()} Github`)
-                    desc.text: qsTr(`${HusApp.libName()} 是遵循「Ant Design」设计体系的一个 Qml UI 库，用于构建由「Qt Quick」驱动的用户界面。`)
-                    link: `https://github.com/mengps/${HusApp.libName()}`
-                }
-            }
-
-            MyText {
-                text: qsTr('定制主题，随心所欲')
-                font.pixelSize: HusTheme.Primary.fontPrimarySize + 16
-                font.bold: true
-            }
-
-            MyText {
-                text: qsTr(`${HusApp.libName()} 支持全局/组件的样式定制，内置多种接口让你定制主题更简单`)
-            }
-
-            Card {
-                anchors.horizontalCenter: parent.horizontalCenter
-                icon.iconSource: HusIcon.SkinOutlined
-                title.text: qsTr('HuskarUI-ThemeDesigner')
-                desc.text: qsTr('HuskarUI-ThemeDesigner 是专为「HuskarUI」打造的主题设计工具。')
-                link: 'https://github.com/mengps/HuskarUI-ThemeDesigner'
-            }
-
-            MyText {
-                text: qsTr('组件丰富，选用自如')
-                font.pixelSize: HusTheme.Primary.fontPrimarySize + 16
-                font.bold: true
-            }
-
-            MyText {
-                text: qsTr(`${HusApp.libName()} 提供大量实用组件满足你的需求，基于代理的方式实现灵活定制与拓展`)
-            }
-
-            ListView {
-                id: galleryView
-                width: parent.width
-                height: 200
-                orientation: Qt.Horizontal
-                spacing: -80
-                model: galleryGlobal.updates
-                delegate: Item {
-                    id: __rootItem
-                    z: index
-                    width: __card.hovered ? 390 : 250
-                    height: galleryView.height - 30
-
-                    required property int index
-                    required property string tagState
-                    required property string name
-                    required property string desc
-                    required property string version
-
-                    property bool preventFlicker: false
-
-                    Behavior on width { NumberAnimation { duration: HusTheme.Primary.durationMid } }
-
-                    MouseArea {
-                        id: hoverArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        acceptedButtons: Qt.NoButton
-                        
-                        onEntered: {
-                            if (!__card.hovered) {
-                                __card.hovered = true;
-                                preventFlicker = true;
-                                flickerTimer.restart();
-                            }
-                        }
-                        
-                        onExited: {
-                            if (!__card.containsMouse) {
-                                __card.hovered = false;
-                            }
-                        }
-                    }
-                    
-                    Timer {
-                        id: flickerTimer
-                        interval: HusTheme.Primary.durationMid * 1.5
-                        onTriggered: {
-                            __rootItem.preventFlicker = false;
-                        }
-                    }
-                    
-                    Connections {
-                        target: __card
-                        function onContainsMouseChanged() {
-                            if (__card.containsMouse) {
-                                __card.hovered = true;
-                            }
-                        }
-                    }
-
-                    Card {
-                        id: __card
-                        width: 250
-                        height: parent.height
-                        anchors.centerIn: parent
-                        tagState: __rootItem.tagState
-                        version: __rootItem.version
-                        title.text: __rootItem.name
-                        desc.text: __rootItem.desc
-                        transform: Rotation {
-                            origin.x: __rootItem.width * 0.5
-                            origin.y: __rootItem.height * 0.5
-                            axis {
-                                x: 0
-                                y: 1
-                                z: 0
-                            }
-                            angle: __card.hovered ? 0 : 45
-
-                            Behavior on angle { NumberAnimation { duration: HusTheme.Primary.durationMid } }
-                        }
-                        onClicked: {
-                            galleryMenu.gotoMenu(__rootItem.name);
-                        }
-                    }
+                    Layout.fillWidth: true
                 }
 
-                ScrollBar.horizontal: HusScrollBar { }
+                HusText {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr('Designed for a fully theme-driven gallery experience.')
+                    color: HusTheme.Primary.colorTextTertiary
+                }
             }
         }
     }
 }
-

@@ -7,6 +7,7 @@
         <file>qml/Controls/CommitHistory.qml</file>
         <file>qml/Controls/Description.qml</file>
         <file>qml/Controls/DocDescription.qml</file>
+        <file>qml/Controls/GradientFlowEffect.qml</file>
         <file>qml/Controls/ThemeToken.qml</file>
         <file>qml/Controls/Thumbnail.qml</file>
         <file>qml/Controls/UpdateDesc.qml</file>
@@ -39,6 +40,7 @@
         <file>qml/Examples/DataEntry/ExpInput.qml</file>
         <file>qml/Examples/DataEntry/ExpInputInteger.qml</file>
         <file>qml/Examples/DataEntry/ExpInputNumber.qml</file>
+        <file>qml/Examples/DataEntry/ExpMultiCheckBox.qml</file>
         <file>qml/Examples/DataEntry/ExpMultiSelect.qml</file>
         <file>qml/Examples/DataEntry/ExpOTPInput.qml</file>
         <file>qml/Examples/DataEntry/ExpRadio.qml</file>
@@ -81,6 +83,7 @@
         <file>qml/Examples/General/ExpText.qml</file>
         <file>qml/Examples/General/ExpWindow.qml</file>
         <file>qml/Examples/Layout/ExpDivider.qml</file>
+        <file>qml/Examples/Layout/ExpGroupBox.qml</file>
         <file>qml/Examples/Layout/ExpSpace.qml</file>
         <file>qml/Examples/Navigation/ExpBreadcrumb.qml</file>
         <file>qml/Examples/Navigation/ExpContextMenu.qml</file>

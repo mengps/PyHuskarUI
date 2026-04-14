@@ -4,6 +4,8 @@ import QtQuick.Effects
 import QtQuick.Controls.Basic
 import HuskarUI.Basic
 
+import '../Controls'
+
 HusWindow {
     id: root
     width: 400
@@ -44,21 +46,9 @@ HusWindow {
         Item {
             anchors.fill: parent
 
-            ShaderEffect {
+            GradientFlowEffect {
                 anchors.fill: parent
-                vertexShader: 'qrc:/Gallery/shaders/effect2.vert.qsb'
-                fragmentShader: 'qrc:/Gallery/shaders/effect2.frag.qsb'
                 opacity: 0.5
-
-                property vector3d iResolution: Qt.vector3d(width, height, 0)
-                property real iTime: 0
-
-                Timer {
-                    running: true
-                    repeat: true
-                    interval: 16
-                    onTriggered: parent.iTime += 0.03;
-                }
             }
         }
 

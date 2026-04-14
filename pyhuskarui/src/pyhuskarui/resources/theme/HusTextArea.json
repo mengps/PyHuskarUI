@@ -10,7 +10,7 @@
         "colorSelection": "$alpha(@colorPrimary, 0.6)",
         "colorBorder": "$onBackground(@colorBorder, @colorBgBase)",
         "colorBorderHover": "@colorPrimary",
-        "colorBorderDisabled": "$onBackground(@colorFill, @colorBgBase)",
+        "colorBorderDisabled": "$onBackground(@colorBorderDisabled, @colorBgBase)",
         "colorBg": "@colorBgBase",
         "colorBgDisabled": "$onBackground(@colorFillPrimary, @colorBgBase)",
         "radiusBg": "@radiusPrimary"

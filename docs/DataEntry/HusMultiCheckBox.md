@@ -2,10 +2,10 @@
 
 [← 返回本类别目录](./index.md)
 
-# HusMultiSelect 多选器 
+# HusMultiCheckBox 多复选框选择器 
 
 
-下拉多选器。
+下拉多复选框选择器。
 
 * **模块 { HuskarUI.Basic }**
 
@@ -137,7 +137,7 @@ Column {
         ]
     }
 
-    HusMultiSelect {
+    HusMultiCheckBox {
         width: 200
         sizeHint: sizeHintRadio.currentCheckedValue
         filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1
@@ -174,8 +174,9 @@ Row {
     width: parent.width
     spacing: 10
 
-    HusMultiSelect {
+    HusMultiCheckBox {
         width: 200
+        itemWidth: width
         textRole: 'desc'
         searchEnabled: false
         placeholderText: 'select one country'
@@ -206,7 +207,7 @@ Row {
     width: parent.width
     spacing: 10
 
-    HusMultiSelect {
+    HusMultiCheckBox {
         width: 200
         prefix: 'User'
         options: [
@@ -217,7 +218,7 @@ Row {
         ]
     }
 
-    HusMultiSelect {
+    HusMultiCheckBox {
         width: 200
         prefixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }
         options: [
@@ -228,7 +229,7 @@ Row {
         ]
     }
 
-    HusMultiSelect {
+    HusMultiCheckBox {
         width: 200
         suffix: 'User'
         options: [
@@ -239,7 +240,7 @@ Row {
         ]
     }
 
-    HusMultiSelect {
+    HusMultiCheckBox {
         width: 200
         suffixDelegate: HusIconText { iconSource: HusIcon.SmileOutlined }
         options: [
@@ -263,7 +264,7 @@ Row {
 import QtQuick
 import HuskarUI.Basic
 
-HusMultiSelect {
+HusMultiCheckBox {
     width: 500
     filterOption:
         (input, option) => {
@@ -297,7 +298,7 @@ HusMultiSelect {
 import QtQuick
 import HuskarUI.Basic
 
-HusMultiSelect {
+HusMultiCheckBox {
     id: customTag
     width: 500
     tagDelegate: HusTag {
@@ -327,7 +328,7 @@ HusMultiSelect {
 import QtQuick
 import HuskarUI.Basic
 
-HusMultiSelect {
+HusMultiCheckBox {
     width: 500
     maxTagCount: 3
     suffix: `\${tagCount}/\${maxTagCount}`
@@ -358,7 +359,7 @@ import HuskarUI.Basic
 
 Loader {
     asynchronous: true
-    sourceComponent: HusMultiSelect {
+    sourceComponent: HusMultiCheckBox {
         width: 500
         genDefaultKey: false
         filterOption: (input, option) => option.label.toUpperCase().indexOf(input.toUpperCase()) !== -1

@@ -58,15 +58,20 @@ The development plan can be found here: [Component Roadmap](https://github.com/m
 
 Anyone can discuss through issues, QQ groups, or WeChat groups, and ultimately meaningful components/functions will be added to the development plan.
 
-## 🤖 AI Assisted Development
+## 🤖 AI Agent Assisted Development
 
 > [!Note]
-> HuskarUI provides the **HuskarUI Expert** skill, designed for AI coding tools like Cursor, Trae, and VS Code Copilot. It helps you:
-> - Quickly lookup component documentation and properties
-> - Generate compliant component code
-> - Get scenario-based development examples
+> # Intelligent agent skills
+>This warehouse provides two intelligent agent skills:
+> - **`huskarui`**：: Use Python to query the documentation, properties, and examples of HuskarUI components from the repository metadata.
+> - **`qmlpreview`**：: Use ` qmlscene ` to preview the currently edited QML file and capture a screenshot of the run to the clipboard.
+> 
+> They are designed specifically for AI Agent programming tools such as Claude Code and Codex. It can help you:
+> - Quickly query component documents and properties
+> - Obtain scenario based development examples
+> - Automatically iterate and preview code
 
-👉 See [AI Skill Guide](./ai_tools/README.md) for more details.
+👉 See [AI Agent Skill Guide](./agent/README.md) for more details.
 
 ## 🔖 Online Document
 

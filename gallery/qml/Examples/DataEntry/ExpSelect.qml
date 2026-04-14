@@ -19,10 +19,15 @@ Flickable {
 下拉选择器。\n
 * **模块 { HuskarUI.Basic }**\n
 * **继承自 { ComboBox }**\n
-* **继承此 { [HusMultiSelect](internal://HusMultiSelect) }**\n
+* **继承此 { [HusMultiSelect](internal://HusMultiSelect), [HusMultiCheckBox](internal://HusMultiCheckBox) }**\n
 \n<br/>
 \n### 支持的代理：\n
-- **indicatorDelegate: Component** 右侧指示器代理\n
+- **indicatorDelegate: Component** 右侧指示器代理\n    
+- **toolTipDelegate: Component** 文本提示代理，代理可访问属性：\n
+  - \`index: int\` 选项数据索引\n
+  - \`model: var\` 选项数据\n
+  - \`pressed: bool\` 是否按下\n
+  - \`hovered: bool\` 是否悬浮\n
 \n<br/>
 \n### 支持的属性：\n
 属性名 | 类型 | 默认值 | 描述
@@ -44,6 +49,13 @@ radiusItemBg | [HusRadius](internal://HusRadius) | - | 选项背景圆角
 radiusPopupBg | [HusRadius](internal://HusRadius) | - | 弹窗背景圆角
 sizeHint | string | 'normal' | 尺寸提示
 contentDescription | string | '' | 内容描述(提高可用性)
+\n<br/>
+\n### 模型{model}支持的属性：\n
+属性名 | 类型 | 可选/必选 | 描述
+------ | --- | :---: | ---
+label | string | 必选 | 本选择项的标签
+value | var | 可选 | 本选择项的值
+enabled | bool | 可选 | 本选择项是否启用
 \n<br/>
 \n### 支持的信号：\n
 - \`clickClear()\` 点击清除图标时发出\n

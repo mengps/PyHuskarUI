@@ -205,6 +205,7 @@ dataIndex | string | 数据索引
 filterInput | string | 单元格的过滤输入
 \n<br/>
 \n### 支持的函数：\n
+- \`setColumnVisible(dataIndex: string, visible: bool)\` 设置 \`dataIndex\` 对应列的可见为 \`visible\`。\n
 - \`checkForRows(rows: Array)\` 选中 \`rows\` 提供的行列表。\n
 - \`checkForKeys(keys: Array)\` 选中 \`keys\` 提供的键列表。\n
 - \`toggleForRows(rows: Array)\` 切换 \`rows\` 提供的行列表的选中状态。\n
@@ -329,6 +330,178 @@ filterInput | string | 单元格的过滤输入
                 spacing: 10
 
                 HusTableView {
+                    width: parent.width
+                    height: 200
+                    columns: [
+                        {
+                            title: 'Name',
+                            dataIndex: 'name',
+                            delegate: textDelegate,
+                            width: 200
+                        },
+                        {
+                            title: 'Age',
+                            dataIndex: 'age',
+                            delegate: textDelegate,
+                            width: 100
+                        },
+                        {
+                            title: 'Address',
+                            dataIndex: 'address',
+                            delegate: textDelegate,
+                            width: 300
+                        },
+                        {
+                            title: 'Tags',
+                            dataIndex: 'tags',
+                            delegate: tagsDelegate,
+                            width: 200
+                        },
+                        {
+                            title: 'Action',
+                            dataIndex: 'action',
+                            delegate: actionDelegate,
+                            width: 300
+                        }
+                    ]
+                    initModel: [
+                        {
+                            key: '1',
+                            name: 'John Brown',
+                            age: 32,
+                            address: 'New York No. 1 Lake Park',
+                            tags: ['nice', 'developer'],
+                        },
+                        {
+                            key: '2',
+                            name: 'Jim Green',
+                            age: 42,
+                            address: 'London No. 1 Lake Park',
+                            tags: ['loser'],
+                        },
+                        {
+                            key: '3',
+                            name: 'Joe Black',
+                            age: 32,
+                            address: 'Sydney No. 1 Lake Park',
+                            tags: ['cool', 'teacher'],
+                        }
+                    ]
+                }
+            }
+        }
+
+        CodeBox {
+            width: parent.width
+            descTitle: qsTr('显示/隐藏指定行')
+            desc: qsTr(`
+通过 \`setColumnVisible(dataIndex: string, visible: bool)\` 来切换显示指定行。\n
+                       `)
+            code: `
+                import QtQuick
+                import HuskarUI.Basic
+
+                Column {
+                    width: parent.width
+                    spacing: 10
+
+                    HusGroupBox {
+                        title: 'Check to column visible'
+                        padding: 20
+
+                        Row {
+                            spacing: 10
+
+                            HusCheckBox { checked: true; text: 'Name'; onToggled: columnVisibleTable.setColumnVisible('name', checked); }
+                            HusCheckBox { checked: true; text: 'Age'; onToggled: columnVisibleTable.setColumnVisible('age', checked); }
+                            HusCheckBox { checked: true; text: 'Address'; onToggled: columnVisibleTable.setColumnVisible('address', checked); }
+                            HusCheckBox { checked: true; text: 'Tags'; onToggled: columnVisibleTable.setColumnVisible('tags', checked); }
+                            HusCheckBox { checked: true; text: 'Action'; onToggled: columnVisibleTable.setColumnVisible('action', checked); }
+                        }
+                    }
+
+                    HusTableView {
+                        id: columnVisibleTable
+                        width: parent.width
+                        height: 200
+                        columns: [
+                            {
+                                title: 'Name',
+                                dataIndex: 'name',
+                                delegate: textDelegate,
+                                width: 200
+                            },
+                            {
+                                title: 'Age',
+                                dataIndex: 'age',
+                                delegate: textDelegate,
+                                width: 100
+                            },
+                            {
+                                title: 'Address',
+                                dataIndex: 'address',
+                                delegate: textDelegate,
+                                width: 300
+                            },
+                            {
+                                title: 'Tags',
+                                dataIndex: 'tags',
+                                delegate: tagsDelegate,
+                                width: 200
+                            },
+                            {
+                                title: 'Action',
+                                dataIndex: 'action',
+                                delegate: actionDelegate,
+                                width: 300
+                            }
+                        ]
+                        initModel: [
+                            {
+                                key: '1',
+                                name: 'John Brown',
+                                age: 32,
+                                address: 'New York No. 1 Lake Park',
+                                tags: ['nice', 'developer'],
+                            },
+                            {
+                                key: '2',
+                                name: 'Jim Green',
+                                age: 42,
+                                address: 'London No. 1 Lake Park',
+                                tags: ['loser'],
+                            },
+                            {
+                                key: '3',
+                                name: 'Joe Black',
+                                age: 32,
+                                address: 'Sydney No. 1 Lake Park',
+                                tags: ['cool', 'teacher'],
+                            }
+                        ]
+                    }
+                }
+            `
+            exampleDelegate: Column {
+                spacing: 10
+
+                HusGroupBox {
+                    title: 'Check to column visible'
+                    padding: 20
+
+                    Row {
+                        spacing: 10
+
+                        HusCheckBox { checked: true; text: 'Name'; onToggled: columnVisibleTable.setColumnVisible('name', checked); }
+                        HusCheckBox { checked: true; text: 'Age'; onToggled: columnVisibleTable.setColumnVisible('age', checked); }
+                        HusCheckBox { checked: true; text: 'Address'; onToggled: columnVisibleTable.setColumnVisible('address', checked); }
+                        HusCheckBox { checked: true; text: 'Tags'; onToggled: columnVisibleTable.setColumnVisible('tags', checked); }
+                        HusCheckBox { checked: true; text: 'Action'; onToggled: columnVisibleTable.setColumnVisible('action', checked); }
+                    }
+                }
+
+                HusTableView {
+                    id: columnVisibleTable
                     width: parent.width
                     height: 200
                     columns: [

@@ -11,7 +11,7 @@
 
 * **继承自 { ComboBox }**
 
-* **继承此 { [HusMultiSelect](./HusMultiSelect.md) }**
+* **继承此 { [HusMultiSelect](./HusMultiSelect.md), [HusMultiCheckBox](./HusMultiCheckBox.md) }**
 
 
 <br/>
@@ -19,6 +19,16 @@
 ### 支持的代理：
 
 - **indicatorDelegate: Component** 右侧指示器代理
+    
+- **toolTipDelegate: Component** 文本提示代理，代理可访问属性：
+
+  - `index: int` 选项数据索引
+
+  - `model: var` 选项数据
+
+  - `pressed: bool` 是否按下
+
+  - `hovered: bool` 是否悬浮
 
 
 <br/>
@@ -44,6 +54,16 @@ radiusItemBg | [HusRadius](../General/HusRadius.md) | - | 选项背景圆角
 radiusPopupBg | [HusRadius](../General/HusRadius.md) | - | 弹窗背景圆角
 sizeHint | string | 'normal' | 尺寸提示
 contentDescription | string | '' | 内容描述(提高可用性)
+
+<br/>
+
+### 模型{model}支持的属性：
+
+属性名 | 类型 | 可选/必选 | 描述
+------ | --- | :---: | ---
+label | string | 必选 | 本选择项的标签
+value | var | 可选 | 本选择项的值
+enabled | bool | 可选 | 本选择项是否启用
 
 <br/>
 

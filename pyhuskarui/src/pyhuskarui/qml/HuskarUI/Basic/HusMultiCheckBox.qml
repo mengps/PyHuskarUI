@@ -40,6 +40,9 @@ HusSelect {
     readonly property alias tagCount: __tagListModel.count
     property int maxTagCount: -1
     property int tagSpacing: 5 * sizeRatio
+    property real itemWidth: 120 * sizeRatio
+    property real itemHeight: 30 * sizeRatio
+    property real defaultPopupWidth: width
     property color colorTagText: enabled ? themeSource.colorTagText :
                                            themeSource.colorTagTextDisabled
     property color colorTagBg: themeSource.colorTagBg
@@ -193,8 +196,8 @@ HusSelect {
     Behavior on colorTagText { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
     Behavior on colorTagBg { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
 
-    objectName: '__HusMultiSelect__'
-    themeSource: HusTheme.HusMultiSelect
+    objectName: '__HusMultiCheckBox__'
+    themeSource: HusTheme.HusMultiCheckBox
     font {
         family: themeSource.fontFamily
         pixelSize: parseInt(themeSource.fontSize) * sizeRatio
@@ -293,8 +296,9 @@ HusSelect {
     }
     popup: HusPopup {
         id: __popup
+        x: (control.width - width) * 0.5
         y: control.height + 2
-        implicitWidth: control.width
+        implicitWidth: implicitContentWidth + leftPadding + rightPadding
         implicitHeight: implicitContentHeight + topPadding + bottomPadding
         leftPadding: 4 * control.sizeRatio
         rightPadding: 4 * control.sizeRatio
@@ -336,14 +340,17 @@ HusSelect {
                 duration: control.animationEnabled ? HusTheme.Primary.durationMid : 0
             }
         }
-        contentItem: ListView {
-            id: __popupListView
+        contentItem: GridView {
+            id: __popupGridView
+            implicitWidth: control.defaultPopupWidth
             implicitHeight: Math.min(control.defaultPopupMaxHeight, contentHeight)
             clip: true
             model: control.popup.visible ? control.model : null
             currentIndex: control.highlightedIndex
             boundsBehavior: Flickable.StopAtBounds
-            delegate: T.ItemDelegate {
+            cellWidth: control.itemWidth
+            cellHeight: control.itemHeight
+            delegate: HusCheckBox {
                 id: __popupDelegate
 
                 required property var model
@@ -351,54 +358,23 @@ HusSelect {
                 readonly property string key: model.key
                 readonly property bool selected: __private.selectedKeysMap.has(key)
 
-                width: __popupListView.width
-                height: implicitContentHeight + topPadding + bottomPadding
+                width: __popupGridView.cellWidth
+                height: __popupGridView.cellHeight
                 leftPadding: 8 * control.sizeRatio
                 rightPadding: 8 * control.sizeRatio
                 topPadding: 5 * control.sizeRatio
                 bottomPadding: 5 * control.sizeRatio
+                checked: selected
                 enabled: (model.enabled ?? true) && ((!selected && control.maxTagCount >= 0) ? (__tagListModel.count < control.maxTagCount) : true)
-                contentItem: HusText {
-                    text: __popupDelegate.model[control.textRole]
-                    color: __popupDelegate.enabled ? control.themeSource.colorItemText :
+                text: __popupDelegate.model[control.textRole]
+                colorText: __popupDelegate.enabled ? control.themeSource.colorItemText :
                                                      control.themeSource.colorItemTextDisabled
-                    font {
-                        family: control.themeSource.fontFamily
-                        pixelSize: parseInt(control.themeSource.fontSize) * control.sizeRatio
-                        weight: selected ? Font.DemiBold : Font.Normal
-                    }
-                    elide: Text.ElideRight
-                    verticalAlignment: Text.AlignVCenter
-
-                    HusIconText {
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        colorIcon: control.themeSource.colorIconSelect
-                        iconSize: 16 * control.sizeRatio
-                        iconSource: HusIcon.CheckOutlined
-                        visible: __popupDelegate.enabled && selected
-                    }
+                font {
+                    family: control.themeSource.fontFamily
+                    pixelSize: parseInt(control.themeSource.fontSize) * control.sizeRatio
+                    weight: selected ? Font.DemiBold : Font.Normal
                 }
-                background: HusRectangleInternal {
-                    radius: control.radiusItemBg.all
-                    topLeftRadius: control.radiusItemBg.topLeft
-                    topRightRadius: control.radiusItemBg.topRight
-                    bottomLeftRadius: control.radiusItemBg.bottomLeft
-                    bottomRightRadius: control.radiusItemBg.bottomRight
-                    color: {
-                        if (__popupDelegate.selected) {
-                            return control.themeSource.colorItemBgActive;
-                        } else {
-                            if (__popupDelegate.enabled)
-                                return hovered ? control.themeSource.colorItemBgHover :
-                                                 control.themeSource.colorItemBg;
-                            else
-                                return control.themeSource.colorItemBgDisabled;
-                        }
-                    }
-
-                    Behavior on color { enabled: control.animationEnabled; ColorAnimation { duration: HusTheme.Primary.durationFast } }
-                }
+                elide: Text.ElideRight
                 onClicked: {
                     control.currentIndex = index;
                     const data = __popupDelegate.model.modelData;
