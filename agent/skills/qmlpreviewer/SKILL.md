@@ -1,6 +1,6 @@
 ---
 name: "QmlPreviewer"
-description: "Auto-detects the active QML file from editor context, runs qmlscene, and copies the rendered image to the clipboard by default. Invoke when user asks to preview or visually verify QML UI."
+description: "Auto-detects the active QML file from editor context, runs qmlscene, and copies the rendered image to the clipboard by default. Invoke proactively when the agent needs to preview or visually verify a QML UI."
 ---
 
 # QML Previewer
@@ -9,13 +9,15 @@ Use this skill to quickly run and inspect the currently edited QML file, with th
 
 ## When to invoke
 
-- User asks to preview a QML file
-- User asks to visually verify QML UI changes
-- User asks for screenshot-based UI checking
+- The agent needs to preview the current QML page to understand its visual result
+- The agent needs to visually verify QML UI changes it just made or inspected
+- The agent needs screenshot-based evidence to check layout, rendering, or missing assets
+- Invoke proactively without asking the user to explicitly request a preview when visual verification is needed
 
 ## Inputs required
 
 - `qmlscene.exe` absolute path
+
 ## Execution steps
 
 1. Resolve QML file path from current editor context:
@@ -26,15 +28,19 @@ Use this skill to quickly run and inspect the currently edited QML file, with th
 
 ```powershell
 & "<SKILL_DIR>\capture_qmlscene_to_clipboard.ps1" -QmlScenePath "<qmlscene.exe>" -QmlFilePath "<auto-detected absolute QML file path>"
+```
+
+3. If the clipboard capture flow is unavailable or unsuitable, launch the page directly instead:
+
 ```powershell
 & "<qmlscene.exe>" "<auto-detected absolute QML file path>" --maximized
 ```
 
-5. Read and analyze the clipboard image to report:
+4. Read and analyze the clipboard image or live preview to report:
    - Whether the page loads successfully
    - Any obvious rendering/layout issues
    - Any visual errors or missing assets
-& "<qmlscene.exe>" "<auto-detected absolute QML file path>" --maximized
+
 ## Fallback checks
 
 - If launch fails, verify both paths exist and are absolute paths.

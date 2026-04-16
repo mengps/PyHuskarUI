@@ -11,9 +11,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusAnimatedImage.qml"
-    ],
-    "title": "HusAnimatedImage 动态图片"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusAnimatedImage.qml"
+    ]
   },
   {
     "name": "HusAvatar",
@@ -37,9 +36,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusAvatar.qml"
-    ],
-    "title": "HusAvatar 头像"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusAvatar.qml"
+    ]
   },
   {
     "name": "HusBadge",
@@ -83,9 +81,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusBadge.qml"
-    ],
-    "title": "HusBadge 徽标数"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusBadge.qml"
+    ]
   },
   {
     "name": "HusCard",
@@ -109,9 +106,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusCard.qml"
-    ],
-    "title": "HusCard 卡片"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCard.qml"
+    ]
   },
   {
     "name": "HusCarousel",
@@ -140,9 +136,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusCarousel.qml"
-    ],
-    "title": "HusCarousel 走马灯"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCarousel.qml"
+    ]
   },
   {
     "name": "HusCheckerBoard",
@@ -156,9 +151,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusCheckerBoard.qml"
-    ],
-    "title": "HusCheckerBoard 棋盘格"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCheckerBoard.qml"
+    ]
   },
   {
     "name": "HusCollapse",
@@ -197,9 +191,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusCollapse.qml"
-    ],
-    "title": "HusCollapse 折叠面板"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCollapse.qml"
+    ]
   },
   {
     "name": "HusEmpty",
@@ -213,9 +206,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusEmpty.qml"
-    ],
-    "title": "HusEmpty 空状态"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusEmpty.qml"
+    ]
   },
   {
     "name": "HusImage",
@@ -259,9 +251,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusImage.qml"
-    ],
-    "title": "HusImage 图片"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusImage.qml"
+    ]
   },
   {
     "name": "HusImagePreview",
@@ -280,9 +271,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusImagePreview.qml"
-    ],
-    "title": "HusImagePreview 图片预览"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusImagePreview.qml"
+    ]
   },
   {
     "name": "HusQrCode",
@@ -316,10 +306,8 @@
       }
     ],
     "sources": [
-      "src/cpp/controls/husqrcode.h",
-      "src/cpp/controls/husqrcode.cpp"
-    ],
-    "title": "HusQrCode 二维码"
+      "pyhuskarui/src/pyhuskarui/controls/husqrcode.py"
+    ]
   },
   {
     "name": "HusSegmented",
@@ -357,10 +345,7 @@
         "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    spacing: 10\n\n                    HusSegmented {\n                        options: ['small', 'middle', 'large']\n                    }\n\n                    HusSegmented {\n                        options: [\n                            { iconSource: HusIcon.SunOutlined },\n                            { iconSource: HusIcon.MoonOutlined },\n                        ]\n                        radiusBg.all: height * 0.5\n                    }\n                }"
       }
     ],
-    "sources": [
-      "src/imports/HusSegmented.qml"
-    ],
-    "title": "HusSegmented 分段控制器"
+    "sources": []
   },
   {
     "name": "HusTableView",
@@ -394,9 +379,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTableView.qml"
-    ],
-    "title": "HusTableView 表格"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTableView.qml"
+    ]
   },
   {
     "name": "HusTabView",
@@ -420,9 +404,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTabView.qml"
-    ],
-    "title": "HusTabView 标签页"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTabView.qml"
+    ]
   },
   {
     "name": "HusTag",
@@ -456,9 +439,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTag.qml"
-    ],
-    "title": "HusTag 标签"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTag.qml"
+    ]
   },
   {
     "name": "HusTimeline",
@@ -492,9 +474,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTimeline.qml"
-    ],
-    "title": "HusTimeline 时间轴"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTimeline.qml"
+    ]
   },
   {
     "name": "HusToolTip",
@@ -508,9 +489,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusToolTip.qml"
-    ],
-    "title": "HusToolTip 文字提示"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusToolTip.qml"
+    ]
   },
   {
     "name": "HusTourFocus",
@@ -529,9 +509,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTourFocus.qml"
-    ],
-    "title": "HusTourFocus 漫游焦点"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTourFocus.qml"
+    ]
   },
   {
     "name": "HusTourStep",
@@ -550,9 +529,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTourStep.qml"
-    ],
-    "title": "HusTourStep 漫游式引导"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTourStep.qml"
+    ]
   },
   {
     "name": "HusTreeView",
@@ -586,9 +564,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTreeView.qml"
-    ],
-    "title": "HusTreeView 树视图"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTreeView.qml"
+    ]
   },
   {
     "name": "HusAutoComplete",
@@ -627,9 +604,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusAutoComplete.qml"
-    ],
-    "title": "HusAutoComplete 自动完成"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusAutoComplete.qml"
+    ]
   },
   {
     "name": "HusCheckBox",
@@ -648,9 +624,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusCheckBox.qml"
-    ],
-    "title": "HusCheckBox 多选框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCheckBox.qml"
+    ]
   },
   {
     "name": "HusColorPicker",
@@ -694,9 +669,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusColorPicker.qml"
-    ],
-    "title": "HusColorPicker 颜色选择器"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusColorPicker.qml"
+    ]
   },
   {
     "name": "HusColorPickerPanel",
@@ -710,9 +684,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusColorPickerPanel.qml"
-    ],
-    "title": "HusColorPickerPanel 颜色选择器面板"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusColorPickerPanel.qml"
+    ]
   },
   {
     "name": "HusDateTimePicker",
@@ -736,9 +709,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusDateTimePicker.qml"
-    ],
-    "title": "HusDateTimePicker 日期选择框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusDateTimePicker.qml"
+    ]
   },
   {
     "name": "HusDateTimePickerPanel",
@@ -757,9 +729,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusDateTimePickerPanel.qml"
-    ],
-    "title": "HusDateTimePickerPanel 日期选择面板"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusDateTimePickerPanel.qml"
+    ]
   },
   {
     "name": "HusInput",
@@ -788,9 +759,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusInput.qml"
-    ],
-    "title": "HusInput 输入框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusInput.qml"
+    ]
   },
   {
     "name": "HusInputInteger",
@@ -829,9 +799,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusInputInteger.qml"
-    ],
-    "title": "HusInputInteger 整数输入框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusInputInteger.qml"
+    ]
   },
   {
     "name": "HusInputNumber",
@@ -875,9 +844,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusInputNumber.qml"
-    ],
-    "title": "HusInputNumber 数字输入框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusInputNumber.qml"
+    ]
   },
   {
     "name": "HusMultiCheckBox",
@@ -921,9 +889,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusMultiCheckBox.qml"
-    ],
-    "title": "HusMultiCheckBox 多复选框选择器"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMultiCheckBox.qml"
+    ]
   },
   {
     "name": "HusMultiSelect",
@@ -967,9 +934,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusMultiSelect.qml"
-    ],
-    "title": "HusMultiSelect 多选器"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMultiSelect.qml"
+    ]
   },
   {
     "name": "HusOTPInput",
@@ -998,9 +964,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusOTPInput.qml"
-    ],
-    "title": "HusOTPInput 一次性口令输入框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusOTPInput.qml"
+    ]
   },
   {
     "name": "HusRadio",
@@ -1024,9 +989,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusRadio.qml"
-    ],
-    "title": "HusRadio 单选框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusRadio.qml"
+    ]
   },
   {
     "name": "HusRadioBlock",
@@ -1045,9 +1009,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusRadioBlock.qml"
-    ],
-    "title": "HusRadioBlock 单选块(HusRadio变种)"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusRadioBlock.qml"
+    ]
   },
   {
     "name": "HusRate",
@@ -1081,9 +1044,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusRate.qml"
-    ],
-    "title": "HusRate 评分"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusRate.qml"
+    ]
   },
   {
     "name": "HusSelect",
@@ -1097,9 +1059,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusSelect.qml"
-    ],
-    "title": "HusSelect 选择器"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSelect.qml"
+    ]
   },
   {
     "name": "HusSlider",
@@ -1123,9 +1084,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusSlider.qml"
-    ],
-    "title": "HusSlider 滑动输入条"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSlider.qml"
+    ]
   },
   {
     "name": "HusSwitch",
@@ -1159,9 +1119,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusSwitch.qml"
-    ],
-    "title": "HusSwitch 开关"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSwitch.qml"
+    ]
   },
   {
     "name": "HusTextArea",
@@ -1185,9 +1144,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTextArea.qml"
-    ],
-    "title": "HusTextArea 文本域"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTextArea.qml"
+    ]
   },
   {
     "name": "HusTransfer",
@@ -1211,9 +1169,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusTransfer.qml"
-    ],
-    "title": "HusTransfer 穿梭框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusTransfer.qml"
+    ]
   },
   {
     "name": "HusAcrylic",
@@ -1227,9 +1184,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusAcrylic.qml"
-    ],
-    "title": "HusAcrylic 亚克力"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusAcrylic.qml"
+    ]
   },
   {
     "name": "HusLiquidGlass",
@@ -1242,10 +1198,7 @@
         "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n\n                    HusSlider {\n                        id: refractionSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 0.1; stepSize: 0.01; value: 0.1\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('折射: ') + parent.currentValue.toFixed(3)\n                        }\n                    }\n\n                    HusSlider {\n                        id: frostSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 10.0; stepSize: 0.1; value: 0.2\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('磨砂: ') + parent.currentValue.toFixed(1)\n                        }\n                    }\n\n                    HusSlider {\n                        id: bevelDepthSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 0.5; stepSize: 0.01; value: 0.1\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('斜面深度: ') + parent.currentValue.toFixed(2)\n                        }\n                    }\n\n                    HusSlider {\n                        id: bevelWidthSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 0.5; stepSize: 0.01; value: 0.1\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('斜面宽度: ') + parent.currentValue.toFixed(2)\n                        }\n                    }\n\n                    HusSlider {\n                        id: specularSlider\n                        width: 200; height: 30\n                        min: 0.0; max: 2.0; stepSize: 0.1; value: 1.0\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('高光: ') + parent.currentValue.toFixed(1)\n                        }\n                    }\n\n                    HusSlider {\n                        id: radiusSlider\n                        width: 200; height: 30\n                        min: 0; max: 80; stepSize: 1; value: 30\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('圆角: ') + parent.currentValue.toFixed(0)\n                        }\n                    }\n\n                    HusSlider {\n                        id: tiltXSlider\n                        width: 200; height: 30\n                        min: -45; max: 45; stepSize: 1; value: 0\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('水平倾斜: ') + parent.currentValue.toFixed(0) + '°'\n                        }\n                    }\n\n                    HusSlider {\n                        id: tiltYSlider\n                        width: 200; height: 30\n                        min: -45; max: 45; stepSize: 1; value: 0\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('垂直倾斜: ') + parent.currentValue.toFixed(0) + '°'\n                        }\n                    }\n\n                    HusSlider {\n                        id: magnifySlider\n                        width: 200; height: 30\n                        min: 0.5; max: 3.0; stepSize: 0.05; value: 1.25\n                        HusCopyableText {\n                            anchors.verticalCenter: parent.verticalCenter\n                            anchors.left: parent.right; anchors.leftMargin: 10\n                            text: qsTr('放大: ') + parent.currentValue.toFixed(2) + 'x'\n                        }\n                    }\n\n                    Rectangle {\n                        width: 600; height: 400\n                        anchors.horizontalCenter: parent.horizontalCenter\n                        color: 'transparent'\n                        border.color: HusTheme.Primary.colorTextBase\n\n                        Image {\n                            id: source\n                            anchors.fill: parent\n                            source: 'qrc:/Gallery/images/switch_effect1.jpg'\n                            fillMode: Image.PreserveAspectCrop\n                        }\n\n                        HusLiquidGlass {\n                            x: (source.width - width) * 0.5\n                            y: (source.height - height) * 0.5\n                            width: 200; height: 200\n                            sourceItem: source\n                            refraction: refractionSlider.currentValue\n                            frost: frostSlider.currentValue\n                            bevelDepth: bevelDepthSlider.currentValue\n                            bevelWidth: bevelWidthSlider.currentValue\n                            radiusBg: HusRadius { all: radiusSlider.currentValue }\n                            tiltX: tiltXSlider.currentValue\n                            tiltY: tiltYSlider.currentValue\n                            magnify: magnifySlider.currentValue\n\n                            HusResizeMouseArea {\n                                target: parent\n                                movable: true\n                                preventStealing: true\n                                minimumWidth: 100\n                                minimumHeight: 30\n                                minimumX: source.x\n                                maximumX: source.x + source.width - parent.width\n                                minimumY: source.y\n                                maximumY: source.y + source.height - parent.height\n                            }\n                        }\n                    }\n                }"
       }
     ],
-    "sources": [
-      "src/imports/HusLiquidGlass.qml"
-    ],
-    "title": "HusLiquidGlass 液态玻璃"
+    "sources": []
   },
   {
     "name": "HusShadow",
@@ -1259,9 +1212,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusShadow.qml"
-    ],
-    "title": "HusShadow 阴影"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusShadow.qml"
+    ]
   },
   {
     "name": "HusSwitchEffect",
@@ -1275,9 +1227,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusSwitchEffect.qml"
-    ],
-    "title": "HusSwitchEffect 切换效果"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSwitchEffect.qml"
+    ]
   },
   {
     "name": "HusDrawer",
@@ -1296,9 +1247,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusDrawer.qml"
-    ],
-    "title": "HusDrawer 抽屉"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusDrawer.qml"
+    ]
   },
   {
     "name": "HusMessage",
@@ -1332,9 +1282,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusMessage.qml"
-    ],
-    "title": "HusMessage 消息提示"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMessage.qml"
+    ]
   },
   {
     "name": "HusModal",
@@ -1363,9 +1312,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusModal.qml"
-    ],
-    "title": "HusModal 对话框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusModal.qml"
+    ]
   },
   {
     "name": "HusNotification",
@@ -1399,9 +1347,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusNotification.qml"
-    ],
-    "title": "HusNotification 通知提醒框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusNotification.qml"
+    ]
   },
   {
     "name": "HusPopconfirm",
@@ -1425,9 +1372,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusPopconfirm.qml"
-    ],
-    "title": "HusPopconfirm 气泡确认框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPopconfirm.qml"
+    ]
   },
   {
     "name": "HusPopover",
@@ -1441,9 +1387,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusPopover.qml"
-    ],
-    "title": "HusPopover 气泡显示框"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPopover.qml"
+    ]
   },
   {
     "name": "HusProgress",
@@ -1487,9 +1432,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusProgress.qml"
-    ],
-    "title": "HusProgress 进度条"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusProgress.qml"
+    ]
   },
   {
     "name": "HusSpin",
@@ -1533,9 +1477,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusSpin.qml"
-    ],
-    "title": "HusSpin 加载中"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSpin.qml"
+    ]
   },
   {
     "name": "HusWatermark",
@@ -1554,10 +1497,8 @@
       }
     ],
     "sources": [
-      "src/cpp/controls/huswatermark.h",
-      "src/cpp/controls/huswatermark.cpp"
-    ],
-    "title": "HusWatermark 水印"
+      "pyhuskarui/src/pyhuskarui/controls/huswatermark.py"
+    ]
   },
   {
     "name": "HusApi",
@@ -1565,10 +1506,8 @@
     "docPath": "gallery/qml/Examples/Functions/ExpApi.qml",
     "examples": [],
     "sources": [
-      "src/cpp/utils/husapi.h",
-      "src/cpp/utils/husapi.cpp"
-    ],
-    "title": "HusApi 内置API"
+      "pyhuskarui/src/pyhuskarui/utils/husapi.py"
+    ]
   },
   {
     "name": "HusButton",
@@ -1592,9 +1531,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusButton.qml"
-    ],
-    "title": "HusButton 按钮"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusButton.qml"
+    ]
   },
   {
     "name": "HusButtonBlock",
@@ -1613,9 +1551,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusButtonBlock.qml"
-    ],
-    "title": "HusButtonBlock 按钮块(HusIconButton变种)"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusButtonBlock.qml"
+    ]
   },
   {
     "name": "HusCaptionBar",
@@ -1623,9 +1560,8 @@
     "docPath": "gallery/qml/Examples/General/ExpCaptionBar.qml",
     "examples": [],
     "sources": [
-      "src/imports/HusCaptionBar.qml"
-    ],
-    "title": "HusCaptionBar 标题栏"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCaptionBar.qml"
+    ]
   },
   {
     "name": "HusCaptionButton",
@@ -1639,9 +1575,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusCaptionButton.qml"
-    ],
-    "title": "HusCaptionButton 标题按钮"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCaptionButton.qml"
+    ]
   },
   {
     "name": "HusCopyableText",
@@ -1655,9 +1590,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusCopyableText.qml"
-    ],
-    "title": "HusCopyableText 可复制文本"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusCopyableText.qml"
+    ]
   },
   {
     "name": "HusFrame",
@@ -1671,9 +1605,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusFrame.qml"
-    ],
-    "title": "HusFrame 框架"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusFrame.qml"
+    ]
   },
   {
     "name": "HusIconButton",
@@ -1687,9 +1620,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusIconButton.qml"
-    ],
-    "title": "HusIconButton 图标按钮"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusIconButton.qml"
+    ]
   },
   {
     "name": "HusIconText",
@@ -1697,9 +1629,8 @@
     "docPath": "gallery/qml/Examples/General/ExpIconText.qml",
     "examples": [],
     "sources": [
-      "src/imports/HusIconText.qml"
-    ],
-    "title": "HusIconText 图标文本"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusIconText.qml"
+    ]
   },
   {
     "name": "HusLabel",
@@ -1713,9 +1644,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusLabel.qml"
-    ],
-    "title": "HusLabel 文本标签"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusLabel.qml"
+    ]
   },
   {
     "name": "HusMoveMouseArea",
@@ -1729,9 +1659,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusMoveMouseArea.qml"
-    ],
-    "title": "HusMoveMouseArea 移动鼠标区域"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMoveMouseArea.qml"
+    ]
   },
   {
     "name": "HusPage",
@@ -1745,9 +1674,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusPage.qml"
-    ],
-    "title": "HusPage 页面"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPage.qml"
+    ]
   },
   {
     "name": "HusPopup",
@@ -1761,9 +1689,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusPopup.qml"
-    ],
-    "title": "HusPopup 弹窗"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPopup.qml"
+    ]
   },
   {
     "name": "HusRadius",
@@ -1771,10 +1698,8 @@
     "docPath": "gallery/qml/Examples/General/ExpRadius.qml",
     "examples": [],
     "sources": [
-      "src/cpp/controls/husrectangle.h",
-      "src/cpp/controls/husrectangle.cpp"
-    ],
-    "title": "HusRadius 圆角半径"
+      "pyhuskarui/src/pyhuskarui/controls/husrectangle.py"
+    ]
   },
   {
     "name": "HusRectangle",
@@ -1788,10 +1713,8 @@
       }
     ],
     "sources": [
-      "src/cpp/controls/husrectangle.h",
-      "src/cpp/controls/husrectangle.cpp"
-    ],
-    "title": "HusRectangle 圆角矩形"
+      "pyhuskarui/src/pyhuskarui/controls/husrectangle.py"
+    ]
   },
   {
     "name": "HusResizeMouseArea",
@@ -1805,9 +1728,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusResizeMouseArea.qml"
-    ],
-    "title": "HusResizeMouseArea 改变大小鼠标区域"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusResizeMouseArea.qml"
+    ]
   },
   {
     "name": "HusText",
@@ -1821,9 +1743,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusText.qml"
-    ],
-    "title": "HusText 文本"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusText.qml"
+    ]
   },
   {
     "name": "HusWindow",
@@ -1837,9 +1758,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusWindow.qml"
-    ],
-    "title": "HusWindow 无边框窗口"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusWindow.qml"
+    ]
   },
   {
     "name": "HusDivider",
@@ -1863,9 +1783,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusDivider.qml"
-    ],
-    "title": "HusDivider 分割线"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusDivider.qml"
+    ]
   },
   {
     "name": "HusGroupBox",
@@ -1878,10 +1797,7 @@
         "code": "import QtQuick\n                import HuskarUI.Basic\n\n                Column {\n                    spacing: 10\n    \n                    HusCheckBox {\n                        id: enabledCheckBox\n                        text: 'Enabled'\n                        checked: true\n                    }\n\n                    HusRadioBlock {\n                        id: sizeHintRadio\n                        initCheckedIndex: 1\n                        model: [\n                            { label: 'Small', value: 'small' },\n                            { label: 'Normal', value: 'normal' },\n                            { label: 'Large', value: 'large' },\n                        ]\n                    }\n\n                    HusGroupBox {\n                        padding: 20 * sizeRatio\n                        title: 'GroupBox'\n                        enabled: enabledCheckBox.checked\n                        sizeHint: sizeHintRadio.currentCheckedValue\n\n                        HusSpace {\n                            layout: 'ColumnLayout'\n                            spacing: 10\n\n                            HusCheckBox { text: 'E-mail '; sizeHint: sizeHintRadio.currentCheckedValue }\n                            HusCheckBox { text: 'Calendar'; sizeHint: sizeHintRadio.currentCheckedValue }\n                            HusCheckBox { text: 'Contacts'; sizeHint: sizeHintRadio.currentCheckedValue }\n                        }\n                    }\n                }"
       }
     ],
-    "sources": [
-      "src/imports/HusGroupBox.qml"
-    ],
-    "title": "HusGroupBox 分组框"
+    "sources": []
   },
   {
     "name": "HusSpace",
@@ -1910,9 +1826,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusSpace.qml"
-    ],
-    "title": "HusSpace 间距"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusSpace.qml"
+    ]
   },
   {
     "name": "HusBreadcrumb",
@@ -1946,9 +1861,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusBreadcrumb.qml"
-    ],
-    "title": "HusBreadcrumb 面包屑"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusBreadcrumb.qml"
+    ]
   },
   {
     "name": "HusContextMenu",
@@ -1967,9 +1881,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusContextMenu.qml"
-    ],
-    "title": "HusContextMenu 上下文菜单"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusContextMenu.qml"
+    ]
   },
   {
     "name": "HusMenu",
@@ -1993,9 +1906,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusMenu.qml"
-    ],
-    "title": "HusMenu 菜单"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusMenu.qml"
+    ]
   },
   {
     "name": "HusPagination",
@@ -2029,9 +1941,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusPagination.qml"
-    ],
-    "title": "HusPagination 分页"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusPagination.qml"
+    ]
   },
   {
     "name": "HusScrollBar",
@@ -2045,9 +1956,8 @@
       }
     ],
     "sources": [
-      "src/imports/HusScrollBar.qml"
-    ],
-    "title": "HusScrollBar 滚动条"
+      "pyhuskarui/src/pyhuskarui/qml/HuskarUI/Basic/HusScrollBar.qml"
+    ]
   },
   {
     "name": "HusTheme",
@@ -2091,11 +2001,8 @@
       }
     ],
     "sources": [
-      "src/cpp/theme/hustheme.h",
-      "src/cpp/theme/hustheme_p.h",
-      "src/cpp/theme/hustheme.cpp"
-    ],
-    "title": "HusTheme"
+      "pyhuskarui/src/pyhuskarui/theme/hustheme.py"
+    ]
   },
   {
     "name": "HusAsyncHasher",
@@ -2109,10 +2016,8 @@
       }
     ],
     "sources": [
-      "src/cpp/utils/husasynchasher.h",
-      "src/cpp/utils/husasynchasher.cpp"
-    ],
-    "title": "HusAsyncHasher 异步散列器"
+      "pyhuskarui/src/pyhuskarui/utils/husasynchasher.py"
+    ]
   },
   {
     "name": "HusRouter",
@@ -2126,9 +2031,7 @@
       }
     ],
     "sources": [
-      "src/cpp/utils/husrouter.h",
-      "src/cpp/utils/husrouter.cpp"
-    ],
-    "title": "HusRouter 路由"
+      "pyhuskarui/src/pyhuskarui/utils/husrouter.py"
+    ]
   }
 ]
