@@ -1,116 +1,142 @@
 ---
 name: "HuskarUI"
-description: "Use Python to query HuskarUI metadata when the agent needs component properties, interfaces, examples, or HuskarUI-first UI code."
+description: "Queries HuskarUI metadata with Python and guides HuskarUI-first QML/C++ code. Invoke when choosing components, checking examples, or generating HuskarUI UI."
 ---
 
-# HuskarUI Expert
+# HuskarUI
 
-Use this skill whenever the agent needs to understand HuskarUI component capabilities or generate UI code that should follow the repository's component conventions. Treat Python output as the primary source. Read source files only for verification. `guide.metainfo.json` and `query_metainfo.py` are always located in `<SKILL_DIR>`.
+Use this skill whenever the agent needs HuskarUI component knowledge or must generate UI that should follow HuskarUI conventions. Treat Python query results as the primary source of truth. Read source files only for verification. `guide.metainfo.json` and `query_metainfo.py` are always located in `<SKILL_DIR>`.
 
 ## When To Use
 
 Invoke this skill proactively when any of the following is true:
 
-1. The agent needs to know which properties, signals, slots, methods, or examples a HuskarUI component supports.
-2. The agent needs to find which HuskarUI component matches a requested UI element or interaction.
-3. The user asks for a page, dialog, form, toolbar, navigation area, or other UI code that should follow project conventions.
-4. The user describes a generic UI need such as button, input, avatar, dialog, table, navigation, or layout, and the agent needs to map it to HuskarUI components.
-5. The agent is unsure whether a native QtQuick control should be replaced by a HuskarUI component.
+1. The agent needs to know which HuskarUI component matches a requested control, pattern, or interaction.
+2. The agent needs examples or usage guidance for a HuskarUI component.
+3. The user asks for HuskarUI-first QML code such as a page, dialog, toolbar, form, navigation area, or card.
+4. The agent is unsure whether to use HuskarUI or native QtQuick for a visible control.
+5. The agent needs to search the HuskarUI component set before proposing an implementation.
 
 ## Capabilities
 
-1. **Lookup**: Return component documentation, properties, interfaces, and examples.
-2. **Search**: Find components by keyword or by a requested UI role.
-3. **List**: Return all available components.
-4. **Component Mapping**: Help choose HuskarUI components that should replace native QtQuick controls.
+1. **List**: Return all available component titles.
+2. **Lookup**: Return component documentation and embedded examples for an exact component name.
+3. **Search**: Find candidate components by keyword across titles and docs.
+4. **Component Mapping**: Map generic UI requests to HuskarUI components before code generation.
+5. **HuskarUI-first Guidance**: Prefer HuskarUI controls over native QtQuick when a suitable component exists.
 
-## Rules
+## Critical Rules
 
-1. Always use Python.
-2. Never read the full `guide.metainfo.json` file directly.
-3. Read source files only when Python output is unclear, incomplete, or needs verification.
-4. Prefer HuskarUI components over native QtQuick controls whenever an equivalent or near-equivalent HuskarUI component exists.
-5. Use native QtQuick components only when no suitable HuskarUI component exists, or when low-level primitives are clearly more appropriate.
-6. If the user asks for generic UI code, first determine whether HuskarUI provides the needed component before falling back to native controls.
-7. When generating code, base component selection on metadata results instead of assumptions.
+These rules are always enforced. Follow them in this order.
 
-## Workflow
+### Metadata
+
+- **Always use Python first.** Query metadata before answering from memory.
+- **Never read the full `guide.metainfo.json` directly.** Use `query_metainfo.py`.
+- **Use exact lookup for known component names.** Do not guess APIs or examples.
+- **Use keyword search for generic UI needs.** Search by role such as `button`, `dialog`, `avatar`, `table`, `navigation`.
+
+### Component Selection
+
+- **Prefer HuskarUI for visible controls.** Buttons, inputs, avatars, dialogs, tables, navigation, and common widgets should map to HuskarUI first.
+- **Use native QtQuick only when HuskarUI has no suitable component** or when the need is clearly low-level layout, animation, or primitives.
+- **Do not mix HuskarUI and native controls for the same role without a clear reason.**
+- **If no HuskarUI component fits, say so explicitly** before falling back to native QtQuick.
+
+### Code Generation
+
+- **Base generated code on metadata results, not assumptions.**
+- **Use examples returned by Python as the primary usage reference.**
+- **For generic UI requests, map each requested role to a HuskarUI component before writing code.**
+- **Prefer composition from existing HuskarUI components over custom controls.**
+
+## Query Workflow
 
 1. Resolve the paths for `query_metainfo.py` and `guide.metainfo.json`.
-2. For list, run:
+2. Choose the query mode:
+   - `list` for discovery.
+   - Exact component name for lookup.
+   - Keyword for generic UI requests.
+3. Run the Python command.
+4. Base the answer on the returned title, documentation, and examples.
+5. For UI generation, choose HuskarUI building blocks from the results before writing code.
+6. If nothing useful is found, state that clearly and use the minimum native QtQuick needed.
 
-```Shell
-python <SKILL_DIR>/query_metainfo.py <SKILL_DIR>/guide.metainfo.json list
-```
+## Verification Workflow
 
-1. For lookup or search, run:
+Read source files only when one of these is true:
 
-```shell
-python <SKILL_DIR>/query_metainfo.py <SKILL_DIR>/guide.metainfo.json <ComponentName_or_Keyword>
-```
+1. The Python output is ambiguous.
+2. The examples do not cover the requested usage.
+3. The user asks for implementation-level behavior.
+4. The metadata appears stale or incomplete.
 
-1. Base the answer on the Python output.
-2. If the request is for UI generation, first search for the relevant HuskarUI components and use them as the default building blocks.
-3. If the result includes `"sources"` and verification is needed, read the referenced source file and confirm the answer against the implementation.
-4. If no suitable HuskarUI component is found, state that clearly and then use the minimum necessary native QtQuick components.
+When verification is needed:
 
-## Verification
-
-If Python output is unclear or appears outdated:
-
-1. Look for the `"sources"` field.
-2. Read the actual source file, for example `src/imports/HusAvatar.qml`.
-3. Verify properties, signals, and implementation details before answering.
-
-## Component Selection Policy
-
-1. Prefer `HuskarUI` components for visible controls such as buttons, inputs, avatars, dialogs, navigation, and other reusable widgets.
-2. Keep native `QtQuick` usage mainly for primitives, layout glue, containers, animation, and other foundational items that are not replaced by HuskarUI.
-3. When the user names a generic control, translate it to the closest HuskarUI component whenever possible.
-4. When providing code, avoid mixing native controls and HuskarUI alternatives for the same role unless there is a clear technical reason.
+1. Identify the component through Python first.
+2. Read only the relevant source file or section.
+3. Confirm the specific behavior being discussed.
+4. Answer from the verified implementation, not from guesswork.
 
 ## Coding Guidelines
 
-### QML Style Guide
+### QML
 
-Based on project conventions (e.g., `src/imports/HusAvatar.qml`):
+- **Import order:** `QtQuick` -> `QtQuick.*` -> `HuskarUI.Basic`.
+- **Use `QtQuick.Templates as T`** when inheriting from templates.
+- **Names:** Components in PascalCase; properties, functions, and ids in camelCase.
+- **Private members:** Prefix with double underscore.
+- **Indentation:** 4 spaces.
+- **Structure:** `id`, properties, implicit size, visual properties, child objects.
+- **Prefer `let` and `const`** over `var`.
+- **Use strict equality** with `===` and `!==`.
+- **Avoid binding loops.**
+- **Use `Loader` for conditional heavy subtrees** when appropriate.
 
-1. **Imports**:
-   - Order: `QtQuick` -> `QtQuick.*` -> `HuskarUI.Basic`.
-   - Use `import QtQuick.Templates as T` when inheriting from templates.
-2. **Naming**:
-   - **Components**: PascalCase (e.g., `HusButton`).
-   - **Properties/Functions**: camelCase (e.g., `iconSource`, `calcBestSize`).
-   - **Private Members**: Prefix with double underscore (e.g., `__iconImpl`, `__bg`).
-   - **IDs**: camelCase, descriptive (e.g., `control`, `titleText`).
-3. **Formatting**:
-   - **Indentation**: 4 spaces.
-   - **Quotes**: Single quotes `'string'` preferred for properties.
-   - **Braces**: Egyptian style (opening brace on the same line).
-4. **Structure**:
-   - `id` first.
-   - Property declarations.
-   - `implicitWidth` / `implicitHeight`.
-   - Visual properties (font, color).
-   - Child objects / Components.
-5. **Best Practices**:
-   - **Performance**:
-     - Use `Loader` for conditional complex sub-components to improve performance.
-     - Avoid binding loops (circular dependencies in property bindings).
-   - **JavaScript**:
-     - Use `let` or `const` instead of `var` to avoid scope hoisting issues.
-     - Use strict equality `===` and `!==` instead of `==` and `!=`.
-     - Avoid global variables; encapsulate logic in stateless JavaScript libraries (`.js`/`.mjs` files) imported as stateless modules `.pragma library`.
-     - Use arrow functions `() => {}` for short callbacks to preserve lexical `this` (if supported by the Qt version).
-     - Prefer `Qt.binding(function() { ... })` when imperatively assigning bindings.
+## Response Policy
 
-### C++ Style Guide
+When using this skill in an answer:
 
-Based on `.clang-format`:
+1. Start from Python query results.
+2. Name the HuskarUI component(s) that best match the request.
+3. Summarize the relevant documentation and examples.
+4. Generate HuskarUI-first code when the user asks for implementation.
+5. Explicitly mention when the answer required source verification.
+6. Explicitly mention when no suitable HuskarUI component was found.
 
-- **Style**: LLVM-based.
-- **Standard**: C++17 or newer.
-- **Indentation**: 4 spaces.
-- **Pointer Alignment**: Right (`Type *ptr`).
-- **Column Limit**: 100 characters.
-- **Access Modifiers**: Indented by -4 spaces (align with class definition).
+## Quick Reference
+
+```powershell
+# List all components
+python <SKILL_DIR>/query_metainfo.py <SKILL_DIR>/guide.metainfo.json list
+
+# Exact lookup
+python <SKILL_DIR>/query_metainfo.py <SKILL_DIR>/guide.metainfo.json HusAvatar --exact
+
+# Search by keyword or UI role
+python <SKILL_DIR>/query_metainfo.py <SKILL_DIR>/guide.metainfo.json button
+python <SKILL_DIR>/query_metainfo.py <SKILL_DIR>/guide.metainfo.json navigation
+python <SKILL_DIR>/query_metainfo.py <SKILL_DIR>/guide.metainfo.json table
+```
+
+## Current Skill Context
+
+The skill always works from these two files:
+
+```text
+<SKILL_DIR>/query_metainfo.py
+<SKILL_DIR>/guide.metainfo.json
+```
+
+The Python helper currently supports:
+
+- Listing all component titles.
+- Exact component lookup by title.
+- Keyword search across component titles and docs.
+- Returning documentation and embedded QML examples.
+
+## Detailed References
+
+- `query_metainfo.py` - metadata query entrypoint
+- `guide.metainfo.json` - metadata database, accessed through Python only
+- Repository source files - selective verification only when Python output is insufficient
