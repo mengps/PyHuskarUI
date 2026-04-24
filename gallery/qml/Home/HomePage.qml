@@ -408,9 +408,9 @@ Item {
             colorBg: HusThemeFunctions.alpha(HusTheme.Primary.colorBgBase, 0.7)
             colorShadow: componentCard.accentColor
             colorBorder: componentCard.borderColor
-            titleDelegate: Item { implicitHeight: 0 }
-            coverDelegate: Item { height: 0 }
-            actionDelegate: Item { height: 0 }
+            titleDelegate: null
+            coverDelegate: null
+            actionDelegate: null
             bodyDelegate: Item {
                 implicitHeight: componentCard.height
 
@@ -474,7 +474,7 @@ Item {
                     }
                 }
 
-                Column {
+                Item {
                     width: parent.width - 40
                     anchors.left: parent.left
                     anchors.leftMargin: 20
@@ -482,9 +482,11 @@ Item {
                     anchors.rightMargin: 20
                     anchors.top: parent.top
                     anchors.topMargin: 94
-                    spacing: 10
+                    anchors.bottom: progressTrack.top
+                    anchors.bottomMargin: 16
 
                     HusText {
+                        id: componentTitle
                         width: parent.width
                         text: componentCard.itemData.title
                         wrapMode: Text.Wrap
@@ -495,15 +497,37 @@ Item {
                         color: HusTheme.Primary.colorTextPrimary
                     }
 
-                    HusText {
+                    ScrollView {
                         width: parent.width
-                        text: componentCard.itemData.desc
-                        wrapMode: Text.Wrap
-                        color: HusTheme.Primary.colorTextSecondary
+                        anchors.top: componentTitle.bottom
+                        anchors.topMargin: 10
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        clip: true
+                        ScrollBar.vertical: HusScrollBar { }
+
+                        HoverHandler {
+                            cursorShape: Qt.PointingHandCursor
+                        }
+
+                        TapHandler {
+                            onTapped: {
+                                root.openMenu(componentCard.itemData.key);
+                            }
+                        }
+
+                        HusText {
+                            width: parent.width
+                            text: componentCard.itemData.desc
+                            wrapMode: Text.Wrap
+                            color: HusTheme.Primary.colorTextSecondary
+                        }
                     }
                 }
 
                 Rectangle {
+                    id: progressTrack
                     width: parent.width - 40
                     height: 6
                     radius: height * 0.5

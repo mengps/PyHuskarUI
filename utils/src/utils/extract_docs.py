@@ -381,7 +381,12 @@ def save_docs_to_json(docs: List[Dict[str, Any]], output_path: Path) -> None:
     """
     for doc in docs:
         if doc.get("doc"):
-            doc["doc"] = clean_escape_sequences(doc["doc"])
+            docString = clean_escape_sequences(doc["doc"])
+            doc["doc"] = docString
+            doc["title"] = docString.splitlines()[0].replace("#", "").strip()
+            
+        if not doc.get("title"):
+            doc["title"] = doc["name"]
 
         for example in doc.get("examples", []):
             if example.get("description"):

@@ -324,35 +324,6 @@ iconSource | int丨string | 可选 | 本标签的图标源
 
         CodeBox {
             width: parent.width
-            descTitle: qsTr('填充整行')
-            desc: qsTr(`
-通过 \`block\` 属性使其填充父元素宽度。\n
-                       `)
-            code: `
-                import QtQuick
-                import HuskarUI.Basic
-
-                Column {
-                    spacing: 10
-
-                    HusSegmented {
-                        block: true
-                        options: [123, 456, 'longtext-longtext-longtext-longtext']
-                    }
-                }
-            `
-            exampleDelegate: Column {
-                spacing: 10
-
-                HusSegmented {
-                    block: true
-                    options: [123, 456, 'longtext-longtext-longtext-longtext']
-                }
-            }
-        }
-
-        CodeBox {
-            width: parent.width
             descTitle: qsTr('胶囊形状')
             desc: qsTr(`
 胶囊型的 HusSegmented。\n
