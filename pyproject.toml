@@ -1,6 +1,6 @@
 [[tool.uv.index]]
 default = true
-url = "https://mirrors.hust.edu.cn/pypi/web/simple/"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 
 [tool.uv.workspace]
 members = ["pyhuskarui", "utils", "gallery"]
