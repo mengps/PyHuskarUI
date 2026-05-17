@@ -18,7 +18,8 @@
  */
 
 import QtQuick
-import QtQuick.Controls.Basic as T
+import QtQuick.Controls.impl
+import QtQuick.Templates as T
 import HuskarUI.Basic
 
 T.TextField {
@@ -165,6 +166,11 @@ T.TextField {
 
     objectName: '__HusInput__'
     focus: true
+    implicitWidth: implicitBackgroundWidth + leftInset + rightInset
+                   || Math.max(contentWidth, __placeholder.implicitWidth) + leftPadding + rightPadding
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             contentHeight + topPadding + bottomPadding,
+                             __placeholder.implicitHeight + topPadding + bottomPadding)
     padding: 6 * sizeRatio
     leftPadding: (__private.leftHasIcons ? 5 : 10) * sizeRatio + leftIconPadding + leftClearIconPadding
     rightPadding: (__private.rightHasIcons ? 5 : 10) * sizeRatio + rightIconPadding + rightClearIconPadding
@@ -206,6 +212,21 @@ T.TextField {
         property bool rightHasIcons: control.rightIconPadding + control.rightClearIconPadding > 0
         property int iconSize: __iconLoader.active ? __iconLoader.width : 0
         property int clearIconSize: __clearIconLoader.active ? __clearIconLoader.width : 0
+    }
+
+    PlaceholderText {
+        id: __placeholder
+        x: control.leftPadding
+        y: control.topPadding
+        width: control.width - (control.leftPadding + control.rightPadding)
+        height: control.height - (control.topPadding + control.bottomPadding)
+        text: control.placeholderText
+        font: control.font
+        color: control.placeholderTextColor
+        verticalAlignment: control.verticalAlignment
+        visible: !control.length && !control.preeditText && (!control.activeFocus || control.horizontalAlignment !== Qt.AlignHCenter)
+        elide: Text.ElideRight
+        renderType: control.renderType
     }
 
     Loader {

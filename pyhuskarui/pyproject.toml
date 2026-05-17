@@ -1,7 +1,7 @@
 [project]
 authors = [{ name = "MenPenS", email = "843261040@qq.com" }]
 dependencies = [
-  "pyside6>=6.10.0",
+  "pyside6>=6.8.3",
   "loguru",
 ]
 description = "Ant-d UI-Kit for PySide6 and Qml"
@@ -20,22 +20,25 @@ Issues = "https://github.com/mengps/PyHuskarUI/issues"
 Repository = "https://github.com/mengps/PyHuskarUI"
 
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = ["setuptools"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.setuptools.packages.find]
-exclude = ["tests*", "*.tests*"]
-include = ["pyhuskarui*"]
-where = ["src"]
+[tool.hatch.version]
+path = "src/pyhuskarui/__init__.py"
 
-[tool.setuptools.package-data]
-huskarui = [
-  "imports/**/*",
-  "resources/**/*",
-  "controls/**/*",
-  "themes/**/*",
-  "utils/**/*",
+[tool.hatch.build]
+artifacts = [
+  "src/pyhuskarui/*_rc.py",
+  "src/pyhuskarui/*.pyi",
+  "src/pyhuskarui/shaders/**/*.qsb",
 ]
 
-[tool.setuptools.dynamic]
-version = { attr = "pyhuskarui.__version__" }
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyhuskarui"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src/pyhuskarui",
+  "/README.md",
+  "/LICENSE",
+]

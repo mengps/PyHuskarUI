@@ -96,6 +96,7 @@
         <file>qml/Home/AboutPage.qml</file>
         <file>qml/Home/CreatorPage.qml</file>
         <file>qml/Home/HomePage.qml</file>
+        <file>qml/Home/OverviewPage.qml</file>
         <file>qml/Home/SettingsPage.qml</file>
     </qresource>
 </RCC>

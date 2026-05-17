@@ -1,0 +1,115 @@
+<div align=center>
+<img width=64 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/gallery/images/huskarui_new_square.svg">
+
+# 「 PyHuskarUI 」 Modern UI for PySide6 and Qml 
+
+</div>
+
+<div align=center>
+
+![win-badge] ![linux-badge] ![macos-badge] ![android-badge]
+
+[![QQGroup][qqgroup-image]][qqgroup-url]
+
+</div>
+
+[win-badge]: https://img.shields.io/badge/Windows-passing-brightgreen?style=flat-square
+[linux-badge]: https://img.shields.io/badge/Linux-passing-brightgreen?style=flat-square
+[macos-badge]: https://img.shields.io/badge/MacOS-passing-brightgreen?style=flat-square
+[android-badge]: https://img.shields.io/badge/Android-passing-brightgreen?style=flat-square
+
+[qqgroup-image]: https://img.shields.io/badge/QQGroup-490328047-f74658?style=flat-square
+[qqgroup-url]: https://qm.qq.com/q/cMNHn2tWeY
+
+<div align=center>
+
+## 🌈 Gallery Preview
+
+<img width=800 height=500 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/preview/light.png">
+<img width=800 height=500 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/preview/dark.png">
+<img width=800 height=500 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/preview/doc.png">
+<img width=800 height=500 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/preview/designer.png">
+
+</div>
+
+## ✨ Features
+
+- 📦 A set of high-quality Qml components out of the box.
+- 🎨 Powerful theme customization system.
+- 💻 Based on Qml, completely cross platform.
+- 🔧 Highly flexible delegate based component customization.
+- 🤖 AI-assisted development support.
+
+## 🗺️ Roadmap
+
+The development plan can be found here: [Component Roadmap](https://github.com/mengps/PyHuskarUI/discussions/5).
+
+Anyone can discuss through issues, QQ groups, or WeChat groups, and ultimately meaningful components/functions will be added to the development plan.
+
+## 🤖 AI Agent Assisted Development
+
+> [!Note]
+> # Intelligent agent skills
+>This warehouse provides two intelligent agent skills:
+> - **`huskarui`**：: Use Python to query the documentation, properties, and examples of HuskarUI components from the repository metadata.
+> - **`qmlpreview`**：: Use ` qmlscene ` to preview the currently edited QML file and capture a screenshot of the run to the clipboard.
+> 
+> They are designed specifically for AI Agent programming tools such as Claude Code and Codex. It can help you:
+> - Quickly query component documents and properties
+> - Obtain scenario based development examples
+> - Automatically iterate and preview code
+
+👉 See [AI Agent Skill Guide](https://github.com/mengps/PyHuskarUI/tree/master/agent/README.md) for more details.
+
+## 🔖 Online Document
+
+- [Component Document](https://github.com/mengps/PyHuskarUI/tree/master/docs/index.md)
+
+## 🌐 Online wiki
+- [PyHuskarUI Online wiki (AI)](https://deepwiki.com/mengps/PyHuskarUI)
+
+## 📺 Online Demo
+
+  - [BiliBili](https://www.bilibili.com/video/BV1jodhYhE8a/?spm_id_from=333.1387.homepage.video_card.click)
+
+## 📦 Get started 
+
+ - Install the library
+ ```auto
+   uv pip install pyhuskarui
+ ```
+ - Create QtQuick application `QtVersion >= 6.8.3`
+ - Add the following code to your `main.py`
+ ```python
+ ...
+ from pyhuskarui.husapp import HusApp
+ 
+ if __name__ == "__main__":
+     ...
+     app = QGuiApplication(sys.argv)
+     engine = QQmlApplicationEngine()
+     HusApp.initialize(engine)
+     ...
+ ```
+- Add the following code to your `Main.qml`
+ ```qml
+  import HuskarUI.Basic
+
+  HusWindow { 
+    ...
+  }
+ ```
+ Alright, you can now enjoy using PyHuskarUI.
+
+## 🚩 Reference
+
+- Ant-d Components: https://ant-design.antgroup.com/components/overview
+- Ant Design: https://ant-design.antgroup.com/docs/spec/introduce
+
+## 💓 LICENSE
+
+Use `Apache License 2.0`
+
+## 🎉 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=mengps/PyHuskarUI&type=Date)](https://star-history.com/#mengps/PyHuskarUI&Date)

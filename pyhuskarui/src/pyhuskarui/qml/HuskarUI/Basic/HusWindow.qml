@@ -45,6 +45,10 @@ Window {
                                      Qt.platform.os === 'osx' ||
                                      Qt.platform.os === 'linux'
 
+    function setWindowState(state: string): bool {
+
+    }
+
     function setMacSystemButtonsVisible(visible: bool): bool {
         if (Qt.platform.os === 'osx') {
             return windowAgent.setWindowAttribute('no-system-buttons', !visible);
