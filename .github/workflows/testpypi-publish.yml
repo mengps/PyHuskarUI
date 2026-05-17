@@ -1,0 +1,34 @@
+name: Publish to Test PyPI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libegl1
+
+      - name: Build package
+        run: |
+          uv sync
+          uv run format
+          uv run init
+          rm -rf dist
+          uv build pyhuskarui
+
+      - name: Publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: dist
