@@ -117,6 +117,26 @@ sources_table = {
 }
 
 
+def extract_category(file_path: str) -> str:
+    """从文件路径中提取组件分类
+
+    Args:
+        file_path: 文件路径，格式为 gallery/qml/Examples/Category/ExpComponent.qml
+
+    Returns:
+        分类名称，如DataDisplay、Feedback等
+    """
+    for separator in ["/", "\\"]:
+        parts = file_path.split(separator)
+        try:
+            examples_idx = parts.index("Examples")
+            if examples_idx + 1 < len(parts):
+                return parts[examples_idx + 1]
+        except ValueError:
+            continue
+    return "Unknown"
+
+
 def extract_component_name(qml_file_path: Path) -> str:
     """从QML文件路径提取组件名称
 
@@ -332,6 +352,7 @@ def extract_docs_from_qml(qml_file_path: Path, project_root: Path) -> Dict[str, 
         "name": component_name,
         "doc": doc_description,
         "docPath": rel_path,
+        "category": extract_category(rel_path),
         "examples": code_boxes,
         "sources": sources,
     }
@@ -384,7 +405,7 @@ def save_docs_to_json(docs: List[Dict[str, Any]], output_path: Path) -> None:
             docString = clean_escape_sequences(doc["doc"])
             doc["doc"] = docString
             doc["title"] = docString.splitlines()[0].replace("#", "").strip()
-            
+
         if not doc.get("title"):
             doc["title"] = doc["name"]
 

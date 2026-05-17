@@ -62,6 +62,8 @@ def update_qrc(qrc: Path | str):
     uv_run(
         [
             "pyside6-rcc",
+            "--compress-algo",
+            "zlib",
             qrc,
             "-o",
             qrc.parent / f"{qrc.stem}_rc.py",
