@@ -22,11 +22,11 @@ wheels/
 # VSCode
 .vscode/
 
+# Trae
+.trae/
+
 # uv
 uv.lock
-
-# github
-.github/
 
 # pyside
 plugins.qmltypes
