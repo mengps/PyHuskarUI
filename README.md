@@ -37,10 +37,10 @@ English | [中文](./README-zh_CN.md)
 
 ## 🌈 Gallery Preview
 
-<img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/light.png">
-<img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/dark.png">
-<img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/doc.png">
-<img width=800 height=500 src="https://github.com/mengps/HuskarUI/blob/master/preview/designer.png">
+<img width=800 height=500 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/preview/light.png">
+<img width=800 height=500 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/preview/dark.png">
+<img width=800 height=500 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/preview/doc.png">
+<img width=800 height=500 src="https://raw.githubusercontent.com/mengps/HuskarUI/master/preview/designer.png">
 
 </div>
 
@@ -86,7 +86,7 @@ Anyone can discuss through issues, QQ groups, or WeChat groups, and ultimately m
 
 ## 🗂️ Precompiled package
 
-Precompiled packages and binary libraries for two platforms, `Windows / MacOS / Linux`, have been created.
+Precompiled packages and binary libraries for three platforms, `Windows / MacOS / Linux`, have been created.
 
 Please visit [Release](https://github.com/mengps/PyHuskarUI/releases) to download.
 
@@ -122,11 +122,13 @@ uv run ./gallery/main.py
  - Add the following code to your `main.py`
  ```python
  ...
+ from pyhuskarui.husapp import HusApp
+ 
  if __name__ == "__main__":
      ...
      app = QGuiApplication(sys.argv)
      engine = QQmlApplicationEngine()
-     engine.singletonInstance("HuskarUI.Basic", "HusApp")
+     HusApp.initialize(engine)
      ...
  ```
 - Add the following code to your `Main.qml`

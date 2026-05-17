@@ -88,7 +88,7 @@ Qt Qml 的 Ant 设计组件库
 
 ## 🗂️ 预编译包
 
-预编译了两个平台的 `Windows / MacOS / Linux` 程序包和二进制库包.
+预编译了三个平台的 `Windows / MacOS / Linux` 程序包和二进制库包.
 
 前往 [Release](https://github.com/mengps/PyHuskarUI/releases) 中下载.
 
@@ -124,17 +124,19 @@ uv run ./gallery/main.py
  - 添加下面的代码到您的 `main.py` 中
  ```python
  ...
+ from pyhuskarui.husapp import HusApp
+ 
  if __name__ == "__main__":
      ...
      app = QGuiApplication(sys.argv)
      engine = QQmlApplicationEngine()
-     engine.singletonInstance("HuskarUI.Basic", "HusApp")
+     HusApp.initialize(engine)
      ...
- ```.
  ```
  - 添加下面的代码到您的 `Main.qml` 中
  ```qml
   import HuskarUI.Basic
+  
   HusWindow { 
     ...
   }
