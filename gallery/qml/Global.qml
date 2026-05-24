@@ -41,8 +41,8 @@ QtObject {
                     key: 'HusButton',
                     label: qsTr('HusButton 按钮'),
                     source: './Examples/General/ExpButton.qml',
-                    updateVersion: '0.5.5.1',
-                    desc: qsTr('新增 Type_Dashed 类型。')
+                    updateVersion: '0.6.1.0',
+                    desc: qsTr('新增 borderWidth 边框宽度。')
                 },
                 {
                     key: 'HusIconButton',
@@ -123,8 +123,8 @@ QtObject {
                     key: 'HusLabel',
                     label: qsTr('HusLabel 文本标签'),
                     source: './Examples/General/ExpLabel.qml',
-                    addVersion: '0.5.6.0',
-                    desc: qsTr('自带背景和圆角的文本。')
+                    addVersion: '0.6.1.0',
+                    desc: qsTr('新增 sizeHint 尺寸提示。')
                 },
                 {
                     key: 'HusFrame',
@@ -270,8 +270,8 @@ QtObject {
                     key: 'HusCheckBox',
                     label: qsTr('HusCheckBox 多选框'),
                     source: './Examples/DataEntry/ExpCheckBox.qml',
-                    updateVersion: '0.5.6.2',
-                    desc: qsTr('新增 sizeHint 尺寸提示。')
+                    updateVersion: '0.6.1.0',
+                    desc: qsTr('新增 readOnly 只读。')
                 },
                 {
                     key: 'HusAutoComplete',
@@ -285,13 +285,6 @@ QtObject {
                     source: './Examples/DataEntry/ExpMultiSelect.qml',
                     updateVersion: '0.5.6.2',
                     desc: qsTr('新增 defaultSelectedKeys 属性。\n新增 insertTag()/appendTag() 接口。'),
-                },
-                {
-                    key: 'HusDateTimePicker',
-                    label: qsTr('HusDateTimePicker 日期时间选择框'),
-                    source: './Examples/DataEntry/ExpDateTimePicker.qml',
-                    addVersion: '0.4.4',
-                    desc: qsTr('日期时间选择框，输入或选择日期的控件。')
                 },
                 {
                     key: 'HusTextArea',
@@ -329,11 +322,18 @@ QtObject {
                     desc: qsTr('用于选择颜色的弹出式窗口。')
                 },
                 {
+                    key: 'HusDateTimePicker',
+                    label: qsTr('HusDateTimePicker 日期时间选择框'),
+                    source: './Examples/DataEntry/ExpDateTimePicker.qml',
+                    addVersion: '0.6.1.0',
+                    desc: qsTr('新增 visual[Year/Month]Title 属性。')
+                },
+                {
                     key: 'HusDateTimePickerPanel',
                     label: qsTr('HusDateTimePickerPanel 日期时间选择面板'),
                     source: './Examples/DataEntry/ExpDateTimePickerPanel.qml',
-                    addVersion: '0.5.4',
-                    desc: qsTr('非弹出式的日期时间选择面板。')
+                    addVersion: '0.6.1.0',
+                    desc: qsTr('新增 visual[Year/Month]Title 属性。')
                 },
                 {
                     key: 'HusTransfer',
@@ -387,8 +387,8 @@ QtObject {
                     key: 'HusCollapse',
                     label: qsTr('HusCollapse 折叠面板'),
                     source: './Examples/DataDisplay/ExpCollapse.qml',
-                    updateVersion: '0.5.9.0',
-                    desc: qsTr('新增 initModel.contentDelegate 模型内容代理。')
+                    updateVersion: '0.6.1.0',
+                    desc: qsTr('信号 actived() 更改为 activated()。')
                 },
                 {
                     key: 'HusAvatar',
@@ -599,8 +599,8 @@ QtObject {
                     key: 'HusModal',
                     label: qsTr('HusModal 对话框'),
                     source: './Examples/Feedback/ExpModal.qml',
-                    addVersion: '0.4.7',
-                    desc: qsTr('展示一个对话框，提供标题、内容区、操作区。')
+                    addVersion: '0.6.1.0',
+                    desc: qsTr('代理 descriptionDelegate() 更改为 bodyDelegate()。。')
                 },
                 {
                     key: 'HusSpin',

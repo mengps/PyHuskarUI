@@ -43,6 +43,7 @@ HusButton {
     property color colorIcon: colorText
 
     property Component iconDelegate: HusIconText {
+        id: __icon
         font: control.iconFont
         color: control.colorIcon
         iconSize: control.iconSize
@@ -58,6 +59,11 @@ HusButton {
             to: 360
             loops: Animation.Infinite
             duration: 1000
+            onRunningChanged: {
+                if (!running) {
+                    __icon.rotation = 0;
+                }
+            }
         }
     }
 

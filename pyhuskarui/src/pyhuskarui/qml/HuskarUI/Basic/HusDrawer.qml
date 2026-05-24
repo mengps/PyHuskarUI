@@ -134,7 +134,7 @@ T.Drawer {
             sourceComponent: control.titleDelegate
             onLoaded: {
                 /*! 无边框窗口的标题栏会阻止事件传递, 需要调这个 */
-                if (captionBar)
+                if (typeof captionBar !== 'undefined')
                     captionBar.addInteractionItem(item);
             }
         }
@@ -145,11 +145,11 @@ T.Drawer {
         }
     }
     onAboutToShow: {
-        if (captionBar && modal)
+        if (typeof captionBar !== 'undefined' && modal)
             captionBar.enabled = false;
     }
     onAboutToHide: {
-        if (captionBar && modal)
+        if (typeof captionBar !== 'undefined' && modal)    
             captionBar.enabled = true;
     }
 

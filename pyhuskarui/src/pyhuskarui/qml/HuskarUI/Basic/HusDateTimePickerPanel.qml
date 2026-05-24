@@ -19,7 +19,7 @@
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls.Basic as T
+import QtQuick.Templates as T
 import HuskarUI.Basic
 
 T.Control {
@@ -36,6 +36,8 @@ T.Control {
     property int datePickerMode: HusDateTimePicker.Mode_Day
     property int timePickerMode: HusDateTimePicker.Mode_HHMMSS
     property string format: 'yyyy-MM-dd hh:mm:ss'
+    property string visualYearTitle: visualYear + qsTr('年')
+    property string visualMonthTitle: (visualMonth + 1) + qsTr('月')
 
     property var prevIconSource: HusIcon.LeftOutlined ?? ''
     property var nextIconSource: HusIcon.RightOutlined ?? ''
@@ -196,6 +198,10 @@ T.Control {
 
     onInitDateTimeChanged: setDateTime(initDateTime);
 
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
     padding: 8 * sizeRatio
     leftPadding: (showDate ? 8 : 2) * sizeRatio
     rightPadding: (showDate ? (showTime ? 2 : 8) : 2) * sizeRatio
@@ -232,10 +238,16 @@ T.Control {
                               control.datePickerMode == HusDateTimePicker.Mode_Week) &&
                              !__pickerHeader.isPickYear && !__pickerHeader.isPickMonth
 
-                    T.DayOfWeekRow {
+                    T.AbstractDayOfWeekRow {
                         id: __dayOfWeekRow
+                        implicitWidth: Math.max(background ? background.implicitWidth : 0,
+                                                contentItem.implicitWidth + leftPadding + rightPadding)
+                        implicitHeight: Math.max(background ? background.implicitHeight : 0,
+                                                 contentItem.implicitHeight + topPadding + bottomPadding)
+                        spacing: 6 * control.sizeRatio
+                        topPadding: 6 * control.sizeRatio
+                        bottomPadding: 6 * control.sizeRatio
                         locale: __monthGrid.locale
-                        spacing: 10 * control.sizeRatio
                         delegate: HusText {
                             width: __dayOfWeekRow.itemWidth
                             text: shortName
@@ -246,11 +258,22 @@ T.Control {
 
                             required property string shortName
                         }
+                        contentItem: Row {
+                            spacing: __dayOfWeekRow.spacing
+                            Repeater {
+                                model: __dayOfWeekRow.source
+                                delegate: __dayOfWeekRow.delegate
+                            }
+                        }
                         property real itemWidth: (__monthGrid.implicitWidth - 6 * spacing) / 7
                     }
 
-                    T.MonthGrid {
+                    T.AbstractMonthGrid {
                         id: __monthGrid
+                        implicitWidth: Math.max(background ? background.implicitWidth : 0,
+                                                contentItem.implicitWidth + leftPadding + rightPadding)
+                        implicitHeight: Math.max(background ? background.implicitHeight : 0,
+                                                 contentItem.implicitHeight + topPadding + bottomPadding)
                         padding: 0
                         spacing: 0
                         year: control.visualYear
@@ -271,10 +294,10 @@ T.Control {
                                     implicitHeight: __dayBg.implicitHeight + 6 * control.sizeRatio
 
                                     required property var model
-                                    property int weekYear: (model.weekNumber === 1 && model.month === 11) ? (model.year + 1) : model.year
-                                    property int currentYear: (control.currentWeekNumber === 1 && control.currentMonth === 11) ?
-                                                                  (control.currentYear + 1) : control.currentYear
-                                    property bool isCurrentWeek: control.currentWeekNumber === model.weekNumber && weekYear === __dayItem.currentYear
+
+                                    property int weekYear: HusApi.getWeekYearNumber(model.date)
+                                    property bool isCurrentWeek: control.currentWeekNumber === model.weekNumber &&
+                                                                 control.visualYear === control.currentYear
                                     property bool isHoveredWeek: __monthGrid.hovered && __private.hoveredWeekNumber === model.weekNumber
                                     property bool isCurrentMonth: control.currentYear === model.year && control.currentMonth === model.month
                                     property bool isVisualMonth: control.visualMonth === model.month
@@ -841,7 +864,7 @@ T.Control {
 
         property bool isPickYear: false
         property bool isPickMonth: false
-        property bool isPickQuarter: control.datePickerMode == HusDateTimePicker.Mode_Quarter
+        property bool isPickQuarter: control.datePickerMode === HusDateTimePicker.Mode_Quarter
 
         PageButton {
             Layout.alignment: Qt.AlignVCenter
@@ -889,8 +912,9 @@ T.Control {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 PageButton {
-                    text: control.visualYear + qsTr('年')
-                    colorText: hovered ? control.themeSource.colorPageTextHover : control.themeSource.colorPageText
+                    text: control.visualYearTitle
+                    colorText: hovered ? control.themeSource.colorPageTextHover :
+                                         control.themeSource.colorPageText
                     font.bold: true
                     onClicked: {
                         __pickerHeaderComp.isPickYear = true;
@@ -900,12 +924,13 @@ T.Control {
                 }
 
                 PageButton {
-                    visible: control.datePickerMode != HusDateTimePicker.Mode_Year &&
-                             control.datePickerMode != HusDateTimePicker.Mode_Quarter &&
+                    visible: control.datePickerMode !== HusDateTimePicker.Mode_Year &&
+                             control.datePickerMode !== HusDateTimePicker.Mode_Quarter &&
                              !__pickerHeaderComp.isPickQuarter &&
                              !__pickerHeaderComp.isPickYear
-                    text: (control.visualMonth + 1) + qsTr('月')
-                    colorText: hovered ? control.themeSource.colorPageTextHover : control.themeSource.colorPageText
+                    text: control.visualMonthTitle
+                    colorText: hovered ? control.themeSource.colorPageTextHover :
+                                         control.themeSource.colorPageText
                     font.bold: true
                     onClicked: {
                         __pickerHeaderComp.isPickYear = false;
@@ -921,13 +946,13 @@ T.Control {
             visible: !__pickerHeaderComp.isPickMonth && !__pickerHeaderComp.isPickMonth
             onClicked: {
                 if (__pickerHeaderComp.isPickYear) {
-                    const next1Year = control.visualYear + 1;
-                    if (next1Year < 9999) {
-                        control.visualYear = next1Year;
+                    const nextPickYear = control.visualYear + 1;
+                    if (nextPickYear < 9999) {
+                        control.visualYear = nextPickYear;
                     }
                 } else {
                     const nextMonth = control.visualMonth + 1;
-                    if (nextMonth >= 11) {
+                    if (nextMonth > 11) {
                         const nextYear = control.visualYear + 1;
                         if (nextYear <= 9999) {
                             control.visualYear = nextYear;
@@ -985,21 +1010,21 @@ T.Control {
                 if (control.datePickerMode == HusDateTimePicker.Mode_Week) {
                     let inputDate = date;
                     let weekYear = date.getFullYear();
-                    if (weekNumber === 1 && month === 11) {
-                        weekYear++;
-                        inputDate = new Date(weekYear + 1, 0, 0, date.getHours(), date.getMinutes(), date.getSeconds());
+                    let weekYearNumber = HusApi.getWeekYearNumber(date);
+                    let text = Qt.formatDateTime(inputDate, control.format.replace('w', String(weekNumber)));
+                    if (weekYear !== weekYearNumber) {
+                        text = text.replace(String(weekYear), String(weekYearNumber));
                     }
-                    control.text = Qt.formatDateTime(inputDate, control.format.replace('w', String(weekNumber)));
+                    control.text = text;
                 } else if (control.datePickerMode == HusDateTimePicker.Mode_Quarter) {
                     control.text = Qt.formatDateTime(date, control.format.replace('q', String(quarter)));
                 } else {
                     control.text = Qt.formatDateTime(date, control.format);
                 }
                 control.visualText = control.text;
-
-                control.currentDateTime = date;
+                control.currentDateTime = getDateTime();
                 control.visualYear = control.currentYear = date.getFullYear();
-                control.visualMonth =control.currentMonth = month;
+                control.visualMonth = control.currentMonth = month;
                 control.visualDay = control.currentDay = date.getDate();
                 control.visualWeekNumber = control.currentWeekNumber = weekNumber;
                 control.visualQuarter = control.currentQuarter = quarter;
@@ -1022,11 +1047,12 @@ T.Control {
                 if (control.datePickerMode == HusDateTimePicker.Mode_Week) {
                     let inputDate = date;
                     let weekYear = date.getFullYear();
-                    if (weekNumber === 1 && month === 11) {
-                        weekYear++;
-                        inputDate = new Date(weekYear + 1, 0, 0, date.getHours(), date.getMinutes(), date.getSeconds());
+                    let weekYearNumber = HusApi.getWeekYearNumber(date);
+                    let visualText = Qt.formatDateTime(inputDate, control.format.replace('w', String(weekNumber)));
+                    if (weekYear !== weekYearNumber) {
+                        visualText = visualText.replace(`${weekYear}`, `${weekYearNumber}`);
                     }
-                    control.visualText = Qt.formatDateTime(inputDate, control.format.replace('w', String(weekNumber)));
+                    control.visualText = visualText;
                 } else if (control.datePickerMode == HusDateTimePicker.Mode_Quarter) {
                     control.visualText = Qt.formatDateTime(date, control.format.replace('q', String(quarter)));
                 } else {

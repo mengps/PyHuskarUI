@@ -55,7 +55,8 @@ HusPopup {
 
     objectName: '__HusContextMenu__'
     implicitWidth: defaultMenuWidth
-    implicitHeight: implicitContentHeight
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
     enter: Transition {
         NumberAnimation {
             property: 'opacity'

@@ -45,6 +45,7 @@ T.Button {
     property int hoverCursorShape: Qt.PointingHandCursor
     property int type: HusButton.Type_Default
     property int shape: HusButton.Shape_Default
+    property real borderWidth: 1
     property color colorText: {
         if (enabled) {
             switch(control.type)
@@ -224,7 +225,7 @@ T.Button {
 
             HusRectangleInternal {
                 color: control.colorBg
-                border.width: (control.type == HusButton.Type_Filled || control.type == HusButton.Type_Text) ? 0 : 1
+                border.width: (control.type == HusButton.Type_Filled || control.type == HusButton.Type_Text) ? 0 : control.borderWidth
                 border.color: control.enabled ? control.colorBorder : 'transparent'
                 radius: r
                 topLeftRadius: tl
@@ -242,7 +243,7 @@ T.Button {
 
             HusRectangle {
                 color: control.colorBg
-                border.width: (control.type == HusButton.Type_Filled || control.type == HusButton.Type_Text) ? 0 : 1
+                border.width: (control.type == HusButton.Type_Filled || control.type == HusButton.Type_Text) ? 0 : control.borderWidth
                 border.color: control.enabled ? control.colorBorder : 'transparent'
                 border.style: Qt.DashLine
                 radius: r

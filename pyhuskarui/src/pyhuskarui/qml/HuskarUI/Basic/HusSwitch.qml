@@ -58,6 +58,7 @@ T.Switch {
         color: control.colorHandle
 
         HusIconText {
+            id: __loadingIcon
             anchors.centerIn: parent
             iconSize: parent.height - 4
             iconSource: HusIcon.LoadingOutlined
@@ -71,6 +72,11 @@ T.Switch {
                 to: 360
                 loops: Animation.Infinite
                 duration: 1000
+                onRunningChanged: {
+                    if (!running) {
+                        __loadingIcon.rotation = 0;
+                    }
+                }
             }
         }
     }

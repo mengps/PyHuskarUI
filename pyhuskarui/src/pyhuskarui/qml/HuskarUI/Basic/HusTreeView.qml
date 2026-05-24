@@ -113,7 +113,6 @@ T.Control {
         }
 
         TapHandler {
-            enabled: parent.enabled
             onTapped: control.selectedKey = treeData?.key ?? '';
         }
 
@@ -232,11 +231,7 @@ T.Control {
     }
 
     function getNodeData(index: var): var {
-        if (index.valid) {
-            return __treeModel.data(index, 'display');
-        } else {
-            return undefined;
-        }
+        return index.valid ? __treeModel.data(index, 'display') : undefined;
     }
 
     onCheckableChanged: checkForKeys(defaultCheckedKeys);
