@@ -118,6 +118,11 @@ class HusApi(QObject):
     def getWeekNumber(self, dateTime: QDateTime) -> int:
         return dateTime.date().weekNumber()[0]
 
+    @Slot(QDateTime, result=int)
+    def getWeekYearNumber(self, dateTime: QDateTime) -> int:
+        dateTime.date().weekNumber()
+        return dateTime.date().weekNumber()[1]
+
     @Slot(str, str, result=QDateTime)
     def dateFromString(self, dateTime: str, format: str) -> QDateTime:
         """从字符串中解析日期时间
