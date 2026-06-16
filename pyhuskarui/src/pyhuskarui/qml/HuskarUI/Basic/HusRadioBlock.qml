@@ -1,7 +1,7 @@
 /*
  * PyHuskarUI
  *
- * Copyright (C) 2025 mengps (MenPenS)
+ * Copyright (C) 2026 mengps (MenPenS)
  * https://github.com/mengps/PyHuskarUI
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +43,7 @@ T.Control {
     readonly property int count: model.length
     property int initCheckedIndex: -1
     property int currentCheckedIndex: -1
-    property var currentCheckedValue: undefined
+    property var currentCheckedValue: null
     property int type: HusRadioBlock.Type_Filled
     property int size: HusRadioBlock.Size_Auto
     property int radioWidth: 120
@@ -64,14 +64,13 @@ T.Control {
     property Component radioDelegate: HusIconButton {
         id: __rootItem
 
-        required property var modelData
+        required property var model
         required property int index
 
         T.ButtonGroup.group: __buttonGroup
         Component.onCompleted: {
-            if (control.initCheckedIndex == index) {
-                checked = true;
-                __buttonGroup.clicked(__rootItem);
+            if (control.initCheckedIndex === index) {
+                control.currentCheckedIndex = index;
             }
         }
 
@@ -83,13 +82,13 @@ T.Control {
         animationEnabled: control.animationEnabled
         effectEnabled: control.effectEnabled
         hoverCursorShape: control.hoverCursorShape
-        enabled: control.enabled && (modelData.enabled === undefined ? true : modelData.enabled)
+        enabled: control.enabled && (model.enabled === undefined ? true : model.enabled)
         themeSource: control.themeSource
         locale: control.locale
         font: control.font
         type: HusButton.Type_Default
-        iconSource: modelData.iconSource ?? 0
-        text: modelData.label ?? ''
+        iconSource: model.iconSource ?? 0
+        text: model.label ?? ''
         colorBorder: (enabled && checked) ? control.themeSource.colorBorderChecked :
                                             control.themeSource.colorBorder;
         colorText: {
@@ -192,16 +191,25 @@ T.Control {
             property bool checked: __rootItem.released
             property bool pressed: __rootItem.pressed
             property bool hovered: __rootItem.hovered
-            property var toolTip: modelData.toolTip
+            property var toolTip: model.toolTip
         }
 
         Connections {
             target: control
             function onCurrentCheckedIndexChanged() {
-                if (__rootItem.index == control.currentCheckedIndex) {
+                if (__rootItem.index === control.currentCheckedIndex) {
                     __rootItem.checked = true;
+                    control.currentCheckedValue = __rootItem.model.value;
                 }
             }
+        }
+    }
+
+    function setCurrentIndex(index: int) {
+        if (index >= 0 && index < __repeater.count) {
+            const item = __repeater.itemAt(index);
+            item.checked = true;
+            control.currentCheckedValue = item.model.value;
         }
     }
 
@@ -222,15 +230,15 @@ T.Control {
             onClicked:
                 button => {
                     control.currentCheckedIndex = button.index;
-                    control.currentCheckedValue = button.modelData.value;
-                    control.clicked(button.index, button.modelData);
+                    control.currentCheckedValue = button.model.value;
+                    control.clicked(button.index, button.model);
                 }
         }
 
         Repeater {
             id: __repeater
             model: control.model
-            delegate: radioDelegate
+            delegate: control.radioDelegate
         }
     }
 

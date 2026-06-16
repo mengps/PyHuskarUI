@@ -85,6 +85,7 @@
         <file>qml/Examples/Layout/ExpDivider.qml</file>
         <file>qml/Examples/Layout/ExpGroupBox.qml</file>
         <file>qml/Examples/Layout/ExpSpace.qml</file>
+        <file>qml/Examples/Layout/ExpSplitView.qml</file>
         <file>qml/Examples/Navigation/ExpBreadcrumb.qml</file>
         <file>qml/Examples/Navigation/ExpContextMenu.qml</file>
         <file>qml/Examples/Navigation/ExpMenu.qml</file>

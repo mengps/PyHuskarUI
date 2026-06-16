@@ -90,6 +90,13 @@ Precompiled packages and binary libraries for three platforms, `Windows / MacOS 
 
 Please visit [Release](https://github.com/mengps/PyHuskarUI/releases) to download.
 
+## 🌠 Install
+
+- Use pypi package
+  ```auto
+  uv pip install pyhuskarui
+  ```
+
 ## 🔨 How to Build
 
 - Clone
@@ -103,11 +110,6 @@ uv run init
 uv build pyhuskarui
 ```
 - Install
-  - use pypi package
-  ```auto
-  uv pip install pyhuskarui
-  ```
-  - use source code
   ```auto
   uv pip install [-e] ./pyhuskarui
   ```

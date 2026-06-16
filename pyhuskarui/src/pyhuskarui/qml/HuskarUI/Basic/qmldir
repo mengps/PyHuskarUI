@@ -62,6 +62,7 @@ HusShadow 1.0 qml/HuskarUI/Basic/HusShadow.qml
 HusSlider 1.0 qml/HuskarUI/Basic/HusSlider.qml
 HusSpace 1.0 qml/HuskarUI/Basic/HusSpace.qml
 HusSpin 1.0 qml/HuskarUI/Basic/HusSpin.qml
+HusSplitView 1.0 qml/HuskarUI/Basic/HusSplitView.qml
 HusSwitch 1.0 qml/HuskarUI/Basic/HusSwitch.qml
 HusSwitchEffect 1.0 qml/HuskarUI/Basic/HusSwitchEffect.qml
 HusTableView 1.0 qml/HuskarUI/Basic/HusTableView.qml

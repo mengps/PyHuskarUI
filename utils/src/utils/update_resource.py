@@ -210,7 +210,7 @@ def replace_license(path: Path | str):
     apache_license = """/*
  * PyHuskarUI
  *
- * Copyright (C) 2025 mengps (MenPenS)
+ * Copyright (C) 2026 mengps (MenPenS)
  * https://github.com/mengps/PyHuskarUI
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

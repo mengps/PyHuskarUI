@@ -85,6 +85,7 @@ class Component(Enum):
     HusSegmented = "HusSegmented"
     HusGroupBox = "HusGroupBox"
     HusMultiCheckBox = "HusMultiCheckBox"
+    HusSplitView = "HusSplitView"
 
 
 @dataclass
@@ -182,6 +183,7 @@ class HusTheme(QObject):
     HusSegmentedChanged = Signal()
     HusGroupBoxChanged = Signal()
     HusMultiCheckBoxChanged = Signal()
+    HusSplitViewChanged = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -870,6 +872,10 @@ class HusTheme(QObject):
     @Property(dict, notify=HusMultiCheckBoxChanged)
     def HusMultiCheckBox(self) -> dict:
         return self._HusMultiCheckBox
+
+    @Property(dict, notify=HusSplitViewChanged)
+    def HusSplitView(self) -> dict:
+        return self._HusSplitView
 
     @Slot(QObject, str, dict, str)
     def registerCustomComponentTheme(self, theme_object: QObject, component: str, theme_map: dict, theme_path: str):

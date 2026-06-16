@@ -46,6 +46,7 @@
         <file>resources/theme/HusSelect.json</file>
         <file>resources/theme/HusSlider.json</file>
         <file>resources/theme/HusSpin.json</file>
+        <file>resources/theme/HusSplitView.json</file>
         <file>resources/theme/HusSwitch.json</file>
         <file>resources/theme/HusTableView.json</file>
         <file>resources/theme/HusTabView.json</file>

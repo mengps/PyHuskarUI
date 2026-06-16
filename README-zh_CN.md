@@ -92,6 +92,13 @@ Qt Qml 的 Ant 设计组件库
 
 前往 [Release](https://github.com/mengps/PyHuskarUI/releases) 中下载.
 
+## 🌠 安装
+
+- 使用 pypi 包
+  ```auto
+  uv pip install pyhuskarui
+  ```
+
 ## 🔨 如何构建
 
 - 克隆
@@ -105,11 +112,6 @@ uv run init
 uv build pyhuskarui
 ```
 - 安装
-  - 使用 pypi 包
-  ```auto
-  uv pip install pyhuskarui
-  ```
-  - 使用源代码
   ```auto
   uv pip install [-e] ./pyhuskarui
   ```

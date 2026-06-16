@@ -1,7 +1,7 @@
 /*
  * PyHuskarUI
  *
- * Copyright (C) 2025 mengps (MenPenS)
+ * Copyright (C) 2026 mengps (MenPenS)
  * https://github.com/mengps/PyHuskarUI
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -166,6 +166,10 @@ T.Control {
                 color: HusTheme.isDark ? control.themeSource.colorHightlightDark : control.themeSource.colorHightlight
             }
         }
+    }
+
+    function setCurrentIndex(index: int) {
+        currentIndex = index;
     }
 
     function flick(xVelocity: real, yVelocity: real) {
