@@ -15,6 +15,8 @@ Qt Qml 的 Ant 设计组件库
 
 [![QQGroup][qqgroup-image]][qqgroup-url]
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mengps/PyHuskarUI)
+
 [English](./README.md) | 中文
 
 </div>

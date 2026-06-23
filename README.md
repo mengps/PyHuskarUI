@@ -13,6 +13,8 @@
 
 [![QQGroup][qqgroup-image]][qqgroup-url]
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mengps/PyHuskarUI)
+
 English | [中文](./README-zh_CN.md)
 
 </div>
