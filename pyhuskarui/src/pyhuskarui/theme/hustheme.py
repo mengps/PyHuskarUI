@@ -70,6 +70,8 @@ class Component(Enum):
     HusCarousel = "HusCarousel"
     HusBreadcrumb = "HusBreadcrumb"
     HusImage = "HusImage"
+    HusImagePreview = "HusImagePreview"
+    HusImagePreviewPanel = "HusImagePreviewPanel"
     HusMultiSelect = "HusMultiSelect"
     HusDateTimePicker = "HusDateTimePicker"
     HusNotification = "HusNotification"
@@ -168,6 +170,8 @@ class HusTheme(QObject):
     HusCarouselChanged = Signal()
     HusBreadcrumbChanged = Signal()
     HusImageChanged = Signal()
+    HusImagePreviewChanged = Signal()
+    HusImagePreviewPanelChanged = Signal()
     HusMultiSelectChanged = Signal()
     HusDateTimePickerChanged = Signal()
     HusNotificationChanged = Signal()
@@ -812,6 +816,14 @@ class HusTheme(QObject):
     @Property(dict, notify=HusImageChanged)
     def HusImage(self) -> dict:
         return self._HusImage
+
+    @Property(dict, notify=HusImagePreviewChanged)
+    def HusImagePreview(self) -> dict:
+        return self._HusImagePreview
+
+    @Property(dict, notify=HusImagePreviewPanelChanged)
+    def HusImagePreviewPanel(self) -> dict:
+        return self._HusImagePreviewPanel
 
     @Property(dict, notify=HusMultiSelectChanged)
     def HusMultiSelect(self) -> dict:

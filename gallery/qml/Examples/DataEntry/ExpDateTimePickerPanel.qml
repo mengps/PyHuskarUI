@@ -43,6 +43,7 @@ showTime | bool | true | 显示时间部分
 datePickerMode | int | HusDateTimePicker.Mode_Day | 日期选择模式(来自 HusDateTimePicker)
 timePickerMode | int | HusDateTimePicker.Mode_HHMMSS | 时间选择模式(来自 HusDateTimePicker)
 format | string | 'yyyy-MM-dd hh:mm:ss' | 日期时间格式
+pickerMonthTable | list&lt;string&gt; | - | 月份选择表(长度需为12)
 visualYearTitle | string | - | 视觉年份标题(顶部年份部分)
 visualMonthTitle | string | - | 视觉月份标题(顶部月份部分)
 prevIconSource | int丨string | HusIcon.LeftOutlined | 往前图标(来自 HusIcon)或图标链接
@@ -73,9 +74,9 @@ visualHours | int | - | 视觉小时(通常不需要使用)
 visualMinutes | int | - | 视觉分钟(通常不需要使用)
 visualSeconds | int | - | 视觉秒数(通常不需要使用)
 colorBg | color | - | 背景颜色
-colorBorder | color | - | 边框颜色
 radiusBg | [HusRadius](internal://HusRadius) | - | 背景圆角
 radiusItemBg | [HusRadius](internal://HusRadius) | - | 选择项圆角
+borderBg | [HusBorder](internal://HusBorder) | - | 背景边框
 sizeHint | string | 'normal' | 尺寸提示
 \n<br/>
 \n### 支持的函数：\n

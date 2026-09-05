@@ -26,7 +26,8 @@ TextEdit {
     objectName: '__HusCopyableText__'
     readOnly: true
     renderType: HusTheme.textRenderType
-    color: HusTheme.HusCopyableText.colorText
+    color: enabled ? HusTheme.HusCopyableText.colorText :
+                     HusTheme.HusCopyableText.colorTextDisabled
     selectByMouse: true
     selectByKeyboard: true
     selectedTextColor: HusTheme.HusCopyableText.colorTextSelected

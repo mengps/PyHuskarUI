@@ -25,6 +25,8 @@
         <file>resources/theme/HusGroupBox.json</file>
         <file>resources/theme/HusIconText.json</file>
         <file>resources/theme/HusImage.json</file>
+        <file>resources/theme/HusImagePreview.json</file>
+        <file>resources/theme/HusImagePreviewPanel.json</file>
         <file>resources/theme/HusInput.json</file>
         <file>resources/theme/HusLabel.json</file>
         <file>resources/theme/HusMenu.json</file>

@@ -31,7 +31,6 @@ T.Control {
     property string title: ''
     property string coverSource: ''
     property int coverFillMode: Image.Stretch
-    property real borderWidth: 1
     property int bodyAvatarSize: 40
     property var bodyAvatarIcon: 0 ?? ''
     property string bodyAvatarSource: ''
@@ -54,13 +53,16 @@ T.Control {
                                                })
     property color colorTitle: themeSource.colorTitle
     property color colorBg: themeSource.colorBg
-    property color colorBorder: themeSource.colorBorder
     property color colorShadow: themeSource.colorShadow
     property color colorBodyAvatar: themeSource.colorBodyAvatar
     property color colorBodyAvatarBg: 'transparent'
     property color colorBodyTitle: themeSource.colorBodyTitle
     property color colorBodyDescription: themeSource.colorBodyDescription
     property HusRadius radiusBg: HusRadius { all: themeSource.radiusBg }
+    property HusBorder borderBg: HusBorder {
+        width: 1
+        color: themeSource.colorBorder
+    }
     property var themeSource: HusTheme.HusCard
 
     property Component titleDelegate: Item {
@@ -158,8 +160,9 @@ T.Control {
     property Component actionDelegate: Item { }
     property Component bgDelegate: HusRectangleInternal {
         color: control.colorBg
-        border.color: control.colorBorder
-        border.width: control.borderWidth
+        border.color: control.borderBg.color
+        border.width: control.borderBg.width
+        border.pixelAligned: control.borderBg.pixelAligned
         radius: control.radiusBg.all
         topLeftRadius: control.radiusBg.topLeft
         topRightRadius: control.radiusBg.topRight

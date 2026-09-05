@@ -10,10 +10,13 @@ sources_table = {
     "HusIcon": ["pyhuskarui/src/pyhuskarui/controls/husiconfont.py"],
     "HusQrCode": ["pyhuskarui/src/pyhuskarui/controls/husqrcode.py"],
     "HusRectangle": [
-        "pyhuskarui/src/pyhuskarui/controls/husrectangle.py",
+        "pyhuskarui/src/pyhuskarui/items/husrectangle.py",
     ],
     "HusRadius": [
-        "pyhuskarui/src/pyhuskarui/controls/husrectangle.py",
+        "pyhuskarui/src/pyhuskarui/items/husradius.py",
+    ],
+    "HusBorder": [
+        "pyhuskarui/src/pyhuskarui/items/husborder.py",
     ],
     "HusWatermark": [
         "pyhuskarui/src/pyhuskarui/controls/huswatermark.py",

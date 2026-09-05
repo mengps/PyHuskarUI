@@ -5,7 +5,7 @@
 # HusImagePreview 图片预览
 
 
-用于预览的图片的基本工具，提供常用的图片变换(平移/缩放/翻转/旋转)操作。
+用于预览的图片的基本弹出式工具，提供常用的图片变换(平移/缩放/翻转/旋转)操作。
 
 * **模块 { HuskarUI.Basic }**
 
@@ -45,6 +45,7 @@ currentScale | real(readonly) | - | 当前缩放值
 currentRotation | real(readonly) | - | 当前旋转(角度)值
 currentIndex | int | - | 当前图片索引
 count | int(readonly) | - | 当前图片数量
+panel | [HusImagePreviewPanel](./HusImagePreviewPanel.md) | - | 访问内部日期时间选择面板
 
 <br/>
 
@@ -81,6 +82,8 @@ url | url | 必选 | 图片源
 - `flipY()` 垂直翻转 
 
 - `rotate(angle: real)` 顺时针旋转 `angle` 度 
+
+- `toCenter()` 回到中心 
 
 - `resetTransform()` 重置所有变换 
 

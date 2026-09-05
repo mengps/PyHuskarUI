@@ -36,7 +36,9 @@ from .theme.hussizegenerator import *
 from .theme.hussystemthemehelper import *
 from .controls.husiconfont import *
 from .controls.husqrcode import *
-from .controls.husrectangle import *
+from .items.husrectangle import *
+from .items.husradius import *
+from .items.husborder import *
 from .controls.huswatermark import *
 from .controls.huswindowagent import *
 

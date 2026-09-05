@@ -42,7 +42,7 @@ bottomRight | real | -1 | 右下圆角半径
         }
 
         ThemeToken {
-            historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/cpp/controls/husrectangle.cpp'
+            historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/cpp/items/husradius.cpp'
         }
     }
 }

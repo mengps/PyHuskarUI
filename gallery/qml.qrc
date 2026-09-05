@@ -21,6 +21,7 @@
         <file>qml/Examples/DataDisplay/ExpEmpty.qml</file>
         <file>qml/Examples/DataDisplay/ExpImage.qml</file>
         <file>qml/Examples/DataDisplay/ExpImagePreview.qml</file>
+        <file>qml/Examples/DataDisplay/ExpImagePreviewPanel.qml</file>
         <file>qml/Examples/DataDisplay/ExpQrCode.qml</file>
         <file>qml/Examples/DataDisplay/ExpSegmented.qml</file>
         <file>qml/Examples/DataDisplay/ExpTableView.qml</file>
@@ -65,6 +66,7 @@
         <file>qml/Examples/Feedback/ExpSpin.qml</file>
         <file>qml/Examples/Feedback/ExpWatermark.qml</file>
         <file>qml/Examples/Functions/ExpApi.qml</file>
+        <file>qml/Examples/General/ExpBorder.qml</file>
         <file>qml/Examples/General/ExpButton.qml</file>
         <file>qml/Examples/General/ExpButtonBlock.qml</file>
         <file>qml/Examples/General/ExpCaptionBar.qml</file>

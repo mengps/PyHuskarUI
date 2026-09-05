@@ -31,6 +31,7 @@ HusIconButton 1.0 qml/HuskarUI/Basic/HusIconButton.qml
 HusIconText 1.0 qml/HuskarUI/Basic/HusIconText.qml
 HusImage 1.0 qml/HuskarUI/Basic/HusImage.qml
 HusImagePreview 1.0 qml/HuskarUI/Basic/HusImagePreview.qml
+HusImagePreviewPanel 1.0 qml/HuskarUI/Basic/HusImagePreviewPanel.qml
 HusInput 1.0 qml/HuskarUI/Basic/HusInput.qml
 HusInputInteger 1.0 qml/HuskarUI/Basic/HusInputInteger.qml
 HusInputNumber 1.0 qml/HuskarUI/Basic/HusInputNumber.qml

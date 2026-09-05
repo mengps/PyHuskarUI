@@ -16,7 +16,7 @@ Flickable {
         DocDescription {
             desc: qsTr(`
 # HusImagePreview 图片预览\n
-用于预览的图片的基本工具，提供常用的图片变换(平移/缩放/翻转/旋转)操作。\n
+用于预览的图片的基本弹出式工具，提供常用的图片变换(平移/缩放/翻转/旋转)操作。\n
 * **模块 { HuskarUI.Basic }**\n
 * **继承自 { [HusPopup](internal://HusPopup) }**\n
 \n<br/>
@@ -40,6 +40,7 @@ currentScale | real(readonly) | - | 当前缩放值
 currentRotation | real(readonly) | - | 当前旋转(角度)值
 currentIndex | int | - | 当前图片索引
 count | int(readonly) | - | 当前图片数量
+panel | [HusImagePreviewPanel](internal://HusImagePreviewPanel) | - | 访问内部日期时间选择面板
 \n<br/>
 \n### {items}支持的属性：\n
 属性名 | 类型 | 可选/必选 | 描述
@@ -59,6 +60,7 @@ url | url | 必选 | 图片源
 - \`flipX()\` 水平翻转 \n
 - \`flipY()\` 垂直翻转 \n
 - \`rotate(angle: real)\` 顺时针旋转 \`angle\` 度 \n
+- \`toCenter()\` 回到中心 \n
 - \`resetTransform()\` 重置所有变换 \n
 - \`incrementCurrentIndex()\` 当前索引增1 \n
 - \`decrementCurrentIndex()\` 当前索引减1 \n
@@ -68,12 +70,12 @@ url | url | 必选 | 图片源
         Description {
             title: qsTr('何时使用')
             desc: qsTr(`
-- 需要预览一系列图片时和用户常用变换时使用。\n
+- 需要预览一系列图片和用户常用变换的弹窗时使用。\n
                        `)
         }
 
         ThemeToken {
-            source: 'HusImage'
+            source: 'HusImagePreview'
             historySource: 'https://github.com/mengps/HuskarUI/blob/master/src/imports/HusImagePreview.qml'
         }
 

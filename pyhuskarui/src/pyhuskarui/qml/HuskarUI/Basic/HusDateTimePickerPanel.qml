@@ -36,6 +36,11 @@ T.Control {
     property int datePickerMode: HusDateTimePicker.Mode_Day
     property int timePickerMode: HusDateTimePicker.Mode_HHMMSS
     property string format: 'yyyy-MM-dd hh:mm:ss'
+    property list<string> pickerMonthTable: [
+        qsTr('1月'), qsTr('2月'), qsTr('3月'), qsTr('4月'),
+        qsTr('5月'), qsTr('6月'), qsTr('7月'), qsTr('8月'),
+        qsTr('9月'), qsTr('10月'), qsTr('11月'), qsTr('12月')
+    ]
     property string visualYearTitle: visualYear + qsTr('年')
     property string visualMonthTitle: (visualMonth + 1) + qsTr('月')
 
@@ -72,9 +77,9 @@ T.Control {
     property int visualSeconds: currentSeconds
 
     property color colorBg: themeSource.colorBg
-    property color colorBorder: themeSource.colorBorder
     property HusRadius radiusBg: HusRadius { all: themeSource.radiusBg }
     property HusRadius radiusItemBg: HusRadius { all: themeSource.radiusItemBg }
+    property HusBorder borderBg: HusBorder { color: themeSource.colorBorder }
     property string sizeHint: 'normal'
     property real sizeRatio: HusTheme.sizeHint[sizeHint]
     property var themeSource: HusTheme.HusDateTimePicker
@@ -90,7 +95,7 @@ T.Control {
         font: control.font
         radiusBg: control.radiusItemBg
         effectEnabled: false
-        colorBorder: model.today ? control.themeSource.colorDayBorderToday : 'transparent'
+        borderBg.color: model.today ? control.themeSource.colorDayBorderToday : 'transparent'
         colorText: {
             if (control.datePickerMode == HusDateTimePicker.Mode_Week) {
                 return isCurrentWeek || isHoveredWeek ? control.themeSource.colorDayTextCurrent :
@@ -469,8 +474,8 @@ T.Control {
                                 PickerButton {
                                     id: __monthPickerButton
                                     anchors.centerIn: parent
-                                    text: (month + 1) + qsTr('月')
-                                    checked: month == control.visualMonth
+                                    text: control.pickerMonthTable[month]
+                                    checked: month === control.visualMonth
                                     onClicked: {
                                         control.visualMonth = month;
                                         if (control.datePickerMode == HusDateTimePicker.Mode_Day ||
@@ -705,7 +710,9 @@ T.Control {
     }
     background: HusRectangleInternal {
         color: control.colorBg
-        border.color: control.colorBorder
+        border.width: control.borderBg.width
+        border.color: control.borderBg.color
+        border.pixelAligned: control.borderBg.pixelAligned
         radius: control.radiusBg.all
         topLeftRadius: control.radiusBg.topLeft
         topRightRadius: control.radiusBg.topRight
@@ -851,10 +858,6 @@ T.Control {
         animationEnabled: control.animationEnabled
         sizeRatio: control.sizeRatio
         type: HusButton.Type_Link
-        font {
-            family: control.themeSource.fontFamily
-            pixelSize: parseInt(control.themeSource.fontSize) * control.sizeRatio
-        }
         iconSize: 16 * control.sizeRatio
         colorIcon: hovered ? control.themeSource.colorPageIconHover : control.themeSource.colorPageIcon
     }
@@ -984,14 +987,14 @@ T.Control {
         animationEnabled: control.animationEnabled
         sizeRatio: control.sizeRatio
         effectEnabled: false
-        colorBorder: 'transparent'
+        borderBg.color: 'transparent'
         colorBg: checked ? control.themeSource.colorDayBgCurrent :
                            hovered ? control.themeSource.colorDayBgHover :
                                      control.themeSource.colorDayBg
         colorText: checked ? control.themeSource.colorDayTextCurrent : control.themeSource.colorDayText
         font {
             family: control.themeSource.fontFamily
-            pixelSize: parseInt(control.themeSource.fontSize) * control.sizeRatio
+            pixelSize: parseInt(control.themeSource.fontSize) * sizeRatio
         }
         radiusBg: control.radiusItemBg
     }

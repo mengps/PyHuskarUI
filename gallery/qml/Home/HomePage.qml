@@ -328,7 +328,7 @@ Item {
                         rightPadding: 10
                         topPadding: 4
                         bottomPadding: 4
-                        borderWidth: 0
+                        borderBg.width: 0
                         radiusBg.all: height * 0.5
                         colorBg: HusThemeFunctions.alpha(HusTheme.Primary['colorMain-1'], 0.12)
                     }
@@ -426,7 +426,7 @@ Item {
             showShadow: true
             colorBg: HusThemeFunctions.alpha(HusTheme.Primary.colorBgBase, 0.7)
             colorShadow: componentCard.accentColor
-            colorBorder: componentCard.borderColor
+            borderBg.color: componentCard.borderColor
             titleDelegate: null
             coverDelegate: null
             actionDelegate: null
@@ -471,7 +471,7 @@ Item {
                         rightPadding: 8
                         topPadding: 2
                         bottomPadding: 2
-                        borderWidth: 0
+                        borderBg.width: 0
                         radiusBg.all: height * 0.5
                         visible: componentCard.itemData.version !== ''
                         text: componentCard.itemData.version
@@ -484,7 +484,7 @@ Item {
                         rightPadding: 8
                         topPadding: 2
                         bottomPadding: 2
-                        borderWidth: 0
+                        borderBg.width: 0
                         radiusBg.all: height * 0.5
                         visible: componentCard.itemData.tagText !== ''
                         text: componentCard.itemData.tagText

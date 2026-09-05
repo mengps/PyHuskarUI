@@ -21,7 +21,7 @@ import QtQuick
 import QtQuick.Layouts
 import HuskarUI.Basic
 
-HusButton {
+            HusButton {
     id: control
 
     enum IconPosition {
@@ -31,7 +31,7 @@ HusButton {
 
     property bool loading: false
     property var iconSource: 0 ?? ''
-    property int iconSize: parseInt(themeSource.fontSize)
+    property int iconSize: parseInt(themeSource.fontSize) * sizeRatio
     property int iconSpacing: 5 * sizeRatio
     property int iconPosition: HusIconButton.Position_Start
     property int orientation: Qt.Horizontal
@@ -46,7 +46,6 @@ HusButton {
         id: __icon
         font: control.iconFont
         color: control.colorIcon
-        iconSize: control.iconSize
         iconSource: control.loading ? HusIcon.LoadingOutlined : control.iconSource
         verticalAlignment: Text.AlignVCenter
         visible: !empty
