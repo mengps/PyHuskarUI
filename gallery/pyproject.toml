@@ -6,7 +6,7 @@ keywords = ["Python", "PySide6", "Qml", "Antd", "UI-Kit"]
 license = "Apache-2.0"
 license-files = ["LICENSE*"]
 name = "gallery"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 version = "1.0.0"
 
 [tool.uv.sources]

@@ -78,7 +78,7 @@ Anyone can discuss through issues, QQ groups, or WeChat groups, and ultimately m
  ```auto
    uv pip install pyhuskarui
  ```
- - Create QtQuick application `QtVersion >= 6.8.3`
+ - Create QtQuick application `QtVersion >= 6.11`
  - Add the following code to your `main.py`
  ```python
  ...

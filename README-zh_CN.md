@@ -124,7 +124,7 @@ uv run ./gallery/main.py
 
 ## 📦 上手
 
- - 创建 QtQuick 应用 `QtVersion >= 6.7`
+ - 创建 QtQuick 应用 `QtVersion >= 6.11`
  - 添加下面的代码到您的 `main.py` 中
  ```python
  ...
@@ -158,7 +158,7 @@ uv run ./gallery/main.py
 
 ## 🌇 环境
 
-Windows 11 / Ubuntu 24.04.2, Qt Version >= 6.7
+Windows 11 / Ubuntu 24.04.2, Qt Version >= 6.11
 
 ## 🎉 Star 历史
 

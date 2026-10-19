@@ -122,7 +122,7 @@ uv run ./gallery/main.py
 
 ## 📦 Get started 
 
- - Create QtQuick application `QtVersion >= 6.8`
+ - Create QtQuick application `QtVersion >= 6.11`
  - Add the following code to your `main.py`
  ```python
  ...
